@@ -1,0 +1,166 @@
+# Technology Stack
+
+**Project:** Bright Builds Portfolio Website\
+**Research dimension:** Stack\
+**Researched:** 2026-05-24\
+**Overall confidence:** MEDIUM-HIGH
+
+## Recommendation
+
+Build a SolidStart + SolidJS 1.x static-first portfolio, using Bun as the package manager/script runner, Tailwind CSS 3.x for styling, and Mystic UI only through its supported Tailwind/Vite/Solid package surface. Keep GitHub data curated and static at runtime: authored project copy is the source of truth, with an optional build/manual sync script for GitHub metadata snapshots.
+
+Use restrained motion from three layers, in this order: CSS/Tailwind transitions, Mystic UI components that already fit the design, then small vanilla `motion` animations for custom spring/keyframe effects. Do not add a general physics engine, heavy 3D stack, or runtime GitHub API dependency for v1.
+
+## Recommended Stack
+
+| Area | Recommendation | Version / Pin | Confidence | Why |
+| --- | --- | --- | --- | --- |
+| Package manager | Bun | `packageManager: "bun@1.3.14"`; commit `bun.lock` | HIGH | Bright Builds TS standard prefers Bun for greenfield standalone TS projects. Bun supports `bun.lock`, `bun ci`, GitHub dependencies, and Cloudflare Pages can pin Bun via `BUN_VERSION`. |
+| Runtime compatibility | Keep Node available for tool compatibility | Cloudflare default Node `22.16.0` is sufficient for Vite 8; set `NODE_VERSION` only if needed | MEDIUM | Vite 8 requires Node `20.19+` or `22.12+`; Bun can run the app scripts, but some ecosystem CLIs still assume Node. |
+| App framework | SolidStart with SolidJS | `@solidjs/start@1.3.2`, `solid-js@1.9.13`, `@solidjs/router@0.16.1` | HIGH for framework, MEDIUM for pure static output | SolidStart is the official Solid meta-framework and documents SSG through route pre-rendering. Verify generated output during implementation because SolidStart is Nitro/Vinxi-based, not a plain Vite SPA. |
+| Bundler | Vite through SolidStart/Vinxi | `vite@8.0.14`, `vite-plugin-solid@2.11.12`, `vinxi@0.5.11` | HIGH | SolidStart uses Vinxi, which combines Vite and Nitro. Avoid hand-rolled prerender tooling unless SolidStart output fails the static-host proof. |
+| Language | TypeScript strict mode | `typescript@6.0.3`; `@types/bun@1.3.14` | MEDIUM | Current registry version is TS 6.0.3. Use strict settings, but keep Mystic's required `skipLibCheck: true` while the GitHub package ships source. |
+| Styling | Tailwind CSS 3.x | `tailwindcss@3.4.19`, `postcss@8.5.15`, `autoprefixer@10.5.0` | HIGH | Mystic UI's supported consumer path is Vite + SolidJS + Tailwind 3.x. Do not adopt Tailwind 4 until Mystic explicitly supports it. |
+| Dark mode | Class/selector-based dark mode | Tailwind `darkMode: "selector"`; toggle `.dark` on `document.documentElement` | HIGH | Mystic expects `.dark` on the root element. Tailwind 3.4 replaced the old `class` strategy name with `selector`, while preserving the `.dark` class behavior. |
+| UI components | Mystic UI, selectively | `mystic-ui@github:pRizz/mystic-ui#d36017757708ed01ef2b3b47beb14f294726411c` | HIGH | This is the current `pRizz/mystic-ui` `main` SHA as of research. Use `withMysticUI`, import `mystic-ui/tailwind/theme.css` from the app stylesheet, and avoid Panda/deep workspace imports. |
+| Local UI utilities | Small class/icon helpers | `clsx@2.1.1`, `tailwind-merge@3.6.0`, `lucide-solid@1.16.0` | MEDIUM-HIGH | Useful for local component composition and icon buttons without adding another UI kit. Add only when code actually needs them. |
+| Motion | CSS + Mystic first, vanilla Motion for custom effects | `motion@12.40.0` only if custom JS animation is needed | MEDIUM-HIGH | Motion's vanilla JS API supports spring/keyframe animations and remains framework-agnostic. Keep effects transform/opacity-first and reduced-motion aware. |
+| Reactive springs | Optional Solid primitive behind a wrapper | `@solid-primitives/spring@0.1.2` only if a Solid signal spring is simpler than Motion | LOW-MEDIUM | Solid Primitives lists `spring` as Stage 0. Use cautiously, behind a tiny repo-owned adapter, and do not make it core infrastructure. |
+| Content source | Typed local content registry | `src/data/projects.ts`, `src/data/profile.ts`, `src/data/routes.ts` | HIGH | The portfolio must curate repositories rather than mirror all public GitHub repos. A typed registry keeps authored copy, ordering, tags, and SEO stable. |
+| GitHub metadata | Manual/build-time sync script, no runtime API calls | `@octokit/graphql@9.0.3`, `zod@4.4.3` as dev/script deps | HIGH | Use GitHub GraphQL for selected repo metadata snapshots only. Validate API output with Zod and write a checked-in/generated snapshot so deploys are not rate-limit dependent. |
+| SEO metadata | Solid meta plus static generated files | `@solidjs/meta@0.29.4`; repo-owned sitemap/robots script | HIGH | SolidStart does not ship metadata by default; `@solidjs/meta` is the documented path. Generate canonical tags, OG/Twitter tags, JSON-LD, `sitemap.xml`, and `robots.txt` from the same route registry. |
+| OpenLinks identity | Low-intrusion footer/about link plus metadata | Visible link to `https://openlinks.us/`, `rel="me noopener noreferrer"`, optional JSON-LD `Person.sameAs` | HIGH | Bright Builds owner guidance and OpenLinks skill both prefer visible footer/about/profile placement first, metadata second. Keep the site brand primary. |
+| Formatting/lint | Biome | `@biomejs/biome@2.4.15` | MEDIUM-HIGH | Biome covers JS/TS/JSX/TSX/CSS/JSON formatting and linting quickly. Pair with `tsc --noEmit` because Biome is not a substitute for typechecking. |
+| Unit/component tests | Vitest + Solid testing utilities | `vitest@4.1.7`, `@solidjs/testing-library@0.8.10`, `happy-dom@20.9.0` | MEDIUM-HIGH | Vitest is Vite-powered and fits Solid/Vite projects. Use it mainly for pure data transforms, route/SEO generation, and focused component behavior. |
+| Browser/accessibility tests | Playwright + axe | `@playwright/test@1.60.0`, `@axe-core/playwright@4.11.3` | HIGH | Required for motion/reduced-motion, responsive layout, keyboard/focus, generated metadata, and accessibility checks that unit tests cannot prove. |
+| Performance budgets | Lighthouse CI | `@lhci/cli@0.15.1` | MEDIUM-HIGH | Use as a CI/per-release guard for static pages. Keep thresholds realistic but enforce SEO, accessibility, best-practices, and performance budgets. |
+| Deployment | Cloudflare Pages | Build command `bun ci && bun run build`; output `dist`; set `BUN_VERSION=1.3.14` | MEDIUM-HIGH | Cloudflare Pages documents SolidStart support, Bun/Node build-image pinning, preview deployments, and Bun cache support. Verify the actual SolidStart prerender output before locking dashboard settings. |
+
+## Mystic UI Setup Contract
+
+Use Mystic UI only through the documented package-consumer contract:
+
+```ts
+import type { Config } from "tailwindcss";
+import { withMysticUI } from "mystic-ui/tailwind/setup";
+
+const config = withMysticUI({
+  darkMode: "selector",
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+}) satisfies Config;
+
+export default config;
+```
+
+```css
+@import "mystic-ui/tailwind/theme.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Required caveats:
+
+- Pin `mystic-ui` to an exact GitHub commit SHA, not `main`.
+- Keep `solid-js` on the stable 1.x line; do not adopt Solid 2 beta until Mystic and SolidStart compatibility is explicitly verified.
+- Keep `skipLibCheck: true` while Mystic ships source-only components.
+- Do not use Panda components or deep imports such as workspace package paths; the README says those are not exported for package consumers.
+
+## Data and Content Shape
+
+Recommended files:
+
+```text
+src/data/profile.ts              # Peter identity, contact, OpenLinks, social links
+src/data/projects.ts             # curated project registry and authored copy
+src/data/github.generated.json   # optional checked-in metadata snapshot
+src/data/routes.ts               # canonical route list for nav, sitemap, tests
+scripts/sync-github.ts           # optional metadata refresh script
+scripts/generate-seo-assets.ts   # sitemap/robots/static metadata helpers
+```
+
+The normal build should not require a GitHub token. `scripts/sync-github.ts` may use `GITHUB_TOKEN` and `@octokit/graphql` to refresh stars, descriptions, topics, homepage URLs, pushed dates, and archived/fork flags for only the curated repository list. Authored copy and curation should win over GitHub metadata when they disagree.
+
+## Verification Commands to Plan
+
+Recommended package scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "format": "biome format --write .",
+    "format:check": "biome format --check .",
+    "lint": "biome lint .",
+    "check": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test tests/a11y",
+    "lhci": "lhci autorun"
+  }
+}
+```
+
+Minimum pre-commit / pre-ship sequence:
+
+```bash
+bun ci
+bun run format:check
+bun run check
+bun run typecheck
+bun run test
+bun run build
+bun run test:e2e
+bun run lhci
+```
+
+For frontend phases, add manual/Playwright checks for:
+
+- Generated HTML exists for `/`, project routes or anchors, and not-found behavior.
+- Route-specific title, description, canonical, OG/Twitter tags, and JSON-LD render in static HTML.
+- `prefers-reduced-motion: reduce` disables non-essential motion.
+- Mobile and desktop layouts have no overlapping text or controls.
+- Keyboard focus and axe checks pass on the home, project, and contact/about surfaces.
+
+## Alternatives Considered
+
+| Category | Recommended | Alternative | Why Not |
+| --- | --- | --- | --- |
+| Static framework | SolidStart SSG | Astro + Solid islands | Strong static story, but adds another framework shell and does not match the requested SolidJS/Mystic-first stack. Reconsider only if SolidStart static output blocks deployment. |
+| App shell | SolidStart | Plain Solid + Vite SPA | Fast and simple, but weaker SEO/static metadata unless a custom prerender layer is added. |
+| Package manager | Bun | pnpm | pnpm is reliable, but Bright Builds TS standards prefer Bun for new standalone TS projects and SolidStart supports `bun create solid`. |
+| Styling | Tailwind 3.x | Tailwind 4.x | Tailwind 4 is current, but Mystic's supported consumer contract is Tailwind 3.x. |
+| UI library | Mystic UI selectively | Kobalte, Ark UI, DaisyUI, Flowbite | Useful libraries, but they add a second design system. Use only if Mystic/local components cannot cover an accessibility-critical primitive. |
+| Motion | CSS + Mystic + vanilla Motion | GSAP | Powerful, but unnecessary for restrained portfolio motion and larger/licensing tradeoffs than this project needs. |
+| Physics | Tiny spring/motion helpers | Matter.js, Rapier, Three.js | Heavy and likely to overpower portfolio content. The requirement is reactive motion, not a simulation/game. |
+| GitHub data | Curated registry + optional metadata snapshot | Runtime GitHub API mirror | Runtime API calls hurt performance, introduce rate-limit failure modes, and undermine the curated portfolio narrative. |
+| SEO assets | `@solidjs/meta` + repo-owned generator | Dynamic OG image/API endpoint | Static site should not need a server path for social images in v1. Generate static assets if needed. |
+| Linting | Biome + `tsc` | ESLint + `eslint-plugin-solid` | ESLint has Solid-specific rules, but adds config/dependency surface. Add it later only if Solid reactivity bugs appear that Biome/TypeScript/tests miss. |
+| Deployment | Cloudflare Pages | GitHub Pages | GitHub Pages is fine for simple static files but weaker for preview deployments, build caching, environment pinning, and future edge/function escape hatches. |
+
+## Source Notes
+
+- SolidStart docs: overview, SSG support, route pre-rendering, metadata, config, and Cloudflare deployment: `https://docs.solidjs.com/solid-start`, `https://docs.solidjs.com/solid-start/building-your-application/route-prerendering`, `https://docs.solidjs.com/solid-start/building-your-application/head-and-metadata`, `https://docs.solidjs.com/solid-start/reference/config/define-config`, `https://developers.cloudflare.com/pages/framework-guides/deploy-a-solid-start-site/`
+- Mystic UI README and current main SHA: `https://github.com/pRizz/mystic-ui`, `d36017757708ed01ef2b3b47beb14f294726411c`
+- Bun package manager docs and release data: `https://bun.com/docs/pm/cli/install`, `https://bun.sh/docs/pm/lockfile`, `https://github.com/oven-sh/bun/releases/tag/bun-v1.3.14`
+- Tailwind v3 docs: `https://v3.tailwindcss.com/docs/guides/vite`, `https://v3.tailwindcss.com/docs/dark-mode`
+- Motion docs: `https://motion.dev/docs/animate`, `https://motion.dev/docs/gsap-vs-motion`
+- Solid Primitives docs: `https://primitives.solidjs.community/`, `https://github.com/solidjs-community/solid-primitives`
+- GitHub API rate-limit docs: `https://docs.github.com/en/graphql/overview/rate-limits-and-query-limits-for-the-graphql-api`, `https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api`
+- Cloudflare Pages build image/cache docs: `https://developers.cloudflare.com/pages/configuration/build-image/`, `https://developers.cloudflare.com/pages/configuration/build-caching/`
+- Verification docs: Biome `https://biomejs.dev/`, Vitest `https://main.vitest.dev/guide/`, Playwright `https://playwright.dev/docs/intro`, axe Playwright `https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright`, Lighthouse CI `https://googlechrome.github.io/lighthouse-ci/`
+
+Package versions were checked against the npm registry with `npm view` on 2026-05-24.
+
+## Open Questions / Verify During Implementation
+
+- Confirm the current SolidStart template's exact scripts and output directory; Cloudflare docs say `dist`, but implementation should prove generated static HTML files exist before dashboard settings are finalized.
+- Confirm whether `typescript@6.0.3` works cleanly with SolidStart and pinned Mystic UI; if not, keep the scaffold's TypeScript version and document the reason.
+- Local Bun was `1.3.9` during research while the latest GitHub release was `1.3.14`; decide whether to upgrade local tooling or pin CI to the available local version for the first scaffold.
+- Verify Mystic components used in the design do not pull unsupported Panda/deep-import paths into the consumer app.
+- Decide whether project pages are separate routes or sections on `/`; this affects the route registry, sitemap, metadata tests, and prerender list.
+- Decide whether per-project OG images are worth static generation in v1; default to one strong static OG image unless sharing tests show a real gap.
