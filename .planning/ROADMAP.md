@@ -32,8 +32,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Developer can prove the SolidJS/SolidStart app emits prerendered HTML for all current indexable base routes.
 1. Developer can use Tailwind CSS 3.x with Mystic UI pinned to commit `d36017757708ed01ef2b3b47beb14f294726411c` through the supported consumer setup.
 1. Developer can unit test route, project, profile, and SEO derivation modules without DOM, network, or framework runtime.
-   **Plans**: TBD
-   **UI hint**: yes
+
+**Plans**: TBD
+**UI hint**: yes
 
 ### Phase 2: Curated Content Model
 
@@ -47,7 +48,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Developer can keep forks, repros, playgrounds, generated/profile/support repos, and unreviewed prototypes out of flagship/home placement unless explicitly promoted with a documented reason.
 1. Developer can maintain an initial curated set reviewing OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
 1. Visitor-critical portfolio content can render from checked-in registry or static snapshot data without any live browser GitHub API call.
-   **Plans**: TBD
+
+**Plans**: TBD
 
 ### Phase 3: Portfolio Surfaces & SEO
 
@@ -61,8 +63,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Visitor can browse 4-6 flagship project presentations plus a project index or equivalent surface that clearly separates flagship/supporting work from lab, prototype, writing, archive, and hidden/excluded work.
 1. Visitor can open meaningful project URLs or stable anchors with headings, metadata, links, related context, and a concise current-focus surface for active bets when content is ready.
 1. Developer can inspect generated HTML and see route-specific titles, descriptions, canonical URLs, Open Graph/Twitter basics, JSON-LD, sitemap/robots, icon assets, and social preview support before client hydration.
-   **Plans**: TBD
-   **UI hint**: yes
+
+**Plans**: TBD
+**UI hint**: yes
 
 ### Phase 4: Visual System & Motion
 
@@ -76,8 +79,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Visitor on capable devices can experience restrained reactive/physics effects around non-essential visual elements or project interactions.
 1. Visitor using reduced motion, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
 1. Developer can verify animation loops, listeners, observers, Mystic UI usage, and motion utilities stay cleaned up and isolated from the domain/content model.
-   **Plans**: TBD
-   **UI hint**: yes
+
+**Plans**: TBD
+**UI hint**: yes
 
 ### Phase 5: GitHub Enrichment & Release Verification
 
@@ -91,7 +95,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Build/release checks prove production bundles do not expose GitHub tokens or forbidden token names.
 1. Developer can run release checks covering pure unit behavior, browser flows, accessibility, reduced motion, static output, no critical runtime GitHub dependency, performance/SEO, layout stability, and primary links.
 1. Project docs record local setup, build/deploy assumptions, curation maintenance rules, and how to refresh GitHub metadata when the optional sync exists.
-   **Plans**: TBD
+
+**Plans**: TBD
 
 ## Requirement Coverage
 

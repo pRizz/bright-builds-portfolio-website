@@ -76,17 +76,20 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 This document evolves at phase transitions and milestone boundaries.
 
 **After each phase transition** (via `/gsd-transition`):
+
 1. Requirements invalidated? -> Move to Out of Scope with reason
-2. Requirements validated? -> Move to Validated with phase reference
-3. New requirements emerged? -> Add to Active
-4. Decisions to log? -> Add to Key Decisions
-5. "What This Is" still accurate? -> Update if drifted
+1. Requirements validated? -> Move to Validated with phase reference
+1. New requirements emerged? -> Add to Active
+1. Decisions to log? -> Add to Key Decisions
+1. "What This Is" still accurate? -> Update if drifted
 
 **After each milestone** (via `/gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check - still the right priority?
-3. Audit Out of Scope - reasons still valid?
-4. Update Context with current state
 
----
+1. Full review of all sections
+1. Core Value check - still the right priority?
+1. Audit Out of Scope - reasons still valid?
+1. Update Context with current state
+
+______________________________________________________________________
+
 *Last updated: 2026-05-24 after initialization*
