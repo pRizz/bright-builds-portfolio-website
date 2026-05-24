@@ -13,7 +13,7 @@ This roadmap moves from a reproducible static SolidJS foundation to an authorita
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Static App Foundation & UI Shell** - Establish the SolidJS static-first app, tooling scripts, Tailwind/Mystic setup, and pure-module seams.
+- [x] **Phase 1: Static App Foundation & UI Shell** - Establish the SolidJS static-first app, tooling scripts, Tailwind/Mystic setup, and pure-module seams. (completed 2026-05-24)
 - [ ] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror.
 - [ ] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry.
 - [ ] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates.
@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 1. Developer can use Tailwind CSS 3.x with Mystic UI pinned to commit `d36017757708ed01ef2b3b47beb14f294726411c` through the supported consumer setup.
 1. Developer can unit test route, project, profile, and SEO derivation modules without DOM, network, or framework runtime.
 
-**Plans**: TBD
+**Plans**: 2/2 plans complete
 **UI hint**: yes
 
 ### Phase 2: Curated Content Model
@@ -119,7 +119,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Static App Foundation & UI Shell | 0/TBD | Not started | - |
+| 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
 | 2. Curated Content Model | 0/TBD | Not started | - |
 | 3. Portfolio Surfaces & SEO | 0/TBD | Not started | - |
 | 4. Visual System & Motion | 0/TBD | Not started | - |

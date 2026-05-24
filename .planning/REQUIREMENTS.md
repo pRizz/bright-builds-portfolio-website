@@ -9,10 +9,10 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### Foundation
 
-- [ ] **FOUND-01**: Developer can run, build, typecheck, format-check, lint/check, and test the site through documented Bun package scripts.
-- [ ] **FOUND-02**: The app builds as a SolidJS / SolidStart static-first website with prerendered HTML for all indexable routes.
-- [ ] **FOUND-03**: The app uses Tailwind CSS 3.x and pins Mystic UI to exact GitHub commit `d36017757708ed01ef2b3b47beb14f294726411c` when Mystic UI is adopted.
-- [ ] **FOUND-04**: The app exposes route, project, profile, and SEO derivation through pure TypeScript modules that can be unit tested without DOM, network, or framework runtime.
+- [x] **FOUND-01**: Developer can run, build, typecheck, format-check, lint/check, and test the site through documented Bun package scripts.
+- [x] **FOUND-02**: The app builds as a SolidJS / SolidStart static-first website with prerendered HTML for all indexable routes.
+- [x] **FOUND-03**: The app uses Tailwind CSS 3.x and pins Mystic UI to exact GitHub commit `d36017757708ed01ef2b3b47beb14f294726411c` when Mystic UI is adopted.
+- [x] **FOUND-04**: The app exposes route, project, profile, and SEO derivation through pure TypeScript modules that can be unit tested without DOM, network, or framework runtime.
 
 ### Profile and Narrative
 
@@ -111,10 +111,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
 | PROF-01 | Phase 3 | Pending |
 | PROF-02 | Phase 3 | Pending |
 | PROF-03 | Phase 3 | Pending |
