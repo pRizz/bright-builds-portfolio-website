@@ -111,51 +111,52 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | TBD | Pending |
-| FOUND-02 | TBD | Pending |
-| FOUND-03 | TBD | Pending |
-| FOUND-04 | TBD | Pending |
-| PROF-01 | TBD | Pending |
-| PROF-02 | TBD | Pending |
-| PROF-03 | TBD | Pending |
-| PROF-04 | TBD | Pending |
-| CUR-01 | TBD | Pending |
-| CUR-02 | TBD | Pending |
-| CUR-03 | TBD | Pending |
-| CUR-04 | TBD | Pending |
-| CUR-05 | TBD | Pending |
-| EXP-01 | TBD | Pending |
-| EXP-02 | TBD | Pending |
-| EXP-03 | TBD | Pending |
-| EXP-04 | TBD | Pending |
-| EXP-05 | TBD | Pending |
-| MOTION-01 | TBD | Pending |
-| MOTION-02 | TBD | Pending |
-| MOTION-03 | TBD | Pending |
-| MOTION-04 | TBD | Pending |
-| MOTION-05 | TBD | Pending |
-| SEO-01 | TBD | Pending |
-| SEO-02 | TBD | Pending |
-| SEO-03 | TBD | Pending |
-| SEO-04 | TBD | Pending |
-| SEO-05 | TBD | Pending |
-| GH-01 | TBD | Pending |
-| GH-02 | TBD | Pending |
-| GH-03 | TBD | Pending |
-| GH-04 | TBD | Pending |
-| VER-01 | TBD | Pending |
-| VER-02 | TBD | Pending |
-| VER-03 | TBD | Pending |
-| VER-04 | TBD | Pending |
-| VER-05 | TBD | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| PROF-01 | Phase 3 | Pending |
+| PROF-02 | Phase 3 | Pending |
+| PROF-03 | Phase 3 | Pending |
+| PROF-04 | Phase 3 | Pending |
+| CUR-01 | Phase 2 | Pending |
+| CUR-02 | Phase 2 | Pending |
+| CUR-03 | Phase 2 | Pending |
+| CUR-04 | Phase 3 | Pending |
+| CUR-05 | Phase 2 | Pending |
+| EXP-01 | Phase 3 | Pending |
+| EXP-02 | Phase 3 | Pending |
+| EXP-03 | Phase 3 | Pending |
+| EXP-04 | Phase 3 | Pending |
+| EXP-05 | Phase 4 | Pending |
+| MOTION-01 | Phase 4 | Pending |
+| MOTION-02 | Phase 4 | Pending |
+| MOTION-03 | Phase 4 | Pending |
+| MOTION-04 | Phase 4 | Pending |
+| MOTION-05 | Phase 4 | Pending |
+| SEO-01 | Phase 3 | Pending |
+| SEO-02 | Phase 3 | Pending |
+| SEO-03 | Phase 3 | Pending |
+| SEO-04 | Phase 3 | Pending |
+| SEO-05 | Phase 3 | Pending |
+| GH-01 | Phase 2 | Pending |
+| GH-02 | Phase 5 | Pending |
+| GH-03 | Phase 5 | Pending |
+| GH-04 | Phase 5 | Pending |
+| VER-01 | Phase 5 | Pending |
+| VER-02 | Phase 5 | Pending |
+| VER-03 | Phase 5 | Pending |
+| VER-04 | Phase 5 | Pending |
+| VER-05 | Phase 5 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 36 total
-- Mapped to phases: 0
-- Unmapped: 36
+- v1 requirements: 37 total
+- Mapped to phases: 37
+- Unmapped: 0
+- Duplicate mappings: 0
 
 ______________________________________________________________________
 
 *Requirements defined: 2026-05-24*\
-*Last updated: 2026-05-24 after initial definition*
+*Last updated: 2026-05-24 after roadmap creation*
