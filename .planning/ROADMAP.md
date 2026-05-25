@@ -14,6 +14,7 @@ This roadmap moves from a reproducible static SolidJS foundation to an authorita
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Static App Foundation & UI Shell** - Establish the SolidJS static-first app, tooling scripts, Tailwind/Mystic setup, and pure-module seams. (completed 2026-05-24)
+- [x] **Phase 01.1: Dark-Primary Visual Rule and Shell Refactor** (INSERTED) - Make dark-primary UI a repo rule and refactor the current shell before content-model work. (completed 2026-05-25)
 - [ ] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror.
 - [ ] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry.
 - [ ] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates.
@@ -36,10 +37,27 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2/2 plans complete
 **UI hint**: yes
 
+### Phase 01.1: Dark-Primary Visual Rule and Shell Refactor (INSERTED)
+
+**Goal:** Developer can rely on a documented dark-primary site rule and visitors see the current shell as a polished dark-first experience before content-model work continues.
+**Requirements**: DARK-01
+**Depends on:** Phase 1
+**Plans:** 1/1 plans complete
+**UI hint**: yes
+**Success Criteria** (what must be TRUE):
+
+1. Repo-local guidance states the portfolio is dark-primary, `.dark` must be active by default, and light-first classes require justification.
+1. The static document renders `<html class="dark">`, dark `color-scheme`, and dark browser theme color before user interaction.
+1. Current home, about, projects, and contact routes use dark-first shared styling for shell, cards, links, chips, focus states, and text.
+1. Developer can verify desktop and mobile dark rendering, contrast/readability, no obvious text overlap, and no console errors.
+
+Plans:
+- [x] 01.1-01-PLAN.md
+
 ### Phase 2: Curated Content Model
 
 **Goal**: Developer has an authoritative typed registry for project/profile/site content, with validation rules that keep flagship placement curated and static content independent from live GitHub calls.
-**Depends on**: Phase 1
+**Depends on**: Phase 01.1
 **Requirements**: CUR-01, CUR-02, CUR-03, CUR-05, GH-01
 **Success Criteria** (what must be TRUE):
 
@@ -100,13 +118,14 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ## Requirement Coverage
 
-Mapped: 37/37 v1 requirements.
+Mapped: 38/38 v1 requirements.
 Unmapped: 0.
 Duplicate mappings: 0.
 
 | Phase | Requirements |
 |-------|--------------|
 | 1. Static App Foundation & UI Shell | FOUND-01, FOUND-02, FOUND-03, FOUND-04 |
+| 01.1. Dark-Primary Visual Rule and Shell Refactor | DARK-01 |
 | 2. Curated Content Model | CUR-01, CUR-02, CUR-03, CUR-05, GH-01 |
 | 3. Portfolio Surfaces & SEO | PROF-01, PROF-02, PROF-03, PROF-04, CUR-04, EXP-01, EXP-02, EXP-03, EXP-04, SEO-01, SEO-02, SEO-03, SEO-04, SEO-05 |
 | 4. Visual System & Motion | EXP-05, MOTION-01, MOTION-02, MOTION-03, MOTION-04, MOTION-05 |
@@ -115,11 +134,12 @@ Duplicate mappings: 0.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5.
+Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
+| 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
 | 2. Curated Content Model | 0/TBD | Not started | - |
 | 3. Portfolio Surfaces & SEO | 0/TBD | Not started | - |
 | 4. Visual System & Motion | 0/TBD | Not started | - |

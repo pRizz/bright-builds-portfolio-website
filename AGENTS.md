@@ -31,6 +31,12 @@ Use this routing map when deciding what to load next:
 
 <!-- bright-builds-rules-managed:end -->
 
+## Repo-Local Guidance
+
+- The portfolio is a dark-primary site. Default user-facing UI should render in dark mode, with Tailwind selector dark mode and `.dark` active on the root document.
+- Treat light-first utility classes such as `bg-white`, `bg-stone-50`, and `text-zinc-950` as exceptions that need a clear local reason. Prefer shared dark-first shell, surface, text, link, chip, and focus classes.
+- Visual verification for UI changes must include desktop and mobile dark rendering, contrast/readability, and text-overlap checks.
+
 <!-- GSD:project-start source:PROJECT.md -->
 
 ## Project

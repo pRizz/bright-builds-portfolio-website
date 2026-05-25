@@ -9,25 +9,22 @@ type SiteLayoutProps = {
 
 export function SiteLayout(props: SiteLayoutProps) {
   return (
-    <div class="min-h-screen bg-stone-50 text-zinc-950">
+    <div class="site-shell">
       <a class="skip-link" href="#content">
         Skip to content
       </a>
 
-      <header class="border-zinc-950/10 border-b bg-stone-50/90 backdrop-blur">
-        <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4">
-          <a class="font-semibold text-lg tracking-normal" href="/">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <a class="brand-link" href="/">
             {peterProfile.name}
           </a>
           <nav aria-label="Primary navigation">
-            <ul class="flex flex-wrap items-center gap-2">
+            <ul class="nav-list">
               <For each={navigationRoutes}>
                 {(route) => (
                   <li>
-                    <a
-                      class="rounded-md px-3 py-2 text-sm text-zinc-700 transition hover:bg-emerald-100 hover:text-zinc-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
-                      href={route.path}
-                    >
+                    <a class="nav-link" href={route.path}>
                       {route.label}
                     </a>
                   </li>
@@ -38,15 +35,15 @@ export function SiteLayout(props: SiteLayoutProps) {
         </div>
       </header>
 
-      <main id="content" class="mx-auto w-full max-w-6xl px-5 py-12 sm:py-16">
+      <main id="content" class="site-main">
         {props.children}
       </main>
 
-      <footer class="border-zinc-950/10 border-t">
-        <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm text-zinc-600">
+      <footer class="site-footer">
+        <div class="site-footer-inner">
           <p>Bright Builds portfolio foundation.</p>
           <a
-            class="font-medium text-emerald-800 hover:text-zinc-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
+            class="footer-link"
             href="https://openlinks.us/"
             rel="me noopener noreferrer"
             target="_blank"

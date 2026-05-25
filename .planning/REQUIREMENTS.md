@@ -14,6 +14,10 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 - [x] **FOUND-03**: The app uses Tailwind CSS 3.x and pins Mystic UI to exact GitHub commit `d36017757708ed01ef2b3b47beb14f294726411c` when Mystic UI is adopted.
 - [x] **FOUND-04**: The app exposes route, project, profile, and SEO derivation through pure TypeScript modules that can be unit tested without DOM, network, or framework runtime.
 
+### Visual Baseline
+
+- [x] **DARK-01**: The site is dark-primary by repo rule and default rendering, with `.dark` active on the root document, dark-first reusable styling for the current shell, and desktop/mobile readability verification.
+
 ### Profile and Narrative
 
 - [ ] **PROF-01**: Visitor can immediately identify Peter Ryszkiewicz / pRizz, the Bright Builds context, and the portfolio's focus on AI, Bitcoin, open systems, developer tooling, and practical experiments.
@@ -115,6 +119,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
+| DARK-01 | Phase 01.1 | Complete |
 | PROF-01 | Phase 3 | Pending |
 | PROF-02 | Phase 3 | Pending |
 | PROF-03 | Phase 3 | Pending |
@@ -151,12 +156,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Coverage:**
 
-- v1 requirements: 37 total
-- Mapped to phases: 37
+- v1 requirements: 38 total
+- Mapped to phases: 38
 - Unmapped: 0
 - Duplicate mappings: 0
 
 ______________________________________________________________________
 
 *Requirements defined: 2026-05-24*\
-*Last updated: 2026-05-24 after roadmap creation*
+*Last updated: 2026-05-25 after Phase 01.1 completion*
