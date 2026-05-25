@@ -6,6 +6,9 @@
 
 [![GitHub Stars](https://img.shields.io/github/stars/pRizz/bright-builds-portfolio-website)](https://github.com/pRizz/bright-builds-portfolio-website)
 [![License](https://img.shields.io/github/license/pRizz/bright-builds-portfolio-website?style=flat-square)](./LICENSE)
+[![TypeScript 6.0.3](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SolidJS 1.9.13](https://img.shields.io/badge/SolidJS-1.9.13-2C4F7C?logo=solid&logoColor=white)](https://www.solidjs.com/)
+[![Vite 8.0.14](https://img.shields.io/badge/Vite-8.0.14-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Bright Builds: Rules](https://raw.githubusercontent.com/bright-builds-llc/bright-builds-rules/main/public/badges/bright-builds-rules-flat.svg)](https://github.com/bright-builds-llc/bright-builds-rules)
 [![OpenLinks profile](https://img.shields.io/badge/OpenLinks-profile-0F172A)](https://openlinks.us/)
 
