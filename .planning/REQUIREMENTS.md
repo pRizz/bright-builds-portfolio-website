@@ -35,10 +35,10 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### Portfolio Experience
 
-- [ ] **EXP-01**: Visitor can browse 4-6 flagship project presentations with manually written problem, approach, role, status, key links, and why-it-matters copy.
+- [x] **EXP-01**: Visitor can browse 4-6 flagship project presentations with manually written problem, approach, role, status, key links, and why-it-matters copy.
 - [ ] **EXP-02**: Visitor can browse a project index or equivalent project surface that separates flagship/supporting work from lab/prototype/archive items.
 - [ ] **EXP-03**: Visitor can open project detail surfaces or stable project anchors with meaningful URLs, headings, metadata, links, and related project/writing context.
-- [ ] **EXP-04**: Visitor can discover a concise "now building" or current-focus surface for active bets such as OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, and opencode-cloud when content is ready.
+- [x] **EXP-04**: Visitor can discover a concise "now building" or current-focus surface for active bets such as OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, and opencode-cloud when content is ready.
 - [ ] **EXP-05**: Visitor can navigate the site on desktop and mobile without text overlap, layout jumps, or hover-only access to important content.
 
 ### Visual System and Motion
@@ -51,11 +51,11 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### SEO and Metadata
 
-- [ ] **SEO-01**: Each indexable route has static, route-specific title, description, canonical URL, Open Graph basics, and Twitter card basics.
-- [ ] **SEO-02**: The site emits or maintains `sitemap.xml`, `robots.txt`, favicon/touch/icon assets, and at least one useful social preview image.
-- [ ] **SEO-03**: The site includes structured data for Peter as a `Person` and for flagship project detail surfaces where enough data exists.
+- [x] **SEO-01**: Each indexable route has static, route-specific title, description, canonical URL, Open Graph basics, and Twitter card basics.
+- [x] **SEO-02**: The site emits or maintains `sitemap.xml`, `robots.txt`, favicon/touch/icon assets, and at least one useful social preview image.
+- [x] **SEO-03**: The site includes structured data for Peter as a `Person` and for flagship project detail surfaces where enough data exists.
 - [ ] **SEO-04**: Production build verification proves meaningful content and metadata exist in generated HTML before client hydration.
-- [ ] **SEO-05**: OpenLinks appears as a visible identity link and, when cleanly supported, as `rel="me"` and/or JSON-LD `sameAs` metadata without becoming the primary portfolio brand.
+- [x] **SEO-05**: OpenLinks appears as a visible identity link and, when cleanly supported, as `rel="me"` and/or JSON-LD `sameAs` metadata without becoming the primary portfolio brand.
 
 ### GitHub Data
 
@@ -129,21 +129,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CUR-03 | Phase 2 | Complete |
 | CUR-04 | Phase 3 | Pending |
 | CUR-05 | Phase 2 | Complete |
-| EXP-01 | Phase 3 | Pending |
+| EXP-01 | Phase 3 | Complete |
 | EXP-02 | Phase 3 | Pending |
 | EXP-03 | Phase 3 | Pending |
-| EXP-04 | Phase 3 | Pending |
+| EXP-04 | Phase 3 | Complete |
 | EXP-05 | Phase 4 | Pending |
 | MOTION-01 | Phase 4 | Pending |
 | MOTION-02 | Phase 4 | Pending |
 | MOTION-03 | Phase 4 | Pending |
 | MOTION-04 | Phase 4 | Pending |
 | MOTION-05 | Phase 4 | Pending |
-| SEO-01 | Phase 3 | Pending |
-| SEO-02 | Phase 3 | Pending |
-| SEO-03 | Phase 3 | Pending |
+| SEO-01 | Phase 3 | Complete |
+| SEO-02 | Phase 3 | Complete |
+| SEO-03 | Phase 3 | Complete |
 | SEO-04 | Phase 3 | Pending |
-| SEO-05 | Phase 3 | Pending |
+| SEO-05 | Phase 3 | Complete |
 | GH-01 | Phase 2 | Complete |
 | GH-02 | Phase 5 | Pending |
 | GH-03 | Phase 5 | Pending |

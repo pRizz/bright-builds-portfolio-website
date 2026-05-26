@@ -90,7 +90,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01-PLAN.md — Pure project story, current-focus, SEO, sitemap, robots, and JSON-LD helpers.
+- [x] 03-01-PLAN.md — Pure project story, current-focus, SEO, sitemap, robots, and JSON-LD helpers.
 - [ ] 03-02-PLAN.md — Identity-first home, grouped project anchors, about themes, contact paths, and OpenLinks route surfaces.
 - [ ] 03-03-PLAN.md — Public SEO assets, static verification, aggregate build proof, and dark responsive smoke checks.
 
@@ -150,6 +150,6 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
-| 3. Portfolio Surfaces & SEO | 0/TBD | Not started | - |
+| 3. Portfolio Surfaces & SEO | 1/3 | In Progress | - |
 | 4. Visual System & Motion | 0/TBD | Not started | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |

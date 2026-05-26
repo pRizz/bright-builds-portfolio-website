@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 3 UI-SPEC approved
-last_updated: "2026-05-26T11:37:10.045Z"
-last_activity: 2026-05-26 -- Phase 03 planning complete
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-05-26T11:48:15.977Z"
+last_activity: 2026-05-26 -- Completed 03-01 plan
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 8
-  completed_plans: 5
-  percent: 63
+  completed_plans: 6
+  percent: 75
 ---
 
 # Project State
@@ -26,19 +26,19 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 3 of 6 (portfolio surfaces & seo)
-Plan: Not started
+Plan: 2 of 3 (03-02-PLAN.md next)
 Status: Ready to execute
-Last activity: 2026-05-26 -- Phase 03 planning complete
+Last activity: 2026-05-26 -- Completed 03-01 plan
 
-Progress: [██████████] 100%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 5
-- Average duration: N/A
-- Total execution time: 0.0 hours
+- Total plans completed: 6
+- Average duration: 8min for Phase 03 plan 01
+- Total execution time: 0.1 hours
 
 **By Phase:**
 
@@ -47,14 +47,14 @@ Progress: [██████████] 100%
 | 1. Static App Foundation & UI Shell | 2/2 | 0.0h | - |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | 0.0h | - |
 | 2. Curated Content Model | 2/2 | 0.0h | - |
-| 3. Portfolio Surfaces & SEO | 0/TBD | 0.0h | - |
+| 3. Portfolio Surfaces & SEO | 1/3 | 0.1h | 8min |
 | 4. Visual System & Motion | 0/TBD | 0.0h | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | 0.0h | - |
 
 **Recent Trend:**
 
-- Last 5 plans: Phase 01.1 plan 01 completed; Phase 2 plans 02-01 and 02-02 completed
-- Trend: Static foundation, dark-primary shell, and curated content model are complete; ready for portfolio surface and SEO planning
+- Last 5 plans: Phase 01.1 plan 01 completed; Phase 2 plans 02-01 and 02-02 completed; Phase 3 plan 03-01 completed
+- Trend: Static foundation, dark-primary shell, curated content model, and pure Phase 3 story/SEO contracts are complete; ready for route surface rendering
 
 *Updated after each plan completion*
 
@@ -69,6 +69,9 @@ Recent decisions affecting current work:
 - \[Phase 2\]: Typed curated registry is authoritative; GitHub metadata cannot decide flagship placement.
 - \[Phase 3\]: OpenLinks belongs in low-intrusion footer/about/contact placement and metadata where clean.
 - \[Phase 5\]: Optional GitHub enrichment waits until static curated content and the no-runtime-API guarantee are established.
+- [Phase 03-portfolio-surfaces-seo]: Phase 3 portfolio story and SEO contracts remain pure TypeScript domain helpers with no Solid, DOM, filesystem, network, or GitHub runtime dependency.
+- [Phase 03-portfolio-surfaces-seo]: OpenLinks identity metadata derives from profileSameAsLinks so OpenLinks remains a sameAs identity hub beside GitHub, not the primary portfolio brand.
+- [Phase 03-portfolio-surfaces-seo]: Project deep links use stable /projects#slug anchors until richer per-project routes and social images are intentionally added later.
 
 ### Roadmap Evolution
 
@@ -86,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T10:53:06.004Z
-Stopped at: Phase 3 UI-SPEC approved
-Resume file: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md
+Last session: 2026-05-26T11:48:15.975Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None
