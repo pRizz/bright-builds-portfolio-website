@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 01.1: Dark-Primary Visual Rule and Shell Refactor** (INSERTED) - Make dark-primary UI a repo rule and refactor the current shell before content-model work. (completed 2026-05-25)
 - [x] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror. (completed 2026-05-26)
 - [x] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry. (completed 2026-05-26)
-- [ ] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates.
+- [x] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates. (completed 2026-05-26)
 - [ ] **Phase 5: GitHub Enrichment & Release Verification** - Add optional static GitHub metadata enrichment and prove the release is shippable.
 
 ## Phase Details
@@ -113,7 +113,7 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md - Dark-primary visual primitives, local brand material, stable route surfaces, and low-intrusion identity placement.
 - [x] 04-02-PLAN.md
-- [ ] 04-03-PLAN.md
+- [x] 04-03-PLAN.md
 
 ### Phase 5: GitHub Enrichment & Release Verification
 
@@ -156,5 +156,5 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
 | 3. Portfolio Surfaces & SEO | 3/3 | Complete | 2026-05-26 |
-| 4. Visual System & Motion | 2/3 | In Progress | - |
+| 4. Visual System & Motion | 3/3 | Complete | 2026-05-26 |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |
