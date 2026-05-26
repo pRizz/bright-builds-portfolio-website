@@ -67,7 +67,11 @@ Plans:
 1. Developer can maintain an initial curated set reviewing OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
 1. Visitor-critical portfolio content can render from checked-in registry or static snapshot data without any live browser GitHub API call.
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md - Curated project-story registry, validation, tests, and minimal route consumers.
+- [ ] 02-02-PLAN.md - Curation/no-runtime-GitHub verification scripts and static HTML curated-content proof.
 
 ### Phase 3: Portfolio Surfaces & SEO
 
@@ -140,7 +144,7 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 |-------|----------------|--------|-----------|
 | 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
-| 2. Curated Content Model | 0/TBD | Not started | - |
+| 2. Curated Content Model | 0/2 | Not started | - |
 | 3. Portfolio Surfaces & SEO | 0/TBD | Not started | - |
 | 4. Visual System & Motion | 0/TBD | Not started | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |
