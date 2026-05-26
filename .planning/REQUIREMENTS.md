@@ -44,9 +44,9 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 ### Visual System and Motion
 
 - [x] **MOTION-01**: Visitor sees a polished visual design that takes gentle inspiration from `https://www.brightbuilds.us/` without copying its unfinished template content.
-- [ ] **MOTION-02**: Visitor can experience restrained reactive/physics effects around non-essential visual elements or project interactions on capable devices.
-- [ ] **MOTION-03**: Visitor with `prefers-reduced-motion: reduce`, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
-- [ ] **MOTION-04**: Developer can verify motion cleanup so animation loops, listeners, and observers stop when routes/effects unmount or become inactive.
+- [x] **MOTION-02**: Visitor can experience restrained reactive/physics effects around non-essential visual elements or project interactions on capable devices.
+- [x] **MOTION-03**: Visitor with `prefers-reduced-motion: reduce`, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
+- [x] **MOTION-04**: Developer can verify motion cleanup so animation loops, listeners, and observers stop when routes/effects unmount or become inactive.
 - [x] **MOTION-05**: The visual layer uses local adapters around Mystic UI or motion utilities so the domain model and core content do not depend on UI-library internals.
 
 ### SEO and Metadata
@@ -135,9 +135,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXP-04 | Phase 3 | Complete |
 | EXP-05 | Phase 4 | Complete |
 | MOTION-01 | Phase 4 | Complete |
-| MOTION-02 | Phase 4 | Pending |
-| MOTION-03 | Phase 4 | Pending |
-| MOTION-04 | Phase 4 | Pending |
+| MOTION-02 | Phase 4 | Complete |
+| MOTION-03 | Phase 4 | Complete |
+| MOTION-04 | Phase 4 | Complete |
 | MOTION-05 | Phase 4 | Complete |
 | SEO-01 | Phase 3 | Complete |
 | SEO-02 | Phase 3 | Complete |

@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-05-26T18:29:53.123Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-05-26T18:42:12.819Z"
 last_activity: 2026-05-26
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 11
-  completed_plans: 9
-  percent: 82
+  completed_plans: 10
+  percent: 91
 ---
 
 # Project State
@@ -26,17 +26,17 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 04 (visual-system-motion) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-05-26
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 8
+- Total plans completed: 10
 - Average duration: 15min for Phase 03 plans
 - Total execution time: 0.8 hours
 
@@ -48,18 +48,19 @@ Progress: [█████████░] 88%
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | 0.0h | - |
 | 2. Curated Content Model | 2/2 | 0.0h | - |
 | 3. Portfolio Surfaces & SEO | 3/3 | 0.8h | 15min |
-| 4. Visual System & Motion | 0/TBD | 0.0h | - |
+| 4. Visual System & Motion | 2/3 | 0.3h | 8min |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | 0.0h | - |
 
 **Recent Trend:**
 
-- Last 5 plans: Phase 2 plans 02-01 and 02-02 completed; Phase 3 plans 03-01, 03-02, and 03-03 completed
-- Trend: Static foundation, dark-primary shell, curated content model, and Phase 3 portfolio/SEO surfaces are complete; ready for visual system and motion work
+- Last 5 plans: Phase 3 plans 03-01, 03-02, and 03-03 completed; Phase 4 plans 04-01 and 04-02 completed
+- Trend: Static foundation, dark-primary shell, curated content model, Phase 3 portfolio/SEO surfaces, and the first two visual-system/motion plans are complete; ready for final Phase 4 browser verification
 
 *Updated after each plan completion*
 | Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
 | Phase 03-portfolio-surfaces-seo P03 | 21min | 3 tasks | 10 files |
 | Phase 04-visual-system-motion P01 | 9min | 3 tasks | 6 files |
+| Phase 04-visual-system-motion P02 | 7min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,10 @@ Recent decisions affecting current work:
 - [Phase 04-visual-system-motion]: Keep Phase 04 Plan 01 CSS-first: no new dependencies, runtime motion libraries, 3D, physics, WebGPU, remote assets, or src/domain/* changes.
 - [Phase 04-visual-system-motion]: Use the checked-in Bright Builds social image only as subtle brand material behind live semantic home content, not as a literal screenshot card.
 - [Phase 04-visual-system-motion]: Preserve OpenLinks as low-intrusion footer/about/contact identity placement while keeping Bright Builds, GitHub, and project CTAs primary.
+- [Phase 04-visual-system-motion]: Keep motion UI-only: no src/domain/* changes, no new dependencies, no runtime animation library, no physics/3D/WebGPU, and no route/page transitions.
+- [Phase 04-visual-system-motion]: Gate decorative pointer work at mount with the pure helper before adding listeners or RAF work.
+- [Phase 04-visual-system-motion]: Use route-level ReactiveSurface wrappers around non-essential surface groups so static content and focus order remain intact.
+- [Phase 04-visual-system-motion]: Preserve low-intrusion OpenLinks placement from Phase 03/Plan 01; no new OpenLinks promotion was added.
 
 ### Roadmap Evolution
 
@@ -102,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T18:29:53.121Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-05-26T18:42:12.816Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
