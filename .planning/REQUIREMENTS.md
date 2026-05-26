@@ -39,15 +39,15 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 - [x] **EXP-02**: Visitor can browse a project index or equivalent project surface that separates flagship/supporting work from lab/prototype/archive items.
 - [x] **EXP-03**: Visitor can open project detail surfaces or stable project anchors with meaningful URLs, headings, metadata, links, and related project/writing context.
 - [x] **EXP-04**: Visitor can discover a concise "now building" or current-focus surface for active bets such as OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, and opencode-cloud when content is ready.
-- [ ] **EXP-05**: Visitor can navigate the site on desktop and mobile without text overlap, layout jumps, or hover-only access to important content.
+- [x] **EXP-05**: Visitor can navigate the site on desktop and mobile without text overlap, layout jumps, or hover-only access to important content.
 
 ### Visual System and Motion
 
-- [ ] **MOTION-01**: Visitor sees a polished visual design that takes gentle inspiration from `https://www.brightbuilds.us/` without copying its unfinished template content.
+- [x] **MOTION-01**: Visitor sees a polished visual design that takes gentle inspiration from `https://www.brightbuilds.us/` without copying its unfinished template content.
 - [ ] **MOTION-02**: Visitor can experience restrained reactive/physics effects around non-essential visual elements or project interactions on capable devices.
 - [ ] **MOTION-03**: Visitor with `prefers-reduced-motion: reduce`, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
 - [ ] **MOTION-04**: Developer can verify motion cleanup so animation loops, listeners, and observers stop when routes/effects unmount or become inactive.
-- [ ] **MOTION-05**: The visual layer uses local adapters around Mystic UI or motion utilities so the domain model and core content do not depend on UI-library internals.
+- [x] **MOTION-05**: The visual layer uses local adapters around Mystic UI or motion utilities so the domain model and core content do not depend on UI-library internals.
 
 ### SEO and Metadata
 
@@ -133,12 +133,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXP-02 | Phase 3 | Complete |
 | EXP-03 | Phase 3 | Complete |
 | EXP-04 | Phase 3 | Complete |
-| EXP-05 | Phase 4 | Pending |
-| MOTION-01 | Phase 4 | Pending |
+| EXP-05 | Phase 4 | Complete |
+| MOTION-01 | Phase 4 | Complete |
 | MOTION-02 | Phase 4 | Pending |
 | MOTION-03 | Phase 4 | Pending |
 | MOTION-04 | Phase 4 | Pending |
-| MOTION-05 | Phase 4 | Pending |
+| MOTION-05 | Phase 4 | Complete |
 | SEO-01 | Phase 3 | Complete |
 | SEO-02 | Phase 3 | Complete |
 | SEO-03 | Phase 3 | Complete |

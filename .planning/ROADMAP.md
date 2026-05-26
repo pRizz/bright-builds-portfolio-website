@@ -107,8 +107,13 @@ Plans:
 1. Visitor using reduced motion, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
 1. Developer can verify animation loops, listeners, observers, Mystic UI usage, and motion utilities stay cleaned up and isolated from the domain/content model.
 
-**Plans**: TBD
+**Plans**: 1/3 plans complete
 **UI hint**: yes
+
+Plans:
+- [x] 04-01-PLAN.md - Dark-primary visual primitives, local brand material, stable route surfaces, and low-intrusion identity placement.
+- [ ] 04-02-PLAN.md
+- [ ] 04-03-PLAN.md
 
 ### Phase 5: GitHub Enrichment & Release Verification
 
@@ -151,5 +156,5 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
 | 3. Portfolio Surfaces & SEO | 3/3 | Complete | 2026-05-26 |
-| 4. Visual System & Motion | 0/TBD | Not started | - |
+| 4. Visual System & Motion | 1/3 | In Progress | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |

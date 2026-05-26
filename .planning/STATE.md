@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 4 UI-SPEC approved
-last_updated: "2026-05-26T18:17:47.166Z"
-last_activity: 2026-05-26 -- Phase 04 execution started
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-05-26T18:29:53.123Z"
+last_activity: 2026-05-26
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 9
+  percent: 82
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 04 (visual-system-motion) — EXECUTING
-Plan: 1 of 3
-Status: Executing Phase 04
-Last activity: 2026-05-26 -- Phase 04 execution started
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-05-26
 
 Progress: [█████████░] 88%
 
@@ -59,6 +59,7 @@ Progress: [█████████░] 88%
 *Updated after each plan completion*
 | Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
 | Phase 03-portfolio-surfaces-seo P03 | 21min | 3 tasks | 10 files |
+| Phase 04-visual-system-motion P01 | 9min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,9 @@ Recent decisions affecting current work:
 - [Phase 03-portfolio-surfaces-seo]: Static icon and social PNG assets are checked in locally; no runtime image generation, image service, or remote asset dependency was added.
 - [Phase 03-portfolio-surfaces-seo]: Static output verification remains dependency-free and filesystem-only, including PNG IHDR dimension checks.
 - [Phase 03-portfolio-surfaces-seo]: Reduced-motion declarations use higher-specificity :root selectors so utility transition classes cannot preserve nonessential motion.
+- [Phase 04-visual-system-motion]: Keep Phase 04 Plan 01 CSS-first: no new dependencies, runtime motion libraries, 3D, physics, WebGPU, remote assets, or src/domain/* changes.
+- [Phase 04-visual-system-motion]: Use the checked-in Bright Builds social image only as subtle brand material behind live semantic home content, not as a literal screenshot card.
+- [Phase 04-visual-system-motion]: Preserve OpenLinks as low-intrusion footer/about/contact identity placement while keeping Bright Builds, GitHub, and project CTAs primary.
 
 ### Roadmap Evolution
 
@@ -98,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T17:36:19.250Z
-Stopped at: Phase 4 UI-SPEC approved
-Resume file: .planning/phases/04-visual-system-motion/04-UI-SPEC.md
+Last session: 2026-05-26T18:29:53.121Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None
