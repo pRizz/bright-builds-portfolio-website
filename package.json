@@ -14,6 +14,7 @@
     "check": "biome check package.json biome.json tsconfig.json app.config.ts tailwind.config.ts postcss.config.cjs src scripts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "generate:static-metadata": "bun run scripts/generate-static-metadata.ts",
     "verify:curation": "bun run scripts/verify-curation.ts",
     "verify:no-github-runtime": "bun run scripts/verify-no-github-runtime.ts",
     "verify:static": "bun run scripts/verify-static.ts",
