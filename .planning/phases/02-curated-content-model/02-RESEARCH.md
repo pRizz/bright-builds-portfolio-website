@@ -560,22 +560,25 @@ for (const expectedText of expectedHomeTexts) {
 | A1 | Free The World, opencode-cloud, and Zeckendorf are good candidates for visible curated placement if authored copy and maturity/status fields are supplied. | Initial Curated Set Facts | Planner may over-promote a project before editorial review. |
 | A2 | The suggested supporting experiments beyond the named set are editorially suitable after review. | Initial Curated Set Facts | Planner may include a repo that the user would rather hide. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **What is the authoritative source for the Open Bitcoin project story?** [VERIFIED: GitHub CLI/API, 2026-05-25]
    - What we know: `pRizz/open-bitcoin` was not found, and `open-bitcoin-web-miner` is the verified repo behind Win3Bitco.in / Open Bitcoin Web Miner. [VERIFIED: GitHub CLI/API, 2026-05-25]
    - What's unclear: Whether "Open Bitcoin" should be a separate story, an alias of the web miner, or a non-flagship concept record. [VERIFIED: .planning/phases/02-curated-content-model/02-CONTEXT.md]
    - Recommendation: Include an explicit Open Bitcoin record only if it has verified links or mark it non-home until the user clarifies. [ASSUMED]
+   - RESOLVED: Plan 02-01 records Open Bitcoin as a supporting non-home concept story linked to `pRizz/open-bitcoin-web-miner` and `https://win3bitco.in/`; it does not invent a standalone `pRizz/open-bitcoin` repository. [VERIFIED: .planning/phases/02-curated-content-model/02-01-PLAN.md]
 
 2. **Should project slugs preserve current public-ish names or normalize to repo names?** [VERIFIED: src/domain/projects.ts]
    - What we know: Current tests expect `openlinks`, but the source repo is `open-links`. [VERIFIED: src/domain/foundation.test.ts] [VERIFIED: GitHub CLI/API, 2026-05-25]
    - What's unclear: Whether future project routes will prefer story slugs like `openlinks` or source-like slugs like `open-links`. [VERIFIED: .planning/ROADMAP.md]
    - Recommendation: Keep story slugs stable and human-facing; put repo names in `aliases`/`links`. [ASSUMED]
+   - RESOLVED: Plan 02-01 keeps human-facing story slugs such as `openlinks` and `win3bitcoin`, while repo names live in aliases and source links. [VERIFIED: .planning/phases/02-curated-content-model/02-01-PLAN.md]
 
 3. **Which 4-6 records should be home/flagship in the initial set?** [VERIFIED: .planning/phases/02-curated-content-model/02-CONTEXT.md]
    - What we know: The registry should support enough reviewed records for later pages to select 4-6 flagship presentations. [VERIFIED: .planning/phases/02-curated-content-model/02-CONTEXT.md]
    - What's unclear: Final editorial ranking and one-line copy. [ASSUMED]
    - Recommendation: Plan for validation and candidate records first; keep any uncertain records as supporting/lab with warnings until copy and curation reasons are explicit. [VERIFIED: .planning/REQUIREMENTS.md]
+   - RESOLVED: Plan 02-01 selects six home/flagship records for the initial pass: OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, opencode-cloud, Zeckendorf, and Mystic UI. Supporting/lab records remain visible in the project index but out of home placement. [VERIFIED: .planning/phases/02-curated-content-model/02-01-PLAN.md]
 
 ## Environment Availability
 
