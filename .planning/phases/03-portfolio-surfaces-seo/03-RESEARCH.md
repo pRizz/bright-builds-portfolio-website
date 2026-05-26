@@ -501,24 +501,28 @@ function assertOutputFile(root: string, path: string): void {
 |---|-------|---------|---------------|
 | - | No `[ASSUMED]` claims were intentionally used in this research. [VERIFIED: source/provenance review] | All sections | No user confirmation is needed for assumed claims because none are present. [VERIFIED: source/provenance review] |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should the local Bun CLI be upgraded before Phase 3 execution?** [VERIFIED: package.json][VERIFIED: bun --version]
    - What we know: `package.json` pins `bun@1.3.14`, but the local CLI is `1.3.9`, and `bun run test`, `bun run build`, and `bun run verify:static` passed during research. [VERIFIED: package.json][VERIFIED: bun --version][VERIFIED: bun run test][VERIFIED: bun run build][VERIFIED: bun run verify:static]
    - What's unclear: Whether the executor should upgrade local Bun or continue with the available CLI for this phase. [VERIFIED: environment audit]
    - Recommendation: Plan with a note that local Bun is usable but below the pinned version; do not make the phase depend on Bun 1.3.14-only behavior unless the executor upgrades first. [VERIFIED: environment audit]
+   - RESOLVED: Do not upgrade Bun during Phase 3. Executors should continue with the available local Bun CLI unless an actual script failure proves the version mismatch matters. [VERIFIED: revision_context 2026-05-26]
 2. **Should static metadata files be generated on every build or checked in after generation?** [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-CONTEXT.md]
    - What we know: D-12 says sitemap and robots output should derive from route/profile/project data, and SolidStart serves `public/` files at stable root paths. [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-CONTEXT.md][CITED: docs.solidjs.com/solid-start/building-your-application/static-assets]
    - What's unclear: The repo does not yet have a `prepare:static` or asset generation script. [VERIFIED: package.json][VERIFIED: find public]
    - Recommendation: Add pure helper functions plus either a `scripts/generate-static-metadata.ts` command in the build path or static verification that fails when checked-in public files drift from helper output. [VERIFIED: package.json][VERIFIED: scripts/verify-static.ts]
+   - RESOLVED: Use checked-in/generated `public/sitemap.xml` and `public/robots.txt` from pure helpers, and make static verification fail when the checked-in/output files drift from `sitemapXml()` or `robotsTxt()`. [VERIFIED: revision_context 2026-05-26]
 3. **How should the social preview PNG be authored?** [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md]
    - What we know: The UI contract requires `/social/bright-builds-og.png` at 1200x630 with dark background and Peter/Bright Builds/focus copy, and ImageMagick is available locally. [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md][VERIFIED: magick --version]
    - What's unclear: CI availability for ImageMagick is not established by repo scripts. [VERIFIED: package.json]
    - Recommendation: Check in the PNG and verify dimensions with `identify` when available; avoid adding an npm image dependency unless the executor needs deterministic CI regeneration. [VERIFIED: identify --version][VERIFIED: package.json]
+   - RESOLVED: Author and check in one static `public/social/bright-builds-og.png` for Phase 3; verify dimensions and references, but do not add a runtime image service, per-project OG generation, or a new image-generation dependency. [VERIFIED: revision_context 2026-05-26]
 4. **Should the UI-SPEC checker sign-off block be reconciled?** [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md]
    - What we know: UI-SPEC front matter says `status: approved`, and the user prompt says the UI design contract is approved, but the final checker sign-off block still says `Approval: pending`. [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md][VERIFIED: user additional_context]
    - What's unclear: Whether the pending line is stale template residue or a deliberate unresolved sign-off. [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md]
    - Recommendation: Treat the UI contract as approved for planning because the prompt and front matter say approved; optionally fix the sign-off line in a docs cleanup task if the planner includes planning-artifact hygiene. [VERIFIED: user additional_context][VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md]
+   - RESOLVED: UI-SPEC is approved as of `2026-05-26T10:52:29Z`; planning and execution should treat it as the approved Phase 3 UI contract. [VERIFIED: .planning/phases/03-portfolio-surfaces-seo/03-UI-SPEC.md][VERIFIED: revision_context 2026-05-26]
 
 ## Environment Availability
 
