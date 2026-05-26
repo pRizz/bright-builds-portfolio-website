@@ -569,13 +569,32 @@
 
 @media (prefers-reduced-motion: reduce), (pointer: coarse), (max-width: 640px) {
   .reactive-surface::before,
-  .reactive-card::before {
+  .reactive-surface:hover::before,
+  .reactive-surface:focus-within::before,
+  .reactive-card::before,
+  .reactive-card:hover::before,
+  .reactive-card:focus-within::before,
+  .reactive-card:focus-visible::before {
     opacity: 0;
   }
 
+  .interactive-surface:hover,
+  .interactive-surface:focus-within,
   .reactive-card:hover,
   .reactive-card:focus-within,
-  .reactive-card:focus-visible {
+  .reactive-card:focus-visible,
+  .surface-link:hover,
+  .surface-link:focus-visible,
+  .focus-row:hover,
+  .focus-row:focus-visible,
+  .story-card:hover,
+  .story-card:focus-within,
+  .project-anchor-card:hover,
+  .project-anchor-card:focus-within,
+  .theme-card:hover,
+  .theme-card:focus-within,
+  .contact-card:hover,
+  .contact-card:focus-visible {
     transform: none;
   }
 }
