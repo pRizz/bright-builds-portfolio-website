@@ -1,16 +1,29 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { peterProfile } from "../src/domain/profile";
+import { homeProjects, visibleProjects } from "../src/domain/projects";
 import { prerenderRoutes, routeByPath } from "../src/domain/routes";
 
 type StaticRouteCheck = {
   route: string;
-  expectedText: string;
+  expectedTexts: readonly string[];
+  forbiddenTextPatterns?: readonly RegExp[];
 };
 
 const candidateOutputRoots = ["dist", ".output/public"];
+const staleStandaloneRepoHrefs = [
+  "https://github.com/pRizz/openlinks",
+  "https://github.com/pRizz/win3bitcoin",
+  "https://github.com/pRizz/open-bitcoin",
+] as const;
+const staleStandaloneRepoHrefPatterns = staleStandaloneRepoHrefs.map(
+  (href) => new RegExp(`${escapeRegExp(href)}(?=["'/?#])`),
+);
+
 export const expectedRoutes: StaticRouteCheck[] = prerenderRoutes.map((route) => ({
   route,
-  expectedText: routeByPath(route).staticCheckText,
+  expectedTexts: [routeByPath(route).staticCheckText, ...expectedTextsForRoute(route)],
+  forbiddenTextPatterns: staleStandaloneRepoHrefPatterns,
 }));
 
 function htmlFiles(root: string): string[] {
@@ -73,17 +86,66 @@ function assertRouteHtml(root: string, check: StaticRouteCheck): void {
 
   const html = readFileSync(maybeHtmlPath, "utf8");
 
-  if (!html.includes(check.expectedText)) {
-    throw new Error(
-      `Static HTML for ${check.route} did not contain expected text: ${check.expectedText}`,
-    );
+  for (const expectedText of check.expectedTexts) {
+    if (!html.includes(expectedText)) {
+      throw new Error(
+        `Static HTML for ${check.route} did not contain expected text: ${expectedText}`,
+      );
+    }
+  }
+
+  assertForbiddenTextAbsent(root, maybeHtmlPath, html, check.forbiddenTextPatterns ?? []);
+}
+
+function expectedTextsForRoute(route: string): readonly string[] {
+  if (route === "/") {
+    return [
+      peterProfile.name,
+      peterProfile.handle,
+      ...homeProjects().flatMap((project) => [project.name, project.oneLine]),
+    ];
+  }
+
+  if (route === "/projects") {
+    return visibleProjects().flatMap((project) => [project.name, project.oneLine]);
+  }
+
+  return [];
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function assertForbiddenTextAbsent(
+  root: string,
+  path: string,
+  html: string,
+  patterns: readonly RegExp[],
+): void {
+  for (const pattern of patterns) {
+    if (pattern.test(html)) {
+      throw new Error(
+        `Static HTML for ${relative(root, path)} contained forbidden text pattern: ${pattern}`,
+      );
+    }
   }
 }
 
 const outputRoot = findStaticOutputRoot();
+const outputHtmlFiles = htmlFiles(outputRoot);
 
 for (const check of expectedRoutes) {
   assertRouteHtml(outputRoot, check);
+}
+
+for (const htmlPath of outputHtmlFiles) {
+  assertForbiddenTextAbsent(
+    outputRoot,
+    htmlPath,
+    readFileSync(htmlPath, "utf8"),
+    staleStandaloneRepoHrefPatterns,
+  );
 }
 
 console.log(`Verified ${expectedRoutes.length} prerendered routes in ${outputRoot}.`);
