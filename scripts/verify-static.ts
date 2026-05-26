@@ -89,6 +89,31 @@ function htmlFiles(root: string): string[] {
   return files;
 }
 
+function cssFiles(root: string): string[] {
+  if (!existsSync(root)) {
+    return [];
+  }
+
+  const entries = readdirSync(root);
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const path = join(root, entry);
+    const stats = statSync(path);
+
+    if (stats.isDirectory()) {
+      files.push(...cssFiles(path));
+      continue;
+    }
+
+    if (entry.endsWith(".css")) {
+      files.push(path);
+    }
+  }
+
+  return files;
+}
+
 function routeHtmlCandidates(root: string, route: string): string[] {
   if (route === "/") {
     return [join(root, "index.html")];
@@ -132,6 +157,8 @@ function assertRouteHtml(root: string, check: StaticRouteCheck): void {
   const html = readFileSync(htmlPath, "utf8");
   const bodyBeforeHydration = preHydrationBody(html);
 
+  assertPhase04ShellHtml(check.route, html, bodyBeforeHydration);
+
   for (const expectedText of check.expectedTexts) {
     assertHtmlContains(
       bodyBeforeHydration,
@@ -141,6 +168,43 @@ function assertRouteHtml(root: string, check: StaticRouteCheck): void {
   }
 
   assertForbiddenTextAbsent(root, htmlPath, html, check.forbiddenTextPatterns ?? []);
+}
+
+function assertPhase04ShellHtml(route: string, html: string, bodyBeforeHydration: string): void {
+  assertHtmlMatches(html, /<html[^>]+class="[^"]*\bdark\b[^"]*"/, `${route} dark root`);
+  assertHtmlContains(bodyBeforeHydration, "site-shell", `${route} static site-shell`);
+  assertHtmlContains(
+    bodyBeforeHydration,
+    '<main id="content" class="site-main">',
+    `${route} static main landmark`,
+  );
+
+  if (route === "/") {
+    assertHtmlContains(bodyBeforeHydration, "brand-material", "home local visual hook");
+    assertHtmlContains(bodyBeforeHydration, "Peter Ryszkiewicz", "home identity copy");
+    assertHtmlContains(bodyBeforeHydration, "Browse projects", "home project CTA");
+    assertHtmlContains(bodyBeforeHydration, "Now building", "home focus panel");
+    assertHtmlContains(
+      bodyBeforeHydration,
+      "Flagship work selected from the curated registry",
+      "home flagship story text",
+    );
+  }
+
+  if (route === "/about") {
+    assertHtmlContains(
+      bodyBeforeHydration,
+      "OpenLinks identity hub",
+      "about OpenLinks profile placement",
+    );
+  }
+
+  if (route === "/contact") {
+    assertHtmlContains(bodyBeforeHydration, "OpenLinks", "contact OpenLinks profile placement");
+    assertHtmlContains(bodyBeforeHydration, "https://openlinks.us/", "contact OpenLinks URL");
+  }
+
+  assertHtmlContains(bodyBeforeHydration, "OpenLinks profile", `${route} footer OpenLinks profile`);
 }
 
 function preHydrationBody(html: string): string {
@@ -345,6 +409,8 @@ function assertMetadataForRoute(route: SiteRoute, html: string): void {
     `name="twitter:image:alt" content="${escapeHtmlAttribute(metadata.twitter.image.alt)}"`,
     `${route.path} twitter:image:alt`,
   );
+  assertMetadataImageMapsToLocalAsset(image.url);
+  assertMetadataImageMapsToLocalAsset(metadata.twitter.image.url);
 }
 
 function assertJsonLdContains(html: string, expectedTexts: readonly string[]): void {
@@ -404,8 +470,60 @@ function assertForbiddenTextAbsent(
   }
 }
 
+function assertMetadataImageMapsToLocalAsset(imageUrl: string): void {
+  const url = new URL(imageUrl);
+
+  if (url.origin !== peterProfile.canonicalOrigin) {
+    throw new Error(`Metadata image URL is not canonical: ${imageUrl}`);
+  }
+
+  const assetPath = url.pathname.replace(/^\//, "");
+
+  if (!existsSync(join(staticOutputRoot, assetPath))) {
+    throw new Error(`Metadata image URL ${imageUrl} does not map to a checked-in output asset.`);
+  }
+}
+
+function assertNoRemoteRuntimeVisualAssets(root: string, paths: readonly string[]): void {
+  const remoteAssetPatterns = [
+    { label: "remote asset <img src>", pattern: /<img\b[^>]+\bsrc=["']https?:\/\//gi },
+    { label: "remote asset <source srcset>", pattern: /<source\b[^>]+\bsrcset=["']https?:\/\//gi },
+    { label: "remote asset <video src>", pattern: /<video\b[^>]+\bsrc=["']https?:\/\//gi },
+    { label: "remote asset <audio src>", pattern: /<audio\b[^>]+\bsrc=["']https?:\/\//gi },
+    { label: "remote asset CSS url()", pattern: /url\(\s*["']?https?:\/\//gi },
+  ] as const satisfies readonly ForbiddenTextPattern[];
+
+  for (const path of paths) {
+    const source = readFileSync(path, "utf8");
+
+    for (const { label, pattern } of remoteAssetPatterns) {
+      if (pattern.test(source)) {
+        throw new Error(`${relative(root, path)} contains forbidden ${label}.`);
+      }
+    }
+  }
+}
+
+function assertReducedMotionCss(root: string): void {
+  const emittedCssFiles = cssFiles(root);
+  const emittedCss = emittedCssFiles.map((path) => readFileSync(path, "utf8")).join("\n");
+
+  if (!emittedCss.includes("prefers-reduced-motion")) {
+    throw new Error("Emitted CSS did not include prefers-reduced-motion output.");
+  }
+
+  if (!/:root\s+\*/.test(emittedCss)) {
+    throw new Error('Emitted CSS did not include the required ":root *" reduced-motion selector.');
+  }
+
+  if (!/transition-duration\s*:\s*\.?0?1ms/.test(emittedCss)) {
+    throw new Error("Emitted CSS did not reduce transition durations for reduced motion.");
+  }
+}
+
 const outputRoot = findStaticOutputRoot();
 const outputHtmlFiles = htmlFiles(outputRoot);
+const outputCssFiles = cssFiles(outputRoot);
 
 for (const check of expectedRoutes) {
   assertRouteHtml(outputRoot, check);
@@ -431,6 +549,9 @@ for (const check of expectedRoutes) {
     ]);
   }
 }
+
+assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);
+assertReducedMotionCss(outputRoot);
 
 for (const assetPath of [
   "sitemap.xml",
