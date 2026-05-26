@@ -6,6 +6,16 @@ import {
   projectLinkDisplayLabel,
   visibleProjects,
 } from "./projects";
+import { peterProfile } from "./profile";
+import { prerenderRoutes, siteRoutes } from "./routes";
+import {
+  jsonLdScriptContent,
+  metadataForRoute,
+  personJsonLd,
+  projectItemListJsonLd,
+  robotsTxt,
+  sitemapXml,
+} from "./seo";
 
 describe("portfolio project surfaces", () => {
   it("returns exactly six flagship stories with complete story details", () => {
@@ -77,5 +87,109 @@ describe("portfolio project surfaces", () => {
       "Related source",
       "Project notes",
     ]);
+  });
+});
+
+describe("portfolio SEO surfaces", () => {
+  it("derives complete route metadata with canonical social preview fields", () => {
+    // Arrange
+    const routes = siteRoutes;
+    const expectedSocialImageUrl = "/social/bright-builds-og.png";
+    const expectedMetaProperties = ["og:image", "summary_large_image"];
+
+    // Act
+    const metadataRecords = routes.map((route) => metadataForRoute(route, peterProfile));
+
+    // Assert
+    expect(expectedMetaProperties).toEqual(["og:image", "summary_large_image"]);
+    for (const metadata of metadataRecords) {
+      expect(metadata.title).not.toHaveLength(0);
+      expect(metadata.description).not.toHaveLength(0);
+      expect(metadata.canonical.startsWith("https://www.brightbuilds.us")).toBe(true);
+      expect(metadata.openGraph.title).toBe(metadata.title);
+      expect(metadata.openGraph.description).toBe(metadata.description);
+      expect(metadata.openGraph.url).toBe(metadata.canonical);
+      expect(metadata.openGraph.type).toBe("website");
+      expect(metadata.openGraph.image).toMatchObject({
+        url: expectedSocialImageUrl,
+        width: 1200,
+        height: 630,
+      });
+      expect(metadata.openGraph.image.alt).not.toHaveLength(0);
+      expect(metadata.twitter.card).toBe("summary_large_image");
+      expect(metadata.twitter.title).toBe(metadata.title);
+      expect(metadata.twitter.description).toBe(metadata.description);
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
+  });
+
+  it("includes GitHub and OpenLinks in Person sameAs JSON-LD", () => {
+    // Arrange
+    const expectedSameAs = ["https://github.com/pRizz", "https://openlinks.us/"];
+
+    // Act
+    const jsonLd = personJsonLd(peterProfile);
+
+    // Assert
+    expect(jsonLd.sameAs).toEqual(expect.arrayContaining(expectedSameAs));
+  });
+
+  it("creates ordered SoftwareSourceCode ItemList JSON-LD for visible project anchors", () => {
+    // Arrange
+    const projects = visibleProjects();
+
+    // Act
+    const jsonLd = projectItemListJsonLd(projects, peterProfile);
+
+    // Assert
+    expect(jsonLd["@type"]).toBe("ItemList");
+    expect(jsonLd.itemListElement).toHaveLength(projects.length);
+    for (const [index, element] of jsonLd.itemListElement.entries()) {
+      const project = projects[index];
+
+      expect(element["@type"]).toBe("ListItem");
+      expect(element.position).toBe(index + 1);
+      expect(element.item).toMatchObject({
+        "@type": "SoftwareSourceCode",
+        name: project.name,
+        description: project.oneLine,
+        url: `${peterProfile.canonicalOrigin}/projects#${project.slug}`,
+        sameAs: project.links.map((link) => link.href),
+      });
+    }
+  });
+
+  it("derives sitemap XML and robots text from route and profile data", () => {
+    // Arrange
+    const routes = siteRoutes;
+
+    // Act
+    const sitemap = sitemapXml(routes, peterProfile);
+    const robots = robotsTxt(peterProfile);
+
+    // Assert
+    expect(prerenderRoutes).toEqual(routes.map((route) => route.path));
+    for (const route of routes) {
+      const path = route.path === "/" ? "" : route.path;
+      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
+    }
+    expect(robots).toBe(
+      "User-agent: *\nAllow: /\nSitemap: https://www.brightbuilds.us/sitemap.xml",
+    );
+  });
+
+  it("serializes JSON-LD safely for script tags", () => {
+    // Arrange
+    const value = {
+      "@context": "https://schema.org",
+      name: "Peter <pRizz>",
+    };
+
+    // Act
+    const content = jsonLdScriptContent(value);
+
+    // Assert
+    expect(content).not.toContain("<");
+    expect(content).toContain("\\u003c");
   });
 });
