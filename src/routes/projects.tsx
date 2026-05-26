@@ -3,9 +3,11 @@ import { For } from "solid-js";
 import type { ProjectStory } from "../domain/projects";
 import {
   curatedProjects,
+  hiddenExcludedProjects,
   projectLinkDisplayLabel,
   projectsByPlacement,
-  visibleProjects,
+  publicProjectIndexProjects,
+  writingProjects,
 } from "../domain/projects";
 import { routeByPath } from "../domain/routes";
 import {
@@ -18,34 +20,23 @@ import {
 
 const route = routeByPath("/projects");
 const metadata = metadataForRoute(route);
-const visibleProjectList = visibleProjects();
-const flagshipProjects = projectsByPlacement("home");
-const supportingProjects = projectsByPlacement("supporting");
-const labProjects = projectsByPlacement("lab");
-const writingProjects = visibleProjectList.filter(
-  (project) =>
-    project.links.some((link) => link.kind === "article") ||
-    project.tags.includes("writing") ||
-    project.themes.includes("Writing"),
-);
-const archiveProjects = projectsByPlacement("archive");
+const publicProjectList = publicProjectIndexProjects();
+const flagshipProjects = projectsByPlacement("home", publicProjectList);
+const supportingProjects = projectsByPlacement("supporting", publicProjectList);
+const labProjects = projectsByPlacement("lab", publicProjectList);
+const writingProjectList = writingProjects(publicProjectList);
+const archiveProjects = projectsByPlacement("archive", publicProjectList);
 const allCuratedProjects: readonly ProjectStory[] = curatedProjects;
-const hiddenExcludedProjects = allCuratedProjects.filter(
-  (project) =>
-    project.placement === "hidden" ||
-    project.tier === "excluded" ||
-    project.status === "hidden" ||
-    project.includeInProjectIndex === false,
-);
+const hiddenExcludedProjectList = hiddenExcludedProjects(allCuratedProjects);
 const projectGroups = [
   { label: "Flagship", projects: flagshipProjects, variant: "flagship" },
   { label: "Supporting", projects: supportingProjects, variant: "compact" },
   { label: "Lab / Prototype", projects: labProjects, variant: "compact" },
-  { label: "Writing", projects: writingProjects, variant: "compact" },
+  { label: "Writing", projects: writingProjectList, variant: "compact" },
   { label: "Archive", projects: archiveProjects, variant: "compact" },
 ] as const;
 const personJsonLdValue = personJsonLd();
-const itemListJsonLdValue = projectItemListJsonLd(visibleProjectList);
+const itemListJsonLdValue = projectItemListJsonLd(publicProjectList);
 
 export default function Projects() {
   return (
@@ -94,7 +85,7 @@ export default function Projects() {
             have enough authored context.
           </p>
           <p class="story-label">
-            Hidden or excluded reviewed records: {hiddenExcludedProjects.length}
+            Hidden or excluded reviewed records: {hiddenExcludedProjectList.length}
           </p>
         </div>
       </section>

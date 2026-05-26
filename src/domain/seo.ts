@@ -1,7 +1,7 @@
 import type { Profile } from "./profile";
 import { peterProfile, profileSameAsLinks } from "./profile";
 import type { ProjectStory } from "./projects";
-import { visibleProjects } from "./projects";
+import { publicProjectIndexProjects } from "./projects";
 import type { SiteRoute } from "./routes";
 import { siteRoutes } from "./routes";
 
@@ -67,12 +67,12 @@ export type ProjectItemListJsonLd = {
   }>;
 };
 
-const socialImage = {
-  url: "/social/bright-builds-og.png",
+const socialImagePath = "/social/bright-builds-og.png";
+const socialImageSize = {
   width: 1200,
   height: 630,
   alt: "Peter Ryszkiewicz / pRizz and Bright Builds portfolio focus on AI, Bitcoin, open systems, and developer tooling.",
-} as const satisfies SocialImageMetadata;
+} as const;
 
 export const siteAssetLinks = [
   {
@@ -95,6 +95,7 @@ export const siteAssetLinks = [
 
 export function metadataForRoute(route: SiteRoute, profile: Profile = peterProfile): PageMetadata {
   const canonical = `${profile.canonicalOrigin}${route.path === "/" ? "" : route.path}`;
+  const socialImage = socialImageForProfile(profile);
 
   return {
     title: route.title,
@@ -132,13 +133,13 @@ export function personJsonLd(profile: Profile = peterProfile): PersonJsonLd {
 }
 
 export function projectItemListJsonLd(
-  projects: readonly ProjectStory[] = visibleProjects(),
+  projects: readonly ProjectStory[] = publicProjectIndexProjects(),
   profile: Profile = peterProfile,
 ): ProjectItemListJsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: visibleProjects(projects).map((project, index) => ({
+    itemListElement: publicProjectIndexProjects(projects).map((project, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
@@ -172,4 +173,11 @@ export function robotsTxt(profile: Profile = peterProfile): string {
 
 export function jsonLdScriptContent(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
+function socialImageForProfile(profile: Profile): SocialImageMetadata {
+  return {
+    url: `${profile.canonicalOrigin}${socialImagePath}`,
+    ...socialImageSize,
+  };
 }

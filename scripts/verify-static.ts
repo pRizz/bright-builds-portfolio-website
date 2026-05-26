@@ -2,12 +2,12 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 import { peterProfile } from "../src/domain/profile";
-import type { ProjectStory } from "../src/domain/projects";
 import {
   currentFocusProjects,
   homeProjects,
   projectAnchorHref,
-  visibleProjects,
+  publicProjectIndexProjects,
+  writingProjects,
 } from "../src/domain/projects";
 import type { SiteRoute } from "../src/domain/routes";
 import { prerenderRoutes, routeByPath } from "../src/domain/routes";
@@ -30,7 +30,7 @@ type ForbiddenTextPattern = {
   pattern: RegExp;
 };
 
-const candidateOutputRoots = ["dist", ".output/public"];
+const staticOutputRoot = ".output/public";
 const staleStandaloneRepoHrefs = [
   "https://github.com/pRizz/openlinks",
   "https://github.com/pRizz/win3bitcoin",
@@ -100,15 +100,13 @@ function routeHtmlCandidates(root: string, route: string): string[] {
 }
 
 function findStaticOutputRoot(): string {
-  const maybeRoot = candidateOutputRoots.find((root) => htmlFiles(root).length > 0);
+  const staticHtmlFiles = htmlFiles(staticOutputRoot);
 
-  if (!maybeRoot) {
-    throw new Error(
-      `No static HTML output found. Checked: ${candidateOutputRoots.join(", ")}. Run bun run build first.`,
-    );
+  if (staticHtmlFiles.length > 0) {
+    return staticOutputRoot;
   }
 
-  return maybeRoot;
+  throw new Error(`No static HTML output found in ${staticOutputRoot}. Run bun run build first.`);
 }
 
 function routeHtmlPath(root: string, route: string): string {
@@ -184,7 +182,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
       "Some reviewed repositories stay hidden or excluded from the public portfolio until they have enough authored context.",
       "Hidden or excluded reviewed records:",
       ...writingGroupExpectedTexts(),
-      ...visibleProjects().flatMap((project) => [
+      ...publicProjectIndexProjects().flatMap((project) => [
         project.name,
         project.oneLine,
         `id="${project.slug}"`,
@@ -223,17 +221,6 @@ function writingGroupExpectedTexts(): readonly string[] {
   }
 
   return projects.flatMap((project) => [project.name, project.oneLine]);
-}
-
-function writingProjects(
-  projects: readonly ProjectStory[] = visibleProjects(),
-): readonly ProjectStory[] {
-  return projects.filter(
-    (project) =>
-      project.links.some((link) => link.kind === "article") ||
-      project.tags.includes("writing") ||
-      project.themes.includes("Writing"),
-  );
 }
 
 function assertOutputFile(root: string, path: string): string {
@@ -438,7 +425,7 @@ for (const check of expectedRoutes) {
     assertJsonLdContains(html, [
       "ItemList",
       JSON.stringify(projectItemListJsonLd()),
-      ...visibleProjects().map(
+      ...publicProjectIndexProjects().map(
         (project) => `${peterProfile.canonicalOrigin}${projectAnchorHref(project)}`,
       ),
     ]);

@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 import { peterProfile } from "./profile";
 import {
   currentFocusProjects,
+  hiddenExcludedProjects,
   homeProjects,
+  type ProjectStory,
   projectAnchorHref,
   projectLinkDisplayLabel,
+  projectsByPlacement,
   visibleProjects,
 } from "./projects";
 import { prerenderRoutes, siteRoutes } from "./routes";
@@ -58,6 +61,62 @@ describe("portfolio project surfaces", () => {
     expect(hrefs).toEqual(projects.map((project) => `/projects#${project.slug}`));
   });
 
+  it("keeps hidden or excluded records out of public project surfaces", () => {
+    // Arrange
+    const baseProject: ProjectStory = homeProjects()[0];
+    const publicProject = makeProjectFixture(baseProject, {
+      slug: "public-supporting",
+      placement: "supporting",
+      tier: "supporting",
+      status: "maintained",
+      includeOnHome: false,
+      includeInProjectIndex: true,
+      displayOrder: 10,
+    });
+    const draftProject = makeProjectFixture(baseProject, {
+      slug: "private-draft",
+      placement: "supporting",
+      tier: "supporting",
+      status: "maintained",
+      includeOnHome: false,
+      includeInProjectIndex: false,
+      displayOrder: 20,
+    });
+    const excludedTierProject = makeProjectFixture(baseProject, {
+      slug: "excluded-public-placement",
+      placement: "supporting",
+      tier: "excluded",
+      status: "maintained",
+      includeOnHome: false,
+      includeInProjectIndex: true,
+      displayOrder: 30,
+    });
+    const hiddenStatusProject = makeProjectFixture(baseProject, {
+      slug: "hidden-public-placement",
+      placement: "lab",
+      tier: "lab",
+      status: "hidden",
+      includeOnHome: false,
+      includeInProjectIndex: true,
+      displayOrder: 40,
+    });
+    const projects = [publicProject, draftProject, excludedTierProject, hiddenStatusProject];
+
+    // Act
+    const visibleProjectList = visibleProjects(projects);
+    const supportingProjects = projectsByPlacement("supporting", visibleProjectList);
+    const hiddenExcludedProjectList = hiddenExcludedProjects(projects);
+
+    // Assert
+    expect(visibleProjectList.map((project) => project.slug)).toEqual(["public-supporting"]);
+    expect(supportingProjects.map((project) => project.slug)).toEqual(["public-supporting"]);
+    expect(hiddenExcludedProjectList.map((project) => project.slug)).toEqual([
+      "private-draft",
+      "excluded-public-placement",
+      "hidden-public-placement",
+    ]);
+  });
+
   it("derives visitor-facing project link labels", () => {
     // Arrange
     const links = [
@@ -94,14 +153,12 @@ describe("portfolio SEO surfaces", () => {
   it("derives complete route metadata with canonical social preview fields", () => {
     // Arrange
     const routes = siteRoutes;
-    const expectedSocialImageUrl = "/social/bright-builds-og.png";
-    const expectedMetaProperties = ["og:image", "summary_large_image"];
+    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
 
     // Act
     const metadataRecords = routes.map((route) => metadataForRoute(route, peterProfile));
 
     // Assert
-    expect(expectedMetaProperties).toEqual(["og:image", "summary_large_image"]);
     for (const metadata of metadataRecords) {
       expect(metadata.title).not.toHaveLength(0);
       expect(metadata.description).not.toHaveLength(0);
@@ -119,6 +176,7 @@ describe("portfolio SEO surfaces", () => {
       expect(metadata.twitter.card).toBe("summary_large_image");
       expect(metadata.twitter.title).toBe(metadata.title);
       expect(metadata.twitter.description).toBe(metadata.description);
+      expect(metadata.twitter.image.url).toBe(expectedSocialImageUrl);
       expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
     }
   });
@@ -193,3 +251,13 @@ describe("portfolio SEO surfaces", () => {
     expect(content).toContain("\\u003c");
   });
 });
+
+function makeProjectFixture(
+  baseProject: ProjectStory,
+  overrides: Partial<ProjectStory>,
+): ProjectStory {
+  return {
+    ...baseProject,
+    ...overrides,
+  };
+}

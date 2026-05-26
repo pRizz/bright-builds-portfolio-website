@@ -238,7 +238,7 @@
   }
 
   .card-meta {
-    @apply mt-1 text-sm text-zinc-500;
+    @apply mt-1 text-sm text-zinc-400;
   }
 
   .card-copy {
@@ -350,12 +350,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+  :root {
+    scroll-behavior: auto;
+  }
+
+  :root *,
+  :root *::before,
+  :root *::after {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
   }
 }

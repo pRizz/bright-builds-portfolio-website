@@ -409,7 +409,19 @@ export function featuredProjects(
 export function visibleProjects(
   projects: readonly ProjectStory[] = curatedProjects,
 ): readonly ProjectStory[] {
-  return sortProjects(projects.filter((project) => project.includeInProjectIndex));
+  return publicProjectIndexProjects(projects);
+}
+
+export function publicProjectIndexProjects(
+  projects: readonly ProjectStory[] = curatedProjects,
+): readonly ProjectStory[] {
+  return sortProjects(projects.filter(isPublicProjectIndexProject));
+}
+
+export function hiddenExcludedProjects(
+  projects: readonly ProjectStory[] = curatedProjects,
+): readonly ProjectStory[] {
+  return sortProjects(projects.filter((project) => !isPublicProjectIndexProject(project)));
 }
 
 export function currentFocusProjects(
@@ -423,9 +435,22 @@ export function currentFocusProjects(
 
 export function projectsByPlacement(
   placement: ProjectPlacement,
-  projects: readonly ProjectStory[] = curatedProjects,
+  projects: readonly ProjectStory[] = publicProjectIndexProjects(),
 ): readonly ProjectStory[] {
   return sortProjects(projects.filter((project) => project.placement === placement));
+}
+
+export function writingProjects(
+  projects: readonly ProjectStory[] = publicProjectIndexProjects(),
+): readonly ProjectStory[] {
+  return sortProjects(
+    projects.filter(
+      (project) =>
+        project.links.some((link) => link.kind === "article") ||
+        project.tags.includes("writing") ||
+        project.themes.includes("Writing"),
+    ),
+  );
 }
 
 export function projectAnchorHref(project: ProjectStory): string {
@@ -460,6 +485,15 @@ function isHomeProjectStory(project: ProjectStory): project is HomeProjectStory 
     project.tier === "flagship" &&
     project.includeOnHome &&
     project.includeInProjectIndex
+  );
+}
+
+function isPublicProjectIndexProject(project: ProjectStory): boolean {
+  return (
+    project.includeInProjectIndex &&
+    project.placement !== "hidden" &&
+    project.tier !== "excluded" &&
+    project.status !== "hidden"
   );
 }
 
