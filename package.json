@@ -14,8 +14,10 @@
     "check": "biome check package.json biome.json tsconfig.json app.config.ts tailwind.config.ts postcss.config.cjs src scripts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "verify:curation": "bun run scripts/verify-curation.ts",
+    "verify:no-github-runtime": "bun run scripts/verify-no-github-runtime.ts",
     "verify:static": "bun run scripts/verify-static.ts",
-    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run build && bun run verify:static"
+    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run build && bun run verify:static"
   },
   "dependencies": {
     "@solidjs/meta": "0.29.4",
