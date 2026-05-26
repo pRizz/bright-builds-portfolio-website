@@ -19,6 +19,12 @@ type DomainImportCheck = {
   matches: (moduleSpecifier: string) => boolean;
 };
 
+type ReactiveSurfaceListenerPair = {
+  target: string;
+  eventName: string;
+  handler: string;
+};
+
 const sourceExtensions = new Set([".ts", ".tsx", ".css"]);
 const domainRoot = "src/domain";
 const reactiveSurfacePath = "src/components/ReactiveSurface.tsx";
@@ -39,14 +45,24 @@ const forbiddenMotionDependencies = [
   "@react-three/fiber",
   "@solid-primitives/spring",
 ] as const;
-const requiredReactiveSurfaceTokens = [
-  "onCleanup",
-  "removeEventListener",
-  "cancelAnimationFrame",
-  "visibilitychange",
-  "canRunDecorativeMotion",
-  "matchMedia",
+const requiredReactiveSurfaceMotionGateTokens = ["canRunDecorativeMotion", "matchMedia"] as const;
+const requiredReactiveSurfaceListenerPairs: readonly ReactiveSurfaceListenerPair[] = [
+  {
+    target: "element",
+    eventName: "pointermove",
+    handler: "handlePointerMove",
+  },
+  {
+    target: "document",
+    eventName: "visibilitychange",
+    handler: "handleVisibilityChange",
+  },
 ] as const;
+const requiredReactiveSurfaceFramePair = {
+  requestCallback: "writePointerProperties",
+  frameHandle: "maybeFrame",
+  cleanupFunction: "cancelFrame",
+} as const;
 const forbiddenReactiveSurfacePatterns: readonly PatternCheck[] = [
   { label: "setInterval", pattern: /\bsetInterval\b/g },
   { label: "setTimeout", pattern: /\bsetTimeout\b/g },
@@ -269,6 +285,176 @@ function findingsForForbiddenDomainIdentifiers(file: string, sourceFile: ts.Sour
   return findings;
 }
 
+function maybeStringLiteralText(node: ts.Node | undefined): string | null {
+  if (!node) {
+    return null;
+  }
+
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+    return node.text;
+  }
+
+  return null;
+}
+
+function listenerPairKey(pair: ReactiveSurfaceListenerPair): string {
+  return `${pair.target}:${pair.eventName}:${pair.handler}`;
+}
+
+function listenerCallKeys(
+  root: ts.Node,
+  sourceFile: ts.SourceFile,
+  methodName: string,
+): Set<string> {
+  const keys = new Set<string>();
+
+  const visit = (node: ts.Node) => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === methodName
+    ) {
+      const maybeEventName = maybeStringLiteralText(node.arguments[0]);
+      const maybeHandler = node.arguments[1]?.getText(sourceFile) ?? null;
+
+      if (maybeEventName && maybeHandler) {
+        keys.add(
+          listenerPairKey({
+            target: node.expression.expression.getText(sourceFile),
+            eventName: maybeEventName,
+            handler: maybeHandler,
+          }),
+        );
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(root);
+  return keys;
+}
+
+function hasIdentifierCall(
+  root: ts.Node,
+  sourceFile: ts.SourceFile,
+  name: string,
+  maybeArgument: string | null,
+): boolean {
+  let found = false;
+
+  const visit = (node: ts.Node) => {
+    if (found) {
+      return;
+    }
+
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === name &&
+      (maybeArgument === null
+        ? node.arguments.length === 0
+        : node.arguments[0]?.getText(sourceFile) === maybeArgument)
+    ) {
+      found = true;
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(root);
+  return found;
+}
+
+function maybeOnCleanupCallback(sourceFile: ts.SourceFile): ts.Node | null {
+  let maybeCallback: ts.Node | null = null;
+
+  const visit = (node: ts.Node) => {
+    if (maybeCallback) {
+      return;
+    }
+
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === "onCleanup" &&
+      node.arguments[0]
+    ) {
+      maybeCallback = node.arguments[0];
+      return;
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(sourceFile);
+  return maybeCallback;
+}
+
+function missingReactiveSurfaceCleanupRequirements(sourceFile: ts.SourceFile): string[] {
+  const missing: string[] = [];
+  const addListenerKeys = listenerCallKeys(sourceFile, sourceFile, "addEventListener");
+  const maybeCleanupCallback = maybeOnCleanupCallback(sourceFile);
+
+  if (!maybeCleanupCallback) {
+    return ["onCleanup callback"];
+  }
+
+  const cleanupRemoveListenerKeys = listenerCallKeys(
+    maybeCleanupCallback,
+    sourceFile,
+    "removeEventListener",
+  );
+
+  for (const pair of requiredReactiveSurfaceListenerPairs) {
+    const key = listenerPairKey(pair);
+
+    if (!addListenerKeys.has(key)) {
+      missing.push(`${pair.target}.addEventListener("${pair.eventName}", ${pair.handler})`);
+    }
+
+    if (!cleanupRemoveListenerKeys.has(key)) {
+      missing.push(`${pair.target}.removeEventListener("${pair.eventName}", ${pair.handler})`);
+    }
+  }
+
+  if (
+    !hasIdentifierCall(
+      sourceFile,
+      sourceFile,
+      "requestAnimationFrame",
+      requiredReactiveSurfaceFramePair.requestCallback,
+    )
+  ) {
+    missing.push(`requestAnimationFrame(${requiredReactiveSurfaceFramePair.requestCallback})`);
+  }
+
+  if (
+    !hasIdentifierCall(
+      sourceFile,
+      sourceFile,
+      "cancelAnimationFrame",
+      requiredReactiveSurfaceFramePair.frameHandle,
+    )
+  ) {
+    missing.push(`cancelAnimationFrame(${requiredReactiveSurfaceFramePair.frameHandle})`);
+  }
+
+  if (
+    !hasIdentifierCall(
+      maybeCleanupCallback,
+      sourceFile,
+      requiredReactiveSurfaceFramePair.cleanupFunction,
+      null,
+    )
+  ) {
+    missing.push(`${requiredReactiveSurfaceFramePair.cleanupFunction}() in onCleanup`);
+  }
+
+  return missing;
+}
+
 function assertNoFindings(findings: readonly Finding[], prefix: string): void {
   if (findings.length === 0) {
     return;
@@ -344,12 +530,33 @@ function assertReactiveSurfaceCleanup(): void {
   }
 
   const source = readFileSync(reactiveSurfacePath, "utf8");
-  const missingTokens = requiredReactiveSurfaceTokens.filter((token) => !source.includes(token));
+  const sourceFile = ts.createSourceFile(
+    reactiveSurfacePath,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    scriptKindForFile(reactiveSurfacePath),
+  );
+  const missingTokens = requiredReactiveSurfaceMotionGateTokens.filter(
+    (token) => !source.includes(token),
+  );
 
   if (missingTokens.length > 0) {
     for (const token of missingTokens) {
       console.error(
-        `[reactive cleanup error] ${reactiveSurfacePath} is missing required cleanup/gate token: ${token}`,
+        `[reactive cleanup error] ${reactiveSurfacePath} is missing required motion gate token: ${token}`,
+      );
+    }
+
+    process.exit(1);
+  }
+
+  const missingCleanupRequirements = missingReactiveSurfaceCleanupRequirements(sourceFile);
+
+  if (missingCleanupRequirements.length > 0) {
+    for (const requirement of missingCleanupRequirements) {
+      console.error(
+        `[reactive cleanup error] ${reactiveSurfacePath} is missing required cleanup pair: ${requirement}`,
       );
     }
 
