@@ -16,19 +16,15 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 - [x] [Phase 2] Project content now has an authoritative typed curated registry for flagship, supporting, lab, concept, hidden, and archived work, with authored copy, curation reasons, reviewed links, and selector helpers.
 - [x] [Phase 2] Runtime-critical portfolio content renders from checked-in data, and aggregate verification blocks curation errors plus visitor-path GitHub API or token usage before build.
+- [x] [Phase 3] Visitors can identify Peter Ryszkiewicz / pRizz, Bright Builds, current focus areas, curated project groups, about themes, and GitHub/OpenLinks/Bright Builds contact paths from prerendered static routes.
+- [x] [Phase 3] Route-specific metadata, JSON-LD, sitemap, robots, icon assets, and a checked-in social preview image are generated or verified from pure helpers before hydration.
+- [x] [Phase 4] The portfolio has a polished dark-primary Bright Builds visual layer using local brand material, stable responsive surfaces, and no unfinished template residue.
+- [x] [Phase 4] Restrained reactive motion is isolated to UI-layer helpers, gated for reduced motion/coarse pointer/small viewport/hidden tab/save-data, and verified for cleanup and domain purity.
 
 ### Active
 
-- [ ] Build a SolidJS-based static portfolio site with strong SEO, fast loading, and accessible fallbacks.
-- [ ] Present Peter's profile as an agentic engineer focused on AI, Bitcoin, open source, decentralized tools, and experimental software.
-- [ ] Curate GitHub repositories instead of blindly mirroring every public repo, separating flagship work from prototypes, forks, playgrounds, and archived/noisy repos.
-- [ ] Feature current flagship projects such as OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, and selected creative or tooling experiments when they strengthen the narrative.
-- [ ] Use the current Bright Builds site as a gentle style guide for tone and motion, but do not preserve unfinished template content, placeholder work examples, or inaccurate experience entries.
-- [ ] Use SolidJS, static generation, and Mystic UI where it fits the design and dependency model.
-- [ ] Include playful but restrained reactive physics effects that support the portfolio rather than overpowering content or accessibility.
-- [ ] Surface OpenLinks as Peter's identity hub in a low-intrusion footer/about/contact placement with metadata support where clean.
-- [ ] Provide a contact/collaboration path that points visitors toward Peter's preferred identity and social links.
-- [ ] Make content data-driven enough that curated repos, tags, links, and project copy can evolve without rewriting page structure.
+- [ ] Add optional static GitHub metadata enrichment for curated records without overriding authored copy or introducing visitor-runtime GitHub dependency.
+- [ ] Prove the release is shippable with final accessibility, performance, SEO, token-safety, documentation, browser-flow, and deployment-readiness checks.
 
 ### Out of Scope
 
@@ -66,11 +62,11 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Primary audience is collaborators and technical peers | The site should explain what Peter builds and invite collaboration around open-source, AI, Bitcoin, and open systems work. | - Pending |
+| Primary audience is collaborators and technical peers | The site should explain what Peter builds and invite collaboration around open-source, AI, Bitcoin, and open systems work. | Phase 3 validated identity, current-focus, project, about, and contact surfaces. |
 | Curated showcase over raw GitHub mirror | Peter has many public repos, including forks, prototypes, repros, and playgrounds; unfiltered mirroring would weaken the portfolio. | Phase 2 validated a typed curated registry and no-runtime-GitHub guard. |
-| Playful restraint for motion | Physics should echo the Bright Builds feel while keeping the site fast, readable, and accessible. | - Pending |
-| SolidJS static site with Mystic UI where practical | User requested SolidJS, static generation, SEO, and reuse of owned Mystic UI components. | - Pending |
-| OpenLinks gets subtle identity placement | Repo-owner guidance requires OpenLinks identity presence on website profile/footer/metadata surfaces without displacing the portfolio brand. | - Pending |
+| Playful restraint for motion | Physics should echo the Bright Builds feel while keeping the site fast, readable, and accessible. | Phase 4 validated CSS-first visual polish plus a cleanup-safe UI-only reactive helper with accessibility fallbacks. |
+| SolidJS static site with Mystic UI where practical | User requested SolidJS, static generation, SEO, and reuse of owned Mystic UI components. | Phase 1 established the SolidStart/Tailwind/Mystic static foundation; Phase 3 and 4 verified generated static output. |
+| OpenLinks gets subtle identity placement | Repo-owner guidance requires OpenLinks identity presence on website profile/footer/metadata surfaces without displacing the portfolio brand. | Phase 3 and 4 preserve OpenLinks in footer/about/contact and metadata while keeping Bright Builds and project CTAs primary. |
 
 ## Evolution
 
@@ -93,4 +89,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-26 after Phase 2 completion*
+*Last updated: 2026-05-26 after Phase 4 completion*
