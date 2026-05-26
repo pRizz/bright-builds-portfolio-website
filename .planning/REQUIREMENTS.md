@@ -54,7 +54,7 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 - [x] **SEO-01**: Each indexable route has static, route-specific title, description, canonical URL, Open Graph basics, and Twitter card basics.
 - [x] **SEO-02**: The site emits or maintains `sitemap.xml`, `robots.txt`, favicon/touch/icon assets, and at least one useful social preview image.
 - [x] **SEO-03**: The site includes structured data for Peter as a `Person` and for flagship project detail surfaces where enough data exists.
-- [ ] **SEO-04**: Production build verification proves meaningful content and metadata exist in generated HTML before client hydration.
+- [x] **SEO-04**: Production build verification proves meaningful content and metadata exist in generated HTML before client hydration.
 - [x] **SEO-05**: OpenLinks appears as a visible identity link and, when cleanly supported, as `rel="me"` and/or JSON-LD `sameAs` metadata without becoming the primary portfolio brand.
 
 ### GitHub Data
@@ -142,7 +142,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-01 | Phase 3 | Complete |
 | SEO-02 | Phase 3 | Complete |
 | SEO-03 | Phase 3 | Complete |
-| SEO-04 | Phase 3 | Pending |
+| SEO-04 | Phase 3 | Complete |
 | SEO-05 | Phase 3 | Complete |
 | GH-01 | Phase 2 | Complete |
 | GH-02 | Phase 5 | Pending |

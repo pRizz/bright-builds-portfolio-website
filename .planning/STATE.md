@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-05-26T12:11:21.192Z"
+status: verifying
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-05-26T12:35:09.032Z"
 last_activity: 2026-05-26
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
-  completed_plans: 7
-  percent: 88
+  completed_plans: 8
+  percent: 100
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 
 Phase: 3 of 6 (portfolio surfaces & seo)
 Plan: 3 of 3 (03-03-PLAN.md next)
-Status: Ready to execute
-Last activity: 2026-05-26 -- Completed 03-02 plan
+Status: Phase complete — ready for verification
+Last activity: 2026-05-26
 
 Progress: [█████████░] 88%
 
@@ -58,6 +58,7 @@ Progress: [█████████░] 88%
 
 *Updated after each plan completion*
 | Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
+| Phase 03-portfolio-surfaces-seo P03 | 21min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,10 @@ Recent decisions affecting current work:
 - [Phase 03-portfolio-surfaces-seo]: Project details remain stable /projects#slug anchors; no blog routes, per-project routes, content collections, or runtime GitHub calls were added.
 - [Phase 03-portfolio-surfaces-seo]: OpenLinks stays low-intrusion in footer/about/contact and Person.sameAs metadata while Bright Builds remains the host brand.
 - [Phase 03-portfolio-surfaces-seo]: Writing and hidden/excluded distinctions derive from the curated registry; hidden/excluded records are represented only as an aggregate note/count.
+- [Phase 03-portfolio-surfaces-seo]: Sitemap and robots are checked in but generated from pure SEO helpers, with static verification failing on drift.
+- [Phase 03-portfolio-surfaces-seo]: Static icon and social PNG assets are checked in locally; no runtime image generation, image service, or remote asset dependency was added.
+- [Phase 03-portfolio-surfaces-seo]: Static output verification remains dependency-free and filesystem-only, including PNG IHDR dimension checks.
+- [Phase 03-portfolio-surfaces-seo]: Reduced-motion declarations use important only inside the media query because utility transition classes otherwise preserve nonessential motion.
 
 ### Roadmap Evolution
 
@@ -93,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T12:11:02.714Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-05-26T12:35:09.030Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None

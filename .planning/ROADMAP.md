@@ -92,7 +92,7 @@ Plans:
 Plans:
 - [x] 03-01-PLAN.md — Pure project story, current-focus, SEO, sitemap, robots, and JSON-LD helpers.
 - [x] 03-02-PLAN.md — Identity-first home, grouped project anchors, about themes, contact paths, and OpenLinks route surfaces.
-- [ ] 03-03-PLAN.md — Public SEO assets, static verification, aggregate build proof, and dark responsive smoke checks.
+- [x] 03-03-PLAN.md — Public SEO assets, static verification, aggregate build proof, and dark responsive smoke checks.
 
 ### Phase 4: Visual System & Motion
 
