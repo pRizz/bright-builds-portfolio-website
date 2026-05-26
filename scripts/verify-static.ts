@@ -1,8 +1,20 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { peterProfile } from "../src/domain/profile";
-import { homeProjects, visibleProjects } from "../src/domain/projects";
+import {
+  currentFocusProjects,
+  homeProjects,
+  projectAnchorHref,
+  visibleProjects,
+} from "../src/domain/projects";
 import { prerenderRoutes, routeByPath } from "../src/domain/routes";
+import {
+  metadataForRoute,
+  personJsonLd,
+  projectItemListJsonLd,
+  robotsTxt,
+  sitemapXml,
+} from "../src/domain/seo";
 
 type StaticRouteCheck = {
   route: string;
@@ -137,6 +149,49 @@ const outputHtmlFiles = htmlFiles(outputRoot);
 
 for (const check of expectedRoutes) {
   assertRouteHtml(outputRoot, check);
+  const html = readRouteHtml(outputRoot, check.route);
+  const route = routeByPath(check.route);
+
+  assertMetadataForRoute(route, html);
+  assertJsonLdContains(html, [
+    "Person",
+    peterProfile.name,
+    "https://github.com/pRizz",
+    "https://openlinks.us/",
+    JSON.stringify(personJsonLd()),
+  ]);
+
+  if (check.route === "/projects") {
+    assertJsonLdContains(html, [
+      "ItemList",
+      JSON.stringify(projectItemListJsonLd()),
+      ...visibleProjects().map(
+        (project) => `${peterProfile.canonicalOrigin}${projectAnchorHref(project)}`,
+      ),
+    ]);
+  }
+}
+
+for (const assetPath of [
+  "sitemap.xml",
+  "robots.txt",
+  "favicon.svg",
+  "icon-192.png",
+  "apple-touch-icon.png",
+  "social/bright-builds-og.png",
+]) {
+  assertOutputFile(outputRoot, assetPath);
+}
+
+assertPngDimensions(outputRoot, "social/bright-builds-og.png", 1200, 630);
+assertPngDimensions(outputRoot, "icon-192.png", 192, 192);
+assertPngDimensions(outputRoot, "apple-touch-icon.png", 180, 180);
+assertOutputTextEquals(outputRoot, "sitemap.xml", sitemapXml());
+assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
+
+for (const route of prerenderRoutes) {
+  const metadata = metadataForRoute(routeByPath(route));
+  console.log(`Checked metadata contract for ${metadata.canonical}.`);
 }
 
 for (const htmlPath of outputHtmlFiles) {
