@@ -1,6 +1,6 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
-import { featuredProjects, projectSeeds } from "../domain/projects";
+import { primaryProjectLink, visibleProjects } from "../domain/projects";
 import { routeByPath } from "../domain/routes";
 import { metadataForRoute } from "../domain/seo";
 
@@ -8,7 +8,7 @@ const route = routeByPath("/projects");
 const metadata = metadataForRoute(route);
 
 export default function Projects() {
-  const featured = featuredProjects();
+  const projects = visibleProjects();
 
   return (
     <>
@@ -23,38 +23,45 @@ export default function Projects() {
       </section>
 
       <section class="project-list">
-        <For each={featured}>
-          {(project) => (
-            <article class="project-card">
-              <div class="card-header">
-                <div>
-                  <h2 class="card-title">{project.name}</h2>
-                  <p class="card-meta">{project.repo}</p>
+        <For each={projects}>
+          {(project) => {
+            const primaryLink = primaryProjectLink(project);
+
+            return (
+              <article class="project-card">
+                <div class="card-header">
+                  <div>
+                    <h2 class="card-title">{project.name}</h2>
+                    <p class="card-meta">
+                      {project.role} / {project.status} / {project.maturity}
+                    </p>
+                  </div>
+                  <span class="tier-pill">{project.tier}</span>
                 </div>
-                <span class="tier-pill">{project.tier}</span>
-              </div>
-              <p class="card-copy">{project.summary}</p>
-              <ul class="tag-list">
-                <For each={project.themes}>{(theme) => <li class="chip">{theme}</li>}</For>
-              </ul>
-              <a
-                class="text-link mt-5 inline-flex text-sm"
-                href={project.href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Open repository
-              </a>
-            </article>
-          )}
+                <p class="card-copy">{project.oneLine}</p>
+                <ul class="tag-list">
+                  <For each={project.themes}>{(theme) => <li class="chip">{theme}</li>}</For>
+                  <For each={project.tags}>{(tag) => <li class="chip">{tag}</li>}</For>
+                </ul>
+                <a
+                  class="text-link mt-5 inline-flex text-sm"
+                  href={primaryLink.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {primaryLink.label}
+                </a>
+              </article>
+            );
+          }}
         </For>
       </section>
 
       <section class="notice-panel">
-        <h2 class="panel-title">Reviewed seed count</h2>
+        <h2 class="panel-title">Reviewed project count</h2>
         <p class="body-copy">
-          {projectSeeds.length} seed records exist in the Phase 1 registry. Full inclusion,
-          exclusion, and flagship curation rules land in Phase 2.
+          {projects.length} curated project stories are visible in the current index, with
+          supporting and lab work kept separate from home flagship placement.
         </p>
       </section>
     </>

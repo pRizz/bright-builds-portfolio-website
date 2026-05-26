@@ -1,7 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
 import { peterProfile } from "../domain/profile";
-import { featuredProjects } from "../domain/projects";
+import { homeProjects, primaryProjectLink } from "../domain/projects";
 import { routeByPath } from "../domain/routes";
 import { metadataForRoute, personJsonLd } from "../domain/seo";
 
@@ -10,7 +10,7 @@ const metadata = metadataForRoute(route);
 const jsonLd = personJsonLd();
 
 export default function Home() {
-  const projects = featuredProjects();
+  const projects = homeProjects();
 
   return (
     <>
@@ -46,10 +46,10 @@ export default function Home() {
       <section class="content-section">
         <div class="section-heading-row">
           <div>
-            <h2 class="section-title">Featured seeds</h2>
+            <h2 class="section-title">Featured project stories</h2>
             <p class="section-copy">
-              This shell starts with a small reviewed set. The next phase expands the registry and
-              keeps prototypes out of flagship placement unless they are intentionally promoted.
+              A curated home set with authored copy, curation reasons, maturity, status, and useful
+              links for each flagship placement.
             </p>
           </div>
           <a class="primary-action" href="/projects">
@@ -59,20 +59,25 @@ export default function Home() {
 
         <div class="card-grid">
           <For each={projects}>
-            {(project) => (
-              <article class="project-card">
-                <h3 class="card-title">{project.name}</h3>
-                <p class="card-copy">{project.summary}</p>
-                <a
-                  class="text-link mt-4 inline-flex text-sm"
-                  href={project.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {project.repo}
-                </a>
-              </article>
-            )}
+            {(project) => {
+              const primaryLink = primaryProjectLink(project);
+
+              return (
+                <article class="project-card">
+                  <h3 class="card-title">{project.name}</h3>
+                  <p class="card-meta">{project.role}</p>
+                  <p class="card-copy">{project.oneLine}</p>
+                  <a
+                    class="text-link mt-4 inline-flex text-sm"
+                    href={primaryLink.href}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {primaryLink.label}
+                  </a>
+                </article>
+              );
+            }}
           </For>
         </div>
       </section>
