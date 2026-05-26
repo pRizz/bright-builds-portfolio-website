@@ -62,15 +62,15 @@
   }
 
   .brand-link {
-    @apply font-semibold text-lg text-zinc-50 tracking-normal transition hover:text-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    @apply inline-flex min-h-11 items-center font-semibold text-lg text-zinc-50 tracking-normal transition hover:text-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
   }
 
   .nav-list {
-    @apply flex flex-wrap items-center gap-2;
+    @apply flex flex-wrap items-center gap-x-2 gap-y-3;
   }
 
   .nav-link {
-    @apply rounded-md px-3 py-2 text-sm text-zinc-300 transition hover:bg-emerald-300/10 hover:text-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    @apply inline-flex min-h-11 items-center rounded-md px-3 py-2 text-sm text-zinc-300 transition hover:bg-emerald-300/10 hover:text-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
   }
 
   .site-main {
