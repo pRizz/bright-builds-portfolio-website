@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { curatedProjects, type ProjectStory } from "./projects";
 import { validateProject, validateProjectRegistry } from "./project-validation";
+import { curatedProjects, type ProjectStory } from "./projects";
 
 describe("project curation validation", () => {
   it("rejects a home project with blank one-line copy", () => {
