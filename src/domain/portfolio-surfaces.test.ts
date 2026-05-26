@@ -26,13 +26,9 @@ describe("portfolio project surfaces", () => {
 
   it("returns the reviewed current-focus projects in display order", () => {
     // Arrange
-    const expectedSlugs = [
-      "openlinks",
-      "free-the-world",
-      "win3bitcoin",
-      "open-bitcoin",
-      "opencode-cloud",
-    ];
+    const expectedFocusSlugOrder =
+      "openlinks free-the-world win3bitcoin open-bitcoin opencode-cloud";
+    const expectedSlugs = expectedFocusSlugOrder.split(" ");
 
     // Act
     const projects = currentFocusProjects();

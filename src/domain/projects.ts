@@ -19,6 +19,12 @@ export type ProjectLink = {
   kind: ProjectLinkKind;
 };
 
+export type ProjectStoryDetails = {
+  problem: string;
+  approach: string;
+  whyItMatters: string;
+};
+
 export type ProjectOriginalWork =
   | { kind: "original" }
   | { kind: "promoted-fork"; promotionReason: string }
@@ -41,10 +47,19 @@ export type ProjectStory = {
   tags: readonly string[];
   role: string;
   oneLine: string;
+  story: ProjectStoryDetails;
   curationReason: string;
   originalWork: ProjectOriginalWork;
   links: readonly [ProjectLink, ...ProjectLink[]];
 };
+
+const currentFocusProjectSlugs = [
+  "openlinks",
+  "free-the-world",
+  "win3bitcoin",
+  "open-bitcoin",
+  "opencode-cloud",
+] as const;
 
 export type HomeProjectStory = ProjectStory & {
   placement: "home";
@@ -70,6 +85,13 @@ export const curatedProjects = [
     tags: ["identity", "open-web", "profiles"],
     role: "Creator",
     oneLine: "Portable identity and link presence for owned web surfaces.",
+    story: {
+      problem: "Personal identity is scattered across profiles, badges, and owned sites.",
+      approach:
+        "Package identity links and verification hints into a portable OpenLinks surface that other sites can reference.",
+      whyItMatters:
+        "It gives collaborators one stable place to verify Peter's current web presence.",
+    },
     curationReason: "Central identity project with a live public surface and verified source repo.",
     originalWork: { kind: "original" },
     links: [
@@ -94,6 +116,13 @@ export const curatedProjects = [
     role: "Creator",
     oneLine:
       "Free software and AI coordination work aimed at practical human agency beyond closed platforms.",
+    story: {
+      problem: "Useful AI coordination work often gets trapped inside closed workflows.",
+      approach:
+        "Explore open-source software and agent workflows that keep human agency at the center.",
+      whyItMatters:
+        "It frames Peter's AI work around practical freedom, not novelty for its own sake.",
+    },
     curationReason:
       "Represents Peter's open-source agency and AI coordination thesis with a live public surface.",
     originalWork: { kind: "original" },
@@ -119,6 +148,13 @@ export const curatedProjects = [
     role: "Creator",
     oneLine:
       "Browser-based Bitcoin mining experiment that turns open web hardware into a proof-of-work playground.",
+    story: {
+      problem: "Bitcoin proof-of-work is hard to make tangible in the browser.",
+      approach:
+        "Use an open web mining experiment to turn everyday hardware into a visible proof-of-work playground.",
+      whyItMatters:
+        "It connects Bitcoin mechanics with an inspectable web experiment people can try.",
+    },
     curationReason:
       "Combines Bitcoin, open web experimentation, and a live surface backed by the verified open-bitcoin-web-miner repo.",
     originalWork: { kind: "original" },
@@ -148,6 +184,13 @@ export const curatedProjects = [
     role: "Creator",
     oneLine:
       "Cloud-hostable opencode workbench for running agentic development tools outside a local-only setup.",
+    story: {
+      problem: "Agentic development tools are still too tied to one local machine.",
+      approach:
+        "Prototype a cloud-hostable workbench for running opencode-style workflows in reproducible environments.",
+      whyItMatters:
+        "It points toward practical agent infrastructure that teams can share and audit.",
+    },
     curationReason:
       "Shows practical developer tooling work around agentic engineering and reproducible cloud environments.",
     originalWork: { kind: "original" },
@@ -170,6 +213,13 @@ export const curatedProjects = [
     role: "Creator",
     oneLine:
       "Mathematical and Bitcoin-adjacent exploration of Zeckendorf representation as practical software.",
+    story: {
+      problem:
+        "Interesting Bitcoin-adjacent math ideas often stay disconnected from usable software.",
+      approach: "Turn Zeckendorf representation into a focused computational experiment.",
+      whyItMatters:
+        "It shows Peter's interest in mathematical tools that can become practical systems.",
+    },
     curationReason:
       "Connects Peter's Bitcoin/open-systems interests with a focused computational experiment.",
     originalWork: { kind: "original" },
@@ -192,6 +242,14 @@ export const curatedProjects = [
     role: "Maintainer",
     oneLine:
       "SolidJS component and styling primitives that anchor the portfolio's local design system.",
+    story: {
+      problem:
+        "SolidJS projects need design primitives that fit the local stack without React adapters.",
+      approach:
+        "Maintain a Peter-owned Mystic UI fork and consume it through a pinned SolidJS and Tailwind setup.",
+      whyItMatters:
+        "It keeps the portfolio interface stack aligned with the tools Peter actually uses.",
+    },
     curationReason:
       "Strategically important because Peter maintains the fork and this portfolio consumes it through a pinned commit.",
     originalWork: {
@@ -220,6 +278,14 @@ export const curatedProjects = [
     role: "Curator",
     oneLine:
       "Broader Open Bitcoin story connected to Win3Bitco.in until a separate source is verified.",
+    story: {
+      problem:
+        "The Open Bitcoin narrative needs a reviewed place without inventing a standalone source.",
+      approach:
+        "Connect it to the related Win3Bitco.in source and live site while keeping the role as curation.",
+      whyItMatters:
+        "It preserves the Bitcoin open-web thread without overstating the project's maturity.",
+    },
     curationReason:
       "Included to preserve the named narrative without inventing a pRizz/open-bitcoin repository.",
     originalWork: { kind: "unreviewed", reason: "No standalone source repo verified" },
@@ -248,6 +314,14 @@ export const curatedProjects = [
     tags: ["identity", "websites", "supporting-infrastructure"],
     role: "Creator",
     oneLine: "Supporting site experiments around OpenLinks identity surfaces.",
+    story: {
+      problem:
+        "OpenLinks identity surfaces need supporting site experiments around owned-web presence.",
+      approach:
+        "Use supporting site work to explore identity websites without promoting it as the flagship.",
+      whyItMatters:
+        "It keeps the OpenLinks infrastructure story visible while preserving flagship focus.",
+    },
     curationReason: "Reviewed as OpenLinks supporting infrastructure, not a flagship story.",
     originalWork: { kind: "original" },
     links: [{ label: "Source", href: "https://github.com/pRizz/open-links-sites", kind: "repo" }],
@@ -268,6 +342,13 @@ export const curatedProjects = [
     tags: ["bitcoin", "finance", "proposal"],
     role: "Creator",
     oneLine: "Bitcoin finance proposal experiment captured as reviewed lab work.",
+    story: {
+      problem: "Bitcoin finance proposal ideas need a reviewed lab slot instead of home placement.",
+      approach:
+        "Keep the proposal as creator-owned lab work connected to the Bitcoin finance theme.",
+      whyItMatters:
+        "It shows the Bitcoin thread while keeping speculative proposal work clearly labeled.",
+    },
     curationReason: "Relevant to the Bitcoin/open-systems thread but not home placement.",
     originalWork: { kind: "original" },
     links: [
@@ -290,6 +371,14 @@ export const curatedProjects = [
     tags: ["bitcoin", "addresses", "experiment"],
     role: "Creator",
     oneLine: "Bitcoin address-generation experiment kept as reviewed lab work.",
+    story: {
+      problem:
+        "Bitcoin address-generation experiments can be useful but should not crowd flagship work.",
+      approach:
+        "Present the vanity address finder as reviewed lab work with its source link and paused status.",
+      whyItMatters:
+        "It supports the Bitcoin experimentation thread without overstating active development.",
+    },
     curationReason:
       "Useful supporting Bitcoin experiment that should not displace flagship project stories.",
     originalWork: { kind: "original" },
@@ -323,11 +412,42 @@ export function visibleProjects(
   return sortProjects(projects.filter((project) => project.includeInProjectIndex));
 }
 
+export function currentFocusProjects(
+  projects: readonly ProjectStory[] = curatedProjects,
+): readonly ProjectStory[] {
+  return currentFocusProjectSlugs.flatMap((slug) => {
+    const maybeProject = projects.find((project) => project.slug === slug);
+    return maybeProject ? [maybeProject] : [];
+  });
+}
+
 export function projectsByPlacement(
   placement: ProjectPlacement,
   projects: readonly ProjectStory[] = curatedProjects,
 ): readonly ProjectStory[] {
   return sortProjects(projects.filter((project) => project.placement === placement));
+}
+
+export function projectAnchorHref(project: ProjectStory): string {
+  return `/projects#${project.slug}`;
+}
+
+export function projectLinkDisplayLabel(link: ProjectLink): string {
+  if (link.kind === "repo") {
+    return "Open source";
+  }
+
+  if (
+    link.label === "Live site" ||
+    link.label === "Live docs" ||
+    link.label === "Docs" ||
+    link.label === "Article" ||
+    link.label === "Related source"
+  ) {
+    return link.label;
+  }
+
+  return link.label;
 }
 
 export function primaryProjectLink(project: ProjectStory): ProjectLink {
