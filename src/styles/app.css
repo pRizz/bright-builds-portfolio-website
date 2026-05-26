@@ -181,6 +181,39 @@
     min-width: 0;
   }
 
+  .reactive-surface {
+    position: relative;
+    min-width: 0;
+    --pointer-x: 50%;
+    --pointer-y: 50%;
+  }
+
+  .reactive-surface::before {
+    position: absolute;
+    inset: -0.75rem;
+    z-index: 0;
+    content: "";
+    pointer-events: none;
+    border-radius: 8px;
+    background: radial-gradient(
+      circle at var(--pointer-x) var(--pointer-y),
+      rgba(103, 232, 249, 0.12),
+      transparent 34%
+    );
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+  }
+
+  .reactive-surface:hover::before,
+  .reactive-surface:focus-within::before {
+    opacity: 0.6;
+  }
+
+  .reactive-surface > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .section-heading-row {
     @apply flex flex-wrap items-end justify-between gap-3;
   }
@@ -258,6 +291,7 @@
 
   .visual-surface,
   .interactive-surface,
+  .reactive-card,
   .project-card,
   .surface-card,
   .story-card,
@@ -283,6 +317,7 @@
 
   .project-card,
   .surface-card,
+  .reactive-card,
   .story-card,
   .project-anchor-card,
   .empty-state {
@@ -308,6 +343,7 @@
   }
 
   .interactive-surface,
+  .reactive-card,
   .surface-link,
   .focus-row,
   .story-card,
@@ -324,6 +360,9 @@
 
   .interactive-surface:hover,
   .interactive-surface:focus-within,
+  .reactive-card:hover,
+  .reactive-card:focus-within,
+  .reactive-card:focus-visible,
   .surface-link:hover,
   .surface-link:focus-visible,
   .focus-row:hover,
@@ -339,6 +378,37 @@
     transform: translateY(-2px);
     border-color: rgba(110, 231, 183, 0.5);
     box-shadow: 0 20px 56px rgba(0, 0, 0, 0.3);
+  }
+
+  .reactive-card {
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .reactive-card::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    content: "";
+    pointer-events: none;
+    background: radial-gradient(
+      circle at var(--pointer-x) var(--pointer-y),
+      rgba(110, 231, 183, 0.13),
+      transparent 44%
+    );
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+  }
+
+  .reactive-card:hover::before,
+  .reactive-card:focus-within::before,
+  .reactive-card:focus-visible::before {
+    opacity: 0.72;
+  }
+
+  .reactive-card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .surface-link {
@@ -494,5 +564,18 @@
     transition-duration: 0.01ms;
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse), (max-width: 640px) {
+  .reactive-surface::before,
+  .reactive-card::before {
+    opacity: 0;
+  }
+
+  .reactive-card:hover,
+  .reactive-card:focus-within,
+  .reactive-card:focus-visible {
+    transform: none;
   }
 }
