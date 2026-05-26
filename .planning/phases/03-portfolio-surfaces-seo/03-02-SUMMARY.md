@@ -128,7 +128,7 @@ Additional verification fix:
 - **Verification:** Chrome DevTools 320px mobile check reported no overlaps, no horizontal overflow, and 44px nav link rectangles.
 - **Committed in:** `3210917`
 
----
+***
 
 **Total deviations:** 3 auto-fixed (2 bugs, 1 blocking issue)
 **Impact on plan:** All fixes were required for verification, static correctness, or the approved UI contract. No architecture or scope change.
@@ -171,6 +171,6 @@ Phase 03 plan 03 can add static SEO assets and extended verification against the
 - Verified task commits exist: `cb3e26c`, `7642577`, `437983c`, `3210917`.
 - Verified final static server session was stopped after browser checks.
 
----
+***
 *Phase: 03-portfolio-surfaces-seo*
 *Completed: 2026-05-26*

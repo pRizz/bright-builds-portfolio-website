@@ -146,7 +146,7 @@ expect(metadata.openGraph.image.url).toBe(
 expect(metadata.twitter.card).toBe("summary_large_image");
 ```
 
----
+***
 
 _Reviewed: 2026-05-26T12:42:07Z_
 _Reviewer: the agent (gsd-code-reviewer)_
