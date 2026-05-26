@@ -1,69 +1,210 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
-import { primaryProjectLink, visibleProjects } from "../domain/projects";
+import type { ProjectStory } from "../domain/projects";
+import {
+  curatedProjects,
+  projectLinkDisplayLabel,
+  projectsByPlacement,
+  visibleProjects,
+} from "../domain/projects";
 import { routeByPath } from "../domain/routes";
-import { metadataForRoute } from "../domain/seo";
+import {
+  jsonLdScriptContent,
+  metadataForRoute,
+  personJsonLd,
+  projectItemListJsonLd,
+  siteAssetLinks,
+} from "../domain/seo";
 
 const route = routeByPath("/projects");
 const metadata = metadataForRoute(route);
+const visibleProjectList = visibleProjects();
+const flagshipProjects = projectsByPlacement("home");
+const supportingProjects = projectsByPlacement("supporting");
+const labProjects = projectsByPlacement("lab");
+const writingProjects = visibleProjectList.filter(
+  (project) =>
+    project.links.some((link) => link.kind === "article") ||
+    project.tags.includes("writing") ||
+    project.themes.includes("Writing"),
+);
+const archiveProjects = projectsByPlacement("archive");
+const allCuratedProjects: readonly ProjectStory[] = curatedProjects;
+const hiddenExcludedProjects = allCuratedProjects.filter(
+  (project) =>
+    project.placement === "hidden" ||
+    project.tier === "excluded" ||
+    project.status === "hidden" ||
+    project.includeInProjectIndex === false,
+);
+const projectGroups = [
+  { label: "Flagship", projects: flagshipProjects, variant: "flagship" },
+  { label: "Supporting", projects: supportingProjects, variant: "compact" },
+  { label: "Lab / Prototype", projects: labProjects, variant: "compact" },
+  { label: "Writing", projects: writingProjects, variant: "compact" },
+  { label: "Archive", projects: archiveProjects, variant: "compact" },
+] as const;
+const personJsonLdValue = personJsonLd();
+const itemListJsonLdValue = projectItemListJsonLd(visibleProjectList);
 
 export default function Projects() {
-  const projects = visibleProjects();
-
   return (
     <>
       <Title>{metadata.title}</Title>
       <Meta name="description" content={metadata.description} />
       <HeadLink rel="canonical" href={metadata.canonical} />
+      <For each={siteAssetLinks}>
+        {(asset) => {
+          if (asset.rel === "apple-touch-icon") {
+            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
+          }
+
+          if ("sizes" in asset) {
+            return (
+              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
+            );
+          }
+
+          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
+        }}
+      </For>
+      <Meta property="og:title" content={metadata.openGraph.title} />
+      <Meta property="og:description" content={metadata.openGraph.description} />
+      <Meta property="og:url" content={metadata.openGraph.url} />
+      <Meta property="og:type" content={metadata.openGraph.type} />
+      <Meta property="og:image" content={metadata.openGraph.image.url} />
+      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
+      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
+      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
+      <Meta name="twitter:card" content={metadata.twitter.card} />
+      <Meta name="twitter:title" content={metadata.twitter.title} />
+      <Meta name="twitter:description" content={metadata.twitter.description} />
+      <Meta name="twitter:image" content={metadata.twitter.image.url} />
+      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
+      <script type="application/ld+json">{jsonLdScriptContent(itemListJsonLdValue)}</script>
 
       <section class="page-intro">
         <p class="eyebrow">Curated, not mirrored</p>
         <h1 class="page-title">{route.heading}</h1>
         <p class="lead">{route.staticCheckText}</p>
+        <div class="notice-panel">
+          <p class="body-copy">
+            Some reviewed repositories stay hidden or excluded from the public portfolio until they
+            have enough authored context.
+          </p>
+          <p class="story-label">
+            Hidden or excluded reviewed records: {hiddenExcludedProjects.length}
+          </p>
+        </div>
       </section>
 
-      <section class="project-list">
-        <For each={projects}>
-          {(project) => {
-            const primaryLink = primaryProjectLink(project);
-
-            return (
-              <article class="project-card">
-                <div class="card-header">
-                  <div>
-                    <h2 class="card-title">{project.name}</h2>
-                    <p class="card-meta">
-                      {project.role} / {project.status} / {project.maturity}
-                    </p>
-                  </div>
-                  <span class="tier-pill">{project.tier}</span>
-                </div>
-                <p class="card-copy">{project.oneLine}</p>
-                <ul class="tag-list">
-                  <For each={project.themes}>{(theme) => <li class="chip">{theme}</li>}</For>
-                  <For each={project.tags}>{(tag) => <li class="chip">{tag}</li>}</For>
-                </ul>
-                <a
-                  class="text-link mt-5 inline-flex text-sm"
-                  href={primaryLink.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {primaryLink.label}
-                </a>
-              </article>
-            );
-          }}
+      <div class="project-list">
+        <For each={projectGroups}>
+          {(group) => (
+            <ProjectSection label={group.label} projects={group.projects} variant={group.variant} />
+          )}
         </For>
-      </section>
-
-      <section class="notice-panel">
-        <h2 class="panel-title">Reviewed project count</h2>
-        <p class="body-copy">
-          {projects.length} curated project stories are visible in the current index, with
-          supporting and lab work kept separate from home flagship placement.
-        </p>
-      </section>
+      </div>
     </>
+  );
+}
+
+type ProjectSectionProps = {
+  label: string;
+  projects: readonly ProjectStory[];
+  variant: "flagship" | "compact";
+};
+
+function ProjectSection(props: ProjectSectionProps) {
+  const sectionId = `${props.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-projects`;
+
+  return (
+    <section class="project-section" aria-labelledby={sectionId}>
+      <div class="project-section-header">
+        <h2 id={sectionId} class="section-title">
+          {props.label}
+        </h2>
+        <span class="story-label">{props.projects.length} reviewed</span>
+      </div>
+
+      {props.projects.length > 0 ? (
+        <div class="project-section-grid">
+          <For each={props.projects}>
+            {(project) => <ProjectCard project={project} variant={props.variant} />}
+          </For>
+        </div>
+      ) : (
+        <div class="empty-state">
+          <h3 class="card-title">No reviewed projects in this group yet</h3>
+          <p class="body-copy">
+            This section only shows entries from the curated registry after they have enough
+            authored context.
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+type ProjectCardProps = {
+  project: ProjectStory;
+  variant: "flagship" | "compact";
+};
+
+function ProjectCard(props: ProjectCardProps) {
+  return (
+    <article id={props.project.slug} class="project-anchor-card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">
+            <a class="project-anchor-link" href={`/projects#${props.project.slug}`}>
+              {props.project.name}
+            </a>
+          </h3>
+          <p class="card-meta">{props.project.role}</p>
+        </div>
+        <span class="tier-pill">
+          {props.project.status} / {props.project.maturity}
+        </span>
+      </div>
+
+      <p class="card-copy">{props.project.oneLine}</p>
+
+      {props.variant === "flagship" ? (
+        <div class="story-stack">
+          <p>
+            <span class="story-label">Problem</span>
+            {props.project.story.problem}
+          </p>
+          <p>
+            <span class="story-label">Approach</span>
+            {props.project.story.approach}
+          </p>
+          <p>
+            <span class="story-label">Why it matters</span>
+            {props.project.story.whyItMatters}
+          </p>
+        </div>
+      ) : null}
+
+      <ul class="label-row" aria-label={`${props.project.name} labels`}>
+        <li class="chip">{props.project.tier}</li>
+        <li class="chip">{props.project.placement}</li>
+        <For each={[...props.project.themes, ...props.project.tags]}>
+          {(label) => <li class="chip">{label}</li>}
+        </For>
+      </ul>
+
+      <div class="link-list">
+        <For each={props.project.links}>
+          {(link) => (
+            <a class="text-link" href={link.href} rel="noopener noreferrer" target="_blank">
+              {projectLinkDisplayLabel(link)}
+            </a>
+          )}
+        </For>
+      </div>
+    </article>
   );
 }
