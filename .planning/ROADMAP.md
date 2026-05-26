@@ -86,8 +86,13 @@ Plans:
 1. Visitor can open meaningful project URLs or stable anchors with headings, metadata, links, related context, and a concise current-focus surface for active bets when content is ready.
 1. Developer can inspect generated HTML and see route-specific titles, descriptions, canonical URLs, Open Graph/Twitter basics, JSON-LD, sitemap/robots, icon assets, and social preview support before client hydration.
 
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
+
+Plans:
+- [ ] 03-01-PLAN.md — Pure project story, current-focus, SEO, sitemap, robots, and JSON-LD helpers.
+- [ ] 03-02-PLAN.md — Identity-first home, grouped project anchors, about themes, contact paths, and OpenLinks route surfaces.
+- [ ] 03-03-PLAN.md — Public SEO assets, static verification, aggregate build proof, and dark responsive smoke checks.
 
 ### Phase 4: Visual System & Motion
 
