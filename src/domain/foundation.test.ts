@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { peterProfile, profileLinksByKind, profileSameAsLinks } from "./profile";
-import { featuredProjects, projectSeeds } from "./projects";
+import { curatedProjects, featuredProjects, homeProjects } from "./projects";
 import { navigationRoutes, prerenderRoutes, routeByPath } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
 
@@ -33,17 +33,77 @@ describe("profile identity", () => {
   });
 });
 
-describe("project seeds", () => {
-  it("selects only explicitly featured curated projects", () => {
+describe("curated project stories", () => {
+  it("selects the current home project stories in display order", () => {
     // Arrange
-    const allProjects = projectSeeds;
+    const expectedSlugs = [
+      "openlinks",
+      "free-the-world",
+      "win3bitcoin",
+      "opencode-cloud",
+      "zeckendorf",
+      "mystic-ui",
+    ];
+
+    // Act
+    const projects = homeProjects();
+
+    // Assert
+    expect(projects.map((project) => project.slug)).toEqual(expectedSlugs);
+  });
+
+  it("contains the reviewed Phase 2 project story set", () => {
+    // Arrange
+    const expectedSlugs = [
+      "openlinks",
+      "free-the-world",
+      "win3bitcoin",
+      "open-bitcoin",
+      "opencode-cloud",
+      "zeckendorf",
+      "mystic-ui",
+      "open-links-sites",
+      "bitcoin-bond-proposal",
+      "btc-vanity-address-finder",
+    ];
+
+    // Act
+    const slugs = curatedProjects.map((project) => project.slug);
+
+    // Assert
+    expect(slugs).toEqual(expect.arrayContaining(expectedSlugs));
+  });
+
+  it("uses reviewed source links instead of stale or invented repository links", () => {
+    // Arrange
+    const links = curatedProjects.flatMap((project) => project.links);
+
+    // Act
+    const hrefs = links.map((link) => link.href);
+
+    // Assert
+    expect(hrefs.some((href) => href.includes("pRizz/openlinks"))).toBe(false);
+    expect(hrefs.some((href) => href.includes("pRizz/win3bitcoin"))).toBe(false);
+    expect(
+      hrefs.some(
+        (href) =>
+          href === "https://github.com/pRizz/open-bitcoin" ||
+          href.startsWith("https://github.com/pRizz/open-bitcoin/"),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps featuredProjects compatible with the home selector", () => {
+    // Arrange
+    const allProjects = curatedProjects;
 
     // Act
     const projects = featuredProjects(allProjects);
 
     // Assert
-    expect(projects.map((project) => project.slug)).toEqual(["mystic-ui", "openlinks"]);
-    expect(projects.every((project) => project.featured && project.tier === "featured")).toBe(true);
+    expect(projects).toEqual(homeProjects(allProjects));
+    expect(projects.every((project) => project.placement === "home")).toBe(true);
+    expect(projects.every((project) => project.tier === "flagship")).toBe(true);
   });
 });
 
