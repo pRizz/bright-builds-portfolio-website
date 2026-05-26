@@ -17,8 +17,9 @@
     "generate:static-metadata": "bun run scripts/generate-static-metadata.ts",
     "verify:curation": "bun run scripts/verify-curation.ts",
     "verify:no-github-runtime": "bun run scripts/verify-no-github-runtime.ts",
+    "verify:visual-system": "bun run scripts/verify-visual-system.ts",
     "verify:static": "bun run scripts/verify-static.ts",
-    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run build && bun run verify:static"
+    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:visual-system && bun run build && bun run verify:static"
   },
   "dependencies": {
     "@solidjs/meta": "0.29.4",
