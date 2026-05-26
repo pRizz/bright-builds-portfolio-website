@@ -441,17 +441,17 @@ Checks: no console errors, no horizontal overflow, no text overlap, focus rings 
 | A2 | Per-frame layout reads plus writes are a practical jank risk for pointer effects. [ASSUMED] | Common Pitfalls | Planner may need to add a browser performance smoke check if the effect becomes more complex. |
 | A3 | There is no Phase 4 need for a direct low-power browser API; low-power support should come from conservative default work, reduced-motion/coarse-pointer/small-viewport/hidden-tab gates, and avoiding persistent ambient loops. [ASSUMED] | Summary / Architecture | If a reliable project-supported low-power signal is later required, the helper API should add that gate explicitly. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should Phase 4 add Playwright now or defer it to Phase 5?** [VERIFIED: package.json; VERIFIED: .planning/ROADMAP.md]
    - What we know: `@playwright/test` is not installed, broad browser/accessibility release checks are scoped to Phase 5, and Phase 4 UI spec allows focused browser/manual evidence. [VERIFIED: package.json; VERIFIED: command -v playwright; VERIFIED: .planning/ROADMAP.md; VERIFIED: 04-UI-SPEC.md]
    - What's unclear: Whether manual Browser evidence will be accepted as durable enough for Phase 4 verification. [ASSUMED]
-   - Recommendation: Do not add Playwright in Phase 4 unless manual verification becomes unreliable; keep Phase 4 on Browser/manual evidence plus existing `bun run verify`. [VERIFIED: 04-UI-SPEC.md; VERIFIED: package.json]
+   - RESOLVED: Do not add Playwright in Phase 4 unless Browser/manual verification becomes unavailable or unreliable during execution; keep Phase 4 on Browser/manual evidence plus existing `bun run verify`. [VERIFIED: 04-UI-SPEC.md; VERIFIED: package.json]
 
 2. **Should the pointer-reactive helper be component-based or CSS-only?** [VERIFIED: 04-UI-SPEC.md]
    - What we know: CSS hover/focus lift satisfies the minimum restrained motion contract, while pointer-follow highlights require DOM listeners and cleanup. [VERIFIED: 04-UI-SPEC.md; CITED: https://docs.solidjs.com/reference/lifecycle/on-cleanup]
    - What's unclear: Whether the visual design plan needs pointer-follow to feel sufficiently Bright Builds-inspired. [ASSUMED]
-   - Recommendation: Plan CSS hover/focus polish first, then add one `ReactiveSurface` only if the visual pass still lacks a subtle reactive signal. [VERIFIED: 04-CONTEXT.md; VERIFIED: 04-UI-SPEC.md]
+   - RESOLVED: Plan CSS hover/focus polish first, then add one `ReactiveSurface` only if the visual pass still lacks a subtle reactive signal; the approved Phase 04 plans include that single UI-only helper with cleanup gates. [VERIFIED: 04-CONTEXT.md; VERIFIED: 04-UI-SPEC.md; VERIFIED: .planning/phases/04-visual-system-motion/04-02-PLAN.md]
 
 ## Environment Availability
 
