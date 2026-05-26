@@ -76,10 +76,10 @@ describe("curated project stories", () => {
 
   it("uses reviewed source links instead of stale or invented repository links", () => {
     // Arrange
-    const links = curatedProjects.flatMap((project) => project.links);
-
-    // Act
-    const hrefs = links.map((link) => link.href);
+    const hrefs = curatedProjects.reduce<string[]>((allHrefs, project) => {
+      allHrefs.push(...project.links.map((link) => link.href));
+      return allHrefs;
+    }, []);
 
     // Assert
     expect(hrefs.some((href) => href.includes("pRizz/openlinks"))).toBe(false);
