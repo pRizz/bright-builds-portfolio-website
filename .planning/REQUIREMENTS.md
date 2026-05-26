@@ -27,11 +27,11 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### Project Curation
 
-- [ ] **CUR-01**: Developer can define curated projects in a typed local registry with explicit curation tier, source type, maturity, inclusion flags, display order, themes, tags, role, links, and authored one-line copy.
-- [ ] **CUR-02**: The registry prevents or flags invalid flagship states, including home-page projects without authored copy, curation reason, original-work status, useful links, or maturity/status information.
-- [ ] **CUR-03**: Forks, repros, playgrounds, generated/profile/support repos, and unreviewed prototypes are excluded from flagship/home placement by default unless explicitly promoted with a documented reason.
+- [x] **CUR-01**: Developer can define curated projects in a typed local registry with explicit curation tier, source type, maturity, inclusion flags, display order, themes, tags, role, links, and authored one-line copy.
+- [x] **CUR-02**: The registry prevents or flags invalid flagship states, including home-page projects without authored copy, curation reason, original-work status, useful links, or maturity/status information.
+- [x] **CUR-03**: Forks, repros, playgrounds, generated/profile/support repos, and unreviewed prototypes are excluded from flagship/home placement by default unless explicitly promoted with a documented reason.
 - [ ] **CUR-04**: Visitor can distinguish flagship, supporting, experiment/lab, writing, archived, and excluded/project-hidden work through clear data-driven labels or placement.
-- [ ] **CUR-05**: Developer can maintain an initial curated set that reviews OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
+- [x] **CUR-05**: Developer can maintain an initial curated set that reviews OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
 
 ### Portfolio Experience
 
@@ -59,7 +59,7 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### GitHub Data
 
-- [ ] **GH-01**: The site does not require live browser/runtime GitHub API calls to render complete portfolio content.
+- [x] **GH-01**: The site does not require live browser/runtime GitHub API calls to render complete portfolio content.
 - [ ] **GH-02**: Developer can optionally refresh GitHub metadata for curated repos at build/manual-sync time, with pagination, token-safe environment handling, and static snapshot fallback.
 - [ ] **GH-03**: GitHub metadata such as stars, forks, language, topics, pushed date, archived/fork/template flags, and homepage URLs enriches curated records without overriding manual copy or curation decisions.
 - [ ] **GH-04**: Build/release verification checks that frontend bundles do not expose GitHub tokens or `VITE_*` token names.
@@ -124,11 +124,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-02 | Phase 3 | Pending |
 | PROF-03 | Phase 3 | Pending |
 | PROF-04 | Phase 3 | Pending |
-| CUR-01 | Phase 2 | Pending |
-| CUR-02 | Phase 2 | Pending |
-| CUR-03 | Phase 2 | Pending |
+| CUR-01 | Phase 2 | Complete |
+| CUR-02 | Phase 2 | Complete |
+| CUR-03 | Phase 2 | Complete |
 | CUR-04 | Phase 3 | Pending |
-| CUR-05 | Phase 2 | Pending |
+| CUR-05 | Phase 2 | Complete |
 | EXP-01 | Phase 3 | Pending |
 | EXP-02 | Phase 3 | Pending |
 | EXP-03 | Phase 3 | Pending |
@@ -144,7 +144,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-03 | Phase 3 | Pending |
 | SEO-04 | Phase 3 | Pending |
 | SEO-05 | Phase 3 | Pending |
-| GH-01 | Phase 2 | Pending |
+| GH-01 | Phase 2 | Complete |
 | GH-02 | Phase 5 | Pending |
 | GH-03 | Phase 5 | Pending |
 | GH-04 | Phase 5 | Pending |

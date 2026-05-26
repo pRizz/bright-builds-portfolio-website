@@ -14,7 +14,8 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 ### Validated
 
-(None yet - ship to validate)
+- [x] [Phase 2] Project content now has an authoritative typed curated registry for flagship, supporting, lab, concept, hidden, and archived work, with authored copy, curation reasons, reviewed links, and selector helpers.
+- [x] [Phase 2] Runtime-critical portfolio content renders from checked-in data, and aggregate verification blocks curation errors plus visitor-path GitHub API or token usage before build.
 
 ### Active
 
@@ -66,7 +67,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Primary audience is collaborators and technical peers | The site should explain what Peter builds and invite collaboration around open-source, AI, Bitcoin, and open systems work. | - Pending |
-| Curated showcase over raw GitHub mirror | Peter has many public repos, including forks, prototypes, repros, and playgrounds; unfiltered mirroring would weaken the portfolio. | - Pending |
+| Curated showcase over raw GitHub mirror | Peter has many public repos, including forks, prototypes, repros, and playgrounds; unfiltered mirroring would weaken the portfolio. | Phase 2 validated a typed curated registry and no-runtime-GitHub guard. |
 | Playful restraint for motion | Physics should echo the Bright Builds feel while keeping the site fast, readable, and accessible. | - Pending |
 | SolidJS static site with Mystic UI where practical | User requested SolidJS, static generation, SEO, and reuse of owned Mystic UI components. | - Pending |
 | OpenLinks gets subtle identity placement | Repo-owner guidance requires OpenLinks identity presence on website profile/footer/metadata surfaces without displacing the portfolio brand. | - Pending |
@@ -92,4 +93,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-24 after initialization*
+*Last updated: 2026-05-26 after Phase 2 completion*

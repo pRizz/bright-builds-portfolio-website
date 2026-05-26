@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Static App Foundation & UI Shell** - Establish the SolidJS static-first app, tooling scripts, Tailwind/Mystic setup, and pure-module seams. (completed 2026-05-24)
 - [x] **Phase 01.1: Dark-Primary Visual Rule and Shell Refactor** (INSERTED) - Make dark-primary UI a repo rule and refactor the current shell before content-model work. (completed 2026-05-25)
-- [ ] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror.
+- [x] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror. (completed 2026-05-26)
 - [ ] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry.
 - [ ] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates.
 - [ ] **Phase 5: GitHub Enrichment & Release Verification** - Add optional static GitHub metadata enrichment and prove the release is shippable.
@@ -67,11 +67,11 @@ Plans:
 1. Developer can maintain an initial curated set reviewing OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
 1. Visitor-critical portfolio content can render from checked-in registry or static snapshot data without any live browser GitHub API call.
 
-**Plans**: 2 plans
+**Plans**: 2/2 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md - Curated project-story registry, validation, tests, and minimal route consumers.
-- [ ] 02-02-PLAN.md - Curation/no-runtime-GitHub verification scripts and static HTML curated-content proof.
+- [x] 02-01-PLAN.md - Curated project-story registry, validation, tests, and minimal route consumers.
+- [x] 02-02-PLAN.md - Curation/no-runtime-GitHub verification scripts and static HTML curated-content proof.
 
 ### Phase 3: Portfolio Surfaces & SEO
 
@@ -144,7 +144,7 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 |-------|----------------|--------|-----------|
 | 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
-| 2. Curated Content Model | 0/2 | Not started | - |
+| 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
 | 3. Portfolio Surfaces & SEO | 0/TBD | Not started | - |
 | 4. Visual System & Motion | 0/TBD | Not started | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |
