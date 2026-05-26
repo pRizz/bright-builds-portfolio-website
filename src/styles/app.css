@@ -299,11 +299,26 @@
   }
 
   .theme-grid {
-    @apply mt-4 grid gap-3 sm:grid-cols-2;
+    @apply mt-4 grid list-none gap-3 p-0 sm:grid-cols-2;
   }
 
   .theme-item {
     @apply rounded-lg border border-white/10 bg-zinc-900/75 px-4 py-3 text-zinc-300 shadow-xl shadow-black/20;
+  }
+
+  .theme-card {
+    @apply border border-white/10 bg-zinc-900/75 p-5 text-zinc-300 shadow-xl shadow-black/20 ring-1 ring-emerald-300/5;
+    border-radius: 8px;
+  }
+
+  .theme-title {
+    @apply font-semibold text-zinc-50;
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .profile-link-row {
+    @apply mt-5 flex flex-wrap gap-3;
   }
 
   .notice-panel {
@@ -314,12 +329,23 @@
     @apply mt-10 grid gap-4 sm:grid-cols-3;
   }
 
+  .contact-card {
+    @apply grid min-h-11 gap-2;
+  }
+
+  .contact-copy {
+    @apply mt-5 max-w-3xl text-zinc-300;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
   .contact-label {
     @apply block font-semibold text-zinc-50;
   }
 
   .contact-url {
     @apply mt-2 block break-words text-sm text-zinc-400;
+    overflow-wrap: anywhere;
   }
 }
 
