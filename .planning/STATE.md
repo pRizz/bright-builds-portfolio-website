@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-05-26T12:35:09.032Z"
+status: ready_for_next_phase
+stopped_at: Phase 03 verified and completed
+last_updated: "2026-05-26T13:02:09.489Z"
 last_activity: 2026-05-26
 progress:
   total_phases: 6
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-26)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 3: Portfolio Surfaces & SEO
+**Current focus:** Phase 4: Visual System & Motion
 
 ## Current Position
 
-Phase: 3 of 6 (portfolio surfaces & seo)
-Plan: 3 of 3 (03-03-PLAN.md next)
-Status: Phase complete — ready for verification
+Phase: 4 of 6 (visual system & motion)
+Plan: Not started
+Status: Phase 03 verified and complete — ready for Phase 4 planning
 Last activity: 2026-05-26
 
 Progress: [█████████░] 88%
@@ -36,9 +36,9 @@ Progress: [█████████░] 88%
 
 **Velocity:**
 
-- Total plans completed: 6
-- Average duration: 8min for Phase 03 plan 01
-- Total execution time: 0.1 hours
+- Total plans completed: 8
+- Average duration: 15min for Phase 03 plans
+- Total execution time: 0.8 hours
 
 **By Phase:**
 
@@ -47,14 +47,14 @@ Progress: [█████████░] 88%
 | 1. Static App Foundation & UI Shell | 2/2 | 0.0h | - |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | 0.0h | - |
 | 2. Curated Content Model | 2/2 | 0.0h | - |
-| 3. Portfolio Surfaces & SEO | 1/3 | 0.1h | 8min |
+| 3. Portfolio Surfaces & SEO | 3/3 | 0.8h | 15min |
 | 4. Visual System & Motion | 0/TBD | 0.0h | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | 0.0h | - |
 
 **Recent Trend:**
 
-- Last 5 plans: Phase 01.1 plan 01 completed; Phase 2 plans 02-01 and 02-02 completed; Phase 3 plan 03-01 completed
-- Trend: Static foundation, dark-primary shell, curated content model, and pure Phase 3 story/SEO contracts are complete; ready for route surface rendering
+- Last 5 plans: Phase 2 plans 02-01 and 02-02 completed; Phase 3 plans 03-01, 03-02, and 03-03 completed
+- Trend: Static foundation, dark-primary shell, curated content model, and Phase 3 portfolio/SEO surfaces are complete; ready for visual system and motion work
 
 *Updated after each plan completion*
 | Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
@@ -80,7 +80,7 @@ Recent decisions affecting current work:
 - [Phase 03-portfolio-surfaces-seo]: Sitemap and robots are checked in but generated from pure SEO helpers, with static verification failing on drift.
 - [Phase 03-portfolio-surfaces-seo]: Static icon and social PNG assets are checked in locally; no runtime image generation, image service, or remote asset dependency was added.
 - [Phase 03-portfolio-surfaces-seo]: Static output verification remains dependency-free and filesystem-only, including PNG IHDR dimension checks.
-- [Phase 03-portfolio-surfaces-seo]: Reduced-motion declarations use important only inside the media query because utility transition classes otherwise preserve nonessential motion.
+- [Phase 03-portfolio-surfaces-seo]: Reduced-motion declarations use higher-specificity :root selectors so utility transition classes cannot preserve nonessential motion.
 
 ### Roadmap Evolution
 
@@ -98,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T12:35:09.030Z
-Stopped at: Completed 03-03-PLAN.md
+Last session: 2026-05-26T13:02:09.489Z
+Stopped at: Phase 03 verified and completed
 Resume file: None

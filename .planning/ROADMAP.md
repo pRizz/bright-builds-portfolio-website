@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Static App Foundation & UI Shell** - Establish the SolidJS static-first app, tooling scripts, Tailwind/Mystic setup, and pure-module seams. (completed 2026-05-24)
 - [x] **Phase 01.1: Dark-Primary Visual Rule and Shell Refactor** (INSERTED) - Make dark-primary UI a repo rule and refactor the current shell before content-model work. (completed 2026-05-25)
 - [x] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror. (completed 2026-05-26)
-- [ ] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry.
+- [x] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry. (completed 2026-05-26)
 - [ ] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates.
 - [ ] **Phase 5: GitHub Enrichment & Release Verification** - Add optional static GitHub metadata enrichment and prove the release is shippable.
 
@@ -86,7 +86,7 @@ Plans:
 1. Visitor can open meaningful project URLs or stable anchors with headings, metadata, links, related context, and a concise current-focus surface for active bets when content is ready.
 1. Developer can inspect generated HTML and see route-specific titles, descriptions, canonical URLs, Open Graph/Twitter basics, JSON-LD, sitemap/robots, icon assets, and social preview support before client hydration.
 
-**Plans**: 3 plans
+**Plans**: 3/3 plans complete
 **UI hint**: yes
 
 Plans:
@@ -150,6 +150,6 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 1. Static App Foundation & UI Shell | 2/2 | Complete | 2026-05-24 |
 | 01.1. Dark-Primary Visual Rule and Shell Refactor | 1/1 | Complete | 2026-05-25 |
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
-| 3. Portfolio Surfaces & SEO | 1/3 | In Progress | - |
+| 3. Portfolio Surfaces & SEO | 3/3 | Complete | 2026-05-26 |
 | 4. Visual System & Motion | 0/TBD | Not started | - |
 | 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |
