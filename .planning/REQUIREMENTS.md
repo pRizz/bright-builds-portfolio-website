@@ -20,24 +20,24 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 
 ### Profile and Narrative
 
-- [ ] **PROF-01**: Visitor can immediately identify Peter Ryszkiewicz / pRizz, the Bright Builds context, and the portfolio's focus on AI, Bitcoin, open systems, developer tooling, and practical experiments.
-- [ ] **PROF-02**: Visitor can read an about/themes section that connects Peter's work across agentic engineering, open source, Bitcoin/decentralized systems, web tooling, and creative experiments.
-- [ ] **PROF-03**: Visitor can find current collaboration/contact paths, including GitHub and a low-intrusion OpenLinks identity hub placement.
-- [ ] **PROF-04**: Visitor does not see unfinished template residue, fake case studies, generic skill bars, or inaccurate placeholder experience/content from the current Bright Builds site.
+- [x] **PROF-01**: Visitor can immediately identify Peter Ryszkiewicz / pRizz, the Bright Builds context, and the portfolio's focus on AI, Bitcoin, open systems, developer tooling, and practical experiments.
+- [x] **PROF-02**: Visitor can read an about/themes section that connects Peter's work across agentic engineering, open source, Bitcoin/decentralized systems, web tooling, and creative experiments.
+- [x] **PROF-03**: Visitor can find current collaboration/contact paths, including GitHub and a low-intrusion OpenLinks identity hub placement.
+- [x] **PROF-04**: Visitor does not see unfinished template residue, fake case studies, generic skill bars, or inaccurate placeholder experience/content from the current Bright Builds site.
 
 ### Project Curation
 
 - [x] **CUR-01**: Developer can define curated projects in a typed local registry with explicit curation tier, source type, maturity, inclusion flags, display order, themes, tags, role, links, and authored one-line copy.
 - [x] **CUR-02**: The registry prevents or flags invalid flagship states, including home-page projects without authored copy, curation reason, original-work status, useful links, or maturity/status information.
 - [x] **CUR-03**: Forks, repros, playgrounds, generated/profile/support repos, and unreviewed prototypes are excluded from flagship/home placement by default unless explicitly promoted with a documented reason.
-- [ ] **CUR-04**: Visitor can distinguish flagship, supporting, experiment/lab, writing, archived, and excluded/project-hidden work through clear data-driven labels or placement.
+- [x] **CUR-04**: Visitor can distinguish flagship, supporting, experiment/lab, writing, archived, and excluded/project-hidden work through clear data-driven labels or placement.
 - [x] **CUR-05**: Developer can maintain an initial curated set that reviews OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, opencode-cloud, Zeckendorf, Mystic UI, and selected supporting experiments without surfacing all public GitHub repos.
 
 ### Portfolio Experience
 
 - [x] **EXP-01**: Visitor can browse 4-6 flagship project presentations with manually written problem, approach, role, status, key links, and why-it-matters copy.
-- [ ] **EXP-02**: Visitor can browse a project index or equivalent project surface that separates flagship/supporting work from lab/prototype/archive items.
-- [ ] **EXP-03**: Visitor can open project detail surfaces or stable project anchors with meaningful URLs, headings, metadata, links, and related project/writing context.
+- [x] **EXP-02**: Visitor can browse a project index or equivalent project surface that separates flagship/supporting work from lab/prototype/archive items.
+- [x] **EXP-03**: Visitor can open project detail surfaces or stable project anchors with meaningful URLs, headings, metadata, links, and related project/writing context.
 - [x] **EXP-04**: Visitor can discover a concise "now building" or current-focus surface for active bets such as OpenLinks, Free The World, Win3Bitco.in / Open Bitcoin Web Miner, Open Bitcoin, and opencode-cloud when content is ready.
 - [ ] **EXP-05**: Visitor can navigate the site on desktop and mobile without text overlap, layout jumps, or hover-only access to important content.
 
@@ -120,18 +120,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
 | DARK-01 | Phase 01.1 | Complete |
-| PROF-01 | Phase 3 | Pending |
-| PROF-02 | Phase 3 | Pending |
-| PROF-03 | Phase 3 | Pending |
-| PROF-04 | Phase 3 | Pending |
+| PROF-01 | Phase 3 | Complete |
+| PROF-02 | Phase 3 | Complete |
+| PROF-03 | Phase 3 | Complete |
+| PROF-04 | Phase 3 | Complete |
 | CUR-01 | Phase 2 | Complete |
 | CUR-02 | Phase 2 | Complete |
 | CUR-03 | Phase 2 | Complete |
-| CUR-04 | Phase 3 | Pending |
+| CUR-04 | Phase 3 | Complete |
 | CUR-05 | Phase 2 | Complete |
 | EXP-01 | Phase 3 | Complete |
-| EXP-02 | Phase 3 | Pending |
-| EXP-03 | Phase 3 | Pending |
+| EXP-02 | Phase 3 | Complete |
+| EXP-03 | Phase 3 | Complete |
 | EXP-04 | Phase 3 | Complete |
 | EXP-05 | Phase 4 | Pending |
 | MOTION-01 | Phase 4 | Pending |

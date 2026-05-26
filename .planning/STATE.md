@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-05-26T11:48:15.977Z"
-last_activity: 2026-05-26 -- Completed 03-01 plan
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-05-26T12:11:21.192Z"
+last_activity: 2026-05-26
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 8
-  completed_plans: 6
-  percent: 75
+  completed_plans: 7
+  percent: 88
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 3 of 6 (portfolio surfaces & seo)
-Plan: 2 of 3 (03-02-PLAN.md next)
+Plan: 3 of 3 (03-03-PLAN.md next)
 Status: Ready to execute
-Last activity: 2026-05-26 -- Completed 03-01 plan
+Last activity: 2026-05-26 -- Completed 03-02 plan
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [████████░░] 75%
 - Trend: Static foundation, dark-primary shell, curated content model, and pure Phase 3 story/SEO contracts are complete; ready for route surface rendering
 
 *Updated after each plan completion*
+| Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 03-portfolio-surfaces-seo]: Phase 3 portfolio story and SEO contracts remain pure TypeScript domain helpers with no Solid, DOM, filesystem, network, or GitHub runtime dependency.
 - [Phase 03-portfolio-surfaces-seo]: OpenLinks identity metadata derives from profileSameAsLinks so OpenLinks remains a sameAs identity hub beside GitHub, not the primary portfolio brand.
 - [Phase 03-portfolio-surfaces-seo]: Project deep links use stable /projects#slug anchors until richer per-project routes and social images are intentionally added later.
+- [Phase 03-portfolio-surfaces-seo]: Project details remain stable /projects#slug anchors; no blog routes, per-project routes, content collections, or runtime GitHub calls were added.
+- [Phase 03-portfolio-surfaces-seo]: OpenLinks stays low-intrusion in footer/about/contact and Person.sameAs metadata while Bright Builds remains the host brand.
+- [Phase 03-portfolio-surfaces-seo]: Writing and hidden/excluded distinctions derive from the curated registry; hidden/excluded records are represented only as an aggregate note/count.
 
 ### Roadmap Evolution
 
@@ -89,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T11:48:15.975Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-05-26T12:11:02.714Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
