@@ -1,5 +1,6 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
+import { ReactiveSurface } from "../components/ReactiveSurface";
 import type { ProjectStory } from "../domain/projects";
 import {
   curatedProjects,
@@ -120,11 +121,11 @@ function ProjectSection(props: ProjectSectionProps) {
       </div>
 
       {props.projects.length > 0 ? (
-        <div class="project-section-grid">
+        <ReactiveSurface class="project-section-grid">
           <For each={props.projects}>
             {(project) => <ProjectCard project={project} variant={props.variant} />}
           </For>
-        </div>
+        </ReactiveSurface>
       ) : (
         <div class="empty-state visual-surface">
           <h3 class="card-title">No reviewed projects in this group yet</h3>
@@ -145,7 +146,7 @@ type ProjectCardProps = {
 
 function ProjectCard(props: ProjectCardProps) {
   return (
-    <article id={props.project.slug} class="project-anchor-card interactive-surface">
+    <article id={props.project.slug} class="project-anchor-card interactive-surface reactive-card">
       <div class="card-header">
         <div>
           <h3 class="card-title">

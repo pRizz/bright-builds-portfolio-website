@@ -1,5 +1,6 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
+import { ReactiveSurface } from "../components/ReactiveSurface";
 import { peterProfile } from "../domain/profile";
 import {
   currentFocusProjects,
@@ -68,24 +69,29 @@ export default function Home() {
           </a>
         </div>
 
-        <aside class="focus-panel visual-surface visual-stage-content">
-          <h2 class="panel-title">Now building</h2>
-          <ul class="focus-list" aria-label="Current project focus">
-            <For each={focusProjects}>
-              {(project) => (
-                <li>
-                  <a class="focus-row interactive-surface" href={projectAnchorHref(project)}>
-                    <span class="story-label">
-                      {project.status} / {project.maturity}
-                    </span>
-                    <span class="focus-row-title">{project.name}</span>
-                    <span class="focus-row-copy">{project.oneLine}</span>
-                  </a>
-                </li>
-              )}
-            </For>
-          </ul>
-        </aside>
+        <ReactiveSurface class="visual-stage-content">
+          <aside class="focus-panel visual-surface reactive-card">
+            <h2 class="panel-title">Now building</h2>
+            <ul class="focus-list" aria-label="Current project focus">
+              <For each={focusProjects}>
+                {(project) => (
+                  <li>
+                    <a
+                      class="focus-row interactive-surface reactive-card"
+                      href={projectAnchorHref(project)}
+                    >
+                      <span class="story-label">
+                        {project.status} / {project.maturity}
+                      </span>
+                      <span class="focus-row-title">{project.name}</span>
+                      <span class="focus-row-copy">{project.oneLine}</span>
+                    </a>
+                  </li>
+                )}
+              </For>
+            </ul>
+          </aside>
+        </ReactiveSurface>
       </section>
 
       <section class="content-section">
@@ -99,11 +105,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div class="story-grid">
+        <ReactiveSurface class="story-grid">
           <For each={projects}>
             {(project) => {
               return (
-                <article class="story-card interactive-surface">
+                <article class="story-card interactive-surface reactive-card">
                   <div class="card-header">
                     <div>
                       <h3 class="card-title">{project.name}</h3>
@@ -157,7 +163,7 @@ export default function Home() {
               );
             }}
           </For>
-        </div>
+        </ReactiveSurface>
       </section>
     </>
   );
