@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { peterProfile } from "./profile";
 import {
   currentFocusProjects,
   homeProjects,
@@ -6,7 +7,6 @@ import {
   projectLinkDisplayLabel,
   visibleProjects,
 } from "./projects";
-import { peterProfile } from "./profile";
 import { prerenderRoutes, siteRoutes } from "./routes";
 import {
   jsonLdScriptContent,

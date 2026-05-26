@@ -16,46 +16,48 @@ export const siteRoutes = [
     id: "home",
     path: "/",
     label: "Home",
-    title: "Peter Ryszkiewicz | Bright Builds",
+    title: "Peter Ryszkiewicz / pRizz | Bright Builds",
     description:
-      "Portfolio foundation for Peter Ryszkiewicz, pRizz, and the Bright Builds project ecosystem.",
+      "Portfolio for Peter Ryszkiewicz / pRizz, an agentic engineer building across AI, Bitcoin, open systems, developer tooling, and practical web experiments.",
     heading: "Peter Ryszkiewicz",
-    staticCheckText: "Practical software for AI tools, Bitcoin, open systems, and web experiments.",
+    staticCheckText:
+      "Peter Ryszkiewicz / pRizz builds practical software through Bright Builds across AI, Bitcoin, open systems, developer tooling, and web experiments.",
     nav: true,
   },
   {
     id: "about",
     path: "/about",
     label: "About",
-    title: "About Peter Ryszkiewicz | Bright Builds",
+    title: "About Peter Ryszkiewicz / pRizz | Bright Builds",
     description:
-      "A concise profile for Peter Ryszkiewicz, the builder behind pRizz and Bright Builds.",
+      "Themes behind Peter Ryszkiewicz's work across agentic engineering, open source, Bitcoin, web tooling, and creative experiments.",
     heading: "About Peter",
     staticCheckText:
-      "I build with a bias toward useful tools, open systems, and resilient defaults.",
+      "Agentic engineering, open source, Bitcoin, web tooling, and creative experiments are the connective tissue.",
     nav: true,
   },
   {
     id: "projects",
     path: "/projects",
     label: "Projects",
-    title: "Projects | Peter Ryszkiewicz",
+    title: "Curated Projects | Peter Ryszkiewicz",
     description:
-      "A static-first shell for curated Peter Ryszkiewicz projects before full GitHub enrichment.",
-    heading: "Curated Project Seeds",
+      "Flagship, supporting, lab, and archived project stories curated from Peter Ryszkiewicz's work without mirroring every repository.",
+    heading: "Curated Projects",
     staticCheckText:
-      "This initial set is deliberately curated, not a raw mirror of every repository.",
+      "Flagship, supporting, lab, and archive work are separated by reviewed registry placement.",
     nav: true,
   },
   {
     id: "contact",
     path: "/contact",
     label: "Contact",
-    title: "Contact | Peter Ryszkiewicz",
+    title: "Contact Peter Ryszkiewicz / pRizz | Bright Builds",
     description:
-      "Primary collaboration links for Peter Ryszkiewicz, including GitHub and OpenLinks.",
+      "Collaboration links for Peter Ryszkiewicz, with GitHub first and OpenLinks as a low-intrusion identity hub.",
     heading: "Contact and Collaboration",
-    staticCheckText: "The best starting point is GitHub, with OpenLinks as the identity hub.",
+    staticCheckText:
+      "Start with GitHub, or use OpenLinks to verify Peter's current identity links.",
     nav: true,
   },
 ] as const satisfies readonly SiteRoute[];

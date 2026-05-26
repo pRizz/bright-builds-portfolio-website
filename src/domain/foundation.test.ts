@@ -116,7 +116,7 @@ describe("SEO derivation", () => {
     const metadata = metadataForRoute(route, peterProfile);
 
     // Assert
-    expect(metadata.title).toBe("Projects | Peter Ryszkiewicz");
+    expect(metadata.title).toBe("Curated Projects | Peter Ryszkiewicz");
     expect(metadata.canonical).toBe("https://www.brightbuilds.us/projects");
     expect(metadata.openGraph.url).toBe(metadata.canonical);
   });
