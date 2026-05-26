@@ -56,7 +56,12 @@ export default function Contact() {
       <section class="contact-grid">
         <For each={peterProfile.links}>
           {(link) => (
-            <a class="contact-card" href={link.href} rel={link.maybeRel} target="_blank">
+            <a
+              class="contact-card interactive-surface"
+              href={link.href}
+              rel={link.maybeRel}
+              target="_blank"
+            >
               <span class="contact-label">{link.label}</span>
               <span class="contact-url">{link.href}</span>
             </a>

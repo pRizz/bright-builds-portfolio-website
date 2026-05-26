@@ -79,7 +79,7 @@ export default function Projects() {
         <p class="eyebrow">Curated, not mirrored</p>
         <h1 class="page-title">{route.heading}</h1>
         <p class="lead">{route.staticCheckText}</p>
-        <div class="notice-panel">
+        <div class="notice-panel visual-surface">
           <p class="body-copy">
             Some reviewed repositories stay hidden or excluded from the public portfolio until they
             have enough authored context.
@@ -126,7 +126,7 @@ function ProjectSection(props: ProjectSectionProps) {
           </For>
         </div>
       ) : (
-        <div class="empty-state">
+        <div class="empty-state visual-surface">
           <h3 class="card-title">No reviewed projects in this group yet</h3>
           <p class="body-copy">
             This section only shows entries from the curated registry after they have enough
@@ -145,7 +145,7 @@ type ProjectCardProps = {
 
 function ProjectCard(props: ProjectCardProps) {
   return (
-    <article id={props.project.slug} class="project-anchor-card">
+    <article id={props.project.slug} class="project-anchor-card interactive-surface">
       <div class="card-header">
         <div>
           <h3 class="card-title">
@@ -190,7 +190,12 @@ function ProjectCard(props: ProjectCardProps) {
       <div class="link-list">
         <For each={props.project.links}>
           {(link) => (
-            <a class="text-link" href={link.href} rel="noopener noreferrer" target="_blank">
+            <a
+              class="text-link surface-link"
+              href={link.href}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               {projectLinkDisplayLabel(link)}
             </a>
           )}

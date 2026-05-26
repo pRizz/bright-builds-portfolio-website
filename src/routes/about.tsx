@@ -73,7 +73,7 @@ export default function About() {
         <p class="body-copy">{route.staticCheckText}</p>
         <div class="profile-link-row">
           <a
-            class="text-link"
+            class="text-link surface-link"
             href="https://openlinks.us/"
             rel="me noopener noreferrer"
             target="_blank"
@@ -88,7 +88,7 @@ export default function About() {
         <ul class="theme-grid" aria-label="Working themes">
           <For each={themes}>
             {(theme) => (
-              <li class="theme-card">
+              <li class="theme-card interactive-surface">
                 <h3 class="theme-title">{theme.title}</h3>
                 <p class="body-copy">{theme.body}</p>
               </li>
