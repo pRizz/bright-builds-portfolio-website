@@ -61,6 +61,10 @@
     @apply mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4;
   }
 
+  .site-nav {
+    min-width: 0;
+  }
+
   .brand-link {
     @apply inline-flex min-h-11 min-w-0 items-center rounded-md px-1 font-semibold text-lg text-zinc-50 tracking-normal transition hover:text-emerald-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
     overflow-wrap: anywhere;
@@ -89,6 +93,10 @@
   .site-footer-inner > * {
     min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  .footer-copy {
+    margin: 0;
   }
 
   .footer-link,
@@ -368,7 +376,7 @@
   }
 
   .primary-action {
-    @apply mt-6 inline-flex min-h-11 items-center rounded-md bg-emerald-300 px-4 py-2 font-semibold text-sm transition hover:bg-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    @apply mt-6 inline-flex min-h-11 items-center rounded-md border border-emerald-200/80 bg-emerald-300 px-4 py-2 font-semibold text-sm shadow-lg shadow-emerald-950/25 transition hover:bg-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
     color: #052e1f;
   }
 

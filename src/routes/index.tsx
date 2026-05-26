@@ -55,25 +55,26 @@ export default function Home() {
       <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
       <script type="application/ld+json">{jsonLdScriptContent(jsonLd)}</script>
 
-      <section class="hero-grid">
-        <div class="page-intro">
+      <section class="visual-stage hero-grid">
+        <div class="brand-material" aria-hidden="true" />
+        <div class="page-intro visual-stage-content">
           <p class="eyebrow">
             {peterProfile.handle} / {peterProfile.company}
           </p>
           <h1 class="page-title">{peterProfile.name}</h1>
           <p class="lead">{identityCopy}</p>
-          <a class="primary-action" href="/projects">
+          <a class="primary-action interactive-surface" href="/projects">
             Browse projects
           </a>
         </div>
 
-        <aside class="focus-panel">
+        <aside class="focus-panel visual-surface visual-stage-content">
           <h2 class="panel-title">Now building</h2>
           <ul class="focus-list" aria-label="Current project focus">
             <For each={focusProjects}>
               {(project) => (
                 <li>
-                  <a class="focus-row" href={projectAnchorHref(project)}>
+                  <a class="focus-row interactive-surface" href={projectAnchorHref(project)}>
                     <span class="story-label">
                       {project.status} / {project.maturity}
                     </span>
@@ -102,7 +103,7 @@ export default function Home() {
           <For each={projects}>
             {(project) => {
               return (
-                <article class="story-card">
+                <article class="story-card interactive-surface">
                   <div class="card-header">
                     <div>
                       <h3 class="card-title">{project.name}</h3>
@@ -136,13 +137,13 @@ export default function Home() {
                   </ul>
 
                   <div class="story-links">
-                    <a class="text-link" href={projectAnchorHref(project)}>
+                    <a class="text-link surface-link" href={projectAnchorHref(project)}>
                       Project details
                     </a>
                     <For each={project.links}>
                       {(link) => (
                         <a
-                          class="text-link"
+                          class="text-link surface-link"
                           href={link.href}
                           rel="noopener noreferrer"
                           target="_blank"

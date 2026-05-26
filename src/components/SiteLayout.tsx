@@ -19,7 +19,7 @@ export function SiteLayout(props: SiteLayoutProps) {
           <a class="brand-link" href="/">
             {peterProfile.name}
           </a>
-          <nav aria-label="Primary navigation">
+          <nav class="site-nav" aria-label="Primary navigation">
             <ul class="nav-list">
               <For each={navigationRoutes}>
                 {(route) => (
@@ -41,7 +41,9 @@ export function SiteLayout(props: SiteLayoutProps) {
 
       <footer class="site-footer">
         <div class="site-footer-inner">
-          <p>Bright Builds is Peter Ryszkiewicz's portfolio for practical open-source systems.</p>
+          <p class="footer-copy">
+            Bright Builds is Peter Ryszkiewicz's portfolio for practical open-source systems.
+          </p>
           <a
             class="footer-link"
             href="https://openlinks.us/"
