@@ -21,7 +21,7 @@ export const siteRoutes = [
       "Portfolio for Peter Ryszkiewicz / pRizz, an agentic engineer building across AI, Bitcoin, open systems, developer tooling, and practical web experiments.",
     heading: "Peter Ryszkiewicz",
     staticCheckText:
-      "Peter Ryszkiewicz / pRizz builds practical software through Bright Builds across AI, Bitcoin, open systems, developer tooling, and web experiments.",
+      "Peter Ryszkiewicz / pRizz builds practical software through Bright Builds across AI, Bitcoin, open systems, developer tooling, and practical web experiments.",
     nav: true,
   },
   {

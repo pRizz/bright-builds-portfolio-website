@@ -41,14 +41,14 @@ export function SiteLayout(props: SiteLayoutProps) {
 
       <footer class="site-footer">
         <div class="site-footer-inner">
-          <p>Bright Builds portfolio foundation.</p>
+          <p>Bright Builds is Peter Ryszkiewicz's portfolio for practical open-source systems.</p>
           <a
             class="footer-link"
             href="https://openlinks.us/"
             rel="me noopener noreferrer"
             target="_blank"
           >
-            OpenLinks
+            OpenLinks profile
           </a>
         </div>
       </footer>

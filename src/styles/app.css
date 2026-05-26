@@ -87,11 +87,11 @@
 
   .footer-link,
   .text-link {
-    @apply font-semibold text-emerald-300 transition hover:text-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    @apply inline-flex min-h-11 items-center rounded-md font-semibold text-emerald-300 transition hover:text-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
   }
 
   .hero-grid {
-    @apply grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end;
+    @apply grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start;
   }
 
   .page-intro {
@@ -99,15 +99,19 @@
   }
 
   .eyebrow {
-    @apply mb-4 font-semibold text-emerald-300 text-sm uppercase tracking-[0.12em];
+    @apply mb-4 font-semibold text-emerald-300 text-sm uppercase;
   }
 
   .page-title {
-    @apply text-balance font-semibold text-4xl text-zinc-50 leading-tight sm:text-6xl;
+    @apply text-balance font-semibold text-zinc-50;
+    font-size: 36px;
+    line-height: 1.15;
   }
 
   .lead {
-    @apply mt-6 max-w-3xl text-lg text-zinc-300 leading-8;
+    @apply mt-6 max-w-3xl text-zinc-300;
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   .body-copy {
@@ -123,7 +127,9 @@
   }
 
   .section-title {
-    @apply font-semibold text-2xl text-zinc-50;
+    @apply font-semibold text-zinc-50;
+    font-size: 20px;
+    line-height: 1.25;
   }
 
   .section-copy {
@@ -131,19 +137,42 @@
   }
 
   .focus-panel {
-    @apply border-emerald-300/15 border-l-4 border-l-amber-300 bg-zinc-900/80 px-5 py-4 shadow-xl shadow-black/20 ring-1 ring-white/10;
+    @apply border border-white/10 border-l-4 border-l-amber-300 bg-zinc-900/80 p-5 shadow-xl shadow-black/20 ring-1 ring-white/10;
+    border-radius: 8px;
   }
 
   .panel-title {
     @apply font-semibold text-zinc-50;
+    font-size: 20px;
+    line-height: 1.25;
   }
 
   .focus-list {
-    @apply mt-3 grid gap-2 text-sm text-zinc-300;
+    @apply mt-4 grid gap-3 text-zinc-300;
+  }
+
+  .focus-row {
+    @apply grid min-h-11 gap-1 rounded-md border border-white/10 bg-zinc-950/50 p-3 transition hover:border-emerald-300/50 hover:bg-zinc-950/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+  }
+
+  .focus-row-title {
+    @apply font-semibold text-zinc-50;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .focus-row-copy {
+    @apply text-zinc-300;
+    font-size: 14px;
+    line-height: 1.4;
   }
 
   .card-grid {
     @apply mt-6 grid gap-4 sm:grid-cols-2;
+  }
+
+  .story-grid {
+    @apply mt-6 grid gap-4 lg:grid-cols-2;
   }
 
   .project-list {
@@ -157,8 +186,9 @@
   }
 
   .project-card,
-  .surface-card {
-    @apply rounded-lg;
+  .surface-card,
+  .story-card {
+    border-radius: 8px;
   }
 
   .contact-card {
@@ -170,7 +200,9 @@
   }
 
   .card-title {
-    @apply font-semibold text-lg text-zinc-50;
+    @apply font-semibold text-zinc-50;
+    font-size: 20px;
+    line-height: 1.25;
   }
 
   .project-card .card-title {
@@ -190,8 +222,32 @@
   }
 
   .primary-action {
-    @apply inline-flex rounded-md bg-emerald-300 px-4 py-2 font-semibold text-sm transition hover:bg-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    @apply mt-6 inline-flex min-h-11 items-center rounded-md bg-emerald-300 px-4 py-2 font-semibold text-sm transition hover:bg-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
     color: #052e1f;
+  }
+
+  .story-card {
+    @apply border border-white/10 bg-zinc-900/75 p-5 shadow-xl shadow-black/20 ring-1 ring-emerald-300/5;
+  }
+
+  .story-stack {
+    @apply mt-5 grid gap-4 text-zinc-300;
+  }
+
+  .story-stack p {
+    @apply m-0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .story-label {
+    @apply block font-semibold text-emerald-200;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .story-links {
+    @apply mt-5 flex flex-wrap gap-x-4 gap-y-2;
   }
 
   .tag-list {

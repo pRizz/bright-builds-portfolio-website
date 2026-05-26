@@ -1,44 +1,88 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
 import { peterProfile } from "../domain/profile";
-import { homeProjects, primaryProjectLink } from "../domain/projects";
+import {
+  currentFocusProjects,
+  homeProjects,
+  projectAnchorHref,
+  projectLinkDisplayLabel,
+} from "../domain/projects";
 import { routeByPath } from "../domain/routes";
-import { metadataForRoute, personJsonLd } from "../domain/seo";
+import { jsonLdScriptContent, metadataForRoute, personJsonLd, siteAssetLinks } from "../domain/seo";
 
 const route = routeByPath("/");
 const metadata = metadataForRoute(route);
 const jsonLd = personJsonLd();
+const identityCopy =
+  "Peter Ryszkiewicz / pRizz builds practical software through Bright Builds across AI, Bitcoin, open systems, developer tooling, and practical web experiments.";
 
 export default function Home() {
   const projects = homeProjects();
+  const focusProjects = currentFocusProjects();
 
   return (
     <>
       <Title>{metadata.title}</Title>
       <Meta name="description" content={metadata.description} />
       <HeadLink rel="canonical" href={metadata.canonical} />
+      <For each={siteAssetLinks}>
+        {(asset) => {
+          if (asset.rel === "apple-touch-icon") {
+            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
+          }
+
+          if ("sizes" in asset) {
+            return (
+              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
+            );
+          }
+
+          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
+        }}
+      </For>
       <Meta property="og:title" content={metadata.openGraph.title} />
       <Meta property="og:description" content={metadata.openGraph.description} />
       <Meta property="og:url" content={metadata.openGraph.url} />
       <Meta property="og:type" content={metadata.openGraph.type} />
+      <Meta property="og:image" content={metadata.openGraph.image.url} />
+      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
+      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
+      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
       <Meta name="twitter:card" content={metadata.twitter.card} />
       <Meta name="twitter:title" content={metadata.twitter.title} />
       <Meta name="twitter:description" content={metadata.twitter.description} />
-      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      <Meta name="twitter:image" content={metadata.twitter.image.url} />
+      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <script type="application/ld+json">{jsonLdScriptContent(jsonLd)}</script>
 
       <section class="hero-grid">
         <div class="page-intro">
           <p class="eyebrow">
             {peterProfile.handle} / {peterProfile.company}
           </p>
-          <h1 class="page-title">{route.heading}</h1>
-          <p class="lead">{route.staticCheckText}</p>
+          <h1 class="page-title">{peterProfile.name}</h1>
+          <p class="lead">{identityCopy}</p>
+          <a class="primary-action" href="/projects">
+            Browse projects
+          </a>
         </div>
 
         <aside class="focus-panel">
-          <h2 class="panel-title">Current focus</h2>
-          <ul class="focus-list">
-            <For each={peterProfile.focusAreas}>{(area) => <li>{area}</li>}</For>
+          <h2 class="panel-title">Now building</h2>
+          <ul class="focus-list" aria-label="Current project focus">
+            <For each={focusProjects}>
+              {(project) => (
+                <li>
+                  <a class="focus-row" href={projectAnchorHref(project)}>
+                    <span class="story-label">
+                      {project.status} / {project.maturity}
+                    </span>
+                    <span class="focus-row-title">{project.name}</span>
+                    <span class="focus-row-copy">{project.oneLine}</span>
+                  </a>
+                </li>
+              )}
+            </For>
           </ul>
         </aside>
       </section>
@@ -48,33 +92,66 @@ export default function Home() {
           <div>
             <h2 class="section-title">Featured project stories</h2>
             <p class="section-copy">
-              A curated home set with authored copy, curation reasons, maturity, status, and useful
-              links for each flagship placement.
+              Flagship work selected from the curated registry, with authored context instead of a
+              raw repository mirror.
             </p>
           </div>
-          <a class="primary-action" href="/projects">
-            View projects
-          </a>
         </div>
 
-        <div class="card-grid">
+        <div class="story-grid">
           <For each={projects}>
             {(project) => {
-              const primaryLink = primaryProjectLink(project);
-
               return (
-                <article class="project-card">
-                  <h3 class="card-title">{project.name}</h3>
-                  <p class="card-meta">{project.role}</p>
+                <article class="story-card">
+                  <div class="card-header">
+                    <div>
+                      <h3 class="card-title">{project.name}</h3>
+                      <p class="card-meta">{project.role}</p>
+                    </div>
+                    <span class="tier-pill">
+                      {project.status} / {project.maturity}
+                    </span>
+                  </div>
                   <p class="card-copy">{project.oneLine}</p>
-                  <a
-                    class="text-link mt-4 inline-flex text-sm"
-                    href={primaryLink.href}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {primaryLink.label}
-                  </a>
+
+                  <div class="story-stack">
+                    <p>
+                      <span class="story-label">Problem</span>
+                      {project.story.problem}
+                    </p>
+                    <p>
+                      <span class="story-label">Approach</span>
+                      {project.story.approach}
+                    </p>
+                    <p>
+                      <span class="story-label">Why it matters</span>
+                      {project.story.whyItMatters}
+                    </p>
+                  </div>
+
+                  <ul class="tag-list" aria-label={`${project.name} themes and tags`}>
+                    <For each={[...project.themes, ...project.tags]}>
+                      {(label) => <li class="chip">{label}</li>}
+                    </For>
+                  </ul>
+
+                  <div class="story-links">
+                    <a class="text-link" href={projectAnchorHref(project)}>
+                      Project details
+                    </a>
+                    <For each={project.links}>
+                      {(link) => (
+                        <a
+                          class="text-link"
+                          href={link.href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {projectLinkDisplayLabel(link)}
+                        </a>
+                      )}
+                    </For>
+                  </div>
                 </article>
               );
             }}
