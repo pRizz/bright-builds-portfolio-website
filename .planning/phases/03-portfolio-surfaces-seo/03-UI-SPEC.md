@@ -1,10 +1,11 @@
 ---
 phase: 03
 slug: portfolio-surfaces-seo
-status: draft
+status: approved
 shadcn_initialized: false
 preset: not applicable
 created: 2026-05-26
+reviewed_at: 2026-05-26T10:52:29Z
 ---
 
 # Phase 03 - UI Design Contract
@@ -134,7 +135,7 @@ Tone:
 
 - Header stays sticky with dark translucent surface, subtle border, and readable nav wrap on small widths.
 - Skip link remains first focusable element and becomes visible on focus.
-- Main content uses max width `72rem` with 20px mobile side padding and 48px vertical padding.
+- Main content uses max width `72rem` with 16px mobile side padding and 48px vertical padding.
 - Footer keeps Bright Builds as the host brand and includes one low-intrusion OpenLinks identity link.
 
 ### Home
@@ -148,7 +149,7 @@ Tone:
 ### Projects
 
 - Use `/projects#${project.slug}` stable anchors for Phase 03. Do not add per-project routes in this phase.
-- Each project article has `id={project.slug}` and `scroll-margin-top: 96px` or equivalent so anchored headings are not hidden under the sticky header.
+- Each project article has `id={project.slug}` and `scroll-margin-top: 64px` or equivalent so anchored headings are not hidden under the sticky header.
 - Group visible projects in this order: Flagship, Supporting, Lab / Prototype, Archive.
 - Hidden or excluded records do not render as public cards. If referenced, they appear only as a count or editorial note explaining that the portfolio is curated.
 - Each flagship card shows problem, approach, role, status/maturity, why-it-matters copy, themes/tags, and useful links when data exists.
@@ -172,7 +173,7 @@ Tone:
 
 ### Cards And Primitives
 
-- Cards use `#18181b` or dark translucent surface, 1px `white/10` border, 8px radius, and 20-24px padding.
+- Cards use `#18181b` or dark translucent surface, 1px `white/10` border, 8px radius, 16px mobile padding, and 24px desktop padding.
 - Do not nest cards inside cards.
 - Project cards must keep title, meta, body, tags, and links in a stable vertical rhythm; hover states cannot resize cards.
 - Chips use 14px text, low-contrast dark fill, visible border, and no all-caps tracking.
