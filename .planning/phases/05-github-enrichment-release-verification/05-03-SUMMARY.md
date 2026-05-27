@@ -120,7 +120,7 @@ Each task was committed atomically:
 - **Verification:** Task 1 acceptance `rg` checks and `bun run verify`
 - **Committed in:** `689c276`
 
----
+***
 
 **Total deviations:** 2 auto-fixed (1 bug, 1 blocking issue)
 **Impact on plan:** Both fixes preserved the planned release gate and avoided scope expansion or dependency additions.
@@ -152,7 +152,7 @@ None.
 
 Phase 5 is ready for release review: the static build has a release gate, docs explain safe operation and optional metadata refresh, and the final evidence artifact records automated and browser checks. Remaining future improvements are optional dependency-backed axe/Lighthouse audits, which were explicitly deferred by this plan.
 
----
+***
 *Phase: 05-github-enrichment-release-verification*
 *Completed: 2026-05-27*
 
