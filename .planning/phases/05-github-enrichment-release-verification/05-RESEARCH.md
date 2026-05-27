@@ -452,24 +452,28 @@ The `github_pat_` and `gh[pousr]_` token-like pattern is a local heuristic and s
 | A4 | `github_pat_` and `gh[pousr]_` regexes are useful token-like output heuristics but are not exhaustive secret scanning. | Code Examples, Security Domain | False negatives are possible; do not claim complete secret scanning. |
 | A5 | Treating moved repository redirects as unavailable until curated links are fixed is preferable to silently following redirects. | Common Pitfalls | If GitHub redirect behavior changes or users prefer transparent redirects, sync reporting may need adjustment. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `open-bitcoin` receive GitHub enrichment from its `related` source link?**
+   - **RESOLVED:** No. Enrich only direct `kind: "repo"` links in v1 and omit metadata for records without a direct repo link, matching Plan 05-01 Task 2 and Plan 05-02 Task 1.
    - What we know: `open-bitcoin` has a `kind: "related"` link to `open-bitcoin-web-miner`, not a `kind: "repo"` source. [VERIFIED: src/domain/projects.ts]
    - What's unclear: Whether related-source enrichment would confuse visitors by duplicating another project's metadata. [ASSUMED]
    - Recommendation: Enrich only `kind: "repo"` links in v1 and omit metadata for records without a direct repo link. [VERIFIED: 05-CONTEXT.md]
 
 2. **What exact token env name should docs and scripts use?**
+   - **RESOLVED:** Use `GITHUB_METADATA_TOKEN` as the optional non-public local/server token env name, and include it in script/docs/release-scan coverage without using public token prefixes.
    - What we know: Public prefixes `VITE_*`, `PUBLIC_*`, and `SOLID_PUBLIC_*` are forbidden, and Vite exposes `VITE_*` variables to client code. [VERIFIED: 05-CONTEXT.md] [CITED: https://vite.dev/guide/env-and-mode]
    - What's unclear: The final non-public local env variable name is discretionary. [VERIFIED: 05-CONTEXT.md]
    - Recommendation: Use `GITHUB_METADATA_TOKEN`, document it as optional, and include that literal in built-output forbidden patterns. [ASSUMED]
 
 3. **Should release verification launch a browser automatically?**
+   - **RESOLVED:** Keep routine `verify:release` static and dependency-free; record browser evidence in `05-RELEASE-EVIDENCE.md` through Plan 05-03 Task 3 using available browser automation without adding dependencies.
    - What we know: Phase 5 forbids adding Playwright/axe/Lighthouse unless necessary, while allowing browser evidence in verification notes. [VERIFIED: 05-CONTEXT.md]
    - What's unclear: Whether local CDP automation should become a checked-in script or remain manual evidence. [ASSUMED]
    - Recommendation: Keep routine `verify:release` static and dependency-free; record browser evidence in the Phase 5 summary. [VERIFIED: 04-03-SUMMARY.md] [VERIFIED: 05-CONTEXT.md]
 
 4. **Should release budgets be hard fail or warning first?**
+   - **RESOLVED:** Hard-fail the obvious static budgets in `scripts/verify-release.ts` and print measured route, JS, CSS, and social-image sizes in the release summary.
    - What we know: Current generated output includes about 30 KB projects HTML, 63 KB CSS chunks, 23-30 KB core JS chunks, and a 101 KB social PNG. [VERIFIED: `.output/public` size probe]
    - What's unclear: Exact acceptable v1 performance budget is discretionary. [VERIFIED: 05-CONTEXT.md]
    - Recommendation: Hard-fail obviously regressive static budgets and print measured sizes in the release summary. [ASSUMED]
