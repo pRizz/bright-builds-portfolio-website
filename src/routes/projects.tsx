@@ -1,6 +1,11 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../components/ReactiveSurface";
+import {
+  gitHubMetadataFactsForProject,
+  maybeGitHubHomepageLinkForProject,
+  maybeGitHubMetadataForProject,
+} from "../domain/github-metadata";
 import type { ProjectStory } from "../domain/projects";
 import {
   curatedProjects,
@@ -180,6 +185,8 @@ function ProjectCard(props: ProjectCardProps) {
         </div>
       ) : null}
 
+      <GitHubMetadataRow project={props.project} />
+
       <ul class="label-row" aria-label={`${props.project.name} labels`}>
         <li class="chip">{props.project.tier}</li>
         <li class="chip">{props.project.placement}</li>
@@ -201,7 +208,36 @@ function ProjectCard(props: ProjectCardProps) {
             </a>
           )}
         </For>
+        <Show when={maybeGitHubHomepageLinkForProject(props.project)}>
+          {(link) => (
+            <a
+              class="text-link surface-link"
+              href={link().href}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {projectLinkDisplayLabel(link())}
+            </a>
+          )}
+        </Show>
       </div>
     </article>
+  );
+}
+
+function GitHubMetadataRow(props: { project: ProjectStory }) {
+  return (
+    <Show when={maybeGitHubMetadataForProject(props.project)}>
+      <dl class="github-meta-row" aria-label="GitHub repository metadata">
+        <For each={gitHubMetadataFactsForProject(props.project)}>
+          {(fact) => (
+            <div class="github-meta-chip">
+              <dt class="github-meta-label">{fact.label}</dt>
+              <dd class="github-meta-value">{fact.value}</dd>
+            </div>
+          )}
+        </For>
+      </dl>
+    </Show>
   );
 }

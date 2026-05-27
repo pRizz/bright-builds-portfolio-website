@@ -470,6 +470,40 @@
     line-height: 1.4;
   }
 
+  .github-meta-row {
+    @apply mt-4 flex flex-wrap gap-2;
+    min-width: 0;
+  }
+
+  .github-meta-chip {
+    @apply flex min-w-0 items-baseline gap-1 border border-white/10 bg-zinc-950/70 px-3 py-1 text-zinc-300;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .github-meta-label {
+    @apply text-emerald-200;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .github-meta-label::after {
+    content: ":";
+  }
+
+  .github-meta-value {
+    min-width: 0;
+    margin: 0;
+    color: #d4d4d8;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
   .story-links {
     @apply mt-5 flex flex-wrap gap-x-4 gap-y-2;
   }

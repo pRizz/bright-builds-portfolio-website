@@ -1,7 +1,13 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../components/ReactiveSurface";
+import {
+  gitHubMetadataFactsForProject,
+  maybeGitHubHomepageLinkForProject,
+  maybeGitHubMetadataForProject,
+} from "../domain/github-metadata";
 import { peterProfile } from "../domain/profile";
+import type { ProjectStory } from "../domain/projects";
 import {
   currentFocusProjects,
   homeProjects,
@@ -136,6 +142,8 @@ export default function Home() {
                     </p>
                   </div>
 
+                  <GitHubMetadataRow project={project} />
+
                   <ul class="tag-list" aria-label={`${project.name} themes and tags`}>
                     <For each={[...project.themes, ...project.tags]}>
                       {(label) => <li class="chip">{label}</li>}
@@ -158,6 +166,18 @@ export default function Home() {
                         </a>
                       )}
                     </For>
+                    <Show when={maybeGitHubHomepageLinkForProject(project)}>
+                      {(link) => (
+                        <a
+                          class="text-link surface-link"
+                          href={link().href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {projectLinkDisplayLabel(link())}
+                        </a>
+                      )}
+                    </Show>
                   </div>
                 </article>
               );
@@ -166,5 +186,22 @@ export default function Home() {
         </ReactiveSurface>
       </section>
     </>
+  );
+}
+
+function GitHubMetadataRow(props: { project: ProjectStory }) {
+  return (
+    <Show when={maybeGitHubMetadataForProject(props.project)}>
+      <dl class="github-meta-row" aria-label="GitHub repository metadata">
+        <For each={gitHubMetadataFactsForProject(props.project)}>
+          {(fact) => (
+            <div class="github-meta-chip">
+              <dt class="github-meta-label">{fact.label}</dt>
+              <dd class="github-meta-value">{fact.value}</dd>
+            </div>
+          )}
+        </For>
+      </dl>
+    </Show>
   );
 }
