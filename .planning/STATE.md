@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-05-27T12:16:19.356Z"
-last_activity: 2026-05-27 -- Phase 05 execution started
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-05-27T12:28:47.040Z"
+last_activity: 2026-05-27
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 14
-  completed_plans: 11
-  percent: 79
+  completed_plans: 12
+  percent: 86
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 05 (github-enrichment-release-verification) — EXECUTING
-Plan: 1 of 3
-Status: Executing Phase 05
-Last activity: 2026-05-27 -- Phase 05 execution started
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-05-27
 
 Progress: [████████░░] 83%
 
@@ -62,6 +62,7 @@ Progress: [████████░░] 83%
 | Phase 04-visual-system-motion P01 | 9min | 3 tasks | 6 files |
 | Phase 04-visual-system-motion P02 | 7min | 3 tasks | 6 files |
 | Phase 04-visual-system-motion P03 | 14min | 3 tasks | 4 files |
+| Phase 05-github-enrichment-release-verification P01 | 8min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,9 @@ Recent decisions affecting current work:
 - [Phase 04-visual-system-motion]: Scan src/domain/* for forbidden UI imports and DOM/motion identifiers rather than raw content strings so curated project copy remains valid.
 - [Phase 04-visual-system-motion]: Allow canonical OG/Twitter metadata image URLs only when they map back to checked-in static assets, while blocking remote runtime/decorative image and CSS asset references.
 - [Phase 04-visual-system-motion]: Use local Chrome DevTools Protocol browser automation after Chrome DevTools MCP was unavailable due a locked tool-owned profile; no dependencies were added.
+- [Phase 05-github-enrichment-release-verification]: GitHub enrichment matches only canonical direct repo links from curated projects; related links never enrich records. — Preserves authored curation authority and prevents related-source metadata from bleeding into separate project stories.
+- [Phase 05-github-enrichment-release-verification]: Unavailable snapshot entries return null so rendering can omit enrichment without throwing. — Keeps checked-in metadata advisory and resilient when GitHub metadata is missing, private, moved, rate-limited, or errored.
+- [Phase 05-github-enrichment-release-verification]: Homepage enrichment returns a ProjectLink only when the GitHub homepage URL is non-empty and not already covered by curated live, docs, or repo links. — Lets route code reuse existing link rendering while ensuring metadata never replaces curated visitor links.
 
 ### Roadmap Evolution
 
@@ -112,6 +116,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-27T11:30:08.041Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-github-enrichment-release-verification/05-CONTEXT.md
+Last session: 2026-05-27T12:28:47.037Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
