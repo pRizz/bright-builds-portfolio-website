@@ -92,32 +92,32 @@ describe("GitHub metadata sync repository mapping", () => {
     { status: 301, reason: "moved" },
     { status: 302, reason: "moved" },
     { status: 500, reason: "error" },
-  ] as const)(
-    'maps HTTP $status to status: "unavailable" with reason $reason',
-    ({ status, reason }) => {
-      // Arrange
-      const response = new Response(`GitHub error ${status}`, { status });
+  ] as const)('maps HTTP $status to status: "unavailable" with reason $reason', ({
+    status,
+    reason,
+  }) => {
+    // Arrange
+    const response = new Response(`GitHub error ${status}`, { status });
 
-      // Act
-      const metadata = unavailableRepositoryMetadataFromResponse({
-        target: {
-          slug: "openlinks",
-          owner: "pRizz",
-          repo: "open-links",
-          repositoryUrl: "https://github.com/pRizz/open-links",
-        },
-        response,
-        syncedAt: "2026-05-27T12:00:00.000Z",
-      });
+    // Act
+    const metadata = unavailableRepositoryMetadataFromResponse({
+      target: {
+        slug: "openlinks",
+        owner: "pRizz",
+        repo: "open-links",
+        repositoryUrl: "https://github.com/pRizz/open-links",
+      },
+      response,
+      syncedAt: "2026-05-27T12:00:00.000Z",
+    });
 
-      // Assert
-      expect(metadata).toMatchObject({
-        status: "unavailable",
-        reason,
-        httpStatus: status,
-      });
-    },
-  );
+    // Assert
+    expect(metadata).toMatchObject({
+      status: "unavailable",
+      reason,
+      httpStatus: status,
+    });
+  });
 });
 
 describe("GitHub metadata sync curated repository selection", () => {
@@ -162,9 +162,7 @@ describe("GitHub metadata sync curated repository selection", () => {
   });
 });
 
-function projectFixture(
-  overrides: Pick<ProjectStory, "slug" | "links">,
-): ProjectStory {
+function projectFixture(overrides: Pick<ProjectStory, "slug" | "links">): ProjectStory {
   return {
     slug: overrides.slug,
     name: overrides.slug,

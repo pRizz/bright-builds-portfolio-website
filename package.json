@@ -15,6 +15,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "generate:static-metadata": "bun run scripts/generate-static-metadata.ts",
+    "sync:github-metadata": "bun run scripts/sync-github-metadata.ts",
+    "sync:github-metadata:strict": "bun run scripts/sync-github-metadata.ts --strict",
     "verify:curation": "bun run scripts/verify-curation.ts",
     "verify:no-github-runtime": "bun run scripts/verify-no-github-runtime.ts",
     "verify:visual-system": "bun run scripts/verify-visual-system.ts",

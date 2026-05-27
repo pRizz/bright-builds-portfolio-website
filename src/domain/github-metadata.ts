@@ -48,7 +48,8 @@ export type ParsedGitHubRepositoryUrl = {
   repositoryUrl: string;
 };
 
-export const gitHubMetadataSnapshot: GitHubMetadataSnapshot = snapshotData;
+// JSON imports widen discriminants; the sync script and tests own this checked-in shape.
+export const gitHubMetadataSnapshot = snapshotData as unknown as GitHubMetadataSnapshot;
 
 type AvailableGitHubRepositoryMetadata = Extract<GitHubRepositoryMetadata, { status: "available" }>;
 

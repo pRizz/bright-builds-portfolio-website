@@ -11,7 +11,7 @@ import {
 import { curatedProjects, type ProjectLink, type ProjectStory } from "./projects";
 
 describe("GitHub metadata snapshot contract", () => {
-  it("imports a valid empty snapshot without runtime dependencies", () => {
+  it("imports a valid checked-in snapshot without runtime dependencies", () => {
     // Arrange
     const snapshot = gitHubMetadataSnapshot;
 
@@ -20,11 +20,19 @@ describe("GitHub metadata snapshot contract", () => {
 
     // Assert
     expect(keys).toEqual(["repositories", "schemaVersion", "syncedAt"]);
-    expect(snapshot).toMatchObject({
-      schemaVersion: 1,
-      syncedAt: "1970-01-01T00:00:00.000Z",
-      repositories: [],
-    });
+    expect(snapshot.schemaVersion).toBe(1);
+    expect(Date.parse(snapshot.syncedAt)).not.toBeNaN();
+    expect(snapshot.repositories.length).toBeGreaterThan(0);
+    expect(
+      snapshot.repositories.every(
+        (metadata) =>
+          metadata.slug &&
+          metadata.owner &&
+          metadata.repo &&
+          metadata.repositoryUrl.startsWith("https://github.com/") &&
+          (metadata.status === "available" || metadata.status === "unavailable"),
+      ),
+    ).toBe(true);
   });
 });
 
