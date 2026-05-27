@@ -70,7 +70,7 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 - [x] **VER-02**: Browser checks cover home, project index/detail or anchors, about/contact/footer, mobile and desktop viewports, keyboard navigation, and reduced-motion behavior.
 - [x] **VER-03**: Accessibility checks catch obvious issues in semantic structure, color contrast, focus states, links, images, and interactive motion surfaces.
 - [x] **VER-04**: Performance/SEO release checks verify static output, no critical runtime GitHub dependency, acceptable Lighthouse-style scores, no layout instability, and no broken primary links.
-- [ ] **VER-05**: Project docs record local setup, build/deploy assumptions, curation maintenance rules, and how to refresh GitHub metadata if the optional sync exists.
+- [x] **VER-05**: Project docs record local setup, build/deploy assumptions, curation maintenance rules, and how to refresh GitHub metadata if the optional sync exists.
 
 ## v2 Requirements
 
@@ -152,7 +152,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VER-02 | Phase 5 | Complete |
 | VER-03 | Phase 5 | Complete |
 | VER-04 | Phase 5 | Complete |
-| VER-05 | Phase 5 | Pending |
+| VER-05 | Phase 5 | Complete |
 
 **Coverage:**
 
