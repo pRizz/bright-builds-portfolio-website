@@ -20,11 +20,12 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 - [x] [Phase 3] Route-specific metadata, JSON-LD, sitemap, robots, icon assets, and a checked-in social preview image are generated or verified from pure helpers before hydration.
 - [x] [Phase 4] The portfolio has a polished dark-primary Bright Builds visual layer using local brand material, stable responsive surfaces, and no unfinished template residue.
 - [x] [Phase 4] Restrained reactive motion is isolated to UI-layer helpers, gated for reduced motion/coarse pointer/small viewport/hidden tab/save-data, and verified for cleanup and domain purity.
+- [x] [Phase 5] Curated records can optionally render static GitHub metadata from direct repository links and a checked-in snapshot without overriding authored copy or introducing visitor-runtime GitHub dependencies.
+- [x] [Phase 5] Release readiness is proven by aggregate checks for unit behavior, static output, accessibility hooks, reduced motion, token safety, browser-flow evidence, documentation, and deployment assumptions.
 
 ### Active
 
-- [ ] Add optional static GitHub metadata enrichment for curated records without overriding authored copy or introducing visitor-runtime GitHub dependency.
-- [ ] Prove the release is shippable with final accessibility, performance, SEO, token-safety, documentation, browser-flow, and deployment-readiness checks.
+No active v1 phase requirements remain after Phase 5 verification.
 
 ### Out of Scope
 
@@ -67,6 +68,8 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Playful restraint for motion | Physics should echo the Bright Builds feel while keeping the site fast, readable, and accessible. | Phase 4 validated CSS-first visual polish plus a cleanup-safe UI-only reactive helper with accessibility fallbacks. |
 | SolidJS static site with Mystic UI where practical | User requested SolidJS, static generation, SEO, and reuse of owned Mystic UI components. | Phase 1 established the SolidStart/Tailwind/Mystic static foundation; Phase 3 and 4 verified generated static output. |
 | OpenLinks gets subtle identity placement | Repo-owner guidance requires OpenLinks identity presence on website profile/footer/metadata surfaces without displacing the portfolio brand. | Phase 3 and 4 preserve OpenLinks in footer/about/contact and metadata while keeping Bright Builds and project CTAs primary. |
+| GitHub metadata stays advisory and static | Optional repository metadata should add useful facts without becoming a live dependency or curation authority. | Phase 5 validated a checked-in snapshot, direct-repo-only enrichment, safe homepage links, no runtime GitHub API calls, and token-safe release gates. |
+| Release readiness is repo-native | A static portfolio release should be proven by repeatable local checks and recorded browser evidence rather than deployment-side assumptions. | Phase 5 validated aggregate `bun run verify`, static/release verifiers, documentation, and desktop/mobile/reduced-motion browser evidence. |
 
 ## Evolution
 
@@ -89,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-26 after Phase 4 completion*
+*Last updated: 2026-05-27 after Phase 5 completion*
