@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  type GitHubMetadataSnapshot,
+  type GitHubRepositoryMetadata,
   gitHubMetadataFactsForProject,
   gitHubMetadataSnapshot,
   maybeGitHubHomepageLinkForProject,
   maybeGitHubMetadataForProject,
   parseGitHubRepositoryUrl,
-  type GitHubMetadataSnapshot,
-  type GitHubRepositoryMetadata,
 } from "./github-metadata";
 import { curatedProjects, type ProjectLink, type ProjectStory } from "./projects";
 
