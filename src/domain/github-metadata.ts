@@ -164,7 +164,13 @@ export function maybeGitHubHomepageLinkForProject(
     return null;
   }
 
-  const maybeHomepageComparableUrl = maybeComparableUrl(maybeMetadata.homepageUrl);
+  const maybeSafeHomepageUrl = maybeHttpUrl(maybeMetadata.homepageUrl.trim());
+
+  if (!maybeSafeHomepageUrl) {
+    return null;
+  }
+
+  const maybeHomepageComparableUrl = maybeComparableUrl(maybeSafeHomepageUrl.href);
 
   if (!maybeHomepageComparableUrl) {
     return null;
@@ -183,8 +189,8 @@ export function maybeGitHubHomepageLinkForProject(
   }
 
   return {
-    label: maybeMetadata.homepageUrl.includes("docs") ? "Live docs" : "Live site",
-    href: maybeMetadata.homepageUrl.trim(),
+    label: maybeSafeHomepageUrl.href.includes("docs") ? "Live docs" : "Live site",
+    href: maybeSafeHomepageUrl.href,
     kind: "live",
   };
 }
@@ -272,6 +278,22 @@ function maybeComparableUrl(value: string): string | null {
   const port = parsedUrl.port ? `:${parsedUrl.port}` : "";
 
   return `${parsedUrl.protocol}//${parsedUrl.hostname.toLowerCase()}${port}${path}`;
+}
+
+function maybeHttpUrl(value: string): URL | null {
+  let parsedUrl: URL;
+
+  try {
+    parsedUrl = new URL(value);
+  } catch {
+    return null;
+  }
+
+  if (parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:") {
+    return null;
+  }
+
+  return parsedUrl;
 }
 
 const monthNames = [

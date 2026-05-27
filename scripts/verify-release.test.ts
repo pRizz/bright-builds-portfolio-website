@@ -56,6 +56,12 @@ describe("release verifier forbidden output scanner", () => {
       "gh[pousr]_ token-like value",
       "gh[pousr]_ token-like value",
     ]);
+    expect(findings.map((finding) => finding.message).join("\n")).not.toContain(
+      "github_pat_11AABBCCDDEEFF0011223344556677889900aabbcc",
+    );
+    expect(findings.map((finding) => finding.message).join("\n")).not.toContain(
+      "ghp_1234567890abcdefghijklmnopqrstuvwxyzABCD",
+    );
   });
 });
 

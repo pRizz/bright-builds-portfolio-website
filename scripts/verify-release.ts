@@ -99,11 +99,11 @@ export function forbiddenBuiltOutputFindings(
     for (const forbidden of forbiddenOutputPatterns) {
       const matches = [...file.text.matchAll(forbidden.pattern)];
 
-      for (const match of matches) {
+      for (const _match of matches) {
         findings.push({
           path: file.path,
           label: forbidden.label,
-          message: `Built output contains forbidden ${forbidden.label}: ${match[0]}`,
+          message: `Built output contains forbidden ${forbidden.label}; value redacted.`,
         });
       }
     }

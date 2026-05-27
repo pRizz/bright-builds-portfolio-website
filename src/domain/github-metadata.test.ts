@@ -197,6 +197,44 @@ describe("GitHub metadata enrichment", () => {
     // Assert
     expect(results).toEqual([null, null, null]);
   });
+
+  it("returns normalized homepage links only for safe HTTP URLs", () => {
+    // Arrange
+    const baseProject = projectBySlug("openlinks");
+    const project = withLinks(baseProject, [
+      { label: "Source", href: "https://github.com/pRizz/open-links", kind: "repo" },
+    ]);
+    const homepageUrls = [
+      "javascript:alert(1)",
+      "data:text/html,hello",
+      "https://docs.example.com/openlinks",
+    ];
+
+    // Act
+    const results = homepageUrls.map((homepageUrl) =>
+      maybeGitHubHomepageLinkForProject(
+        project,
+        snapshotWith(
+          availableMetadata({
+            slug: baseProject.slug,
+            repositoryUrl: "https://github.com/pRizz/open-links",
+            homepageUrl,
+          }),
+        ),
+      ),
+    );
+
+    // Assert
+    expect(results).toEqual([
+      null,
+      null,
+      {
+        label: "Live docs",
+        href: "https://docs.example.com/openlinks",
+        kind: "live",
+      },
+    ]);
+  });
 });
 
 type AvailableGitHubRepositoryMetadata = Extract<GitHubRepositoryMetadata, { status: "available" }>;
