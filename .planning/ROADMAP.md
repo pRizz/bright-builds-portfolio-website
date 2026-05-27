@@ -107,7 +107,7 @@ Plans:
 1. Visitor using reduced motion, keyboard navigation, coarse pointer, small viewport, hidden tab, or low-power conditions can still use the full site without non-essential motion.
 1. Developer can verify animation loops, listeners, observers, Mystic UI usage, and motion utilities stay cleaned up and isolated from the domain/content model.
 
-**Plans**: 2/3 plans complete
+**Plans**: 3/3 plans complete
 **UI hint**: yes
 
 Plans:
