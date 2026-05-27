@@ -157,4 +157,4 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
 | 3. Portfolio Surfaces & SEO | 3/3 | Complete | 2026-05-26 |
 | 4. Visual System & Motion | 3/3 | Complete | 2026-05-26 |
-| 5. GitHub Enrichment & Release Verification | 0/TBD | Not started | - |
+| 5. GitHub Enrichment & Release Verification | 2/3 | In Progress | - |

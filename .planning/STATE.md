@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-05-27T12:28:47.040Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-05-27T12:51:10.641Z"
 last_activity: 2026-05-27
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 14
-  completed_plans: 12
-  percent: 86
+  completed_plans: 13
+  percent: 93
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-26)
 ## Current Position
 
 Phase: 05 (github-enrichment-release-verification) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-05-27
 
@@ -63,6 +63,7 @@ Progress: [████████░░] 83%
 | Phase 04-visual-system-motion P02 | 7min | 3 tasks | 6 files |
 | Phase 04-visual-system-motion P03 | 14min | 3 tasks | 4 files |
 | Phase 05-github-enrichment-release-verification P01 | 8min | 2 tasks | 3 files |
+| Phase 05-github-enrichment-release-verification P02 | 16min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,9 @@ Recent decisions affecting current work:
 - [Phase 05-github-enrichment-release-verification]: GitHub enrichment matches only canonical direct repo links from curated projects; related links never enrich records. — Preserves authored curation authority and prevents related-source metadata from bleeding into separate project stories.
 - [Phase 05-github-enrichment-release-verification]: Unavailable snapshot entries return null so rendering can omit enrichment without throwing. — Keeps checked-in metadata advisory and resilient when GitHub metadata is missing, private, moved, rate-limited, or errored.
 - [Phase 05-github-enrichment-release-verification]: Homepage enrichment returns a ProjectLink only when the GitHub homepage URL is non-empty and not already covered by curated live, docs, or repo links. — Lets route code reuse existing link rendering while ensuring metadata never replaces curated visitor links.
+- [Phase 05-github-enrichment-release-verification]: GitHub metadata sync uses native fetch against REST repository and topics endpoints with redirect: manual so moved repositories become unavailable records.
+- [Phase 05-github-enrichment-release-verification]: Project cards render metadata as static text-only dl chips after authored copy/story content and before curated labels/links.
+- [Phase 05-github-enrichment-release-verification]: The sync script formats the generated snapshot through the existing Biome binary so refresh output passes repo format checks without a second manual step.
 
 ### Roadmap Evolution
 
@@ -116,6 +120,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-27T12:28:47.037Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-05-27T12:51:10.639Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None

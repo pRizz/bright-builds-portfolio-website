@@ -62,14 +62,14 @@ Requirements for the first public portfolio release. Each maps to roadmap phases
 - [x] **GH-01**: The site does not require live browser/runtime GitHub API calls to render complete portfolio content.
 - [x] **GH-02**: Developer can optionally refresh GitHub metadata for curated repos at build/manual-sync time, with pagination, token-safe environment handling, and static snapshot fallback.
 - [x] **GH-03**: GitHub metadata such as stars, forks, language, topics, pushed date, archived/fork/template flags, and homepage URLs enriches curated records without overriding manual copy or curation decisions.
-- [ ] **GH-04**: Build/release verification checks that frontend bundles do not expose GitHub tokens or `VITE_*` token names.
+- [x] **GH-04**: Build/release verification checks that frontend bundles do not expose GitHub tokens or `VITE_*` token names.
 
 ### Verification and Release
 
 - [x] **VER-01**: Unit tests cover pure curation, route derivation, metadata derivation, project ordering, and invalid-state prevention.
-- [ ] **VER-02**: Browser checks cover home, project index/detail or anchors, about/contact/footer, mobile and desktop viewports, keyboard navigation, and reduced-motion behavior.
-- [ ] **VER-03**: Accessibility checks catch obvious issues in semantic structure, color contrast, focus states, links, images, and interactive motion surfaces.
-- [ ] **VER-04**: Performance/SEO release checks verify static output, no critical runtime GitHub dependency, acceptable Lighthouse-style scores, no layout instability, and no broken primary links.
+- [x] **VER-02**: Browser checks cover home, project index/detail or anchors, about/contact/footer, mobile and desktop viewports, keyboard navigation, and reduced-motion behavior.
+- [x] **VER-03**: Accessibility checks catch obvious issues in semantic structure, color contrast, focus states, links, images, and interactive motion surfaces.
+- [x] **VER-04**: Performance/SEO release checks verify static output, no critical runtime GitHub dependency, acceptable Lighthouse-style scores, no layout instability, and no broken primary links.
 - [ ] **VER-05**: Project docs record local setup, build/deploy assumptions, curation maintenance rules, and how to refresh GitHub metadata if the optional sync exists.
 
 ## v2 Requirements
@@ -147,11 +147,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GH-01 | Phase 2 | Complete |
 | GH-02 | Phase 5 | Complete |
 | GH-03 | Phase 5 | Complete |
-| GH-04 | Phase 5 | Pending |
+| GH-04 | Phase 5 | Complete |
 | VER-01 | Phase 5 | Complete |
-| VER-02 | Phase 5 | Pending |
-| VER-03 | Phase 5 | Pending |
-| VER-04 | Phase 5 | Pending |
+| VER-02 | Phase 5 | Complete |
+| VER-03 | Phase 5 | Complete |
+| VER-04 | Phase 5 | Complete |
 | VER-05 | Phase 5 | Pending |
 
 **Coverage:**
