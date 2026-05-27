@@ -10,6 +10,19 @@ The site is for technical peers, OSS collaborators, founder-adjacent builders, a
 
 Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
 
+## Current State
+
+v1.0 shipped on 2026-05-27 as a static SolidStart portfolio with a curated project registry, dark-primary route surfaces, static SEO metadata, low-intrusion OpenLinks identity placement, restrained UI-only motion, optional checked-in GitHub metadata enrichment, and a dependency-free release verification gate.
+
+The current release is verified by `bun run verify`, which covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, visual-system guards, production build, static output verification, and release verification over `.output/public`.
+
+## Next Milestone Goals
+
+- Decide whether to turn the recorded browser/accessibility evidence into checked-in Playwright, axe, Lighthouse, or equivalent repeatable release checks.
+- Decide whether live external-link reachability belongs in a release gate or remains a manual release checklist item.
+- Clean up or document seed-era exported helpers such as `projectSeeds` and `primaryProjectLink` if they remain outside runtime wiring.
+- Reassess whether v1.0 should be deployed as-is before adding more portfolio content, per-project pages, writing surfaces, or richer sharing assets.
+
 ## Requirements
 
 ### Validated
@@ -25,7 +38,7 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 ### Active
 
-No active v1 phase requirements remain after Phase 5 verification.
+No active requirements remain after v1.0. Define fresh requirements with `/gsd-new-milestone`.
 
 ### Out of Scope
 
@@ -47,6 +60,8 @@ The current site at `https://www.brightbuilds.us/` gives useful style signals: b
 Mystic UI is owned by Peter and is the preferred SolidJS component source for this stack when it fits. Its README describes a Vite + SolidJS + Tailwind consumer path, source-shipped components, Tailwind setup helpers, class-based dark mode, `solid-js@^1.9.8`, and the need to pin the GitHub dependency to an exact commit SHA. At initialization, the latest inspected `pRizz/mystic-ui` main commit was `d36017757708ed01ef2b3b47beb14f294726411c` from 2026-03-24.
 
 Bright Builds repo instructions require the Bright Builds Rules workflow, including plan-first work for non-trivial changes, evidence-based verification, append-only planning/task artifacts, functional-core/imperative-shell architecture, repo-native verification, TypeScript/JavaScript guidance, and use of the OpenLinks identity-presence skill for website profile/footer/metadata surfaces owned by `pRizz`.
+
+v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. The carried-forward debt is limited to repeatable browser/accessibility automation, optional external-link reachability checks, and seed-era helper cleanup.
 
 ## Constraints
 
@@ -92,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-27 after Phase 5 completion*
+*Last updated: 2026-05-27 after v1.0 milestone completion*

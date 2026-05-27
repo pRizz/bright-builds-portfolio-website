@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
+milestone_name: MVP
 status: complete
-stopped_at: Phase 5 verification passed
-last_updated: "2026-05-27T13:52:16.731Z"
+stopped_at: v1.0 milestone archived
+last_updated: "2026-05-27T21:30:34.709Z"
 last_activity: 2026-05-27
 progress:
   total_phases: 6
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Milestone phase work complete — Phase 5 verified
+**Current focus:** v1.0 archived — ready to plan next milestone
 
 ## Current Position
 
-Phase: 5 (GitHub Enrichment & Release Verification) — COMPLETE
-Plan: 3 of 3
-Status: Milestone phase work complete — ready for milestone audit or shipping
+Phase: None — v1.0 complete
+Plan: Not started
+Status: Ready for `/gsd-new-milestone`
 Last activity: 2026-05-27
 
 Progress: [██████████] 100%
@@ -54,7 +54,7 @@ Progress: [██████████] 100%
 **Recent Trend:**
 
 - Last 5 plans: Phase 04 plans 04-02 and 04-03 completed; Phase 05 plans 05-01, 05-02, and 05-03 completed
-- Trend: Static foundation, dark-primary shell, curated content model, Phase 3 portfolio/SEO surfaces, Phase 4 visual-system/motion verification, and Phase 5 release verification are complete.
+- Trend: v1.0 shipped as a static SolidStart portfolio with curated content, dark-primary UI, SEO surfaces, restrained motion, optional GitHub enrichment, and release verification.
 
 *Updated after each plan completion*
 | Phase 03-portfolio-surfaces-seo P02 | 17min | 3 tasks | 7 files |
