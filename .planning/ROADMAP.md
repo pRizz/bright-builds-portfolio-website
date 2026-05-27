@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Curated Content Model** - Make typed curated project/profile data the source of truth and prove the site is not a raw GitHub mirror. (completed 2026-05-26)
 - [x] **Phase 3: Portfolio Surfaces & SEO** - Render identity, project, about, contact, OpenLinks, and metadata surfaces from the curated registry. (completed 2026-05-26)
 - [x] **Phase 4: Visual System & Motion** - Apply the polished Bright Builds visual language, Mystic adapters, and restrained motion with accessibility gates. (completed 2026-05-26)
-- [ ] **Phase 5: GitHub Enrichment & Release Verification** - Add optional static GitHub metadata enrichment and prove the release is shippable.
+- [x] **Phase 5: GitHub Enrichment & Release Verification** - Add optional static GitHub metadata enrichment and prove the release is shippable. (completed 2026-05-27)
 
 ## Phase Details
 
@@ -128,7 +128,7 @@ Plans:
 1. Developer can run release checks covering pure unit behavior, browser flows, accessibility, reduced motion, static output, no critical runtime GitHub dependency, performance/SEO, layout stability, and primary links.
 1. Project docs record local setup, build/deploy assumptions, curation maintenance rules, and how to refresh GitHub metadata when the optional sync exists.
 
-**Plans**: TBD
+**Plans**: 3/3 plans complete
 
 ## Requirement Coverage
 
@@ -157,4 +157,4 @@ Phases execute in numeric order: 1 -> 01.1 -> 2 -> 3 -> 4 -> 5.
 | 2. Curated Content Model | 2/2 | Complete | 2026-05-26 |
 | 3. Portfolio Surfaces & SEO | 3/3 | Complete | 2026-05-26 |
 | 4. Visual System & Motion | 3/3 | Complete | 2026-05-26 |
-| 5. GitHub Enrichment & Release Verification | 2/3 | In Progress | - |
+| 5. GitHub Enrichment & Release Verification | 3/3 | Complete | 2026-05-27 |
