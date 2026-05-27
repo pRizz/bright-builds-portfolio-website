@@ -21,11 +21,8 @@ describe("GitHub metadata snapshot contract", () => {
 
 describe("GitHub repository URL parser", () => {
   it("parses a canonical GitHub repository URL", () => {
-    // Arrange
-    const url = "https://github.com/pRizz/open-links";
-
     // Act
-    const result = parseGitHubRepositoryUrl(url);
+    const result = parseGitHubRepositoryUrl("https://github.com/pRizz/open-links");
 
     // Assert
     expect(result).toEqual({
