@@ -1,11 +1,18 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
+import {
+  gitHubMetadataFactsForProject,
+  maybeGitHubHomepageLinkForProject,
+  maybeGitHubMetadataForProject,
+} from "../src/domain/github-metadata";
 import { peterProfile } from "../src/domain/profile";
+import type { ProjectStory } from "../src/domain/projects";
 import {
   currentFocusProjects,
   homeProjects,
   projectAnchorHref,
+  projectLinkDisplayLabel,
   publicProjectIndexProjects,
   writingProjects,
 } from "../src/domain/projects";
@@ -52,6 +59,11 @@ const generatedOutputForbiddenPatterns = [
   { label: "@octokit/", pattern: /@octokit\//i },
   { label: "GITHUB_TOKEN", pattern: /GITHUB_TOKEN/ },
   { label: "VITE_*GITHUB*TOKEN", pattern: /VITE_[A-Z0-9_]*GITHUB[A-Z0-9_]*TOKEN/i },
+  { label: "No GitHub metadata yet", pattern: /No GitHub metadata yet/i },
+  {
+    label: "GitHub metadata refresh failed",
+    pattern: /GitHub metadata refresh failed/i,
+  },
 ] as const satisfies readonly ForbiddenTextPattern[];
 
 export const expectedRoutes: StaticRouteCheck[] = prerenderRoutes.map((route) => ({
@@ -167,6 +179,7 @@ function assertRouteHtml(root: string, check: StaticRouteCheck): void {
     );
   }
 
+  assertGitHubMetadataEnrichmentHtml(check.route, bodyBeforeHydration);
   assertForbiddenTextAbsent(root, htmlPath, html, check.forbiddenTextPatterns ?? []);
 }
 
@@ -285,6 +298,131 @@ function writingGroupExpectedTexts(): readonly string[] {
   }
 
   return projects.flatMap((project) => [project.name, project.oneLine]);
+}
+
+function assertGitHubMetadataEnrichmentHtml(route: string, bodyBeforeHydration: string): void {
+  if (route === "/") {
+    assertHomeGitHubMetadataHtml(bodyBeforeHydration);
+    return;
+  }
+
+  if (route === "/projects") {
+    assertProjectIndexGitHubMetadataHtml(bodyBeforeHydration);
+  }
+}
+
+function assertHomeGitHubMetadataHtml(bodyBeforeHydration: string): void {
+  const projects = homeProjects();
+
+  for (const [index, project] of projects.entries()) {
+    if (!maybeGitHubMetadataForProject(project)) {
+      continue;
+    }
+
+    const segment = htmlSegmentForProject({
+      html: bodyBeforeHydration,
+      startMarker: homeProjectCardMarker(project),
+      maybeEndMarker: maybeHomeProjectCardMarker(projects[index + 1]),
+      context: `home GitHub repository metadata for ${project.slug}`,
+    });
+
+    assertGitHubMetadataFactsHtml(project, segment, "home");
+
+    const maybeHomepageLink = maybeGitHubHomepageLinkForProject(project);
+
+    if (maybeHomepageLink) {
+      assertHtmlContains(
+        segment,
+        `href="${escapeHtmlAttribute(maybeHomepageLink.href)}"`,
+        `home GitHub homepage link for ${project.slug}`,
+      );
+      assertHtmlContains(
+        segment,
+        projectLinkDisplayLabel(maybeHomepageLink),
+        `home GitHub homepage link label for ${project.slug}`,
+      );
+    }
+  }
+}
+
+function assertProjectIndexGitHubMetadataHtml(bodyBeforeHydration: string): void {
+  const projects = publicProjectIndexProjects();
+
+  for (const [index, project] of projects.entries()) {
+    if (!maybeGitHubMetadataForProject(project)) {
+      continue;
+    }
+
+    const segment = htmlSegmentForProject({
+      html: bodyBeforeHydration,
+      startMarker: projectIndexCardMarker(project),
+      maybeEndMarker: maybeProjectIndexCardMarker(projects[index + 1]),
+      context: `project index GitHub repository metadata for ${project.slug}`,
+    });
+
+    assertGitHubMetadataFactsHtml(project, segment, "project index");
+  }
+}
+
+function assertGitHubMetadataFactsHtml(
+  project: ProjectStory,
+  html: string,
+  routeLabel: string,
+): void {
+  assertHtmlContains(
+    html,
+    'aria-label="GitHub repository metadata"',
+    `${routeLabel} metadata row for ${project.slug}`,
+  );
+
+  for (const fact of gitHubMetadataFactsForProject(project)) {
+    assertHtmlContains(
+      html,
+      escapeHtmlText(fact.label),
+      `${routeLabel} metadata fact label for ${project.slug}`,
+    );
+    assertHtmlContains(
+      html,
+      escapeHtmlText(fact.value),
+      `${routeLabel} metadata fact value for ${project.slug}`,
+    );
+  }
+}
+
+function htmlSegmentForProject(options: {
+  html: string;
+  startMarker: string;
+  maybeEndMarker: string | null;
+  context: string;
+}): string {
+  const start = options.html.indexOf(options.startMarker);
+
+  if (start === -1) {
+    throw new Error(`${options.context} missing start marker: ${options.startMarker}`);
+  }
+
+  const end =
+    options.maybeEndMarker === null
+      ? -1
+      : options.html.indexOf(options.maybeEndMarker, start + options.startMarker.length);
+
+  return options.html.slice(start, end === -1 ? options.html.length : end);
+}
+
+function homeProjectCardMarker(project: ProjectStory): string {
+  return `<h3 class="card-title">${escapeHtmlText(project.name)}</h3>`;
+}
+
+function maybeHomeProjectCardMarker(maybeProject: ProjectStory | undefined): string | null {
+  return maybeProject ? homeProjectCardMarker(maybeProject) : null;
+}
+
+function projectIndexCardMarker(project: ProjectStory): string {
+  return `id="${escapeHtmlAttribute(project.slug)}"`;
+}
+
+function maybeProjectIndexCardMarker(maybeProject: ProjectStory | undefined): string | null {
+  return maybeProject ? projectIndexCardMarker(maybeProject) : null;
 }
 
 function assertOutputFile(root: string, path: string): string {
