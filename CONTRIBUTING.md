@@ -46,3 +46,19 @@ This managed block is owned upstream by `bright-builds-rules`. If this block nee
 - Note any residual risks or follow-up work.
 
 <!-- bright-builds-rules-contributing:end -->
+
+## Portfolio Curation
+
+`src/domain/projects.ts` is the authority for authored project copy, tier, ordering, placement, themes, tags, and curated links. Keep curation decisions there instead of deriving them from repository popularity, topics, or other GitHub metadata.
+
+GitHub metadata is advisory enrichment. Direct repo links drive enrichment, and related links do not. If a project has no direct repo link or the metadata snapshot marks the repo unavailable, the visitor card should remain complete from curated copy alone.
+
+OpenLinks should stay low-intrusion in footer, about, contact, profile, and metadata surfaces. Do not promote it above the Bright Builds brand, GitHub collaboration links, or primary project calls to action.
+
+## Metadata Refresh and Token Safety
+
+Use `bun run sync:github-metadata` to refresh the checked-in snapshot when public repository facts need updating. Use `bun run sync:github-metadata:strict` when unavailable repositories should fail the refresh command.
+
+Docs must never include token values. The optional `GITHUB_METADATA_TOKEN` is non-public and belongs only in local or server-side command environments. Do not recommend `VITE_*`, `PUBLIC_*`, or `SOLID_PUBLIC_*` prefixes for GitHub tokens.
+
+Before release, run `bun run verify`; for post-build release verification only, run `bun run verify:release` after `bun run build`.
