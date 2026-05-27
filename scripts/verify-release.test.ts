@@ -7,8 +7,8 @@ import {
   internalLinkFindings,
   releaseBudgetThresholds,
   releaseEvidenceLabels,
-  semanticFindingsForRoute,
   type StaticReleaseRoute,
+  semanticFindingsForRoute,
 } from "./verify-release";
 
 describe("release verifier forbidden output scanner", () => {

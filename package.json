@@ -21,7 +21,8 @@
     "verify:no-github-runtime": "bun run scripts/verify-no-github-runtime.ts",
     "verify:visual-system": "bun run scripts/verify-visual-system.ts",
     "verify:static": "bun run scripts/verify-static.ts",
-    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:visual-system && bun run build && bun run verify:static"
+    "verify:release": "bun run scripts/verify-release.ts",
+    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:visual-system && bun run build && bun run verify:static && bun run verify:release"
   },
   "dependencies": {
     "@solidjs/meta": "0.29.4",
