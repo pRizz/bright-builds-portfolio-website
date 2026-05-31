@@ -3,6 +3,10 @@ phase: 08-content-helper-surface-cleanup
 plan: 01
 subsystem: content-data
 tags: [curated-projects, verification, typescript, static-portfolio]
+generated_by: gsd-execute-plan
+lifecycle_mode: yolo
+phase_lifecycle_id: 8-2026-05-31T23-03-14
+generated_at: 2026-05-31T23:35:20Z
 
 requires:
   - phase: 07-release-gates-deploy-readiness
@@ -39,10 +43,6 @@ patterns-established:
   - "Runtime and build-time source must use named supported selectors from src/domain/projects instead of namespace imports or legacy helper aliases."
 
 requirements-completed: [DATA-01, DATA-02, DATA-03]
-generated_by: gsd-execute-plan
-lifecycle_mode: yolo
-phase_lifecycle_id: 8-2026-05-31T23-03-14
-generated_at: 2026-05-31T23:35:20Z
 
 duration: 7min
 completed: 2026-05-31
@@ -117,8 +117,6 @@ Each task was committed atomically. TDD tasks include RED and GREEN commits.
 - **Verification:** `bun run test -- src/domain/foundation.test.ts src/domain/portfolio-surfaces.test.ts`, `bun run check`, and the final `bun run verify` passed.
 - **Committed in:** `fa015d6`
 
----
-
 **Total deviations:** 2 auto-fixed (2 blocking verification issues)
 **Impact on plan:** Formatting-only fixes required for the repo-native verification gate. No scope expansion, dependency changes, visitor-facing copy changes, or route behavior changes.
 
@@ -160,8 +158,6 @@ Phase 8 is complete. The release gate now blocks future source drift back to leg
 - Found created files: `scripts/verify-project-helper-surface.ts`, `scripts/project-helper-surface.test.ts`
 - Found task commits: `824290c`, `4a1c8b3`, `5225740`, `12138db`, `9919b31`, `fa015d6`, `7acd82b`
 - Confirmed required summary lifecycle fields and completed requirements are present.
-
----
 
 *Phase: 08-content-helper-surface-cleanup*
 *Completed: 2026-05-31*

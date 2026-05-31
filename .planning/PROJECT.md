@@ -12,9 +12,9 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 ## Current State
 
-v1.0 shipped on 2026-05-27 as a static SolidStart portfolio with a curated project registry, dark-primary route surfaces, static SEO metadata, low-intrusion OpenLinks identity placement, restrained UI-only motion, optional checked-in GitHub metadata enrichment, and a dependency-free release verification gate.
+v1.1 completed on 2026-05-31 as a release-confidence pass over the v1.0 static SolidStart portfolio. The site now has repeatable browser/accessibility automation, explicit release/deploy readiness gates, and an intentional curated project helper surface with guardrails against seed-era helper imports.
 
-The current release is verified by `bun run verify`, which covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, visual-system guards, production build, static output verification, and release verification over `.output/public`.
+The current release is verified by `bun run verify`, which covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
 ## Current Milestone: v1.1 Release Confidence
 
@@ -40,12 +40,13 @@ The current release is verified by `bun run verify`, which covers formatting, Bi
 - [x] [Phase 4] Restrained reactive motion is isolated to UI-layer helpers, gated for reduced motion/coarse pointer/small viewport/hidden tab/save-data, and verified for cleanup and domain purity.
 - [x] [Phase 5] Curated records can optionally render static GitHub metadata from direct repository links and a checked-in snapshot without overriding authored copy or introducing visitor-runtime GitHub dependencies.
 - [x] [Phase 5] Release readiness is proven by aggregate checks for unit behavior, static output, accessibility hooks, reduced motion, token safety, browser-flow evidence, documentation, and deployment assumptions.
+- [x] [Phase 6] v1.1 turns recorded browser/accessibility evidence into repeatable release verification for the shipped static portfolio surfaces.
+- [x] [Phase 7] v1.1 defines a release-readiness contract for accessibility, SEO, performance, external links, and Cloudflare/static deployment assumptions.
+- [x] [Phase 8] v1.1 removes stale seed-era helper exports and guards runtime/build-time source against reintroducing undocumented project helper dependencies.
 
 ### Active
 
-- [ ] v1.1 turns recorded browser/accessibility evidence into repeatable release verification for the shipped static portfolio surfaces.
-- [ ] v1.1 defines a release-readiness contract for accessibility, SEO, performance, external links, and Cloudflare/static deployment assumptions.
-- [ ] v1.1 cleans up or documents seed-era helper exports that are not part of runtime wiring.
+None.
 
 ### Out of Scope
 
@@ -92,6 +93,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | OpenLinks gets subtle identity placement | Repo-owner guidance requires OpenLinks identity presence on website profile/footer/metadata surfaces without displacing the portfolio brand. | Phase 3 and 4 preserve OpenLinks in footer/about/contact and metadata while keeping Bright Builds and project CTAs primary. |
 | GitHub metadata stays advisory and static | Optional repository metadata should add useful facts without becoming a live dependency or curation authority. | Phase 5 validated a checked-in snapshot, direct-repo-only enrichment, safe homepage links, no runtime GitHub API calls, and token-safe release gates. |
 | Release readiness is repo-native | A static portfolio release should be proven by repeatable local checks and recorded browser evidence rather than deployment-side assumptions. | Phase 5 validated aggregate `bun run verify`, static/release verifiers, documentation, and desktop/mobile/reduced-motion browser evidence. |
+| Curated helper surface is intentional | Seed-era helper aliases made the data module's supported API ambiguous. | Phase 8 removed `projectSeeds`, `primaryProjectLink`, and `featuredProjects`, documented supported selectors, and added `verify:project-helper-surface` to `bun run verify`. |
 
 ## Evolution
 
@@ -114,4 +116,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-31 after v1.1 milestone start*
+*Last updated: 2026-05-31 after v1.1 phase completion*

@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
-- 🚧 **v1.1 Release Confidence** — Phases 6-8 planned to harden repeatable release verification, deploy readiness, and content-helper cleanup.
+- ✅ **v1.1 Release Confidence** — Phases 6-8 completed 2026-05-31 to harden repeatable release verification, deploy readiness, and content-helper cleanup.
 
 ## Phases
 
@@ -19,13 +19,13 @@
 
 </details>
 
-### 🚧 v1.1 Release Confidence (In Progress)
+### ✅ v1.1 Release Confidence (Completed 2026-05-31)
 
 **Milestone Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
 
 - [x] **Phase 6: Browser & Accessibility Release Automation** - Maintainers can run repeatable browser and accessibility checks against the static portfolio surfaces. (completed 2026-05-31)
 - [x] **Phase 7: Release Gates & Deploy Readiness** - Maintainers have one release contract covering SEO, performance, external links, and Cloudflare/static deployment assumptions. (completed 2026-05-31)
-- [ ] **Phase 8: Content Helper Surface Cleanup** - Maintainers can rely on intentional curated-data APIs without seed-era helper ambiguity.
+- [x] **Phase 8: Content Helper Surface Cleanup** - Maintainers can rely on intentional curated-data APIs without seed-era helper ambiguity. (completed 2026-05-31)
 
 ## Phase Details
 
@@ -89,8 +89,8 @@ Plans:
 | 5. GitHub Enrichment & Release Verification | v1.0 | 3/3 | Complete | 2026-05-27 |
 | 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete    | 2026-05-31 |
 | 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete   | 2026-05-31 |
-| 8. Content Helper Surface Cleanup | v1.1 | 0/1 | Not started | - |
+| 8. Content Helper Surface Cleanup | v1.1 | 1/1 | Complete   | 2026-05-31 |
 
 ## Next
 
-Plan Phase 8 with `/gsd-plan-phase 8`.
+Complete the v1.1 milestone archive with `/gsd-complete-milestone`.
