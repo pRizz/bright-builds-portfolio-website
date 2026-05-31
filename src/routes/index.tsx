@@ -76,7 +76,7 @@ export default function Home() {
         </div>
 
         <ReactiveSurface class="visual-stage-content">
-          <aside class="focus-panel visual-surface reactive-card">
+          <div class="focus-panel visual-surface reactive-card">
             <h2 class="panel-title">Now building</h2>
             <ul class="focus-list" aria-label="Current project focus">
               <For each={focusProjects}>
@@ -96,7 +96,7 @@ export default function Home() {
                 )}
               </For>
             </ul>
-          </aside>
+          </div>
         </ReactiveSurface>
       </section>
 

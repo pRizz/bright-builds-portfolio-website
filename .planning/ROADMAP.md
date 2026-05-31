@@ -23,7 +23,7 @@
 
 **Milestone Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
 
-- [ ] **Phase 6: Browser & Accessibility Release Automation** - Maintainers can run repeatable browser and accessibility checks against the static portfolio surfaces.
+- [x] **Phase 6: Browser & Accessibility Release Automation** - Maintainers can run repeatable browser and accessibility checks against the static portfolio surfaces. (completed 2026-05-31)
 - [ ] **Phase 7: Release Gates & Deploy Readiness** - Maintainers have one release contract covering SEO, performance, external links, and Cloudflare/static deployment assumptions.
 - [ ] **Phase 8: Content Helper Surface Cleanup** - Maintainers can rely on intentional curated-data APIs without seed-era helper ambiguity.
 
@@ -84,7 +84,7 @@
 | 3. Portfolio Surfaces & SEO | v1.0 | 3/3 | Complete | 2026-05-26 |
 | 4. Visual System & Motion | v1.0 | 3/3 | Complete | 2026-05-26 |
 | 5. GitHub Enrichment & Release Verification | v1.0 | 3/3 | Complete | 2026-05-27 |
-| 6. Browser & Accessibility Release Automation | v1.1 | 0/TBD | Not started | - |
+| 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete    | 2026-05-31 |
 | 7. Release Gates & Deploy Readiness | v1.1 | 0/TBD | Not started | - |
 | 8. Content Helper Surface Cleanup | v1.1 | 0/TBD | Not started | - |
 

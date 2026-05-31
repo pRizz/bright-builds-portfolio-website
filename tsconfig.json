@@ -15,5 +15,12 @@
     "noEmit": true,
     "types": ["@solidjs/start/env", "bun"]
   },
-  "include": ["app.config.ts", "tailwind.config.ts", "src/**/*", "scripts/**/*"]
+  "include": [
+    "app.config.ts",
+    "playwright.config.ts",
+    "tailwind.config.ts",
+    "src/**/*",
+    "scripts/**/*",
+    "tests/**/*"
+  ]
 }
