@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { peterProfile, profileLinksByKind, profileSameAsLinks } from "./profile";
-import { curatedProjects, featuredProjects, homeProjects } from "./projects";
+import { curatedProjects, homeProjects } from "./projects";
+import * as projectSurface from "./projects";
 import { navigationRoutes, prerenderRoutes, routeByPath } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
 
@@ -93,17 +94,29 @@ describe("curated project stories", () => {
     ).toBe(false);
   });
 
-  it("keeps featuredProjects compatible with the home selector", () => {
+  it("exposes only the supported curated project helper surface", () => {
     // Arrange
-    const allProjects = curatedProjects;
+    const supportedExports = [
+      "curatedProjects",
+      "homeProjects",
+      "visibleProjects",
+      "publicProjectIndexProjects",
+      "hiddenExcludedProjects",
+      "currentFocusProjects",
+      "projectsByPlacement",
+      "writingProjects",
+      "projectAnchorHref",
+      "projectLinkDisplayLabel",
+    ];
+    const legacyExports = ["projectSeeds", "primaryProjectLink", "featuredProjects"];
 
     // Act
-    const projects = featuredProjects(allProjects);
+    const missingSupportedExports = supportedExports.filter((name) => !(name in projectSurface));
+    const exposedLegacyExports = legacyExports.filter((name) => name in projectSurface);
 
     // Assert
-    expect(projects).toEqual(homeProjects(allProjects));
-    expect(projects.every((project) => project.placement === "home")).toBe(true);
-    expect(projects.every((project) => project.tier === "flagship")).toBe(true);
+    expect(missingSupportedExports).toEqual([]);
+    expect(exposedLegacyExports).toEqual([]);
   });
 });
 
