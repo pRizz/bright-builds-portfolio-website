@@ -63,29 +63,29 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BROW-01 | Pending | Pending |
-| BROW-02 | Pending | Pending |
-| BROW-03 | Pending | Pending |
-| BROW-04 | Pending | Pending |
-| GATE-01 | Pending | Pending |
-| GATE-02 | Pending | Pending |
-| GATE-03 | Pending | Pending |
-| GATE-04 | Pending | Pending |
-| REL-01 | Pending | Pending |
-| REL-02 | Pending | Pending |
-| REL-03 | Pending | Pending |
-| REL-04 | Pending | Pending |
-| DATA-01 | Pending | Pending |
-| DATA-02 | Pending | Pending |
-| DATA-03 | Pending | Pending |
+| BROW-01 | Phase 6 | Pending |
+| BROW-02 | Phase 6 | Pending |
+| BROW-03 | Phase 6 | Pending |
+| BROW-04 | Phase 6 | Pending |
+| GATE-01 | Phase 6 | Pending |
+| GATE-02 | Phase 7 | Pending |
+| GATE-03 | Phase 7 | Pending |
+| GATE-04 | Phase 7 | Pending |
+| REL-01 | Phase 7 | Pending |
+| REL-02 | Phase 7 | Pending |
+| REL-03 | Phase 7 | Pending |
+| REL-04 | Phase 7 | Pending |
+| DATA-01 | Phase 8 | Pending |
+| DATA-02 | Phase 8 | Pending |
+| DATA-03 | Phase 8 | Pending |
 
 **Coverage:**
 
 - v1.1 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15
+- Mapped to phases: 15
+- Unmapped: 0
 
----
+______________________________________________________________________
 
 *Requirements defined: 2026-05-31*
 *Last updated: 2026-05-31 after initial definition*
