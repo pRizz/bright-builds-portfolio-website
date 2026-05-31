@@ -204,6 +204,11 @@ describe("release verifier accessibility and release evidence labels", () => {
       "image alt",
       "interactive motion surfaces",
       "reduced-motion",
+      "SEO/static metadata",
+      "static performance budgets",
+      "external link policy",
+      "Cloudflare/static deployment",
+      "preview and deploy smoke checks",
     ]);
     expect(labels.join(" ")).not.toContain("external suite");
   });

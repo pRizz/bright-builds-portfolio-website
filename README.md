@@ -35,20 +35,23 @@ Use the aggregate release gate before shipping:
 bun run verify
 ```
 
-The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the visual system, builds the production static output, verifies static prerendered routes, and then runs the release verifier.
+The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the visual system, builds the production static output, runs browser/accessibility checks, verifies static prerendered routes and metadata, and then runs the release-readiness verifier.
 
 Useful scripts:
 
 - `bun run dev`: start the local SolidStart dev server.
 - `bun run build`: create the production static build in `.output/public`.
+- `bun run verify:browser`: run Playwright and axe checks against built static output.
 - `bun run verify:static`: confirm the generated HTML exists for the current prerender routes.
-- `bun run verify:release`: run the post-build release verifier over `.output/public`.
+- `bun run verify:release`: run the post-build release-readiness verifier over `.output/public`.
 - `bun run typecheck`: run TypeScript without emitting files.
 - `bun run format:check`: check formatting with Biome.
 - `bun run check`: run Biome checks.
 - `bun run test`: run Vitest unit tests for the pure foundation modules.
 
 The direct release verifier expects `bun run build` and `bun run verify:static` to have already produced and checked `.output/public`.
+
+See [Release Readiness](docs/release-readiness.md) for the Cloudflare Pages/static deployment contract, external-link policy, preview checklist, and post-deploy smoke checks.
 
 ### Static Deployment
 

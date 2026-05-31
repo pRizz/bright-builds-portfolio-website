@@ -10,24 +10,24 @@ Requirements for the Release Confidence milestone. Each requirement must map to 
 
 ### Browser Release Automation
 
-- [ ] **BROW-01**: Maintainer can run checked-in browser release checks against the built static portfolio without relying on ad hoc recorded evidence.
-- [ ] **BROW-02**: Maintainer can verify desktop and mobile dark-primary rendering for core portfolio surfaces with no obvious text overlap, control overlap, or horizontal overflow.
-- [ ] **BROW-03**: Maintainer can verify reduced-motion browser behavior disables nonessential UI motion while preserving readable static content.
-- [ ] **BROW-04**: Maintainer can verify keyboard/focus access for primary navigation, project links, and collaboration/contact paths.
+- [x] **BROW-01**: Maintainer can run checked-in browser release checks against the built static portfolio without relying on ad hoc recorded evidence.
+- [x] **BROW-02**: Maintainer can verify desktop and mobile dark-primary rendering for core portfolio surfaces with no obvious text overlap, control overlap, or horizontal overflow.
+- [x] **BROW-03**: Maintainer can verify reduced-motion browser behavior disables nonessential UI motion while preserving readable static content.
+- [x] **BROW-04**: Maintainer can verify keyboard/focus access for primary navigation, project links, and collaboration/contact paths.
 
 ### Accessibility, SEO, and Performance Gates
 
-- [ ] **GATE-01**: Maintainer can run accessibility checks over the core static portfolio surfaces with failures reported clearly in release verification.
-- [ ] **GATE-02**: Maintainer can run SEO/static metadata release checks that cover route titles, descriptions, canonical links, Open Graph/Twitter basics, sitemap, robots, and JSON-LD.
-- [ ] **GATE-03**: Maintainer can run a realistic performance and best-practices gate, or a documented local equivalent, before release.
-- [ ] **GATE-04**: Maintainer can run one aggregate release verification command that includes the new repeatable browser, accessibility, SEO, performance, and existing static checks.
+- [x] **GATE-01**: Maintainer can run accessibility checks over the core static portfolio surfaces with failures reported clearly in release verification.
+- [x] **GATE-02**: Maintainer can run SEO/static metadata release checks that cover route titles, descriptions, canonical links, Open Graph/Twitter basics, sitemap, robots, and JSON-LD.
+- [x] **GATE-03**: Maintainer can run a realistic performance and best-practices gate, or a documented local equivalent, before release.
+- [x] **GATE-04**: Maintainer can run one aggregate release verification command that includes the new repeatable browser, accessibility, SEO, performance, and existing static checks.
 
 ### External Links and Deployment Readiness
 
-- [ ] **REL-01**: Maintainer can follow an explicit policy for validating external-link reachability, including whether checks are automated or manual and why.
-- [ ] **REL-02**: Maintainer can validate external links without leaking tokens, depending on fragile third-party behavior, or blocking release on intentionally allowed unreachable links.
-- [ ] **REL-03**: Maintainer can verify Cloudflare Pages/static deployment assumptions from checked-in documentation, including build command, output directory, package/runtime pins, and environment expectations.
-- [ ] **REL-04**: Maintainer can use a checked-in preview/deploy checklist that covers pre-deploy build output and post-deploy smoke checks.
+- [x] **REL-01**: Maintainer can follow an explicit policy for validating external-link reachability, including whether checks are automated or manual and why.
+- [x] **REL-02**: Maintainer can validate external links without leaking tokens, depending on fragile third-party behavior, or blocking release on intentionally allowed unreachable links.
+- [x] **REL-03**: Maintainer can verify Cloudflare Pages/static deployment assumptions from checked-in documentation, including build command, output directory, package/runtime pins, and environment expectations.
+- [x] **REL-04**: Maintainer can use a checked-in preview/deploy checklist that covers pre-deploy build output and post-deploy smoke checks.
 
 ### Content Helper Surface
 
@@ -63,18 +63,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BROW-01 | Phase 6 | Pending |
-| BROW-02 | Phase 6 | Pending |
-| BROW-03 | Phase 6 | Pending |
-| BROW-04 | Phase 6 | Pending |
-| GATE-01 | Phase 6 | Pending |
-| GATE-02 | Phase 7 | Pending |
-| GATE-03 | Phase 7 | Pending |
-| GATE-04 | Phase 7 | Pending |
-| REL-01 | Phase 7 | Pending |
-| REL-02 | Phase 7 | Pending |
-| REL-03 | Phase 7 | Pending |
-| REL-04 | Phase 7 | Pending |
+| BROW-01 | Phase 6 | Complete |
+| BROW-02 | Phase 6 | Complete |
+| BROW-03 | Phase 6 | Complete |
+| BROW-04 | Phase 6 | Complete |
+| GATE-01 | Phase 6 | Complete |
+| GATE-02 | Phase 7 | Complete |
+| GATE-03 | Phase 7 | Complete |
+| GATE-04 | Phase 7 | Complete |
+| REL-01 | Phase 7 | Complete |
+| REL-02 | Phase 7 | Complete |
+| REL-03 | Phase 7 | Complete |
+| REL-04 | Phase 7 | Complete |
 | DATA-01 | Phase 8 | Pending |
 | DATA-02 | Phase 8 | Pending |
 | DATA-03 | Phase 8 | Pending |

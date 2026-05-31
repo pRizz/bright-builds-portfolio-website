@@ -1,6 +1,12 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 
+import {
+  externalLinkFindingsForRoutes,
+  releaseReadinessDocumentFindings,
+  releaseReadinessEvidenceLabels,
+} from "./release-readiness";
+
 export type ReleaseTextFile = {
   kind: "text";
   path: string;
@@ -50,7 +56,6 @@ type ForbiddenOutputPattern = {
 
 const staticOutputRoot = ".output/public";
 const textOutputExtensions = new Set([".html", ".js", ".css", ".json", ".txt", ".svg", ".xml"]);
-const externalLinkRequiredHrefs = ["https://github.com/", "https://openlinks.us/"] as const;
 
 export const releaseBudgetThresholds = {
   routeHtmlBytes: 75 * 1024,
@@ -378,6 +383,7 @@ export function releaseEvidenceLabels(): readonly string[] {
     "image alt",
     "interactive motion surfaces",
     "reduced-motion",
+    ...releaseReadinessEvidenceLabels(),
   ];
 }
 
@@ -404,6 +410,7 @@ function runReleaseVerification(): void {
     ...budgetViolationsForReport(report, releaseBudgetThresholds),
     ...routes.flatMap((route) => semanticFindingsForRoute(route)),
     ...routes.flatMap((route) => accessibilityFindingsForRoute(route, cssText)),
+    ...releaseReadinessDocumentFindings(),
   ];
 
   printBudgetReport(report);
@@ -540,31 +547,6 @@ function routeHasAnchor(html: string, anchor: string): boolean {
   const namePattern = new RegExp(`\\bname=["']${escapedAnchor}["']`, "i");
 
   return idPattern.test(html) || namePattern.test(html);
-}
-
-function semanticHrefValuesForRoutes(routes: readonly StaticReleaseRoute[]): string {
-  return routes.map((route) => route.html).join("\n");
-}
-
-function externalLinkFindingsForRoutes(
-  routes: readonly StaticReleaseRoute[],
-): readonly ReleaseFinding[] {
-  const combinedHtml = semanticHrefValuesForRoutes(routes);
-  const findings: ReleaseFinding[] = [];
-
-  for (const requiredHref of externalLinkRequiredHrefs) {
-    if (combinedHtml.includes(requiredHref)) {
-      continue;
-    }
-
-    findings.push({
-      path: ".output/public",
-      label: "primary external link presence",
-      message: `Static routes are missing primary external link presence for ${requiredHref}.`,
-    });
-  }
-
-  return findings;
 }
 
 function remoteRuntimeVisualAssetFindings(
