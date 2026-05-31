@@ -68,6 +68,14 @@ export type HomeProjectStory = ProjectStory & {
   includeInProjectIndex: true;
 };
 
+/**
+ * Maintainer-facing project data surface.
+ *
+ * `curatedProjects` is the authoritative checked-in registry. Supported selector
+ * exports are `homeProjects`, `visibleProjects`, `publicProjectIndexProjects`,
+ * `hiddenExcludedProjects`, `currentFocusProjects`, `projectsByPlacement`,
+ * `writingProjects`, `projectAnchorHref`, and `projectLinkDisplayLabel`.
+ */
 export const curatedProjects = [
   {
     slug: "openlinks",
@@ -392,18 +400,10 @@ export const curatedProjects = [
   },
 ] as const satisfies readonly ProjectStory[];
 
-export const projectSeeds = curatedProjects;
-
 export function homeProjects(
   projects: readonly ProjectStory[] = curatedProjects,
 ): readonly HomeProjectStory[] {
   return sortProjects(projects.filter(isHomeProjectStory));
-}
-
-export function featuredProjects(
-  projects: readonly ProjectStory[] = curatedProjects,
-): readonly HomeProjectStory[] {
-  return homeProjects(projects);
 }
 
 export function visibleProjects(
@@ -473,10 +473,6 @@ export function projectLinkDisplayLabel(link: ProjectLink): string {
   }
 
   return link.label;
-}
-
-export function primaryProjectLink(project: ProjectStory): ProjectLink {
-  return project.links[0];
 }
 
 function isHomeProjectStory(project: ProjectStory): project is HomeProjectStory {
