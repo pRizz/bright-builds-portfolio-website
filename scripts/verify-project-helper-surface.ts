@@ -72,9 +72,7 @@ export function projectHelperSurfaceFindingsForSource(
 export function projectHelperSurfaceFindingsForFiles(
   files: readonly ProjectHelperSurfaceSourceFile[],
 ): readonly ProjectHelperSurfaceFinding[] {
-  return files.flatMap((file) =>
-    projectHelperSurfaceFindingsForSource(file.filePath, file.source),
-  );
+  return files.flatMap((file) => projectHelperSurfaceFindingsForSource(file.filePath, file.source));
 }
 
 export function runProjectHelperSurfaceVerification(
@@ -107,9 +105,7 @@ function findingsForImportDeclaration(
   }
 
   if (ts.isNamespaceImport(maybeNamedBindings)) {
-    return [
-      findingForNode(filePath, sourceFile, maybeNamedBindings, "*", "Namespace import"),
-    ];
+    return [findingForNode(filePath, sourceFile, maybeNamedBindings, "*", "Namespace import")];
   }
 
   return maybeNamedBindings.elements.flatMap((specifier) => {
@@ -222,9 +218,7 @@ function isGuardedSourcePath(filePath: string): boolean {
     return false;
   }
 
-  return !normalized
-    .split("/")
-    .some((segment) => generatedDirectorySegments.has(segment));
+  return !normalized.split("/").some((segment) => generatedDirectorySegments.has(segment));
 }
 
 function scriptKindForPath(filePath: string): ts.ScriptKind {

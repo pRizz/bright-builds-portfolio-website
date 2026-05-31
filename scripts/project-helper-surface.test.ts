@@ -55,7 +55,10 @@ describe("project helper surface import scanner", () => {
       'import { projectSeeds as seeds, featuredProjects as homeStories } from "../domain/projects";';
 
     // Act
-    const findings = projectHelperSurfaceFindingsForSource("src/components/ProjectList.tsx", source);
+    const findings = projectHelperSurfaceFindingsForSource(
+      "src/components/ProjectList.tsx",
+      source,
+    );
 
     // Assert
     expect(findings).toEqual([
