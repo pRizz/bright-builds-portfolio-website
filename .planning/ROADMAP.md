@@ -75,7 +75,7 @@
 **Plans**: 1 plan
 
 Plans:
-- [ ] 08-01-PLAN.md — Clean documented project helper exports and add the helper-surface import guard
+- [x] 08-01-PLAN.md — Clean documented project helper exports and add the helper-surface import guard
 
 ## Progress
 

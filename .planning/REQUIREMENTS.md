@@ -31,9 +31,9 @@ Requirements for the Release Confidence milestone. Each requirement must map to 
 
 ### Content Helper Surface
 
-- [ ] **DATA-01**: Maintainer can tell whether seed-era helpers such as `projectSeeds` and `primaryProjectLink` are intentional exported fixtures or removable implementation leftovers.
-- [ ] **DATA-02**: Maintainer can rely on tests or import checks proving runtime portfolio surfaces use intentional curated project selector APIs instead of orphaned helper exports.
-- [ ] **DATA-03**: Maintainer can update curated project data without reintroducing undocumented seed-era helper dependencies.
+- [x] **DATA-01**: Maintainer can tell whether seed-era helpers such as `projectSeeds` and `primaryProjectLink` are intentional exported fixtures or removable implementation leftovers.
+- [x] **DATA-02**: Maintainer can rely on tests or import checks proving runtime portfolio surfaces use intentional curated project selector APIs instead of orphaned helper exports.
+- [x] **DATA-03**: Maintainer can update curated project data without reintroducing undocumented seed-era helper dependencies.
 
 ## Future Requirements
 
@@ -75,9 +75,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REL-02 | Phase 7 | Complete |
 | REL-03 | Phase 7 | Complete |
 | REL-04 | Phase 7 | Complete |
-| DATA-01 | Phase 8 | Pending |
-| DATA-02 | Phase 8 | Pending |
-| DATA-03 | Phase 8 | Pending |
+| DATA-01 | Phase 8 | Complete |
+| DATA-02 | Phase 8 | Complete |
+| DATA-03 | Phase 8 | Complete |
 
 **Coverage:**
 
