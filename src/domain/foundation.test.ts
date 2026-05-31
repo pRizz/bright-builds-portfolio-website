@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { peterProfile, profileLinksByKind, profileSameAsLinks } from "./profile";
-import { curatedProjects, homeProjects } from "./projects";
 import * as projectSurface from "./projects";
+import { curatedProjects, homeProjects } from "./projects";
 import { navigationRoutes, prerenderRoutes, routeByPath } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
 
