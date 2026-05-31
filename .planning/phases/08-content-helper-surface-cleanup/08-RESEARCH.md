@@ -369,12 +369,13 @@ describe("curated project helper surface", () => {
 | A1 | Namespace imports can bypass a named-import-only guard unless the scanner also blocks namespace imports or checks property access. | Common Pitfalls; Architecture Patterns | Guard might miss a future legacy helper dependency introduced through `projects.projectSeeds`. |
 | A2 | Research should stay valid until 2026-06-30 unless dependency maintenance is added to the phase. | Metadata | Planner might rely on stale npm registry state if the phase expands into package upgrades. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `featuredProjects` be removed in Phase 8 or retained as explicitly deprecated compatibility?**  
    - What we know: it delegates to `homeProjects` and only `src/domain/foundation.test.ts` imports it. `[VERIFIED: src/domain/projects.ts; src/domain/foundation.test.ts; rg featuredProjects]`  
    - What's unclear: the Phase 8 context names `projectSeeds` and `primaryProjectLink` directly, while `featuredProjects` is a second alias that adds no behavior but is not directly named in DATA-01. `[VERIFIED: .planning/phases/08-content-helper-surface-cleanup/08-CONTEXT.md; .planning/REQUIREMENTS.md]`  
    - Recommendation: remove it if the planner treats "seed-era aliases that add no meaning" broadly; otherwise mark it deprecated in TSDoc and include it in the import guard's forbidden runtime names. `[VERIFIED: .planning/phases/08-content-helper-surface-cleanup/08-CONTEXT.md]`
+   - RESOLVED: remove `featuredProjects` in Phase 8 as a legacy compatibility alias because the accepted plan treats meaningless seed-era aliases broadly, removes its only compatibility test consumer, and includes `featuredProjects` in the forbidden import/export guard alongside `projectSeeds` and `primaryProjectLink`. `[VERIFIED: .planning/phases/08-content-helper-surface-cleanup/08-01-PLAN.md]`
 
 ## Environment Availability
 
