@@ -72,7 +72,10 @@
 1. Maintainer gets test or import-check failures if runtime portfolio surfaces depend on orphaned seed-era helper exports.
 1. Existing curated project behavior remains unchanged after helper cleanup or documentation.
 
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 08-01-PLAN.md — Clean documented project helper exports and add the helper-surface import guard
 
 ## Progress
 
@@ -86,7 +89,7 @@
 | 5. GitHub Enrichment & Release Verification | v1.0 | 3/3 | Complete | 2026-05-27 |
 | 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete    | 2026-05-31 |
 | 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete   | 2026-05-31 |
-| 8. Content Helper Surface Cleanup | v1.1 | 0/TBD | Not started | - |
+| 8. Content Helper Surface Cleanup | v1.1 | 0/1 | Not started | - |
 
 ## Next
 
