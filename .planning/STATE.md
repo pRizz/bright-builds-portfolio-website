@@ -1,36 +1,36 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: MVP
-status: complete
-stopped_at: v1.0 milestone archived
-last_updated: "2026-05-27T21:30:34.709Z"
-last_activity: 2026-05-27
+milestone: v1.1
+milestone_name: Release Confidence
+status: defining_requirements
+stopped_at: milestone v1.1 started
+last_updated: "2026-05-31T15:59:37-05:00"
+last_activity: 2026-05-31
 progress:
-  total_phases: 6
-  completed_phases: 6
+  total_phases: 0
+  completed_phases: 0
   total_plans: 14
   completed_plans: 14
-  percent: 100
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-27)
+See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** v1.0 archived — ready to plan next milestone
+**Current focus:** v1.1 Release Confidence — repeatable release gates, deploy readiness, and content-helper cleanup
 
 ## Current Position
 
-Phase: None — v1.0 complete
-Plan: Not started
-Status: Ready for `/gsd-new-milestone`
-Last activity: 2026-05-27
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-31 — Milestone v1.1 started
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 

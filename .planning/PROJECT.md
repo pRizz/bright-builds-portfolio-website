@@ -16,12 +16,17 @@ v1.0 shipped on 2026-05-27 as a static SolidStart portfolio with a curated proje
 
 The current release is verified by `bun run verify`, which covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, visual-system guards, production build, static output verification, and release verification over `.output/public`.
 
-## Next Milestone Goals
+## Current Milestone: v1.1 Release Confidence
 
-- Decide whether to turn the recorded browser/accessibility evidence into checked-in Playwright, axe, Lighthouse, or equivalent repeatable release checks.
-- Decide whether live external-link reachability belongs in a release gate or remains a manual release checklist item.
-- Clean up or document seed-era exported helpers such as `projectSeeds` and `primaryProjectLink` if they remain outside runtime wiring.
-- Reassess whether v1.0 should be deployed as-is before adding more portfolio content, per-project pages, writing surfaces, or richer sharing assets.
+**Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
+
+**Target features:**
+
+- Checked-in browser regression coverage for desktop and mobile dark rendering, reduced motion, keyboard/focus basics, and text-overlap or overflow risks.
+- Accessibility, SEO, and performance release gates with explicit thresholds or documented local equivalents wired into the release verification path.
+- External-link reachability policy that either automates live checks with safe timeouts/allowlists or documents a deliberate manual release checklist.
+- Cloudflare Pages/static deployment readiness documentation covering build command, output directory, environment pins, and preview/deploy assumptions.
+- Cleanup or documentation for seed-era exported helpers such as `projectSeeds` and `primaryProjectLink` so the public content/data surface is intentional.
 
 ## Requirements
 
@@ -38,7 +43,9 @@ The current release is verified by `bun run verify`, which covers formatting, Bi
 
 ### Active
 
-No active requirements remain after v1.0. Define fresh requirements with `/gsd-new-milestone`.
+- [ ] v1.1 turns recorded browser/accessibility evidence into repeatable release verification for the shipped static portfolio surfaces.
+- [ ] v1.1 defines a release-readiness contract for accessibility, SEO, performance, external links, and Cloudflare/static deployment assumptions.
+- [ ] v1.1 cleans up or documents seed-era helper exports that are not part of runtime wiring.
 
 ### Out of Scope
 
@@ -107,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-27 after v1.0 milestone completion*
+*Last updated: 2026-05-31 after v1.1 milestone start*
