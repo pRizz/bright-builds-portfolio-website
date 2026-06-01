@@ -16,15 +16,17 @@ v1.1 shipped on 2026-06-01 as a release-confidence pass over the v1.0 static Sol
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
-## Next Milestone Goals
+## Current Milestone: v1.2 Project Story Pages
 
-The next milestone should be defined with `/gsd-new-milestone` before new implementation begins.
+**Goal:** Turn curated project cards into deep, shareable static project pages with stronger narrative, metadata, and collaboration paths.
 
-Good candidate themes carried forward from the v1.1 future-requirements parking lot:
+**Target features:**
 
-- Richer per-project static pages with route-specific project storytelling and metadata.
-- A dedicated writing or notes surface.
-- Project-specific static Open Graph images beyond the current default social preview.
+- Per-project static routes for selected flagship and supporting projects.
+- Rich project storytelling covering problem, why it matters, technical shape, current status, links, and collaboration angle.
+- Route-specific SEO, JSON-LD, sitemap entries, canonical metadata, and project-specific Open Graph image/card support.
+- Home and project-index navigation that moves visitors naturally from overview cards to project detail pages.
+- Verification that project pages remain static, dark-primary, accessible, no-overlap, and covered by the existing clean-builder release gate.
 
 ## Requirements
 
@@ -45,7 +47,10 @@ Good candidate themes carried forward from the v1.1 future-requirements parking 
 
 ### Active
 
-None.
+- [ ] [v1.2] Selected curated projects have static detail routes with authored project narratives.
+- [ ] [v1.2] Project detail pages have route-specific metadata, structured data, sitemap coverage, and social preview support.
+- [ ] [v1.2] Home and project index surfaces link visitors into the new project detail routes without breaking existing overview behavior.
+- [ ] [v1.2] Existing release verification covers the new project routes for static output, accessibility, visual layout, and deploy readiness.
 
 ### Out of Scope
 
@@ -68,7 +73,7 @@ Mystic UI is owned by Peter and is the preferred SolidJS component source for th
 
 Bright Builds repo instructions require the Bright Builds Rules workflow, including plan-first work for non-trivial changes, evidence-based verification, append-only planning/task artifacts, functional-core/imperative-shell architecture, repo-native verification, TypeScript/JavaScript guidance, and use of the OpenLinks identity-presence skill for website profile/footer/metadata surfaces owned by `pRizz`.
 
-v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`.
+v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`. v1.2 starts from the approved Project Story Pages scope, prioritizing deeper project narratives before a separate writing surface or CMS/admin tooling.
 
 ## Constraints
 
@@ -94,6 +99,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | Release readiness is repo-native | A static portfolio release should be proven by repeatable local checks and recorded browser evidence rather than deployment-side assumptions. | Phase 5 validated aggregate `bun run verify`, static/release verifiers, documentation, and desktop/mobile/reduced-motion browser evidence. |
 | Curated helper surface is intentional | Seed-era helper aliases made the data module's supported API ambiguous. | Phase 8 removed `projectSeeds`, `primaryProjectLink`, and `featuredProjects`, documented supported selectors, and added `verify:project-helper-surface` to `bun run verify`. |
 | Clean builders provision browsers explicitly | Playwright browser binaries are an environment prerequisite and should not be hidden in broad lifecycle hooks. | Phase 9 added `bun run install:browser`, documented `bun run install:browser && bun run verify`, and guarded those facts in release-readiness tests. |
+| Project pages come before a writing surface | The portfolio's core value is best improved next by explaining selected projects in depth before adding a broader notes/blog area. | v1.2 scopes deep project story routes, metadata, navigation, and verification while deferring writing/notes and CMS/admin features. |
 
 ## Evolution
 
@@ -116,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-01 after v1.1 milestone completion*
+*Last updated: 2026-06-01 after v1.2 milestone start*

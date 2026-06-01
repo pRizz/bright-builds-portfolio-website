@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Release Confidence
-status: completed
-stopped_at: v1.1 archived; ready for next milestone
-last_updated: "2026-06-01T03:09:49Z"
-last_activity: 2026-06-01 -- v1.1 milestone archived
+milestone: v1.2
+milestone_name: Project Story Pages
+status: roadmap_ready
+stopped_at: v1.2 roadmap created; ready for Phase 10 discussion
+last_updated: "2026-06-01T03:33:01Z"
+last_activity: 2026-06-01 -- Milestone v1.2 roadmap created
 progress:
   total_phases: 4
-  completed_phases: 4
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,42 +21,41 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Planning the next milestone
+**Current focus:** Ready to start Phase 10 Project Detail Route Foundation
 
 ## Current Position
 
-Phase: Between milestones
-Plan: Not started
-Status: v1.1 complete and archived; ready for `/gsd-new-milestone`
-Last activity: 2026-06-01 -- v1.1 milestone archived
+Phase: 10 (not started)
+Plan: -
+Status: Roadmap created; ready for discussion/planning
+Last activity: 2026-06-01 -- Milestone v1.2 roadmap created
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
 
 - v1.0 plans completed: 14
-- Active milestone plans completed: 4
-- Active milestone plan count: 4
+- v1.1 plans completed: 4
+- Active milestone plans completed: 0
+- Active milestone plan count: 0
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 6. Browser & Accessibility Release Automation | 1/1 | - | - |
-| 7. Release Gates & Deploy Readiness | 1/1 | - | - |
-| 8. Content Helper Surface Cleanup | 1/1 | 7min | 7min |
-| 9. Clean Builder Release Gate Closure | 1/1 | 23min | 23min |
+| 10. Project Detail Route Foundation | 0/TBD | - | - |
+| 11. Project Story Page UI | 0/TBD | - | - |
+| 12. Project Metadata & Sharing | 0/TBD | - | - |
+| 13. Project Page Release Coverage | 0/TBD | - | - |
 
 **Recent Trend:**
 
 - Last completed work: v1.1 Release Confidence archived with a passed milestone audit on 2026-06-01.
-- Trend: v1.1 shipped repeatable browser/accessibility automation, checked release-readiness gates, an intentional curated project helper surface, and explicit clean-builder Playwright Chromium provisioning.
+- Trend: v1.2 is planned as four phases covering route foundation, project story UI, metadata/social sharing, and release coverage.
 
 *Updated after each plan completion*
-| Phase 08-content-helper-surface-cleanup P01 | 7min | 3 tasks | 5 files |
-| Phase 09-clean-builder-release-gate-closure P01 | 23min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -73,6 +72,7 @@ Recent decisions affecting current work:
 - [Phase 08-content-helper-surface-cleanup]: Removed projectSeeds, primaryProjectLink, and featuredProjects as stale curated project helper aliases.
 - [Phase 08-content-helper-surface-cleanup]: Added a dependency-free TypeScript AST guard to enforce the supported src/domain/projects import surface.
 - [Phase 09-clean-builder-release-gate-closure]: Added explicit `bun run install:browser` provisioning and release-readiness document guards for clean builders.
+- [v1.2 milestone]: Project Story Pages are the next product milestone; writing/notes, CMS/admin, and dynamic OG/server rendering stay deferred.
 
 ### Pending Todos
 
@@ -84,6 +84,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-01T03:09:49Z
-Stopped at: v1.1 archived; ready for next milestone planning
-Resume file: .planning/MILESTONES.md
+Last session: 2026-06-01T03:33:01Z
+Stopped at: v1.2 roadmap created; ready for Phase 10 discussion
+Resume file: .planning/ROADMAP.md
