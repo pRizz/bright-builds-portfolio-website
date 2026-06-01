@@ -22,6 +22,7 @@
     "verify:project-helper-surface": "bun run scripts/verify-project-helper-surface.ts",
     "verify:visual-system": "bun run scripts/verify-visual-system.ts",
     "serve:static": "bun run scripts/serve-static-output.ts",
+    "install:browser": "playwright install chromium",
     "verify:browser": "playwright test --config playwright.config.ts",
     "verify:static": "bun run scripts/verify-static.ts",
     "verify:release": "bun run scripts/verify-release.ts",

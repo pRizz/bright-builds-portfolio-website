@@ -10,6 +10,13 @@ Run the aggregate gate before shipping:
 bun run verify
 ```
 
+On a clean local machine or static builder where Playwright Chromium is not already provisioned, install the browser dependency explicitly before the aggregate gate:
+
+```bash
+bun run install:browser
+bun run verify
+```
+
 The aggregate gate includes:
 
 - `bun run format:check`
@@ -18,6 +25,7 @@ The aggregate gate includes:
 - `bun run test`
 - `bun run verify:curation`
 - `bun run verify:no-github-runtime`
+- `bun run verify:project-helper-surface`
 - `bun run verify:visual-system`
 - `bun run build`
 - `bun run verify:browser`
@@ -42,7 +50,7 @@ The static host must serve `.output/public` as the site root. That directory con
 
 ### Browser and Accessibility
 
-`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior.
+`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It requires the Chromium browser installed by `bun run install:browser`, and it covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior.
 
 ### Performance and Best Practices
 
@@ -100,13 +108,13 @@ Recommended settings:
 
 | Setting | Value |
 | --- | --- |
-| Build command | `bun run verify` |
+| Build command | `bun run install:browser && bun run verify` |
 | Output directory | `.output/public` |
 | Package manager | `bun@1.3.14` |
 | Bun environment variable | `BUN_VERSION=1.3.14` |
 | Node environment variable | `NODE_VERSION=22.16.0` |
 
-Use `bun run verify` as the build command when the deployment should block on the full release gate. Use `bun run build` only for emergency artifact generation after the full gate has already passed locally or in CI.
+Use `bun run install:browser && bun run verify` as the clean-builder command sequence when the deployment should block on the full release gate. `bun run verify` remains the aggregate release gate once Chromium has been provisioned. Use `bun run build` only for emergency artifact generation after the full gate has already passed locally or in CI.
 
 Environment expectations:
 
@@ -119,10 +127,11 @@ Environment expectations:
 
 Before creating a preview deployment:
 
-1. Run `bun run verify`.
-2. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
-3. Confirm the preview deployment uses `.output/public`.
-4. Confirm no token values are present in Cloudflare Pages public environment variables.
+1. Run `bun run install:browser` on a clean builder or fresh local environment.
+2. Run `bun run verify`.
+3. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
+4. Confirm the preview deployment uses `.output/public`.
+5. Confirm no token values are present in Cloudflare Pages public environment variables.
 
 After the preview deployment is available:
 
@@ -136,7 +145,7 @@ After the preview deployment is available:
 Before production:
 
 1. Confirm preview deployment smoke checks passed.
-2. Confirm `bun run verify` passed on the exact commit being deployed.
+2. Confirm `bun run install:browser && bun run verify` passed on the exact commit being deployed in any clean-builder environment.
 3. Confirm Cloudflare Pages build settings still match this document.
 
 Post-deploy smoke check:

@@ -35,12 +35,16 @@ Use the aggregate release gate before shipping:
 bun run verify
 ```
 
-The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the visual system, builds the production static output, runs browser/accessibility checks, verifies static prerendered routes and metadata, and then runs the release-readiness verifier.
+On clean machines or static builders, run `bun run install:browser` first so Playwright Chromium is available to the browser/accessibility suite.
+
+The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the project helper surface, checks the visual system, builds the production static output, runs browser/accessibility checks, verifies static prerendered routes and metadata, and then runs the release-readiness verifier.
 
 Useful scripts:
 
 - `bun run dev`: start the local SolidStart dev server.
 - `bun run build`: create the production static build in `.output/public`.
+- `bun run install:browser`: install Playwright Chromium for browser verification on clean machines/builders.
+- `bun run verify:project-helper-surface`: confirm the public project helper imports stay behind the allowed helper surface.
 - `bun run verify:browser`: run Playwright and axe checks against built static output.
 - `bun run verify:static`: confirm the generated HTML exists for the current prerender routes.
 - `bun run verify:release`: run the post-build release-readiness verifier over `.output/public`.
