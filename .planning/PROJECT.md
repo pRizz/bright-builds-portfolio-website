@@ -12,21 +12,19 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 ## Current State
 
-v1.1 completed on 2026-05-31 as a release-confidence pass over the v1.0 static SolidStart portfolio. The site now has repeatable browser/accessibility automation, explicit release/deploy readiness gates, and an intentional curated project helper surface with guardrails against seed-era helper imports.
+v1.1 shipped on 2026-06-01 as a release-confidence pass over the v1.0 static SolidStart portfolio. The site now has repeatable browser/accessibility automation, explicit clean-builder release/deploy readiness gates, and an intentional curated project helper surface with guardrails against seed-era helper imports.
 
-The current release is verified by `bun run verify`, which covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
+The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
-## Current Milestone: v1.1 Release Confidence
+## Next Milestone Goals
 
-**Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
+The next milestone should be defined with `/gsd-new-milestone` before new implementation begins.
 
-**Target features:**
+Good candidate themes carried forward from the v1.1 future-requirements parking lot:
 
-- Checked-in browser regression coverage for desktop and mobile dark rendering, reduced motion, keyboard/focus basics, and text-overlap or overflow risks.
-- Accessibility, SEO, and performance release gates with explicit thresholds or documented local equivalents wired into the release verification path.
-- External-link reachability policy that either automates live checks with safe timeouts/allowlists or documents a deliberate manual release checklist.
-- Cloudflare Pages/static deployment readiness documentation covering build command, output directory, environment pins, and preview/deploy assumptions.
-- Cleanup or documentation for seed-era exported helpers such as `projectSeeds` and `primaryProjectLink` so the public content/data surface is intentional.
+- Richer per-project static pages with route-specific project storytelling and metadata.
+- A dedicated writing or notes surface.
+- Project-specific static Open Graph images beyond the current default social preview.
 
 ## Requirements
 
@@ -43,6 +41,7 @@ The current release is verified by `bun run verify`, which covers formatting, Bi
 - [x] [Phase 6] v1.1 turns recorded browser/accessibility evidence into repeatable release verification for the shipped static portfolio surfaces.
 - [x] [Phase 7] v1.1 defines a release-readiness contract for accessibility, SEO, performance, external links, and Cloudflare/static deployment assumptions.
 - [x] [Phase 8] v1.1 removes stale seed-era helper exports and guards runtime/build-time source against reintroducing undocumented project helper dependencies.
+- [x] [Phase 9] v1.1 closes the clean-builder release gate by documenting and checking explicit Playwright Chromium provisioning before aggregate verification.
 
 ### Active
 
@@ -69,7 +68,7 @@ Mystic UI is owned by Peter and is the preferred SolidJS component source for th
 
 Bright Builds repo instructions require the Bright Builds Rules workflow, including plan-first work for non-trivial changes, evidence-based verification, append-only planning/task artifacts, functional-core/imperative-shell architecture, repo-native verification, TypeScript/JavaScript guidance, and use of the OpenLinks identity-presence skill for website profile/footer/metadata surfaces owned by `pRizz`.
 
-v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. The carried-forward debt is limited to repeatable browser/accessibility automation, optional external-link reachability checks, and seed-era helper cleanup.
+v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`.
 
 ## Constraints
 
@@ -94,6 +93,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | GitHub metadata stays advisory and static | Optional repository metadata should add useful facts without becoming a live dependency or curation authority. | Phase 5 validated a checked-in snapshot, direct-repo-only enrichment, safe homepage links, no runtime GitHub API calls, and token-safe release gates. |
 | Release readiness is repo-native | A static portfolio release should be proven by repeatable local checks and recorded browser evidence rather than deployment-side assumptions. | Phase 5 validated aggregate `bun run verify`, static/release verifiers, documentation, and desktop/mobile/reduced-motion browser evidence. |
 | Curated helper surface is intentional | Seed-era helper aliases made the data module's supported API ambiguous. | Phase 8 removed `projectSeeds`, `primaryProjectLink`, and `featuredProjects`, documented supported selectors, and added `verify:project-helper-surface` to `bun run verify`. |
+| Clean builders provision browsers explicitly | Playwright browser binaries are an environment prerequisite and should not be hidden in broad lifecycle hooks. | Phase 9 added `bun run install:browser`, documented `bun run install:browser && bun run verify`, and guarded those facts in release-readiness tests. |
 
 ## Evolution
 
@@ -116,4 +116,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-05-31 after v1.1 phase completion*
+*Last updated: 2026-06-01 after v1.1 milestone completion*

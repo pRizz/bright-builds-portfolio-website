@@ -1,5 +1,18 @@
 # Milestones
 
+## v1.1 Release Confidence (Shipped: 2026-06-01)
+
+**Phases completed:** 4 phases, 4 plans, 13 tasks
+
+**Key accomplishments:**
+
+- Playwright and axe browser release checks now validate the built static portfolio across dark desktop/mobile layout, keyboard reachability, reduced motion, and route accessibility.
+- The release gate now has a checked release-readiness contract covering static metadata, browser/a11y, performance budgets, external-link policy, Cloudflare Pages deployment assumptions, and preview/deploy smoke checks.
+- Curated project data now has a documented selector API, no seed-era helper exports, and a checked AST import guard in the aggregate release gate.
+- Clean-builder release guidance now provisions Playwright Chromium explicitly and the release-readiness verifier guards the documented gate contract.
+
+---
+
 ## v1.0 MVP (Shipped: 2026-05-27)
 
 **Phases completed:** 6 phases, 14 plans, 40 tasks

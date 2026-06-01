@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Release Confidence
-status: milestone_complete
-stopped_at: Phase 9 complete; ready for milestone audit and completion
-last_updated: "2026-06-01T01:21:42.447Z"
-last_activity: 2026-06-01 -- Phase 09 complete
+status: completed
+stopped_at: v1.1 archived; ready for next milestone
+last_updated: "2026-06-01T03:09:49Z"
+last_activity: 2026-06-01 -- v1.1 milestone archived
 progress:
   total_phases: 4
   completed_phases: 4
@@ -18,17 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-31)
+See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** v1.1 milestone audit and completion
+**Current focus:** Planning the next milestone
 
 ## Current Position
 
-Phase: 09 (complete)
-Plan: 1 of 1
-Status: Milestone complete; ready for audit/completion
-Last activity: 2026-06-01 -- Phase 09 complete
+Phase: Between milestones
+Plan: Not started
+Status: v1.1 complete and archived; ready for `/gsd-new-milestone`
+Last activity: 2026-06-01 -- v1.1 milestone archived
 
 Progress: [██████████] 100%
 
@@ -51,8 +51,8 @@ Progress: [██████████] 100%
 
 **Recent Trend:**
 
-- Last completed work: v1.1 Phase 9 clean-builder release gate closure completed and verified 2026-06-01
-- Trend: v1.1 now has repeatable browser/accessibility automation, checked release-readiness gates, an intentional curated project helper surface, and explicit clean-builder Playwright Chromium provisioning.
+- Last completed work: v1.1 Release Confidence archived with a passed milestone audit on 2026-06-01.
+- Trend: v1.1 shipped repeatable browser/accessibility automation, checked release-readiness gates, an intentional curated project helper surface, and explicit clean-builder Playwright Chromium provisioning.
 
 *Updated after each plan completion*
 | Phase 08-content-helper-surface-cleanup P01 | 7min | 3 tasks | 5 files |
@@ -84,6 +84,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-01T00:47:44.761Z
-Stopped at: Phase 9 complete; ready for milestone audit and completion
-Resume file: .planning/phases/09-clean-builder-release-gate-closure/09-VERIFICATION.md
+Last session: 2026-06-01T03:09:49Z
+Stopped at: v1.1 archived; ready for next milestone planning
+Resume file: .planning/MILESTONES.md

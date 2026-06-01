@@ -52,6 +52,53 @@
 
 ---
 
+## Milestone: v1.1 — Release Confidence
+
+**Shipped:** 2026-06-01
+
+**Phases:** 4 | **Plans:** 4 | **Recorded Tasks:** 13
+
+### What Was Built
+
+- Repeatable Playwright and axe browser release checks for dark desktop/mobile rendering, keyboard reachability, reduced motion, and route accessibility.
+- Release-readiness documentation and verification covering static metadata, browser/a11y, performance budgets, external-link policy, Cloudflare Pages assumptions, and preview/deploy smoke expectations.
+- Curated project helper-surface cleanup that removed seed-era helper aliases, documented the supported selector API, and added an AST import guard to the aggregate release gate.
+- Clean-builder browser provisioning through explicit `bun run install:browser` guidance and verifier coverage for the release contract.
+
+### What Worked
+
+- The milestone audit caught a real release-readiness gap before archival, and Phase 9 closed it with documentation, script, and verifier changes.
+- Keeping v1.1 scoped to release confidence avoided product expansion while improving the repeatability of the shipped v1.0 site.
+- The aggregate `bun run verify` gate now represents the real release path more honestly by including the helper-surface guard, static release checks, build, and browser automation.
+- A focused integration audit after drift cleanup confirmed 15/15 requirements and 8/8 user flows before completion.
+
+### What Was Inefficient
+
+- Summary frontmatter still referenced reassigned requirements after Phase 9 took ownership, which caused non-blocking audit drift.
+- The milestone completion tool updated structured `STATE.md` fields but missed some prose sections, so final state cleanup was manual.
+- Clean-builder browser provisioning was implicit until the audit forced it into the release contract.
+
+### Patterns Established
+
+- Requirement reassignment should update phase summary frontmatter at the same time as the roadmap and audit.
+- Browser release automation should name its environment prerequisites explicitly instead of hiding them in broad verification commands.
+- Release-readiness docs should be guarded by tests or focused verifiers when they encode deploy-critical facts.
+- Keep phase directories available after archival when they still provide useful release evidence and traceability.
+
+### Key Lessons
+
+1. Clean-builder browser provisioning is a release requirement, not just local developer setup.
+2. Milestone audits should cross-check summary frontmatter ownership after gap-closure phases.
+3. Aggregate release docs need to list material sub-gates so future cleanup cannot silently remove them.
+
+### Cost Observations
+
+- Model mix: GSD agents handled audit and integration validation; main-thread work handled metadata cleanup, archival, and publication.
+- Sessions: One v1.1 gap-closure cycle after the v1.0 retrospective.
+- Notable: Keeping archival separate from active requirement deletion made the milestone completion safer to review and commit.
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -59,14 +106,17 @@
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
 | v1.0 | 1 cycle | 6 | Established GSD phase flow, strict release verification, and milestone archival. |
+| v1.1 | 1 cycle | 4 | Converted release confidence debt into repeatable browser/deploy/helper-surface gates. |
 
 ### Cumulative Quality
 
 | Milestone | Tests | Coverage | Zero-Dep Additions |
 |-----------|-------|----------|-------------------|
 | v1.0 | 63 Vitest tests | Requirements 38/38 | Static, curation, no-runtime-GitHub, visual-system, and release verification scripts. |
+| v1.1 | 77 Vitest tests + 23 Playwright checks passing | Requirements 15/15 | Browser/a11y release tests, project helper-surface import guard, and clean-builder release-readiness checks. |
 
 ### Top Lessons (Verified Across Milestones)
 
-1. Static portfolios still need release gates for metadata, accessibility hooks, links, assets, and token safety.
+1. Static portfolios still need release gates for metadata, accessibility hooks, links, assets, browser provisioning, and token safety.
 2. Curated content and generated metadata should remain separate so automation cannot override editorial judgment.
+3. Requirement ownership metadata is part of milestone truth and needs the same cleanup attention as roadmap prose.
