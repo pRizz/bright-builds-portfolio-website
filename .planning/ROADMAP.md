@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
-- ✅ **v1.1 Release Confidence** — Phases 6-8 completed 2026-05-31 to harden repeatable release verification, deploy readiness, and content-helper cleanup.
+- 🚧 **v1.1 Release Confidence** — Phases 6-8 completed 2026-05-31; Phase 9 closes the clean-builder release gate gaps found in the milestone audit.
 
 ## Phases
 
@@ -19,13 +19,14 @@
 
 </details>
 
-### ✅ v1.1 Release Confidence (Completed 2026-05-31)
+### 🚧 v1.1 Release Confidence (Gap Closure)
 
 **Milestone Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
 
 - [x] **Phase 6: Browser & Accessibility Release Automation** - Maintainers can run repeatable browser and accessibility checks against the static portfolio surfaces. (completed 2026-05-31)
 - [x] **Phase 7: Release Gates & Deploy Readiness** - Maintainers have one release contract covering SEO, performance, external links, and Cloudflare/static deployment assumptions. (completed 2026-05-31)
 - [x] **Phase 8: Content Helper Surface Cleanup** - Maintainers can rely on intentional curated-data APIs without seed-era helper ambiguity. (completed 2026-05-31)
+- [ ] **Phase 9: Clean Builder Release Gate Closure** - Maintainers can run the aggregate release gate from clean builder environments with documented browser provisioning and complete gate documentation.
 
 ## Phase Details
 
@@ -33,7 +34,8 @@
 
 **Goal**: Maintainers can run repeatable browser and accessibility release checks against the shipped static portfolio surfaces.
 **Depends on**: Phase 5
-**Requirements**: BROW-01, BROW-02, BROW-03, BROW-04, GATE-01
+**Requirements**: BROW-02, BROW-03, BROW-04, GATE-01
+**Gap Closure Note**: BROW-01 moved to Phase 9 after the v1.1 milestone audit found clean-builder browser provisioning was not documented or scripted.
 **Success Criteria** (what must be TRUE):
 
 1. Maintainer can run checked-in browser release checks against built static output and get clear pass/fail evidence.
@@ -49,7 +51,8 @@
 
 **Goal**: Maintainers can use one release-readiness contract for SEO, performance, external links, and Cloudflare/static deployment assumptions.
 **Depends on**: Phase 6
-**Requirements**: GATE-02, GATE-03, GATE-04, REL-01, REL-02, REL-03, REL-04
+**Requirements**: GATE-02, GATE-03, REL-01, REL-02
+**Gap Closure Note**: GATE-04, REL-03, and REL-04 moved to Phase 9 after the v1.1 milestone audit found the clean-builder release path incomplete.
 **Success Criteria** (what must be TRUE):
 
 1. Maintainer can run SEO/static metadata checks that cover route titles, descriptions, canonical links, Open Graph/Twitter basics, sitemap, robots, and JSON-LD.
@@ -77,6 +80,21 @@
 Plans:
 - [x] 08-01-PLAN.md — Clean documented project helper exports and add the helper-surface import guard
 
+### Phase 9: Clean Builder Release Gate Closure
+
+**Goal**: Maintainers can run the aggregate release gate from clean builder environments with documented Playwright browser provisioning and complete release gate documentation.
+**Depends on**: Phase 8
+**Requirements**: BROW-01, GATE-04, REL-03, REL-04
+**Gap Closure**: Closes gaps from `.planning/v1.1-MILESTONE-AUDIT.md`.
+**Success Criteria** (what must be TRUE):
+
+1. Maintainer can identify and run the browser provisioning step required before `bun run verify` on a clean builder.
+1. Release-readiness documentation explains how Playwright/Chromium is provisioned for local and Cloudflare/static release verification.
+1. The aggregate release gate documentation names `verify:project-helper-surface` as part of `bun run verify`.
+1. Release-readiness checks or focused tests fail if the clean-builder browser provisioning and helper-surface guard facts are omitted from the release contract.
+
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -90,7 +108,8 @@ Plans:
 | 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete    | 2026-05-31 |
 | 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete   | 2026-05-31 |
 | 8. Content Helper Surface Cleanup | v1.1 | 1/1 | Complete   | 2026-05-31 |
+| 9. Clean Builder Release Gate Closure | v1.1 | 0/1 | Not started | - |
 
 ## Next
 
-Complete the v1.1 milestone archive with `/gsd-complete-milestone`.
+Plan the v1.1 gap closure phase with `/gsd-plan-phase 9`.
