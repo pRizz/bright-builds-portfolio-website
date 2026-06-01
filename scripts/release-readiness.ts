@@ -79,7 +79,13 @@ const requiredReleaseReadinessDocumentFacts = [
   { label: "Cloudflare Pages", text: "Cloudflare Pages" },
   { label: "Bun version pin", text: "BUN_VERSION=1.3.14" },
   { label: "Node version pin", text: "NODE_VERSION=22.16.0" },
+  { label: "Playwright Chromium provisioning command", text: "bun run install:browser" },
+  {
+    label: "clean-builder browser provisioning before aggregate verify",
+    text: "bun run install:browser && bun run verify",
+  },
   { label: "browser release gate", text: "bun run verify:browser" },
+  { label: "project helper surface gate", text: "bun run verify:project-helper-surface" },
   { label: "static metadata gate", text: "bun run verify:static" },
   { label: "release verifier gate", text: "bun run verify:release" },
   { label: "manual external-link smoke check", text: "Manual external-link smoke check" },

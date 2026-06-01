@@ -1,3 +1,6 @@
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -110,6 +113,44 @@ describe("release-readiness document contract", () => {
     ]);
   });
 
+  it("reports missing Playwright Chromium provisioning guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("bun run install:browser");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing Playwright Chromium provisioning command: bun run install:browser.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing project helper surface gate guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("bun run verify:project-helper-surface");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing project helper surface gate: bun run verify:project-helper-surface.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("names release-readiness evidence covered by the aggregate gate", () => {
     // Arrange
     const expectedLabels = [
@@ -133,5 +174,21 @@ function routeFixture(route: string, html: string): StaticReleaseRoute {
     path: route === "/" ? "index.html" : `${route.slice(1)}/index.html`,
     route,
     html,
+  };
+}
+
+function releaseDocumentFixtureWithout(textToRemove: string) {
+  const directoryPath = mkdtempSync(join(tmpdir(), "release-readiness-"));
+  const documentPath = join(directoryPath, "release-readiness.md");
+  const documentText = readFileSync("docs/release-readiness.md", "utf8").replaceAll(
+    textToRemove,
+    "",
+  );
+
+  writeFileSync(documentPath, documentText);
+
+  return {
+    path: documentPath,
+    cleanup: () => rmSync(directoryPath, { recursive: true, force: true }),
   };
 }
