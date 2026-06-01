@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Release Confidence
-status: executing
-stopped_at: Phase 9 context gathered
-last_updated: "2026-06-01T01:06:03.839Z"
-last_activity: 2026-06-01 -- Phase 09 execution started
+status: milestone_complete
+stopped_at: Phase 9 complete; ready for milestone audit and completion
+last_updated: "2026-06-01T01:21:42.447Z"
+last_activity: 2026-06-01 -- Phase 09 complete
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 4
-  completed_plans: 3
-  percent: 75
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 09 — clean-builder-release-gate-closure
+**Current focus:** v1.1 milestone audit and completion
 
 ## Current Position
 
-Phase: 09 (clean-builder-release-gate-closure) — EXECUTING
+Phase: 09 (complete)
 Plan: 1 of 1
-Status: Executing Phase 09
-Last activity: 2026-06-01 -- Phase 09 execution started
+Status: Milestone complete; ready for audit/completion
+Last activity: 2026-06-01 -- Phase 09 complete
 
 Progress: [██████████] 100%
 
@@ -37,8 +37,8 @@ Progress: [██████████] 100%
 **Velocity:**
 
 - v1.0 plans completed: 14
-- Active milestone plans completed: 3
-- Active milestone plan count: 3
+- Active milestone plans completed: 4
+- Active milestone plan count: 4
 
 **By Phase:**
 
@@ -47,14 +47,16 @@ Progress: [██████████] 100%
 | 6. Browser & Accessibility Release Automation | 1/1 | - | - |
 | 7. Release Gates & Deploy Readiness | 1/1 | - | - |
 | 8. Content Helper Surface Cleanup | 1/1 | 7min | 7min |
+| 9. Clean Builder Release Gate Closure | 1/1 | 23min | 23min |
 
 **Recent Trend:**
 
-- Last completed work: v1.1 Phase 8 content helper surface cleanup completed and verified 2026-05-31
-- Trend: v1.1 now has repeatable browser/accessibility automation, checked release-readiness gates, and an intentional curated project helper surface.
+- Last completed work: v1.1 Phase 9 clean-builder release gate closure completed and verified 2026-06-01
+- Trend: v1.1 now has repeatable browser/accessibility automation, checked release-readiness gates, an intentional curated project helper surface, and explicit clean-builder Playwright Chromium provisioning.
 
 *Updated after each plan completion*
 | Phase 08-content-helper-surface-cleanup P01 | 7min | 3 tasks | 5 files |
+| Phase 09-clean-builder-release-gate-closure P01 | 23min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -70,6 +72,7 @@ Recent decisions affecting current work:
 - [Phase 8]: Resolve seed-era helper ambiguity after the release gate contract is in place.
 - [Phase 08-content-helper-surface-cleanup]: Removed projectSeeds, primaryProjectLink, and featuredProjects as stale curated project helper aliases.
 - [Phase 08-content-helper-surface-cleanup]: Added a dependency-free TypeScript AST guard to enforce the supported src/domain/projects import surface.
+- [Phase 09-clean-builder-release-gate-closure]: Added explicit `bun run install:browser` provisioning and release-readiness document guards for clean builders.
 
 ### Pending Todos
 
@@ -82,5 +85,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-01T00:47:44.761Z
-Stopped at: Phase 9 context gathered
-Resume file: .planning/phases/09-clean-builder-release-gate-closure/09-CONTEXT.md
+Stopped at: Phase 9 complete; ready for milestone audit and completion
+Resume file: .planning/phases/09-clean-builder-release-gate-closure/09-VERIFICATION.md

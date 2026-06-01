@@ -10,7 +10,7 @@ Requirements for the Release Confidence milestone. Each requirement must map to 
 
 ### Browser Release Automation
 
-- [ ] **BROW-01**: Maintainer can run checked-in browser release checks against the built static portfolio without relying on ad hoc recorded evidence.
+- [x] **BROW-01**: Maintainer can run checked-in browser release checks against the built static portfolio without relying on ad hoc recorded evidence.
 - [x] **BROW-02**: Maintainer can verify desktop and mobile dark-primary rendering for core portfolio surfaces with no obvious text overlap, control overlap, or horizontal overflow.
 - [x] **BROW-03**: Maintainer can verify reduced-motion browser behavior disables nonessential UI motion while preserving readable static content.
 - [x] **BROW-04**: Maintainer can verify keyboard/focus access for primary navigation, project links, and collaboration/contact paths.
@@ -20,14 +20,14 @@ Requirements for the Release Confidence milestone. Each requirement must map to 
 - [x] **GATE-01**: Maintainer can run accessibility checks over the core static portfolio surfaces with failures reported clearly in release verification.
 - [x] **GATE-02**: Maintainer can run SEO/static metadata release checks that cover route titles, descriptions, canonical links, Open Graph/Twitter basics, sitemap, robots, and JSON-LD.
 - [x] **GATE-03**: Maintainer can run a realistic performance and best-practices gate, or a documented local equivalent, before release.
-- [ ] **GATE-04**: Maintainer can run one aggregate release verification command that includes the new repeatable browser, accessibility, SEO, performance, and existing static checks.
+- [x] **GATE-04**: Maintainer can run one aggregate release verification command that includes the new repeatable browser, accessibility, SEO, performance, and existing static checks.
 
 ### External Links and Deployment Readiness
 
 - [x] **REL-01**: Maintainer can follow an explicit policy for validating external-link reachability, including whether checks are automated or manual and why.
 - [x] **REL-02**: Maintainer can validate external links without leaking tokens, depending on fragile third-party behavior, or blocking release on intentionally allowed unreachable links.
-- [ ] **REL-03**: Maintainer can verify Cloudflare Pages/static deployment assumptions from checked-in documentation, including build command, output directory, package/runtime pins, and environment expectations.
-- [ ] **REL-04**: Maintainer can use a checked-in preview/deploy checklist that covers pre-deploy build output and post-deploy smoke checks.
+- [x] **REL-03**: Maintainer can verify Cloudflare Pages/static deployment assumptions from checked-in documentation, including build command, output directory, package/runtime pins, and environment expectations.
+- [x] **REL-04**: Maintainer can use a checked-in preview/deploy checklist that covers pre-deploy build output and post-deploy smoke checks.
 
 ### Content Helper Surface
 
@@ -63,18 +63,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BROW-01 | Phase 9 | Pending |
+| BROW-01 | Phase 9 | Complete |
 | BROW-02 | Phase 6 | Complete |
 | BROW-03 | Phase 6 | Complete |
 | BROW-04 | Phase 6 | Complete |
 | GATE-01 | Phase 6 | Complete |
 | GATE-02 | Phase 7 | Complete |
 | GATE-03 | Phase 7 | Complete |
-| GATE-04 | Phase 9 | Pending |
+| GATE-04 | Phase 9 | Complete |
 | REL-01 | Phase 7 | Complete |
 | REL-02 | Phase 7 | Complete |
-| REL-03 | Phase 9 | Pending |
-| REL-04 | Phase 9 | Pending |
+| REL-03 | Phase 9 | Complete |
+| REL-04 | Phase 9 | Complete |
 | DATA-01 | Phase 8 | Complete |
 | DATA-02 | Phase 8 | Complete |
 | DATA-03 | Phase 8 | Complete |
@@ -84,10 +84,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 - v1.1 requirements: 15 total
 - Mapped to phases: 15
 - Unmapped: 0
-- Complete: 11
-- Pending gap closure: 4
+- Complete: 15
+- Pending gap closure: 0
 
 ______________________________________________________________________
 
 *Requirements defined: 2026-05-31*
-*Last updated: 2026-06-01 after milestone audit gap planning*
+*Last updated: 2026-06-01 after Phase 9 gap closure verification*

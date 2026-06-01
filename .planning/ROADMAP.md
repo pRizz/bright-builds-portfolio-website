@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
-- 🚧 **v1.1 Release Confidence** — Phases 6-8 completed 2026-05-31; Phase 9 closes the clean-builder release gate gaps found in the milestone audit.
+- ✅ **v1.1 Release Confidence** — Phases 6-9 completed 2026-06-01; Phase 9 closed the clean-builder release gate gaps found in the milestone audit.
 
 ## Phases
 
@@ -19,14 +19,14 @@
 
 </details>
 
-### 🚧 v1.1 Release Confidence (Gap Closure)
+### ✅ v1.1 Release Confidence (Gap Closure)
 
 **Milestone Goal:** Turn the shipped v1.0 portfolio into a repeatable, deploy-ready release by hardening browser, accessibility, SEO, performance, external-link, deployment, and content-helper verification before expanding product scope.
 
 - [x] **Phase 6: Browser & Accessibility Release Automation** - Maintainers can run repeatable browser and accessibility checks against the static portfolio surfaces. (completed 2026-05-31)
 - [x] **Phase 7: Release Gates & Deploy Readiness** - Maintainers have one release contract covering SEO, performance, external links, and Cloudflare/static deployment assumptions. (completed 2026-05-31)
 - [x] **Phase 8: Content Helper Surface Cleanup** - Maintainers can rely on intentional curated-data APIs without seed-era helper ambiguity. (completed 2026-05-31)
-- [ ] **Phase 9: Clean Builder Release Gate Closure** - Maintainers can run the aggregate release gate from clean builder environments with documented browser provisioning and complete gate documentation.
+- [x] **Phase 9: Clean Builder Release Gate Closure** - Maintainers can run the aggregate release gate from clean builder environments with documented browser provisioning and complete gate documentation. (completed 2026-06-01)
 
 ## Phase Details
 
@@ -93,7 +93,10 @@ Plans:
 1. The aggregate release gate documentation names `verify:project-helper-surface` as part of `bun run verify`.
 1. Release-readiness checks or focused tests fail if the clean-builder browser provisioning and helper-surface guard facts are omitted from the release contract.
 
-**Plans**: TBD
+**Plans**: 1/1 plans complete
+
+Plans:
+- [x] 09-01-PLAN.md — Close clean-builder browser provisioning and release gate documentation gaps
 
 ## Progress
 
@@ -108,8 +111,8 @@ Plans:
 | 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete    | 2026-05-31 |
 | 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete   | 2026-05-31 |
 | 8. Content Helper Surface Cleanup | v1.1 | 1/1 | Complete   | 2026-05-31 |
-| 9. Clean Builder Release Gate Closure | v1.1 | 0/1 | Not started | - |
+| 9. Clean Builder Release Gate Closure | v1.1 | 1/1 | Complete | 2026-06-01 |
 
 ## Next
 
-Plan the v1.1 gap closure phase with `/gsd-plan-phase 9`.
+Run the v1.1 milestone audit again, then complete the milestone with `/gsd-complete-milestone`.
