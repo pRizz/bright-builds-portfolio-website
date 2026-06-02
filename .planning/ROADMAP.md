@@ -121,7 +121,7 @@
 | 9. Clean Builder Release Gate Closure | v1.1 | 1/1 | Complete | 2026-06-01 |
 | 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
-| 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete   | 2026-06-02 |
+| 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete    | 2026-06-02 |
 | 13. Project Page Release Coverage | v1.2 | 0/TBD | Not Started | - |
 
 ## Next
