@@ -86,7 +86,8 @@
 1. Generated sitemap output includes selected project detail routes and excludes unselected projects.
 1. Project detail routes use deterministic project-specific social preview support or a documented static fallback without runtime rendering.
 
-**Plans:** TBD
+**Plans:** 1 plan
+- [ ] `12-01-PLAN.md` — Project metadata, structured data, sitemap, social preview fallback, and verifier coverage
 **UI hint:** no
 
 ### Phase 13: Project Page Release Coverage
