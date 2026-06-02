@@ -22,10 +22,10 @@
 
 ### Project Metadata
 
-- [ ] **META-01**: Each project detail route has route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from curated project data.
-- [ ] **META-02**: Each project detail route renders project-specific JSON-LD suitable for static software/project pages.
-- [ ] **META-03**: Generated sitemap output includes every selected project detail route and excludes unselected projects.
-- [ ] **META-04**: Project detail routes have deterministic project-specific social preview support or a documented static fallback that does not require runtime rendering.
+- [x] **META-01**: Each project detail route has route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from curated project data.
+- [x] **META-02**: Each project detail route renders project-specific JSON-LD suitable for static software/project pages.
+- [x] **META-03**: Generated sitemap output includes every selected project detail route and excludes unselected projects.
+- [x] **META-04**: Project detail routes have deterministic project-specific social preview support or a documented static fallback that does not require runtime rendering.
 
 ### Navigation
 
@@ -84,10 +84,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STORY-02 | Phase 11 | Complete |
 | STORY-03 | Phase 11 | Complete |
 | STORY-04 | Phase 11 | Complete |
-| META-01 | Phase 12 | Pending |
-| META-02 | Phase 12 | Pending |
-| META-03 | Phase 12 | Pending |
-| META-04 | Phase 12 | Pending |
+| META-01 | Phase 12 | Complete |
+| META-02 | Phase 12 | Complete |
+| META-03 | Phase 12 | Complete |
+| META-04 | Phase 12 | Complete |
 | NAV-01 | Phase 11 | Complete |
 | NAV-02 | Phase 11 | Complete |
 | NAV-03 | Phase 11 | Complete |

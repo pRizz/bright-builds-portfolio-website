@@ -36,7 +36,7 @@
 
 - [x] **Phase 10: Project Detail Route Foundation** — Maintainers can select project detail pages from curated data and prerender stable static routes for them. Completed 2026-06-02.
 - [x] **Phase 11: Project Story Page UI** — Visitors can read selected project detail pages with authored narrative, project facts, and clear project actions. Completed 2026-06-02.
-- [ ] **Phase 12: Project Metadata & Sharing** — Project detail routes have specific metadata, structured data, sitemap coverage, and deterministic social preview support.
+- [x] **Phase 12: Project Metadata & Sharing** — Project detail routes have specific metadata, structured data, sitemap coverage, and deterministic social preview support. (completed 2026-06-02)
 - [ ] **Phase 13: Project Page Release Coverage** — The clean-builder release gate verifies project detail routes across static output, browser behavior, and release documentation.
 
 ## Phase Details
@@ -86,7 +86,7 @@
 1. Generated sitemap output includes selected project detail routes and excludes unselected projects.
 1. Project detail routes use deterministic project-specific social preview support or a documented static fallback without runtime rendering.
 
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 - [ ] `12-01-PLAN.md` — Project metadata, structured data, sitemap, social preview fallback, and verifier coverage
 **UI hint:** no
 
@@ -121,7 +121,7 @@
 | 9. Clean Builder Release Gate Closure | v1.1 | 1/1 | Complete | 2026-06-01 |
 | 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
-| 12. Project Metadata & Sharing | v1.2 | 0/TBD | Not Started | - |
+| 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete   | 2026-06-02 |
 | 13. Project Page Release Coverage | v1.2 | 0/TBD | Not Started | - |
 
 ## Next
