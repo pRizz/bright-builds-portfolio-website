@@ -159,11 +159,26 @@ describe("release verifier semantic checker", () => {
     ]);
   });
 
-  it("defers JSON-LD checks for project detail foundation routes", () => {
+  it("requires JSON-LD for project detail routes", () => {
     // Arrange
     const html = [
       '<a class="skip-link" href="#content">Skip to content</a>',
       '<main id="content"><h1>OpenLinks</h1></main>',
+    ].join("");
+
+    // Act
+    const findings = semanticFindingsForRoute(routeFixture("/projects/openlinks", html));
+
+    // Assert
+    expect(findings.map((finding) => finding.label)).toEqual(["JSON-LD"]);
+  });
+
+  it("accepts project detail routes with valid landmarks, skip link, and JSON-LD", () => {
+    // Arrange
+    const html = [
+      '<a class="skip-link" href="#content">Skip to content</a>',
+      '<main id="content"><h1>OpenLinks</h1></main>',
+      '<script type="application/ld+json">{"@type":"SoftwareSourceCode"}</script>',
     ].join("");
 
     // Act
