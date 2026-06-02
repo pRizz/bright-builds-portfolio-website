@@ -21,6 +21,7 @@ import {
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
+  projectJsonLd,
   robotsTxt,
   sitemapXml,
 } from "./seo";
@@ -254,6 +255,38 @@ describe("portfolio SEO surfaces", () => {
     expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}${projectDetailPath(project)}`);
     expect(metadata.openGraph.url).toBe(metadata.canonical);
     expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+  });
+
+  it("creates SoftwareSourceCode JSON-LD for selected project stories with creator identity", () => {
+    // Arrange
+    const project = projectDetailPageProjects()[0];
+    const expectedSameAs = ["https://github.com/pRizz", "https://openlinks.us/"];
+
+    // Act
+    const jsonLd = projectJsonLd(project, peterProfile);
+
+    // Assert
+    expect(jsonLd).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      name: project.name,
+      description: project.oneLine,
+      url: `${peterProfile.canonicalOrigin}${projectDetailPath(project)}`,
+      sameAs: project.links.map((link) => link.href),
+      keywords: [...project.themes, ...project.tags].join(", "),
+    });
+    expect(jsonLd.creator.sameAs).toEqual(expect.arrayContaining(expectedSameAs));
+    expect(jsonLd.about).toEqual(
+      expect.arrayContaining([
+        project.story.problem,
+        project.story.approach,
+        project.story.whyItMatters,
+        project.detail.technicalShape,
+        project.detail.currentStatus,
+        project.detail.collaborationAngle,
+        ...project.detail.proofPoints,
+      ]),
+    );
   });
 
   it("derives sitemap XML and robots text from route and profile data", () => {

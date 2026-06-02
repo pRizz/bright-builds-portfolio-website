@@ -10,7 +10,7 @@ import {
   projectStoryHref,
 } from "./projects";
 import { prerenderRoutes } from "./routes";
-import { metadataForProject } from "./seo";
+import { jsonLdScriptContent, metadataForProject, projectJsonLd, sitemapXml } from "./seo";
 
 describe("project detail route derivation", () => {
   it("selects curated flagship projects with authored detail stories", () => {
@@ -125,6 +125,76 @@ describe("project detail route derivation", () => {
     expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}${projectDetailPath(project)}`);
     expect(metadata.openGraph.url).toBe(metadata.canonical);
     expect(metadata.description).toBe(project.oneLine);
+  });
+
+  it("derives complete share metadata with the local social preview for every detail project", () => {
+    // Arrange
+    const projects = projectDetailPageProjects();
+    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
+
+    // Act
+    const metadataRecords = projects.map((project) => ({
+      project,
+      metadata: metadataForProject(project, peterProfile),
+    }));
+
+    // Assert
+    for (const { project, metadata } of metadataRecords) {
+      expect(metadata.title).toBe(`${project.name} | Project Story | Bright Builds`);
+      expect(metadata.description).toBe(project.oneLine);
+      expect(metadata.canonical).toBe(
+        `${peterProfile.canonicalOrigin}${projectDetailPath(project)}`,
+      );
+      expect(metadata.openGraph).toMatchObject({
+        title: metadata.title,
+        description: metadata.description,
+        url: metadata.canonical,
+        type: "website",
+      });
+      expect(metadata.openGraph.image).toMatchObject({
+        url: expectedSocialImageUrl,
+        width: 1200,
+        height: 630,
+      });
+      expect(metadata.openGraph.image.alt).not.toHaveLength(0);
+      expect(metadata.twitter).toMatchObject({
+        card: "summary_large_image",
+        title: metadata.title,
+        description: metadata.description,
+        image: metadata.openGraph.image,
+      });
+    }
+  });
+
+  it("includes selected project detail routes and excludes unselected public projects in the default sitemap", () => {
+    // Arrange
+    const selectedRoutes = projectDetailRoutes();
+
+    // Act
+    const sitemap = sitemapXml(undefined, peterProfile);
+
+    // Assert
+    for (const route of selectedRoutes) {
+      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${route}</loc>`);
+    }
+    expect(sitemap).not.toContain(
+      `<loc>${peterProfile.canonicalOrigin}/projects/open-bitcoin</loc>`,
+    );
+  });
+
+  it("serializes project JSON-LD safely for values containing angle brackets", () => {
+    // Arrange
+    const project = {
+      ...projectDetailPageProjects()[0],
+      name: "OpenLinks <profile>",
+    };
+
+    // Act
+    const content = jsonLdScriptContent(projectJsonLd(project, peterProfile));
+
+    // Assert
+    expect(content).not.toContain("<");
+    expect(content).toContain("\\u003c");
   });
 });
 
