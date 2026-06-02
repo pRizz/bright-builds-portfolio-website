@@ -2,6 +2,12 @@ import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import {
+  gitHubMetadataFactsForProject,
+  maybeGitHubHomepageLinkForProject,
+  maybeGitHubMetadataForProject,
+} from "../../domain/github-metadata";
+import type { ProjectStory } from "../../domain/projects";
+import {
   maybeProjectDetailPageProjectBySlug,
   projectLinkDisplayLabel,
 } from "../../domain/projects";
@@ -81,75 +87,154 @@ export default function ProjectDetail() {
           </Show>
 
           <article class="content-section">
-            <div class="page-intro">
+            <div class="page-intro project-detail-hero">
+              <a class="text-link detail-back-link" href="/projects">
+                Project index
+              </a>
               <p class="eyebrow">Project story</p>
               <h1 class="page-title">{selectedProject().name}</h1>
               <p class="lead">{selectedProject().detail.intro}</p>
+              <ul class="detail-status-row" aria-label={`${selectedProject().name} status`}>
+                <li class="tier-pill">{selectedProject().role}</li>
+                <li class="tier-pill">{selectedProject().tier}</li>
+                <li class="tier-pill">
+                  {selectedProject().status} / {selectedProject().maturity}
+                </li>
+              </ul>
             </div>
 
-            <div class="project-anchor-card visual-surface">
-              <div class="card-header">
-                <div>
-                  <h2 class="card-title">Technical shape</h2>
-                  <p class="card-meta">{selectedProject().role}</p>
+            <div class="project-detail-layout">
+              <section class="project-detail-story visual-surface" aria-labelledby="storyline">
+                <h2 id="storyline" class="card-title">
+                  Storyline
+                </h2>
+                <div class="story-stack project-detail-stack">
+                  <p>
+                    <span class="story-label">Problem</span>
+                    {selectedProject().story.problem}
+                  </p>
+                  <p>
+                    <span class="story-label">Approach</span>
+                    {selectedProject().story.approach}
+                  </p>
+                  <p>
+                    <span class="story-label">Why it matters</span>
+                    {selectedProject().story.whyItMatters}
+                  </p>
+                  <p>
+                    <span class="story-label">Technical shape</span>
+                    {selectedProject().detail.technicalShape}
+                  </p>
+                  <p>
+                    <span class="story-label">Current status</span>
+                    {selectedProject().detail.currentStatus}
+                  </p>
+                  <p>
+                    <span class="story-label">Collaboration angle</span>
+                    {selectedProject().detail.collaborationAngle}
+                  </p>
                 </div>
-                <span class="tier-pill">
-                  {selectedProject().status} / {selectedProject().maturity}
-                </span>
-              </div>
+              </section>
 
-              <p class="card-copy">{selectedProject().detail.technicalShape}</p>
+              <aside
+                class="project-detail-aside"
+                aria-label={`${selectedProject().name} facts and actions`}
+              >
+                <section class="project-detail-panel visual-surface" aria-labelledby="proof-points">
+                  <h2 id="proof-points" class="card-title">
+                    Proof points
+                  </h2>
+                  <ul class="label-row" aria-label={`${selectedProject().name} proof points`}>
+                    <For each={selectedProject().detail.proofPoints}>
+                      {(point) => <li class="chip">{point}</li>}
+                    </For>
+                  </ul>
+                </section>
 
-              <div class="story-stack">
-                <p>
-                  <span class="story-label">Problem</span>
-                  {selectedProject().story.problem}
-                </p>
-                <p>
-                  <span class="story-label">Approach</span>
-                  {selectedProject().story.approach}
-                </p>
-                <p>
-                  <span class="story-label">Why it matters</span>
-                  {selectedProject().story.whyItMatters}
-                </p>
-                <p>
-                  <span class="story-label">Current status</span>
-                  {selectedProject().detail.currentStatus}
-                </p>
-                <p>
-                  <span class="story-label">Collaboration angle</span>
-                  {selectedProject().detail.collaborationAngle}
-                </p>
-              </div>
-
-              <ul class="label-row" aria-label={`${selectedProject().name} proof points`}>
-                <For each={selectedProject().detail.proofPoints}>
-                  {(point) => <li class="chip">{point}</li>}
-                </For>
-              </ul>
-
-              <div class="link-list">
-                <a class="text-link surface-link" href="/projects">
-                  Project index
-                </a>
-                <For each={selectedProject().links}>
-                  {(link) => (
-                    <a
-                      class="text-link surface-link"
-                      href={link.href}
-                      rel="noopener noreferrer"
-                      target="_blank"
+                <section
+                  class="project-detail-panel visual-surface"
+                  aria-labelledby="project-facts"
+                >
+                  <h2 id="project-facts" class="card-title">
+                    Project facts
+                  </h2>
+                  <GitHubMetadataRow project={selectedProject()} />
+                  <ul class="label-row" aria-label={`${selectedProject().name} labels`}>
+                    <For
+                      each={[
+                        ...selectedProject().themes,
+                        ...selectedProject().tags,
+                        selectedProject().sourceType,
+                      ]}
                     >
-                      {projectLinkDisplayLabel(link)}
+                      {(label) => <li class="chip">{label}</li>}
+                    </For>
+                  </ul>
+                </section>
+
+                <section
+                  class="project-detail-panel visual-surface"
+                  aria-labelledby="project-actions"
+                >
+                  <h2 id="project-actions" class="card-title">
+                    Project actions
+                  </h2>
+                  <p class="card-copy">
+                    Use these links to inspect the source, try the live surface when one exists, or
+                    return to the full project index.
+                  </p>
+                  <nav class="link-list" aria-label={`${selectedProject().name} project actions`}>
+                    <a class="text-link surface-link" href="/projects">
+                      Project index
                     </a>
-                  )}
-                </For>
-              </div>
+                    <For each={selectedProject().links}>
+                      {(link) => (
+                        <a
+                          class="text-link surface-link"
+                          href={link.href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {projectLinkDisplayLabel(link)}
+                        </a>
+                      )}
+                    </For>
+                    <Show when={maybeGitHubHomepageLinkForProject(selectedProject())}>
+                      {(link) => (
+                        <a
+                          class="text-link surface-link"
+                          href={link().href}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {projectLinkDisplayLabel(link())}
+                        </a>
+                      )}
+                    </Show>
+                  </nav>
+                </section>
+              </aside>
             </div>
           </article>
         </>
       )}
+    </Show>
+  );
+}
+
+function GitHubMetadataRow(props: { project: ProjectStory }) {
+  return (
+    <Show when={maybeGitHubMetadataForProject(props.project)}>
+      <dl class="github-meta-row" aria-label="GitHub repository metadata">
+        <For each={gitHubMetadataFactsForProject(props.project)}>
+          {(fact) => (
+            <div class="github-meta-chip">
+              <dt class="github-meta-label">{fact.label}</dt>
+              <dd class="github-meta-value">{fact.value}</dd>
+            </div>
+          )}
+        </For>
+      </dl>
     </Show>
   );
 }

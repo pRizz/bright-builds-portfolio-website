@@ -16,9 +16,9 @@
 ### Project Story Content
 
 - [x] **STORY-01**: Maintainer can author detail-page content for selected projects covering intro, technical shape, proof points, current status, and collaboration angle.
-- [ ] **STORY-02**: Visitor can understand each selected project's problem, approach, why it matters, technical shape, and current status from the static detail page.
-- [ ] **STORY-03**: Visitor can access source, live, docs, related, and GitHub snapshot facts from a detail page without those facts replacing authored narrative.
-- [ ] **STORY-04**: Project detail pages preserve the dark-primary visual system with accessible headings, readable text, labeled link groups, and stable responsive layout.
+- [x] **STORY-02**: Visitor can understand each selected project's problem, approach, why it matters, technical shape, and current status from the static detail page.
+- [x] **STORY-03**: Visitor can access source, live, docs, related, and GitHub snapshot facts from a detail page without those facts replacing authored narrative.
+- [x] **STORY-04**: Project detail pages preserve the dark-primary visual system with accessible headings, readable text, labeled link groups, and stable responsive layout.
 
 ### Project Metadata
 
@@ -29,9 +29,9 @@
 
 ### Navigation
 
-- [ ] **NAV-01**: Home featured project cards link visitors to project detail routes for selected projects.
-- [ ] **NAV-02**: The project index remains a scannable overview while linking selected projects to their detail routes.
-- [ ] **NAV-03**: Each project detail page gives visitors clear paths back to the project index and onward to primary project actions.
+- [x] **NAV-01**: Home featured project cards link visitors to project detail routes for selected projects.
+- [x] **NAV-02**: The project index remains a scannable overview while linking selected projects to their detail routes.
+- [x] **NAV-03**: Each project detail page gives visitors clear paths back to the project index and onward to primary project actions.
 
 ### Verification
 
@@ -81,16 +81,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROUTE-03 | Phase 10 | Complete |
 | ROUTE-04 | Phase 10 | Complete |
 | STORY-01 | Phase 10 | Complete |
-| STORY-02 | Phase 11 | Pending |
-| STORY-03 | Phase 11 | Pending |
-| STORY-04 | Phase 11 | Pending |
+| STORY-02 | Phase 11 | Complete |
+| STORY-03 | Phase 11 | Complete |
+| STORY-04 | Phase 11 | Complete |
 | META-01 | Phase 12 | Pending |
 | META-02 | Phase 12 | Pending |
 | META-03 | Phase 12 | Pending |
 | META-04 | Phase 12 | Pending |
-| NAV-01 | Phase 11 | Pending |
-| NAV-02 | Phase 11 | Pending |
-| NAV-03 | Phase 11 | Pending |
+| NAV-01 | Phase 11 | Complete |
+| NAV-02 | Phase 11 | Complete |
+| NAV-03 | Phase 11 | Complete |
 | VERIFY-01 | Phase 10 | Complete |
 | VERIFY-02 | Phase 13 | Pending |
 | VERIFY-03 | Phase 13 | Pending |
@@ -105,4 +105,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 *Requirements defined: 2026-06-01*
-*Last updated: 2026-06-02 after Phase 10 completion*
+*Last updated: 2026-06-02 after Phase 11 completion*

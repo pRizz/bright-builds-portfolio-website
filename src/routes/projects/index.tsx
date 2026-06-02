@@ -11,6 +11,7 @@ import {
   curatedProjects,
   hiddenExcludedProjects,
   projectLinkDisplayLabel,
+  projectStoryHref,
   projectsByPlacement,
   publicProjectIndexProjects,
   writingProjects,
@@ -155,7 +156,7 @@ function ProjectCard(props: ProjectCardProps) {
       <div class="card-header">
         <div>
           <h3 class="card-title">
-            <a class="project-anchor-link" href={`/projects#${props.project.slug}`}>
+            <a class="project-anchor-link" href={projectStoryHref(props.project)}>
               {props.project.name}
             </a>
           </h3>
@@ -196,6 +197,9 @@ function ProjectCard(props: ProjectCardProps) {
       </ul>
 
       <div class="link-list">
+        <a class="text-link surface-link" href={projectStoryHref(props.project)}>
+          Project details
+        </a>
         <For each={props.project.links}>
           {(link) => (
             <a

@@ -109,6 +109,7 @@ describe("curated project stories", () => {
       "writingProjects",
       "projectDetailPath",
       "projectDetailRoutes",
+      "projectStoryHref",
       "projectAnchorHref",
       "projectLinkDisplayLabel",
     ];

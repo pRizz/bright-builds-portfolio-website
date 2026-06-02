@@ -10,6 +10,7 @@ import {
   projectDetailPath,
   projectDetailRoutes,
   projectLinkDisplayLabel,
+  projectStoryHref,
   projectsByPlacement,
   visibleProjects,
 } from "./projects";
@@ -63,6 +64,22 @@ describe("portfolio project surfaces", () => {
 
     // Assert
     expect(hrefs).toEqual(projects.map((project) => `/projects#${project.slug}`));
+  });
+
+  it("routes selected project story links to details while preserving unselected anchors", () => {
+    // Arrange
+    const projects = visibleProjects();
+    const detailSlugs = new Set(projectDetailPageProjects(projects).map((project) => project.slug));
+
+    // Act
+    const hrefs = projects.map((project) => projectStoryHref(project, projects));
+
+    // Assert
+    expect(hrefs).toEqual(
+      projects.map((project) =>
+        detailSlugs.has(project.slug) ? projectDetailPath(project) : projectAnchorHref(project),
+      ),
+    );
   });
 
   it("keeps hidden or excluded records out of public project surfaces", () => {

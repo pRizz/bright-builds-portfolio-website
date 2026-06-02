@@ -11,8 +11,8 @@ import type { ProjectStory } from "../domain/projects";
 import {
   currentFocusProjects,
   homeProjects,
-  projectAnchorHref,
   projectLinkDisplayLabel,
+  projectStoryHref,
 } from "../domain/projects";
 import { routeByPath } from "../domain/routes";
 import { jsonLdScriptContent, metadataForRoute, personJsonLd, siteAssetLinks } from "../domain/seo";
@@ -84,7 +84,7 @@ export default function Home() {
                   <li>
                     <a
                       class="focus-row interactive-surface reactive-card"
-                      href={projectAnchorHref(project)}
+                      href={projectStoryHref(project)}
                     >
                       <span class="story-label">
                         {project.status} / {project.maturity}
@@ -151,8 +151,8 @@ export default function Home() {
                   </ul>
 
                   <div class="story-links">
-                    <a class="text-link surface-link" href={projectAnchorHref(project)}>
-                      Project details
+                    <a class="text-link surface-link" href={projectStoryHref(project)}>
+                      Read project story
                     </a>
                     <For each={project.links}>
                       {(link) => (

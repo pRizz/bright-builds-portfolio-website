@@ -12,10 +12,9 @@ import {
   currentFocusProjects,
   homeProjects,
   maybeProjectDetailPageProjectBySlug,
-  projectAnchorHref,
-  projectDetailPageProjects,
   projectDetailPath,
   projectLinkDisplayLabel,
+  projectStoryHref,
   publicProjectIndexProjects,
   writingProjects,
 } from "../src/domain/projects";
@@ -244,6 +243,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
       "Project story",
       maybeProject.name,
       maybeProject.detail.intro,
+      "Storyline",
       "Technical shape",
       maybeProject.detail.technicalShape,
       "Problem",
@@ -256,12 +256,14 @@ function expectedTextsForRoute(route: string): readonly string[] {
       maybeProject.detail.currentStatus,
       "Collaboration angle",
       maybeProject.detail.collaborationAngle,
+      "Proof points",
       ...maybeProject.detail.proofPoints,
+      "Project facts",
+      "GitHub repository metadata",
+      "Project actions",
       "Project index",
-      ...maybeProject.links.flatMap((link) => [
-        `href="${escapeHtmlAttribute(link.href)}"`,
-        projectLinkDisplayLabel(link),
-      ]),
+      "Use these links to inspect the source, try the live surface when one exists, or return to the full project index.",
+      ...projectActionLinkExpectedTexts(maybeProject),
     ];
   }
 
@@ -275,6 +277,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
         project.name,
         project.oneLine,
         project.story.whyItMatters,
+        `href="${projectStoryHref(project)}"`,
       ]),
     ];
   }
@@ -294,7 +297,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
         project.name,
         project.oneLine,
         `id="${project.slug}"`,
-        `href="${projectAnchorHref(project)}"`,
+        `href="${projectStoryHref(project)}"`,
       ]),
     ];
   }
@@ -318,6 +321,23 @@ function expectedTextsForRoute(route: string): readonly string[] {
   }
 
   return [];
+}
+
+function projectActionLinkExpectedTexts(project: ProjectStory): readonly string[] {
+  const maybeHomepageLink = maybeGitHubHomepageLinkForProject(project);
+
+  return [
+    ...project.links.flatMap((link) => [
+      `href="${escapeHtmlAttribute(link.href)}"`,
+      projectLinkDisplayLabel(link),
+    ]),
+    ...(maybeHomepageLink
+      ? [
+          `href="${escapeHtmlAttribute(maybeHomepageLink.href)}"`,
+          projectLinkDisplayLabel(maybeHomepageLink),
+        ]
+      : []),
+  ];
 }
 
 function maybeProjectForDetailRoute(route: string): ProjectDetailPageProject | null {
@@ -358,6 +378,16 @@ function writingGroupExpectedTexts(): readonly string[] {
 }
 
 function assertGitHubMetadataEnrichmentHtml(route: string, bodyBeforeHydration: string): void {
+  const maybeProject = maybeProjectForDetailRoute(route);
+
+  if (maybeProject) {
+    if (maybeGitHubMetadataForProject(maybeProject)) {
+      assertGitHubMetadataFactsHtml(maybeProject, bodyBeforeHydration, "project detail");
+    }
+
+    return;
+  }
+
   if (route === "/") {
     assertHomeGitHubMetadataHtml(bodyBeforeHydration);
     return;
@@ -760,15 +790,7 @@ for (const check of expectedRoutes) {
 }
 
 function projectIndexItemPath(project: ProjectStory): string {
-  const detailSlugs = new Set(
-    projectDetailPageProjects().map((detailProject) => detailProject.slug),
-  );
-
-  if (detailSlugs.has(project.slug)) {
-    return projectDetailPath(project);
-  }
-
-  return projectAnchorHref(project);
+  return projectStoryHref(project);
 }
 
 assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);

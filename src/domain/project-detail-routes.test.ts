@@ -7,6 +7,7 @@ import {
   projectDetailPageProjects,
   projectDetailPath,
   projectDetailRoutes,
+  projectStoryHref,
 } from "./projects";
 import { prerenderRoutes } from "./routes";
 import { metadataForProject } from "./seo";
@@ -62,6 +63,20 @@ describe("project detail route derivation", () => {
     // Assert
     expect(selectedProject?.slug).toBe(selectedSlug);
     expect(unselectedProject).toBeNull();
+  });
+
+  it("derives visitor story links for selected and unselected projects", () => {
+    // Arrange
+    const selectedProject = projectDetailPageProjects()[0];
+    const unselectedProject = curatedProjects.find((project) => project.slug === "open-bitcoin");
+
+    // Act
+    const selectedHref = projectStoryHref(selectedProject);
+    const unselectedHref = unselectedProject ? projectStoryHref(unselectedProject) : null;
+
+    // Assert
+    expect(selectedHref).toBe(projectDetailPath(selectedProject));
+    expect(unselectedHref).toBe("/projects#open-bitcoin");
   });
 
   it("keeps hidden, excluded, and unselected projects out of detail routes", () => {

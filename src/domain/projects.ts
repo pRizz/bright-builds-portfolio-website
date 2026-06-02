@@ -90,7 +90,7 @@ export type ProjectDetailPageProject = ProjectStory & {
  * exports are `homeProjects`, `visibleProjects`, `publicProjectIndexProjects`,
  * `hiddenExcludedProjects`, `currentFocusProjects`, `projectDetailPageProjects`,
  * `maybeProjectDetailPageProjectBySlug`, `projectsByPlacement`, `writingProjects`,
- * `projectDetailPath`, `projectDetailRoutes`, `projectAnchorHref`, and
+ * `projectDetailPath`, `projectDetailRoutes`, `projectStoryHref`, `projectAnchorHref`, and
  * `projectLinkDisplayLabel`.
  */
 export const curatedProjects = [
@@ -567,7 +567,7 @@ export function writingProjects(
   );
 }
 
-export function projectAnchorHref(project: ProjectStory): string {
+export function projectAnchorHref(project: Pick<ProjectStory, "slug">): string {
   return `/projects#${project.slug}`;
 }
 
@@ -579,6 +579,19 @@ export function projectDetailRoutes(
   projects: readonly ProjectStory[] = curatedProjects,
 ): readonly string[] {
   return projectDetailPageProjects(projects).map(projectDetailPath);
+}
+
+export function projectStoryHref(
+  project: Pick<ProjectStory, "slug">,
+  projects: readonly ProjectStory[] = curatedProjects,
+): string {
+  const maybeDetailProject = maybeProjectDetailPageProjectBySlug(project.slug, projects);
+
+  if (maybeDetailProject) {
+    return projectDetailPath(maybeDetailProject);
+  }
+
+  return projectAnchorHref(project);
 }
 
 export function projectLinkDisplayLabel(link: ProjectLink): string {

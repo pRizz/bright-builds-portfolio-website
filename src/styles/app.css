@@ -289,6 +289,38 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .project-detail-hero {
+    @apply max-w-4xl;
+  }
+
+  .detail-back-link {
+    @apply mb-4;
+  }
+
+  .detail-status-row {
+    @apply mt-6 flex list-none flex-wrap gap-2 p-0;
+  }
+
+  .project-detail-layout {
+    @apply mt-8 grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(20rem,0.6fr)] lg:items-start;
+    min-width: 0;
+  }
+
+  .project-detail-story,
+  .project-detail-panel {
+    @apply border border-white/10 p-6 shadow-xl shadow-black/20 ring-1 ring-emerald-300/5;
+    border-radius: 8px;
+  }
+
+  .project-detail-aside {
+    @apply grid gap-4;
+    min-width: 0;
+  }
+
+  .project-detail-stack {
+    @apply mt-4;
+  }
+
   .visual-surface,
   .interactive-surface,
   .reactive-card,
