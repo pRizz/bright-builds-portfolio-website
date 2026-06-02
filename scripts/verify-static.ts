@@ -7,18 +7,23 @@ import {
   maybeGitHubMetadataForProject,
 } from "../src/domain/github-metadata";
 import { peterProfile } from "../src/domain/profile";
-import type { ProjectStory } from "../src/domain/projects";
+import type { ProjectDetailPageProject, ProjectStory } from "../src/domain/projects";
 import {
   currentFocusProjects,
   homeProjects,
+  maybeProjectDetailPageProjectBySlug,
   projectAnchorHref,
+  projectDetailPageProjects,
+  projectDetailPath,
   projectLinkDisplayLabel,
   publicProjectIndexProjects,
   writingProjects,
 } from "../src/domain/projects";
 import type { SiteRoute } from "../src/domain/routes";
 import { prerenderRoutes, routeByPath } from "../src/domain/routes";
+import type { PageMetadata } from "../src/domain/seo";
 import {
+  metadataForProject,
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
@@ -68,11 +73,7 @@ const generatedOutputForbiddenPatterns = [
 
 export const expectedRoutes: StaticRouteCheck[] = prerenderRoutes.map((route) => ({
   route,
-  expectedTexts: [
-    routeByPath(route).staticCheckText,
-    "OpenLinks profile",
-    ...expectedTextsForRoute(route),
-  ],
+  expectedTexts: ["OpenLinks profile", ...expectedTextsForRoute(route)],
   forbiddenTextPatterns: generatedOutputForbiddenPatterns,
 }));
 
@@ -236,8 +237,37 @@ function preHydrationBody(html: string): string {
 }
 
 function expectedTextsForRoute(route: string): readonly string[] {
+  const maybeProject = maybeProjectForDetailRoute(route);
+
+  if (maybeProject) {
+    return [
+      "Project story",
+      maybeProject.name,
+      maybeProject.detail.intro,
+      "Technical shape",
+      maybeProject.detail.technicalShape,
+      "Problem",
+      maybeProject.story.problem,
+      "Approach",
+      maybeProject.story.approach,
+      "Why it matters",
+      maybeProject.story.whyItMatters,
+      "Current status",
+      maybeProject.detail.currentStatus,
+      "Collaboration angle",
+      maybeProject.detail.collaborationAngle,
+      ...maybeProject.detail.proofPoints,
+      "Project index",
+      ...maybeProject.links.flatMap((link) => [
+        `href="${escapeHtmlAttribute(link.href)}"`,
+        projectLinkDisplayLabel(link),
+      ]),
+    ];
+  }
+
   if (route === "/") {
     return [
+      routeStaticCheckText(route),
       "Browse projects",
       "Now building",
       ...currentFocusProjects().map((project) => project.name),
@@ -251,6 +281,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
 
   if (route === "/projects") {
     return [
+      routeStaticCheckText(route),
       "Flagship",
       "Supporting",
       "Lab / Prototype",
@@ -270,6 +301,7 @@ function expectedTextsForRoute(route: string): readonly string[] {
 
   if (route === "/about") {
     return [
+      routeStaticCheckText(route),
       "Agentic engineering",
       "Open source",
       "Bitcoin and decentralized systems",
@@ -280,11 +312,36 @@ function expectedTextsForRoute(route: string): readonly string[] {
 
   if (route === "/contact") {
     return [
+      routeStaticCheckText(route),
       "GitHub is the best place to start for code and collaboration. OpenLinks is Peter's identity hub for current links.",
     ];
   }
 
   return [];
+}
+
+function maybeProjectForDetailRoute(route: string): ProjectDetailPageProject | null {
+  const detailRoutePrefix = "/projects/";
+
+  if (!route.startsWith(detailRoutePrefix)) {
+    return null;
+  }
+
+  return maybeProjectDetailPageProjectBySlug(route.slice(detailRoutePrefix.length));
+}
+
+function routeStaticCheckText(route: string): string {
+  return topLevelRouteForPath(route).staticCheckText;
+}
+
+function topLevelRouteForPath(path: string): SiteRoute {
+  const routeDefinition = routeByPath(path);
+
+  if (routeDefinition.path !== path) {
+    throw new Error(`No top-level route definition found for ${path}.`);
+  }
+
+  return routeDefinition;
 }
 
 function writingGroupExpectedTexts(): readonly string[] {
@@ -468,84 +525,91 @@ function assertPngDimensions(root: string, path: string, width: number, height: 
 }
 
 function assertMetadataForRoute(route: SiteRoute, html: string): void {
-  const metadata = metadataForRoute(route);
+  assertMetadata(route.path, metadataForRoute(route), html);
+}
+
+function assertMetadataForProject(project: ProjectDetailPageProject, html: string): void {
+  assertMetadata(projectDetailPath(project), metadataForProject(project), html);
+}
+
+function assertMetadata(path: string, metadata: PageMetadata, html: string): void {
   const image = metadata.openGraph.image;
 
   assertHtmlMatches(
     html,
     new RegExp(`<title[^>]*>${escapeRegExp(escapeHtmlText(metadata.title))}</title>`),
-    `${route.path} title`,
+    `${path} title`,
   );
   assertHtmlContains(
     html,
     `name="description" content="${escapeHtmlAttribute(metadata.description)}"`,
-    `${route.path} meta description`,
+    `${path} meta description`,
   );
   assertHtmlContains(
     html,
     `rel="canonical" href="${escapeHtmlAttribute(metadata.canonical)}"`,
-    `${route.path} canonical`,
+    `${path} canonical`,
   );
   assertHtmlContains(
     html,
     `property="og:title" content="${escapeHtmlAttribute(metadata.openGraph.title)}"`,
-    `${route.path} og:title`,
+    `${path} og:title`,
   );
   assertHtmlContains(
     html,
     `property="og:description" content="${escapeHtmlAttribute(metadata.openGraph.description)}"`,
-    `${route.path} og:description`,
+    `${path} og:description`,
   );
   assertHtmlContains(
     html,
     `property="og:url" content="${escapeHtmlAttribute(metadata.openGraph.url)}"`,
-    `${route.path} og:url`,
+    `${path} og:url`,
   );
   assertHtmlContains(
     html,
     `property="og:type" content="${metadata.openGraph.type}"`,
-    `${route.path} og:type`,
+    `${path} og:type`,
   );
-  assertHtmlContains(html, `property="og:image" content="${image.url}"`, `${route.path} og:image`);
+  assertHtmlContains(html, `property="og:image" content="${image.url}"`, `${path} og:image`);
   assertHtmlContains(
     html,
     `property="og:image:width" content="${image.width.toString()}"`,
-    `${route.path} og:image:width`,
+    `${path} og:image:width`,
   );
   assertHtmlContains(
     html,
     `property="og:image:height" content="${image.height.toString()}"`,
-    `${route.path} og:image:height`,
+    `${path} og:image:height`,
   );
   assertHtmlContains(
     html,
     `property="og:image:alt" content="${escapeHtmlAttribute(image.alt)}"`,
-    `${route.path} og:image:alt`,
+    `${path} og:image:alt`,
   );
   assertHtmlContains(
     html,
     `name="twitter:card" content="${metadata.twitter.card}"`,
-    `${route.path} twitter:card`,
+    `${path} twitter:card`,
   );
   assertHtmlContains(
     html,
     `name="twitter:title" content="${escapeHtmlAttribute(metadata.twitter.title)}"`,
-    `${route.path} twitter:title`,
+    `${path} twitter:title`,
   );
   assertHtmlContains(
     html,
     `name="twitter:description" content="${escapeHtmlAttribute(metadata.twitter.description)}"`,
-    `${route.path} twitter:description`,
+    `${path} twitter:description`,
   );
   assertHtmlContains(
     html,
     `name="twitter:image" content="${metadata.twitter.image.url}"`,
-    `${route.path} twitter:image`,
+    `${path} twitter:image`,
   );
   assertHtmlContains(
     html,
     `name="twitter:image:alt" content="${escapeHtmlAttribute(metadata.twitter.image.alt)}"`,
-    `${route.path} twitter:image:alt`,
+    `${path} twitter:image:alt`,
   );
   assertMetadataImageMapsToLocalAsset(image.url);
   assertMetadataImageMapsToLocalAsset(metadata.twitter.image.url);
@@ -666,7 +730,14 @@ const outputCssFiles = cssFiles(outputRoot);
 for (const check of expectedRoutes) {
   assertRouteHtml(outputRoot, check);
   const html = readRouteHtml(outputRoot, check.route);
-  const route = routeByPath(check.route);
+  const maybeProject = maybeProjectForDetailRoute(check.route);
+
+  if (maybeProject) {
+    assertMetadataForProject(maybeProject, html);
+    continue;
+  }
+
+  const route = topLevelRouteForPath(check.route);
 
   assertMetadataForRoute(route, html);
   assertJsonLdContains(html, [
@@ -682,10 +753,22 @@ for (const check of expectedRoutes) {
       "ItemList",
       JSON.stringify(projectItemListJsonLd()),
       ...publicProjectIndexProjects().map(
-        (project) => `${peterProfile.canonicalOrigin}${projectAnchorHref(project)}`,
+        (project) => `${peterProfile.canonicalOrigin}${projectIndexItemPath(project)}`,
       ),
     ]);
   }
+}
+
+function projectIndexItemPath(project: ProjectStory): string {
+  const detailSlugs = new Set(
+    projectDetailPageProjects().map((detailProject) => detailProject.slug),
+  );
+
+  if (detailSlugs.has(project.slug)) {
+    return projectDetailPath(project);
+  }
+
+  return projectAnchorHref(project);
 }
 
 assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);

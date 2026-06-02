@@ -14,6 +14,8 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 v1.1 shipped on 2026-06-01 as a release-confidence pass over the v1.0 static SolidStart portfolio. The site now has repeatable browser/accessibility automation, explicit clean-builder release/deploy readiness gates, and an intentional curated project helper surface with guardrails against seed-era helper imports.
 
+Phase 10 of v1.2 completed on 2026-06-02. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` route helpers, and prerendered static route foundations while unselected projects stay excluded.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
 ## Current Milestone: v1.2 Project Story Pages
@@ -44,10 +46,11 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 7] v1.1 defines a release-readiness contract for accessibility, SEO, performance, external links, and Cloudflare/static deployment assumptions.
 - [x] [Phase 8] v1.1 removes stale seed-era helper exports and guards runtime/build-time source against reintroducing undocumented project helper dependencies.
 - [x] [Phase 9] v1.1 closes the clean-builder release gate by documenting and checking explicit Playwright Chromium provisioning before aggregate verification.
+- [x] [Phase 10] v1.2 establishes selected project detail route foundations from typed curated data, prerenders six stable `/projects/{slug}` routes, and verifies eligibility, exclusions, and initial metadata derivation.
 
 ### Active
 
-- [ ] [v1.2] Selected curated projects have static detail routes with authored project narratives.
+- [ ] [v1.2] Project detail pages present richer story UI, project facts, and navigation paths on top of the new static route foundation.
 - [ ] [v1.2] Project detail pages have route-specific metadata, structured data, sitemap coverage, and social preview support.
 - [ ] [v1.2] Home and project index surfaces link visitors into the new project detail routes without breaking existing overview behavior.
 - [ ] [v1.2] Existing release verification covers the new project routes for static output, accessibility, visual layout, and deploy readiness.
@@ -100,6 +103,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | Curated helper surface is intentional | Seed-era helper aliases made the data module's supported API ambiguous. | Phase 8 removed `projectSeeds`, `primaryProjectLink`, and `featuredProjects`, documented supported selectors, and added `verify:project-helper-surface` to `bun run verify`. |
 | Clean builders provision browsers explicitly | Playwright browser binaries are an environment prerequisite and should not be hidden in broad lifecycle hooks. | Phase 9 added `bun run install:browser`, documented `bun run install:browser && bun run verify`, and guarded those facts in release-readiness tests. |
 | Project pages come before a writing surface | The portfolio's core value is best improved next by explaining selected projects in depth before adding a broader notes/blog area. | v1.2 scopes deep project story routes, metadata, navigation, and verification while deferring writing/notes and CMS/admin features. |
+| Detail route selection is typed and curated | v1.2 should deepen selected project stories without becoming a raw repo mirror or exposing hidden/unselected records. | Phase 10 added `detail` story data and `projectDetailPageProjects()` as the public selector for selected detail routes. |
 
 ## Evolution
 
@@ -122,4 +126,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-01 after v1.2 milestone start*
+*Last updated: 2026-06-02 after Phase 10 completion*

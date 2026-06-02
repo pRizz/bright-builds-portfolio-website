@@ -1,7 +1,11 @@
 import type { Profile } from "./profile";
 import { peterProfile, profileSameAsLinks } from "./profile";
 import type { ProjectStory } from "./projects";
-import { publicProjectIndexProjects } from "./projects";
+import {
+  projectDetailPageProjects,
+  projectDetailPath,
+  publicProjectIndexProjects,
+} from "./projects";
 import type { SiteRoute } from "./routes";
 import { siteRoutes } from "./routes";
 
@@ -117,6 +121,35 @@ export function metadataForRoute(route: SiteRoute, profile: Profile = peterProfi
   };
 }
 
+export function metadataForProject(
+  project: ProjectStory,
+  profile: Profile = peterProfile,
+): PageMetadata {
+  const canonical = `${profile.canonicalOrigin}${projectDetailPath(project)}`;
+  const title = `${project.name} | Project Story | Bright Builds`;
+  const description = project.oneLine;
+  const socialImage = socialImageForProfile(profile);
+
+  return {
+    title,
+    description,
+    canonical,
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: "website",
+      image: socialImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      image: socialImage,
+    },
+  };
+}
+
 export function personJsonLd(profile: Profile = peterProfile): PersonJsonLd {
   return {
     "@context": "https://schema.org",
@@ -136,6 +169,10 @@ export function projectItemListJsonLd(
   projects: readonly ProjectStory[] = publicProjectIndexProjects(),
   profile: Profile = peterProfile,
 ): ProjectItemListJsonLd {
+  const projectDetailSlugs = new Set(
+    projectDetailPageProjects(projects).map((project) => project.slug),
+  );
+
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -146,7 +183,11 @@ export function projectItemListJsonLd(
         "@type": "SoftwareSourceCode",
         name: project.name,
         description: project.oneLine,
-        url: `${profile.canonicalOrigin}/projects#${project.slug}`,
+        url: `${profile.canonicalOrigin}${
+          projectDetailSlugs.has(project.slug)
+            ? projectDetailPath(project)
+            : `/projects#${project.slug}`
+        }`,
         sameAs: project.links.map((link) => link.href),
       },
     })),

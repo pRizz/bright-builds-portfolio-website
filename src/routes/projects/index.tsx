@@ -1,12 +1,12 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
-import { ReactiveSurface } from "../components/ReactiveSurface";
+import { ReactiveSurface } from "../../components/ReactiveSurface";
 import {
   gitHubMetadataFactsForProject,
   maybeGitHubHomepageLinkForProject,
   maybeGitHubMetadataForProject,
-} from "../domain/github-metadata";
-import type { ProjectStory } from "../domain/projects";
+} from "../../domain/github-metadata";
+import type { ProjectStory } from "../../domain/projects";
 import {
   curatedProjects,
   hiddenExcludedProjects,
@@ -14,15 +14,15 @@ import {
   projectsByPlacement,
   publicProjectIndexProjects,
   writingProjects,
-} from "../domain/projects";
-import { routeByPath } from "../domain/routes";
+} from "../../domain/projects";
+import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
   siteAssetLinks,
-} from "../domain/seo";
+} from "../../domain/seo";
 
 const route = routeByPath("/projects");
 const metadata = metadataForRoute(route);

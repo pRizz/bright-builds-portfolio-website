@@ -8,14 +8,14 @@
 
 ### Project Routes
 
-- [ ] **ROUTE-01**: Visitor can open a stable `/projects/{slug}` detail route for each curated project selected for detail-page treatment.
-- [ ] **ROUTE-02**: Maintainer can control which curated projects receive public detail pages through a typed data field or selector.
-- [ ] **ROUTE-03**: Clean static builds prerender HTML for every selected project detail route before hydration.
-- [ ] **ROUTE-04**: Hidden, excluded, archived-only, or otherwise unselected projects do not create public detail pages.
+- [x] **ROUTE-01**: Visitor can open a stable `/projects/{slug}` detail route for each curated project selected for detail-page treatment.
+- [x] **ROUTE-02**: Maintainer can control which curated projects receive public detail pages through a typed data field or selector.
+- [x] **ROUTE-03**: Clean static builds prerender HTML for every selected project detail route before hydration.
+- [x] **ROUTE-04**: Hidden, excluded, archived-only, or otherwise unselected projects do not create public detail pages.
 
 ### Project Story Content
 
-- [ ] **STORY-01**: Maintainer can author detail-page content for selected projects covering intro, technical shape, proof points, current status, and collaboration angle.
+- [x] **STORY-01**: Maintainer can author detail-page content for selected projects covering intro, technical shape, proof points, current status, and collaboration angle.
 - [ ] **STORY-02**: Visitor can understand each selected project's problem, approach, why it matters, technical shape, and current status from the static detail page.
 - [ ] **STORY-03**: Visitor can access source, live, docs, related, and GitHub snapshot facts from a detail page without those facts replacing authored narrative.
 - [ ] **STORY-04**: Project detail pages preserve the dark-primary visual system with accessible headings, readable text, labeled link groups, and stable responsive layout.
@@ -35,7 +35,7 @@
 
 ### Verification
 
-- [ ] **VERIFY-01**: Unit tests cover project detail eligibility, route derivation, metadata derivation, and unselected-project exclusions.
+- [x] **VERIFY-01**: Unit tests cover project detail eligibility, route derivation, metadata derivation, and unselected-project exclusions.
 - [ ] **VERIFY-02**: Static verification checks generated project detail HTML for expected story text, metadata, JSON-LD, sitemap inclusion, and forbidden runtime GitHub residue.
 - [ ] **VERIFY-03**: Browser release checks include project detail routes for axe, dark desktop/mobile layout, keyboard reachability, and reduced-motion behavior.
 - [ ] **VERIFY-04**: Release-readiness documentation and checks identify project detail route coverage as part of `bun run install:browser && bun run verify`.
@@ -76,11 +76,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| ROUTE-01 | Phase 10 | Pending |
-| ROUTE-02 | Phase 10 | Pending |
-| ROUTE-03 | Phase 10 | Pending |
-| ROUTE-04 | Phase 10 | Pending |
-| STORY-01 | Phase 10 | Pending |
+| ROUTE-01 | Phase 10 | Complete |
+| ROUTE-02 | Phase 10 | Complete |
+| ROUTE-03 | Phase 10 | Complete |
+| ROUTE-04 | Phase 10 | Complete |
+| STORY-01 | Phase 10 | Complete |
 | STORY-02 | Phase 11 | Pending |
 | STORY-03 | Phase 11 | Pending |
 | STORY-04 | Phase 11 | Pending |
@@ -91,7 +91,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-01 | Phase 11 | Pending |
 | NAV-02 | Phase 11 | Pending |
 | NAV-03 | Phase 11 | Pending |
-| VERIFY-01 | Phase 10 | Pending |
+| VERIFY-01 | Phase 10 | Complete |
 | VERIFY-02 | Phase 13 | Pending |
 | VERIFY-03 | Phase 13 | Pending |
 | VERIFY-04 | Phase 13 | Pending |
@@ -105,4 +105,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 *Requirements defined: 2026-06-01*
-*Last updated: 2026-06-01 after v1.2 roadmap creation*
+*Last updated: 2026-06-02 after Phase 10 completion*

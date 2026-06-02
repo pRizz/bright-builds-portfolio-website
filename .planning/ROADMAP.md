@@ -34,7 +34,7 @@
 
 **Milestone Goal:** Turn curated project cards into deep, shareable static project pages with stronger narrative, metadata, and collaboration paths.
 
-- [ ] **Phase 10: Project Detail Route Foundation** — Maintainers can select project detail pages from curated data and prerender stable static routes for them.
+- [x] **Phase 10: Project Detail Route Foundation** — Maintainers can select project detail pages from curated data and prerender stable static routes for them. Completed 2026-06-02.
 - [ ] **Phase 11: Project Story Page UI** — Visitors can read selected project detail pages with authored narrative, project facts, and clear project actions.
 - [ ] **Phase 12: Project Metadata & Sharing** — Project detail routes have specific metadata, structured data, sitemap coverage, and deterministic social preview support.
 - [ ] **Phase 13: Project Page Release Coverage** — The clean-builder release gate verifies project detail routes across static output, browser behavior, and release documentation.
@@ -53,7 +53,8 @@
 1. Static prerender configuration includes selected project detail routes.
 1. Unit tests prove project eligibility, route derivation, exclusion behavior, and initial metadata inputs.
 
-**Plans:** TBD
+**Plans:** 1/1 complete
+- [x] `10-01-PLAN.md` — Project detail route data and prerender foundation
 **UI hint:** no
 
 ### Phase 11: Project Story Page UI
@@ -116,11 +117,11 @@
 | 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete | 2026-05-31 |
 | 8. Content Helper Surface Cleanup | v1.1 | 1/1 | Complete | 2026-05-31 |
 | 9. Clean Builder Release Gate Closure | v1.1 | 1/1 | Complete | 2026-06-01 |
-| 10. Project Detail Route Foundation | v1.2 | 0/TBD | Not Started | - |
+| 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 11. Project Story Page UI | v1.2 | 0/TBD | Not Started | - |
 | 12. Project Metadata & Sharing | v1.2 | 0/TBD | Not Started | - |
 | 13. Project Page Release Coverage | v1.2 | 0/TBD | Not Started | - |
 
 ## Next
 
-Start Phase 10 with `/gsd-discuss-phase 10` or `/gsd-plan-phase 10`.
+Start Phase 11 with `/gsd-discuss-phase 11` or `/gsd-plan-phase 11`.

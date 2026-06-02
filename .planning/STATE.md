@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Project Story Pages
-status: roadmap_ready
-stopped_at: v1.2 roadmap created; ready for Phase 10 discussion
-last_updated: "2026-06-01T03:33:01Z"
-last_activity: 2026-06-01 -- Milestone v1.2 roadmap created
+status: phase_complete
+stopped_at: Phase 10 complete; ready for Phase 11 discussion
+last_updated: "2026-06-02T20:52:13Z"
+last_activity: 2026-06-02 -- Phase 10 Project Detail Route Foundation completed
 progress:
   total_phases: 4
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
+  percent: 25
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Ready to start Phase 10 Project Detail Route Foundation
+**Current focus:** Ready to start Phase 11 Project Story Page UI
 
 ## Current Position
 
-Phase: 10 (not started)
+Phase: 11 (ready)
 Plan: -
-Status: Roadmap created; ready for discussion/planning
-Last activity: 2026-06-01 -- Milestone v1.2 roadmap created
+Status: Phase 10 complete; ready for discussion/planning
+Last activity: 2026-06-02 -- Phase 10 Project Detail Route Foundation completed
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -38,22 +38,22 @@ Progress: [░░░░░░░░░░] 0%
 
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
-- Active milestone plans completed: 0
-- Active milestone plan count: 0
+- Active milestone plans completed: 1
+- Active milestone plan count: 1
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 10. Project Detail Route Foundation | 0/TBD | - | - |
+| 10. Project Detail Route Foundation | 1/1 | 22 min | 22 min |
 | 11. Project Story Page UI | 0/TBD | - | - |
 | 12. Project Metadata & Sharing | 0/TBD | - | - |
 | 13. Project Page Release Coverage | 0/TBD | - | - |
 
 **Recent Trend:**
 
-- Last completed work: v1.1 Release Confidence archived with a passed milestone audit on 2026-06-01.
-- Trend: v1.2 is planned as four phases covering route foundation, project story UI, metadata/social sharing, and release coverage.
+- Last completed work: Phase 10 Project Detail Route Foundation completed on 2026-06-02.
+- Trend: v1.2 has route foundations in place and is ready for story UI, metadata/social sharing, and release coverage.
 
 *Updated after each plan completion*
 
@@ -73,6 +73,7 @@ Recent decisions affecting current work:
 - [Phase 08-content-helper-surface-cleanup]: Added a dependency-free TypeScript AST guard to enforce the supported src/domain/projects import surface.
 - [Phase 09-clean-builder-release-gate-closure]: Added explicit `bun run install:browser` provisioning and release-readiness document guards for clean builders.
 - [v1.2 milestone]: Project Story Pages are the next product milestone; writing/notes, CMS/admin, and dynamic OG/server rendering stay deferred.
+- [Phase 10]: Selected detail pages are controlled by typed curated project `detail` data; Phase 11 owns navigation/UI and Phase 12 owns JSON-LD/sitemap sharing completion.
 
 ### Pending Todos
 
@@ -84,6 +85,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-01T03:33:01Z
-Stopped at: v1.2 roadmap created; ready for Phase 10 discussion
+Last session: 2026-06-02T20:52:13Z
+Stopped at: Phase 10 complete; ready for Phase 11 discussion
 Resume file: .planning/ROADMAP.md

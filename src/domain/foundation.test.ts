@@ -1,21 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { peterProfile, profileLinksByKind, profileSameAsLinks } from "./profile";
 import * as projectSurface from "./projects";
-import { curatedProjects, homeProjects } from "./projects";
-import { navigationRoutes, prerenderRoutes, routeByPath } from "./routes";
+import { curatedProjects, homeProjects, projectDetailRoutes } from "./projects";
+import { navigationRoutes, prerenderRoutes, routeByPath, siteRoutes } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
 
 describe("foundation route registry", () => {
-  it("defines the current prerender route set", () => {
+  it("defines the current prerender route set with project detail pages", () => {
     // Arrange
-    const expectedRoutes = ["/", "/about", "/projects", "/contact"];
+    const expectedRoutes = ["/", "/about", "/projects", "/contact", ...projectDetailRoutes()];
 
     // Act
     const routes = prerenderRoutes;
 
     // Assert
     expect(routes).toEqual(expectedRoutes);
-    expect(navigationRoutes).toHaveLength(expectedRoutes.length);
+    expect(navigationRoutes).toHaveLength(siteRoutes.length);
   });
 });
 
@@ -103,8 +103,12 @@ describe("curated project stories", () => {
       "publicProjectIndexProjects",
       "hiddenExcludedProjects",
       "currentFocusProjects",
+      "projectDetailPageProjects",
+      "maybeProjectDetailPageProjectBySlug",
       "projectsByPlacement",
       "writingProjects",
+      "projectDetailPath",
+      "projectDetailRoutes",
       "projectAnchorHref",
       "projectLinkDisplayLabel",
     ];

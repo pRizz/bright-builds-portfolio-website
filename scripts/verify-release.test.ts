@@ -158,6 +158,20 @@ describe("release verifier semantic checker", () => {
       "visitor-facing GitHub metadata maintenance error copy",
     ]);
   });
+
+  it("defers JSON-LD checks for project detail foundation routes", () => {
+    // Arrange
+    const html = [
+      '<a class="skip-link" href="#content">Skip to content</a>',
+      '<main id="content"><h1>OpenLinks</h1></main>',
+    ].join("");
+
+    // Act
+    const findings = semanticFindingsForRoute(routeFixture("/projects/openlinks", html));
+
+    // Assert
+    expect(findings).toEqual([]);
+  });
 });
 
 describe("release verifier accessibility and release evidence labels", () => {

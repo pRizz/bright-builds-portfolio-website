@@ -6,13 +6,17 @@ import {
   homeProjects,
   type ProjectStory,
   projectAnchorHref,
+  projectDetailPageProjects,
+  projectDetailPath,
+  projectDetailRoutes,
   projectLinkDisplayLabel,
   projectsByPlacement,
   visibleProjects,
 } from "./projects";
-import { prerenderRoutes, siteRoutes } from "./routes";
+import { prerenderRoutes, routeByPath, siteRoutes } from "./routes";
 import {
   jsonLdScriptContent,
+  metadataForProject,
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
@@ -195,6 +199,7 @@ describe("portfolio SEO surfaces", () => {
   it("creates ordered SoftwareSourceCode ItemList JSON-LD for visible project anchors", () => {
     // Arrange
     const projects = visibleProjects();
+    const detailSlugs = new Set(projectDetailPageProjects(projects).map((project) => project.slug));
 
     // Act
     const jsonLd = projectItemListJsonLd(projects, peterProfile);
@@ -211,22 +216,53 @@ describe("portfolio SEO surfaces", () => {
         "@type": "SoftwareSourceCode",
         name: project.name,
         description: project.oneLine,
-        url: `${peterProfile.canonicalOrigin}/projects#${project.slug}`,
+        url: `${peterProfile.canonicalOrigin}${
+          detailSlugs.has(project.slug) ? projectDetailPath(project) : `/projects#${project.slug}`
+        }`,
         sameAs: project.links.map((link) => link.href),
       });
     }
   });
 
+  it("derives project detail metadata from curated project data", () => {
+    // Arrange
+    const project = projectDetailPageProjects()[0];
+
+    // Act
+    const metadata = metadataForProject(project, peterProfile);
+
+    // Assert
+    expect(metadata.title).toBe(`${project.name} | Project Story | Bright Builds`);
+    expect(metadata.description).toBe(project.oneLine);
+    expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}${projectDetailPath(project)}`);
+    expect(metadata.openGraph.url).toBe(metadata.canonical);
+    expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+  });
+
   it("derives sitemap XML and robots text from route and profile data", () => {
     // Arrange
     const routes = siteRoutes;
+    const allPrerenderRoutes = prerenderRoutes;
 
     // Act
-    const sitemap = sitemapXml(routes, peterProfile);
+    const sitemap = sitemapXml(
+      allPrerenderRoutes.map((path) => ({
+        ...routeByPath(path),
+        path,
+      })),
+      peterProfile,
+    );
     const robots = robotsTxt(peterProfile);
 
     // Assert
-    expect(prerenderRoutes).toEqual(routes.map((route) => route.path));
+    expect(prerenderRoutes).toEqual([
+      ...routes.map((route) => route.path),
+      ...projectDetailRoutes(),
+    ]);
+    for (const path of allPrerenderRoutes) {
+      const routePath = path === "/" ? "" : path;
+      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${routePath}</loc>`);
+    }
     for (const route of routes) {
       const path = route.path === "/" ? "" : route.path;
       expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);

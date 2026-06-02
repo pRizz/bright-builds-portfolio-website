@@ -1,3 +1,5 @@
+import { projectDetailRoutes } from "./projects";
+
 export type RouteId = "home" | "about" | "projects" | "contact";
 
 export type SiteRoute = {
@@ -62,7 +64,7 @@ export const siteRoutes = [
   },
 ] as const satisfies readonly SiteRoute[];
 
-export const prerenderRoutes = siteRoutes.map((route) => route.path);
+export const prerenderRoutes = [...siteRoutes.map((route) => route.path), ...projectDetailRoutes()];
 
 export const navigationRoutes = siteRoutes.filter((route) => route.nav);
 
