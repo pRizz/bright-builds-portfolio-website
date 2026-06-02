@@ -18,6 +18,8 @@ Phase 10 of v1.2 completed on 2026-06-02. Selected flagship projects now have ty
 
 Phase 11 of v1.2 completed on 2026-06-02. Selected project cards now link into readable project story pages with authored narrative, proof points, GitHub snapshot facts, and clear project actions.
 
+Phase 12 of v1.2 completed on 2026-06-02. Selected project detail routes now have route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and deterministic static social preview fallback verification.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
 ## Current Milestone: v1.2 Project Story Pages
@@ -50,10 +52,10 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 9] v1.1 closes the clean-builder release gate by documenting and checking explicit Playwright Chromium provisioning before aggregate verification.
 - [x] [Phase 10] v1.2 establishes selected project detail route foundations from typed curated data, prerenders six stable `/projects/{slug}` routes, and verifies eligibility, exclusions, and initial metadata derivation.
 - [x] [Phase 11] v1.2 turns selected project detail routes into readable story pages with narrative sections, proof points, GitHub facts, action links, and detail-aware home/project-index navigation.
+- [x] [Phase 12] v1.2 gives selected project detail routes route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and a deterministic checked-in social preview fallback.
 
 ### Active
 
-- [ ] [v1.2] Project detail pages have route-specific metadata, structured data, sitemap coverage, and social preview support.
 - [ ] [v1.2] Existing release verification covers the new project routes for static output, accessibility, visual layout, and deploy readiness.
 
 ### Out of Scope
@@ -106,6 +108,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | Project pages come before a writing surface | The portfolio's core value is best improved next by explaining selected projects in depth before adding a broader notes/blog area. | v1.2 scopes deep project story routes, metadata, navigation, and verification while deferring writing/notes and CMS/admin features. |
 | Detail route selection is typed and curated | v1.2 should deepen selected project stories without becoming a raw repo mirror or exposing hidden/unselected records. | Phase 10 added `detail` story data and `projectDetailPageProjects()` as the public selector for selected detail routes. |
 | Story links prefer detail pages when available | Selected project cards should move visitors from overview to story depth without breaking anchors for unselected records. | Phase 11 added `projectStoryHref()` and uses it on home and project-index project links. |
+| Project metadata stays static and curated | Project detail routes need sharing metadata without dynamic OG endpoints, runtime GitHub dependencies, or visible identity repetition. | Phase 12 added `projectJsonLd()`, default sitemap coverage for selected detail routes, and static social preview fallback verification while preserving OpenLinks through profile `sameAs` metadata. |
 
 ## Evolution
 
@@ -128,4 +131,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-02 after Phase 11 completion*
+*Last updated: 2026-06-02 after Phase 12 completion*
