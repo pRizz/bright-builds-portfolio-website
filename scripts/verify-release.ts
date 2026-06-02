@@ -294,10 +294,7 @@ export function semanticFindingsForRoute(route: StaticReleaseRoute): readonly Re
     });
   }
 
-  if (
-    !isProjectDetailFoundationRoute(route.route) &&
-    !/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>/gi.test(route.html)
-  ) {
+  if (!/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>/gi.test(route.html)) {
     findings.push({
       path: route.path,
       route: route.route,
@@ -316,10 +313,6 @@ export function semanticFindingsForRoute(route: StaticReleaseRoute): readonly Re
   }
 
   return findings;
-}
-
-function isProjectDetailFoundationRoute(route: string): boolean {
-  return /^\/projects\/[^/]+$/.test(route);
 }
 
 export function accessibilityFindingsForRoute(

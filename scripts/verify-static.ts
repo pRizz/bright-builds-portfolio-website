@@ -13,6 +13,7 @@ import {
   homeProjects,
   maybeProjectDetailPageProjectBySlug,
   projectDetailPath,
+  projectDetailRoutes,
   projectLinkDisplayLabel,
   projectStoryHref,
   publicProjectIndexProjects,
@@ -26,6 +27,7 @@ import {
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
+  projectJsonLd,
   robotsTxt,
   sitemapXml,
 } from "../src/domain/seo";
@@ -645,6 +647,22 @@ function assertMetadata(path: string, metadata: PageMetadata, html: string): voi
   assertMetadataImageMapsToLocalAsset(metadata.twitter.image.url);
 }
 
+function assertProjectJsonLd(project: ProjectDetailPageProject, html: string): void {
+  const expectedJsonLd = projectJsonLd(project);
+  const maybeProfileSameAsUrl = expectedJsonLd.creator.sameAs[0];
+
+  if (!maybeProfileSameAsUrl) {
+    throw new Error(`Project JSON-LD for ${project.slug} did not include a profile sameAs URL.`);
+  }
+
+  assertJsonLdContains(html, [
+    "SoftwareSourceCode",
+    expectedJsonLd.name,
+    expectedJsonLd.url,
+    maybeProfileSameAsUrl,
+  ]);
+}
+
 function assertJsonLdContains(html: string, expectedTexts: readonly string[]): void {
   const jsonLdScripts = [
     ...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>(.*?)<\/script>/gs),
@@ -711,8 +729,31 @@ function assertMetadataImageMapsToLocalAsset(imageUrl: string): void {
 
   const assetPath = url.pathname.replace(/^\//, "");
 
+  if (assetPath !== "social/bright-builds-og.png") {
+    throw new Error(
+      `Metadata image URL ${imageUrl} does not map to the project social preview fallback.`,
+    );
+  }
+
   if (!existsSync(join(staticOutputRoot, assetPath))) {
     throw new Error(`Metadata image URL ${imageUrl} does not map to a checked-in output asset.`);
+  }
+}
+
+function assertSitemapProjectDetailCoverage(root: string): void {
+  const sitemapPath = assertOutputFile(root, "sitemap.xml");
+  const sitemap = readFileSync(sitemapPath, "utf8");
+
+  for (const route of projectDetailRoutes()) {
+    assertHtmlContains(
+      sitemap,
+      `<loc>${peterProfile.canonicalOrigin}${route}</loc>`,
+      `sitemap detail route ${route}`,
+    );
+  }
+
+  if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}/projects/open-bitcoin</loc>`)) {
+    throw new Error("sitemap.xml included unselected detail route /projects/open-bitcoin.");
   }
 }
 
@@ -764,6 +805,7 @@ for (const check of expectedRoutes) {
 
   if (maybeProject) {
     assertMetadataForProject(maybeProject, html);
+    assertProjectJsonLd(maybeProject, html);
     continue;
   }
 
@@ -811,6 +853,7 @@ assertPngDimensions(outputRoot, "social/bright-builds-og.png", 1200, 630);
 assertPngDimensions(outputRoot, "icon-192.png", 192, 192);
 assertPngDimensions(outputRoot, "apple-touch-icon.png", 180, 180);
 assertOutputTextEquals(outputRoot, "sitemap.xml", sitemapXml());
+assertSitemapProjectDetailCoverage(outputRoot);
 assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
 
 for (const htmlPath of outputHtmlFiles) {
