@@ -11,7 +11,12 @@ import {
   maybeProjectDetailPageProjectBySlug,
   projectLinkDisplayLabel,
 } from "../../domain/projects";
-import { metadataForProject, siteAssetLinks } from "../../domain/seo";
+import {
+  jsonLdScriptContent,
+  metadataForProject,
+  projectJsonLd,
+  siteAssetLinks,
+} from "../../domain/seo";
 
 export default function ProjectDetail() {
   const params = useParams();
@@ -85,6 +90,10 @@ export default function ProjectDetail() {
               </>
             )}
           </Show>
+
+          <script type="application/ld+json">
+            {jsonLdScriptContent(projectJsonLd(selectedProject()))}
+          </script>
 
           <article class="content-section">
             <div class="page-intro project-detail-hero">
