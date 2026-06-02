@@ -1,13 +1,13 @@
 import type { Profile } from "./profile";
 import { peterProfile, profileSameAsLinks } from "./profile";
-import type { ProjectStory } from "./projects";
+import type { ProjectDetailPageProject, ProjectStory } from "./projects";
 import {
   projectDetailPageProjects,
   projectDetailPath,
   publicProjectIndexProjects,
 } from "./projects";
 import type { SiteRoute } from "./routes";
-import { siteRoutes } from "./routes";
+import { prerenderRoutes } from "./routes";
 
 export type SocialImageMetadata = {
   url: string;
@@ -69,6 +69,18 @@ export type ProjectItemListJsonLd = {
       sameAs: string[];
     };
   }>;
+};
+
+export type ProjectJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "SoftwareSourceCode";
+  name: string;
+  description: string;
+  url: string;
+  sameAs: string[];
+  keywords: string;
+  creator: PersonJsonLd;
+  about: string[];
 };
 
 const socialImagePath = "/social/bright-builds-og.png";
@@ -194,13 +206,39 @@ export function projectItemListJsonLd(
   };
 }
 
+export function projectJsonLd(
+  project: ProjectDetailPageProject,
+  profile: Profile = peterProfile,
+): ProjectJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: project.name,
+    description: project.oneLine,
+    url: `${profile.canonicalOrigin}${projectDetailPath(project)}`,
+    sameAs: project.links.map((link) => link.href),
+    keywords: [...project.themes, ...project.tags].join(", "),
+    creator: personJsonLd(profile),
+    about: [
+      project.story.problem,
+      project.story.approach,
+      project.story.whyItMatters,
+      project.detail.intro,
+      project.detail.technicalShape,
+      project.detail.currentStatus,
+      project.detail.collaborationAngle,
+      ...project.detail.proofPoints,
+    ],
+  };
+}
+
 export function sitemapXml(
-  routes: readonly SiteRoute[] = siteRoutes,
+  paths: readonly string[] = prerenderRoutes,
   profile: Profile = peterProfile,
 ): string {
-  const urls = routes
-    .map((route) => {
-      const path = route.path === "/" ? "" : route.path;
+  const urls = paths
+    .map((routePath) => {
+      const path = routePath === "/" ? "" : routePath;
       return `  <url><loc>${profile.canonicalOrigin}${path}</loc></url>`;
     })
     .join("\n");

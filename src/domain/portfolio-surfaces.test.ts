@@ -14,7 +14,7 @@ import {
   projectsByPlacement,
   visibleProjects,
 } from "./projects";
-import { prerenderRoutes, routeByPath, siteRoutes } from "./routes";
+import { prerenderRoutes, siteRoutes } from "./routes";
 import {
   jsonLdScriptContent,
   metadataForProject,
@@ -295,13 +295,7 @@ describe("portfolio SEO surfaces", () => {
     const allPrerenderRoutes = prerenderRoutes;
 
     // Act
-    const sitemap = sitemapXml(
-      allPrerenderRoutes.map((path) => ({
-        ...routeByPath(path),
-        path,
-      })),
-      peterProfile,
-    );
+    const sitemap = sitemapXml(allPrerenderRoutes, peterProfile);
     const robots = robotsTxt(peterProfile);
 
     // Assert
