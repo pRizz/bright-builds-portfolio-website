@@ -13,9 +13,10 @@ bun run verify
 On a clean local machine or static builder where Playwright Chromium is not already provisioned, install the browser dependency explicitly before the aggregate gate:
 
 ```bash
-bun run install:browser
-bun run verify
+bun run install:browser && bun run verify
 ```
+
+This primary release gate includes project detail route coverage for selected `/projects/{slug}` pages. The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage with project detail axe, layout, keyboard, and reduced-motion coverage.
 
 The aggregate gate includes:
 
@@ -41,16 +42,17 @@ bun run build
 ```
 
 The static host must serve `.output/public` as the site root. That directory contains prerendered route HTML, `_build/` assets, local icons, the social preview image, `robots.txt`, and `sitemap.xml`.
+Selected project detail routes are part of the static artifact and are covered by project detail metadata, JSON-LD, and sitemap coverage.
 
 ## Automated Gates
 
 ### SEO and Static Metadata
 
-`bun run verify:static` checks route titles, descriptions, canonical links, Open Graph and Twitter metadata, local social image fields, sitemap, robots, JSON-LD, generated static assets, dark root HTML, and forbidden template/runtime residue.
+`bun run verify:static` checks route titles, descriptions, canonical links, Open Graph and Twitter metadata, local social image fields, sitemap, robots, JSON-LD, generated static assets, dark root HTML, and forbidden template/runtime residue. It includes project detail metadata, JSON-LD, and sitemap coverage for selected project detail routes.
 
 ### Browser and Accessibility
 
-`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It requires the Chromium browser installed by `bun run install:browser`, and it covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior.
+`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It requires the Chromium browser installed by `bun run install:browser`, and it covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior. It includes project detail axe, layout, keyboard, and reduced-motion coverage for selected project detail routes.
 
 ### Performance and Best Practices
 
@@ -94,11 +96,11 @@ Covered manual-release origins:
 Manual external-link smoke check before release:
 
 1. Open the production or preview home page.
-2. Check the GitHub profile link.
-3. Check the OpenLinks profile link.
-4. Open at least one project source link from `/projects`.
-5. Open each live project origin listed above when it appears in the current static output.
-6. Treat third-party downtime as a release note or follow-up decision, not as a local verifier failure.
+1. Check the GitHub profile link.
+1. Check the OpenLinks profile link.
+1. Open at least one project source link from `/projects`.
+1. Open each live project origin listed above when it appears in the current static output.
+1. Treat third-party downtime as a release note or follow-up decision, not as a local verifier failure.
 
 ## Cloudflare Pages
 
@@ -115,12 +117,13 @@ Recommended settings:
 | Node environment variable | `NODE_VERSION=22.16.0` |
 
 Use `bun run install:browser && bun run verify` as the clean-builder command sequence when the deployment should block on the full release gate. `bun run verify` remains the aggregate release gate once Chromium has been provisioned. Use `bun run build` only for emergency artifact generation after the full gate has already passed locally or in CI.
+That clean-builder sequence includes project detail route coverage before `.output/public` is accepted for deployment.
 
 Environment expectations:
 
 - No public GitHub token is required for visitor runtime.
 - Optional GitHub metadata refresh uses local or server-side `GITHUB_METADATA_TOKEN` only.
-- Do not use VITE_, PUBLIC_, or SOLID_PUBLIC_ prefixes for GitHub tokens.
+- Do not use VITE\_, PUBLIC\_, or SOLID_PUBLIC\_ prefixes for GitHub tokens.
 - Static deployment should not need backend secrets, authentication, or server functions.
 
 ## Preview Deployment Checklist
@@ -128,31 +131,35 @@ Environment expectations:
 Before creating a preview deployment:
 
 1. Run `bun run install:browser` on a clean builder or fresh local environment.
-2. Run `bun run verify`.
-3. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
-4. Confirm the preview deployment uses `.output/public`.
-5. Confirm no token values are present in Cloudflare Pages public environment variables.
+1. Run `bun run verify`.
+1. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
+1. Confirm the preview deployment uses `.output/public`.
+1. Confirm no token values are present in Cloudflare Pages public environment variables.
 
 After the preview deployment is available:
 
-1. Open `/`, `/about`, `/projects`, and `/contact`.
-2. Confirm the site renders dark-primary by default.
-3. Confirm the project anchors on `/projects` work.
-4. Run the Manual external-link smoke check.
+1. Open `/`, `/about`, `/projects`, `/projects/openlinks`, and `/contact`.
+1. Confirm the site renders dark-primary by default.
+1. Confirm the project anchors on `/projects` work.
+1. Run the Manual external-link smoke check.
+
+Preview and production smoke checks include one selected project detail route, currently /projects/openlinks.
 
 ## Production Deployment Checklist
 
 Before production:
 
 1. Confirm preview deployment smoke checks passed.
-2. Confirm `bun run install:browser && bun run verify` passed on the exact commit being deployed in any clean-builder environment.
-3. Confirm Cloudflare Pages build settings still match this document.
+1. Confirm `bun run install:browser && bun run verify` passed on the exact commit being deployed in any clean-builder environment.
+1. Confirm Cloudflare Pages build settings still match this document.
+1. Confirm the selected project detail route `/projects/openlinks` is included in the deployment smoke path.
 
 Post-deploy smoke check:
 
 Use this post-deploy smoke check after the production deployment:
 
 1. Open `https://www.brightbuilds.us/`.
-2. Open `https://www.brightbuilds.us/projects`.
-3. Confirm `https://www.brightbuilds.us/sitemap.xml` and `https://www.brightbuilds.us/robots.txt` load.
-4. Confirm GitHub and OpenLinks links remain reachable from the footer or contact surface.
+1. Open `https://www.brightbuilds.us/projects`.
+1. Open `https://www.brightbuilds.us/projects/openlinks`.
+1. Confirm `https://www.brightbuilds.us/sitemap.xml` and `https://www.brightbuilds.us/robots.txt` load.
+1. Confirm GitHub and OpenLinks links remain reachable from the footer or contact surface.

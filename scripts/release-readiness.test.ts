@@ -151,10 +151,91 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing project detail route coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("project detail route coverage");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing project detail route coverage: project detail route coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing project detail static coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "project detail metadata, JSON-LD, and sitemap coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing project detail static coverage: project detail metadata, JSON-LD, and sitemap coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing project detail browser coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "project detail axe, layout, keyboard, and reduced-motion coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing project detail browser coverage: project detail axe, layout, keyboard, and reduced-motion coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing selected project smoke route guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("/projects/openlinks");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing selected project smoke route: /projects/openlinks.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("names release-readiness evidence covered by the aggregate gate", () => {
     // Arrange
     const expectedLabels = [
       "SEO/static metadata",
+      "project detail route coverage",
       "static performance budgets",
       "external link policy",
       "Cloudflare/static deployment",

@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 
+import { projectDetailRoutes } from "../src/domain/projects";
 import type { ReleaseFinding, StaticReleaseRoute } from "./verify-release";
 
 export type ExternalLinkPolicy = {
@@ -88,6 +89,16 @@ const requiredReleaseReadinessDocumentFacts = [
   { label: "project helper surface gate", text: "bun run verify:project-helper-surface" },
   { label: "static metadata gate", text: "bun run verify:static" },
   { label: "release verifier gate", text: "bun run verify:release" },
+  { label: "project detail route coverage", text: "project detail route coverage" },
+  {
+    label: "project detail static coverage",
+    text: "project detail metadata, JSON-LD, and sitemap coverage",
+  },
+  {
+    label: "project detail browser coverage",
+    text: "project detail axe, layout, keyboard, and reduced-motion coverage",
+  },
+  { label: "selected project smoke route", text: representativeProjectDetailRoute() },
   { label: "manual external-link smoke check", text: "Manual external-link smoke check" },
   { label: "preview deployment", text: "preview deployment" },
   { label: "post-deploy smoke check", text: "post-deploy smoke check" },
@@ -172,10 +183,11 @@ export function releaseReadinessDocumentFindings(
   }
 
   const documentText = readFileSync(documentPath, "utf8");
+  const normalizedDocumentText = documentText.replace(/\\_/g, "_");
   const findings: ReleaseFinding[] = [];
 
   for (const fact of requiredReleaseReadinessDocumentFacts) {
-    if (documentText.includes(fact.text)) {
+    if (normalizedDocumentText.includes(fact.text)) {
       continue;
     }
 
@@ -192,11 +204,22 @@ export function releaseReadinessDocumentFindings(
 export function releaseReadinessEvidenceLabels(): readonly string[] {
   return [
     "SEO/static metadata",
+    "project detail route coverage",
     "static performance budgets",
     "external link policy",
     "Cloudflare/static deployment",
     "preview and deploy smoke checks",
   ];
+}
+
+function representativeProjectDetailRoute(): string {
+  const maybeRoute = projectDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one selected project detail route for release coverage.");
+  }
+
+  return maybeRoute;
 }
 
 function uniqueExternalAnchorHrefsForRoutes(
