@@ -6,9 +6,9 @@ current_phase: 14
 current_phase_name: Writing Domain Foundation
 current_plan: Not planned
 status: planning
-stopped_at: Ready to plan Phase 14
-last_updated: "2026-06-03T13:20:14Z"
-last_activity: "2026-06-03 — Roadmap created for v1.3 Writing & Notes Surface"
+stopped_at: Phase 14 context gathered
+last_updated: "2026-06-03T13:58:03.611Z"
+last_activity: 2026-06-03 — Roadmap created for v1.3 Writing & Notes Surface
 progress:
   total_phases: 4
   completed_phases: 0
@@ -95,7 +95,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-03T13:15:57Z
-Stopped at: Ready to plan Phase 14
-Resume file: .planning/ROADMAP.md
+Last session: 2026-06-03T13:58:03.609Z
+Stopped at: Phase 14 context gathered
+Resume file: .planning/phases/14-writing-domain-foundation/14-CONTEXT.md
 Next action: run `/gsd-plan-phase 14`
