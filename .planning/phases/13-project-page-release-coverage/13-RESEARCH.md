@@ -404,10 +404,10 @@ const requiredReleaseReadinessDocumentFacts = [
 | --- | --- | --- | --- |
 | None | All research claims were verified from local files, npm registry metadata, shell probes, or cited Bright Builds standards at the pinned commit. | All | No user confirmation needed before planning. [VERIFIED: local research commands] |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should final execution prove a true clean-builder environment or the repo-native aggregate gate only?** What we know: Phase 13 requires final `bun run verify`, and docs require `bun run install:browser && bun run verify` for clean builders. [VERIFIED: .planning/phases/13-project-page-release-coverage/13-CONTEXT.md] What's unclear: whether the executor will have a freshly unprovisioned environment. Recommendation: plan final `bun run verify` as mandatory and use `bun run install:browser && bun run verify` when execution is explicitly validating clean-builder provisioning. [VERIFIED: package.json] [VERIFIED: docs/release-readiness.md]
-2. **Should the representative smoke route be `/projects/openlinks` or dynamically derived in checks?** What we know: `projectDetailRoutes()[0]` currently resolves to `/projects/openlinks`. [VERIFIED: src/domain/projects.ts] What's unclear: whether docs should name the current literal route or describe a selected route generically. Recommendation: require the current derived route in `release-readiness.ts` while phrasing docs as "one selected project detail route, currently `/projects/openlinks`." [VERIFIED: .planning/phases/13-project-page-release-coverage/13-CONTEXT.md]
+1. **RESOLVED:** Final execution must run the repo-native aggregate gate `bun run verify`; `bun run install:browser && bun run verify` remains the documented clean-builder sequence and should be used when Chromium provisioning is being validated explicitly. Phase 13 requires final `bun run verify`, and docs require `bun run install:browser && bun run verify` for clean builders. [VERIFIED: .planning/phases/13-project-page-release-coverage/13-CONTEXT.md] [VERIFIED: package.json] [VERIFIED: docs/release-readiness.md]
+2. **RESOLVED:** Release checks must derive the representative selected project detail route from `projectDetailRoutes()` while the release-readiness docs name the current representative smoke route `/projects/openlinks`. `projectDetailRoutes()[0]` currently resolves to `/projects/openlinks`. [VERIFIED: src/domain/projects.ts] [VERIFIED: .planning/phases/13-project-page-release-coverage/13-CONTEXT.md]
 
 ## Sources
 
