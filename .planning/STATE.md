@@ -2,12 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Writing & Notes Surface
-status: active
-stopped_at: Defining requirements
-last_updated: "2026-06-03T12:59:47Z"
-last_activity: 2026-06-03
+current_phase: 14
+current_phase_name: Writing Domain Foundation
+current_plan: Not planned
+status: planning
+stopped_at: Ready to plan Phase 14
+last_updated: "2026-06-03T13:20:14Z"
+last_activity: "2026-06-03 — Roadmap created for v1.3 Writing & Notes Surface"
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -25,10 +28,15 @@ See: .planning/PROJECT.md (updated 2026-06-03)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: -
-Status: Defining requirements
-Last activity: 2026-06-03 — Milestone v1.3 started
+Current Phase: 14
+Current Phase Name: Writing Domain Foundation
+Current Plan: Not planned
+Total Phases: 4
+Total Plans in Phase: 0
+Phase: Phase 14 - Writing Domain Foundation
+Plan: Not planned
+Status: Ready to plan Phase 14
+Last activity: 2026-06-03 — Roadmap created for v1.3 Writing & Notes Surface
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -40,16 +48,19 @@ Progress: [░░░░░░░░░░] 0%
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
 - Active milestone plans completed: 0
-- Active milestone plan count: 0
+- Active milestone plan count: TBD until phase planning creates plans
 
 **By Phase:**
 
-No v1.3 phases defined yet.
+- Phase 14: Writing Domain Foundation — Not started
+- Phase 15: Writing Routes and Dark UI — Not started
+- Phase 16: Writing Metadata and Structured Data — Not started
+- Phase 17: Writing Verification and Release Contract — Not started
 
 **Recent Trend:**
 
 - Last completed work: v1.2 Project Story Pages shipped on 2026-06-03.
-- Trend: v1.3 starts from completed project detail routes and will add a curated static writing layer.
+- Trend: v1.3 starts from completed project detail routes and is ready to plan a curated static writing layer.
 
 ## Accumulated Context
 
@@ -72,6 +83,7 @@ Recent decisions affecting current work:
 - [Phase 12]: Project detail sharing metadata stays static, deriving JSON-LD, sitemap coverage, and social preview fallback from curated project/profile data.
 - [Phase 13]: Project detail release coverage derives from `projectDetailRoutes()` and `prerenderRoutes()` so static, browser, release-readiness, and evidence-label checks stay connected.
 - [v1.3 milestone]: Add a curated static writing and notes surface before richer social-image generation or CMS/admin tooling.
+- [v1.3 roadmap]: Use four coarse phases: writing domain foundation, writing routes and dark UI, writing metadata and structured data, and writing verification and release contract.
 
 ### Pending Todos
 
@@ -83,6 +95,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-03T12:59:47Z
-Stopped at: Defining v1.3 requirements
-Resume file: .planning/PROJECT.md
+Last session: 2026-06-03T13:15:57Z
+Stopped at: Ready to plan Phase 14
+Resume file: .planning/ROADMAP.md
+Next action: run `/gsd-plan-phase 14`

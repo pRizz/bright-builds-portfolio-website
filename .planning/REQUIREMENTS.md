@@ -89,34 +89,34 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| WRITE-01 | TBD | Pending |
-| WRITE-02 | TBD | Pending |
-| WRITE-03 | TBD | Pending |
-| WRITE-04 | TBD | Pending |
-| ROUTE-01 | TBD | Pending |
-| ROUTE-02 | TBD | Pending |
-| ROUTE-03 | TBD | Pending |
-| ROUTE-04 | TBD | Pending |
-| READ-01 | TBD | Pending |
-| READ-02 | TBD | Pending |
-| READ-03 | TBD | Pending |
-| LINK-01 | TBD | Pending |
-| LINK-02 | TBD | Pending |
-| LINK-03 | TBD | Pending |
-| META-01 | TBD | Pending |
-| META-02 | TBD | Pending |
-| META-03 | TBD | Pending |
-| META-04 | TBD | Pending |
-| VERIFY-01 | TBD | Pending |
-| VERIFY-02 | TBD | Pending |
-| VERIFY-03 | TBD | Pending |
-| VERIFY-04 | TBD | Pending |
+| WRITE-01 | Phase 14 | Pending |
+| WRITE-02 | Phase 14 | Pending |
+| WRITE-03 | Phase 14 | Pending |
+| WRITE-04 | Phase 14 | Pending |
+| ROUTE-01 | Phase 15 | Pending |
+| ROUTE-02 | Phase 15 | Pending |
+| ROUTE-03 | Phase 15 | Pending |
+| ROUTE-04 | Phase 15 | Pending |
+| READ-01 | Phase 15 | Pending |
+| READ-02 | Phase 15 | Pending |
+| READ-03 | Phase 15 | Pending |
+| LINK-01 | Phase 14 | Pending |
+| LINK-02 | Phase 15 | Pending |
+| LINK-03 | Phase 14 | Pending |
+| META-01 | Phase 16 | Pending |
+| META-02 | Phase 16 | Pending |
+| META-03 | Phase 16 | Pending |
+| META-04 | Phase 16 | Pending |
+| VERIFY-01 | Phase 17 | Pending |
+| VERIFY-02 | Phase 17 | Pending |
+| VERIFY-03 | Phase 17 | Pending |
+| VERIFY-04 | Phase 17 | Pending |
 
 **Coverage:**
 
 - v1.3 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22
+- Mapped to phases: 22
+- Unmapped: 0
 
 ______________________________________________________________________
 
