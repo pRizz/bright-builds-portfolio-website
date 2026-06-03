@@ -144,7 +144,5 @@ Phase 15 can consume `publicWritingEntries()`, `maybePublicWritingEntryBySlug()`
 - Found `.planning/phases/14-writing-domain-foundation/14-01-SUMMARY.md`.
 - Found task commits `f606411`, `f4a7ab2`, `719238f`, and `62f5e1e`.
 
----
-
 *Phase: 14-writing-domain-foundation*
 *Completed: 2026-06-03*
