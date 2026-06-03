@@ -1,3 +1,10 @@
+import {
+  curatedProjects,
+  maybeProjectDetailPageProjectBySlug,
+  type ProjectDetailPageProject,
+  type ProjectStory,
+} from "./projects";
+
 export type WritingStatus = "published" | "draft" | "hidden" | "archived";
 export type WritingKind = "note" | "essay";
 
@@ -101,3 +108,44 @@ export const curatedWriting = [
     ],
   },
 ] as const satisfies readonly WritingEntry[];
+
+export function publicWritingEntries(
+  entries: readonly WritingEntry[] = curatedWriting,
+): readonly PublicWritingEntry[] {
+  return sortWriting(entries.filter(isPublicWritingEntry));
+}
+
+export function maybePublicWritingEntryBySlug(
+  slug: string,
+  entries: readonly WritingEntry[] = curatedWriting,
+): PublicWritingEntry | null {
+  return publicWritingEntries(entries).find((entry) => entry.slug === slug) ?? null;
+}
+
+export function writingDetailPath(entry: Pick<WritingEntry, "slug">): string {
+  return `/writing/${entry.slug}`;
+}
+
+export function writingDetailRoutes(
+  entries: readonly WritingEntry[] = curatedWriting,
+): readonly string[] {
+  return publicWritingEntries(entries).map(writingDetailPath);
+}
+
+export function relatedProjectDetailPageProjects(
+  entry: Pick<WritingEntry, "relatedProjectSlugs">,
+  projects: readonly ProjectStory[] = curatedProjects,
+): readonly ProjectDetailPageProject[] {
+  return entry.relatedProjectSlugs.flatMap((slug) => {
+    const maybeProject = maybeProjectDetailPageProjectBySlug(slug, projects);
+    return maybeProject ? [maybeProject] : [];
+  });
+}
+
+function isPublicWritingEntry(entry: WritingEntry): entry is PublicWritingEntry {
+  return entry.status === "published";
+}
+
+function sortWriting<TEntry extends WritingEntry>(entries: readonly TEntry[]): readonly TEntry[] {
+  return [...entries].sort((left, right) => left.displayOrder - right.displayOrder);
+}
