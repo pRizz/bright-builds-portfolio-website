@@ -16,14 +16,17 @@ v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagsh
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
-## Next Milestone Goals
+## Current Milestone: v1.3 Writing & Notes Surface
 
-No active milestone is defined yet. Candidate directions carried forward from v1.2:
+**Goal:** Give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
 
-- Add a dedicated writing or notes surface and connect selected project stories to related essays or notes.
-- Generate richer deterministic project-specific raster Open Graph images without introducing runtime server rendering.
-- Improve content operations when typed checked-in content becomes too slow for the portfolio scale.
-- Split or simplify large verifier modules if they keep growing during future release-gate work.
+**Target features:**
+
+- Typed checked-in writing/notes registry with curated entries.
+- `/writing` index plus static `/writing/{slug}` note routes.
+- Bidirectional project/note links so project pages can point to related writing and notes can point back to related projects.
+- Route-specific metadata, JSON-LD, sitemap coverage, and release verification for writing routes.
+- Dark-primary responsive UI with browser/accessibility/reduced-motion coverage in the aggregate gate.
 
 ## Requirements
 
@@ -48,7 +51,10 @@ No active milestone is defined yet. Candidate directions carried forward from v1
 
 ### Active
 
-- [ ] [Future] Decide whether the next product milestone should prioritize writing/notes, richer social images, or content operations.
+- [ ] [v1.3] Visitors can browse a curated writing or notes surface rendered as static routes.
+- [ ] [v1.3] Visitors can move between selected project stories and related writing without runtime data dependencies.
+- [ ] [v1.3] Writing routes have static metadata, structured data, sitemap coverage, and release verification.
+- [ ] [Future] Decide whether richer project-specific raster Open Graph images or content operations should follow after the writing surface.
 - [ ] [Future] Evaluate whether large release verifier modules need a maintenance split before the next release-gate expansion.
 
 ### Out of Scope
@@ -73,6 +79,8 @@ Mystic UI is owned by Peter and is the preferred SolidJS component source for th
 Bright Builds repo instructions require the Bright Builds Rules workflow, including plan-first work for non-trivial changes, evidence-based verification, append-only planning/task artifacts, functional-core/imperative-shell architecture, repo-native verification, TypeScript/JavaScript guidance, and use of the OpenLinks identity-presence skill for website profile/footer/metadata surfaces owned by `pRizz`.
 
 v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`. v1.2 shipped with 4 phases, 4 plans, 9 recorded tasks, 19 completed requirements, and milestone audit status `passed`.
+
+v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a small curated static writing layer before richer social-image generation or CMS/admin tooling.
 
 ## Constraints
 
@@ -103,6 +111,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | Story links prefer detail pages when available | Selected project cards should move visitors from overview to story depth without breaking anchors for unselected records. | Phase 11 added `projectStoryHref()` and uses it on home and project-index project links. |
 | Project metadata stays static and curated | Project detail routes need sharing metadata without dynamic OG endpoints, runtime GitHub dependencies, or visible identity repetition. | Phase 12 added `projectJsonLd()`, default sitemap coverage for selected detail routes, and static social preview fallback verification while preserving OpenLinks through profile `sameAs` metadata. |
 | Project detail release coverage derives from route helpers | Release checks should track selected project detail routes without duplicating route lists or claiming hosted/live checks. | Phase 13 derives representative browser checks from `projectDetailRoutes()`, keeps exhaustive axe/layout loops on `prerenderRoutes`, and adds release-readiness facts plus `project detail route coverage` evidence. |
+| Writing comes after project story depth | Project pages now explain the work; the next core-value improvement is showing the thinking behind the work. | v1.3 scopes a curated static writing and notes surface with project cross-links while deferring CMS/admin and dynamic OG/server work. |
 
 ## Evolution
 
@@ -125,4 +134,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-03 after v1.2 milestone completion*
+*Last updated: 2026-06-03 after v1.3 milestone start*
