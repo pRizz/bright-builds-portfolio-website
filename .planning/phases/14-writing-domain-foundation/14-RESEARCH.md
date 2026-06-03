@@ -456,16 +456,13 @@ if (errors.length > 0) {
 | A1 | The exact status labels can be `published`, `draft`, `hidden`, and `archived`. [ASSUMED] | Architecture Patterns | Low; helper semantics are the important contract, but implementation may choose different labels if tests and selectors are clear. |
 | A2 | The illustrative seed entry title/body in Code Examples is not final content. [ASSUMED] | Code Examples | Medium; implementation still needs real authored copy that does not read as placeholder. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **What seed writing entries should be checked in?** [VERIFIED: 14-CONTEXT.md]
-   - What we know: The context permits minimal seed writing entries authored to exercise the model. [VERIFIED: 14-CONTEXT.md]
-   - What's unclear: Exact title, summary, body content, and whether a hidden/draft seed should exist in `curatedWriting` or only in test fixtures. [ASSUMED]
-   - Recommendation: Add at least one real public seed entry with related selected project slugs, and test hidden/draft behavior with fixtures unless there is a real hidden/draft entry worth checking in. [VERIFIED: 14-CONTEXT.md]
-2. **Should invalid slug validation include only lowercase hyphenated URL segments?** [VERIFIED: src/domain/projects.ts]
-   - What we know: Existing project slugs are lowercase URL-safe segments and route helpers interpolate slugs directly into `/projects/{slug}`. [VERIFIED: src/domain/projects.ts; VERIFIED: src/domain/project-detail-routes.test.ts]
-   - What's unclear: The exact writing slug regex is not locked by the context. [VERIFIED: 14-CONTEXT.md]
-   - Recommendation: Use `^[a-z0-9]+(?:-[a-z0-9]+)*$` for writing slugs unless the planner records a different rule. [ASSUMED]
+1. **RESOLVED: What seed writing entries should be checked in?** [VERIFIED: 14-CONTEXT.md; VERIFIED: 14-01-PLAN.md]
+   - Decision: Check in exactly two authored public seed entries in `curatedWriting`: `agentic-engineering-workflows` and `portable-identity-and-owned-surfaces`. [VERIFIED: 14-01-PLAN.md]
+   - Decision: Keep draft, hidden, and archived exclusion coverage in test fixtures instead of adding non-public seed records to the checked-in registry for Phase 14. [VERIFIED: 14-01-PLAN.md]
+2. **RESOLVED: Should invalid slug validation include only lowercase hyphenated URL segments?** [VERIFIED: src/domain/projects.ts; VERIFIED: 14-02-PLAN.md]
+   - Decision: Validate writing slugs with `^[a-z0-9]+(?:-[a-z0-9]+)*$`, matching the authored lowercase URL-safe segment style already used by project route helpers. [VERIFIED: src/domain/projects.ts; VERIFIED: 14-02-PLAN.md]
 
 ## Environment Availability
 
