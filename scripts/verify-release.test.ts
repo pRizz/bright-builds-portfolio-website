@@ -234,12 +234,18 @@ describe("release verifier accessibility and release evidence labels", () => {
       "interactive motion surfaces",
       "reduced-motion",
       "SEO/static metadata",
+      "project detail route coverage",
       "static performance budgets",
       "external link policy",
       "Cloudflare/static deployment",
       "preview and deploy smoke checks",
     ]);
-    expect(labels.join(" ")).not.toContain("external suite");
+    const joinedLabels = labels.join(" ");
+
+    expect(joinedLabels).not.toContain("external suite");
+    expect(joinedLabels).not.toContain("hosted audit");
+    expect(joinedLabels).not.toContain("network");
+    expect(joinedLabels).not.toContain("live link");
   });
 });
 
