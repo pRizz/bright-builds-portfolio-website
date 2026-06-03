@@ -1,7 +1,7 @@
 import { validateProjectRegistry } from "../src/domain/project-validation";
 import { curatedProjects } from "../src/domain/projects";
-import { validateWritingRegistry } from "../src/domain/writing-validation";
 import { curatedWriting } from "../src/domain/writing";
+import { validateWritingRegistry } from "../src/domain/writing-validation";
 
 const projectResult = validateProjectRegistry(curatedProjects);
 const writingResult = validateWritingRegistry(curatedWriting);

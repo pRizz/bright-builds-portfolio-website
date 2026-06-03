@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import * as writingSurface from "./writing";
 import {
   curatedWriting,
   maybePublicWritingEntryBySlug,
@@ -8,7 +9,6 @@ import {
   writingDetailPath,
   writingDetailRoutes,
 } from "./writing";
-import * as writingSurface from "./writing";
 
 describe("curated writing registry", () => {
   it("defines the initial authored writing entries in display order", () => {

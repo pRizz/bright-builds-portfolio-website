@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { curatedProjects, type ProjectStory } from "./projects";
+import { curatedWriting, type WritingBodyBlock, type WritingEntry } from "./writing";
 import {
   assertValidCuratedWriting,
   validateWritingEntry,
   validateWritingRegistry,
 } from "./writing-validation";
-import { curatedWriting, type WritingBodyBlock, type WritingEntry } from "./writing";
 
 describe("writing curation validation", () => {
   it("rejects duplicate writing slugs on the second entry", () => {
