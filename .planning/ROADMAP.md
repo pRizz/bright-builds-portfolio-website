@@ -102,7 +102,8 @@
 1. Release-readiness docs and checks identify project detail route coverage as part of `bun run install:browser && bun run verify`.
 1. The aggregate release gate passes from a clean-builder path with project detail routes included.
 
-**Plans:** TBD
+**Plans:** 1 plan
+- [ ] `13-01-PLAN.md` — Project detail release coverage, readiness contract, and aggregate gate
 **UI hint:** no
 
 ## Progress
@@ -122,7 +123,7 @@
 | 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete    | 2026-06-02 |
-| 13. Project Page Release Coverage | v1.2 | 0/TBD | Not Started | - |
+| 13. Project Page Release Coverage | v1.2 | 0/1 | Not Started | - |
 
 ## Next
 
