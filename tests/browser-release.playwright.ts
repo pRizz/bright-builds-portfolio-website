@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Locator, type Page, test } from "@playwright/test";
+import { projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
 
 type LayoutFinding = {
@@ -25,6 +26,24 @@ type AxeViolation = {
 const layoutProjects = new Set(["chromium-desktop", "chromium-mobile"]);
 const reducedMotionProject = "chromium-reduced-motion";
 const maxKeyboardTabs = 40;
+const reducedMotionHoverSelectors = [
+  ".interactive-surface",
+  ".reactive-card",
+  ".surface-link",
+  ".focus-row",
+  ".story-card",
+  ".project-anchor-card",
+  ".theme-card",
+  ".contact-card",
+] as const;
+const projectActionLabels = [
+  "Open source",
+  "Live site",
+  "Live docs",
+  "Docs",
+  "Article",
+  "Related source",
+] as const;
 
 test.describe("browser release checks", () => {
   for (const route of prerenderRoutes) {
@@ -66,6 +85,7 @@ test.describe("browser release checks", () => {
     );
 
     // Arrange
+    const detailRoute = representativeProjectDetailRoute();
     await page.goto("/");
 
     // Act
@@ -86,8 +106,28 @@ test.describe("browser release checks", () => {
       "focus reaches at least one project anchor link",
     ).toBe(true);
     expect(
+      hasFocusedInternalPath(focusedTargets, detailRoute),
+      "focus reaches selected project detail route",
+    ).toBe(true);
+    expect(
       hasFocusedExternalOrigin(focusedTargets, "https://openlinks.us"),
       "focus reaches OpenLinks collaboration path",
+    ).toBe(true);
+
+    await page.goto(detailRoute);
+    const detailFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(detailFocusedTargets),
+      "detail focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(detailFocusedTargets, "/projects"),
+      "focus reaches Project index from selected project detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedProjectActionLink(detailFocusedTargets),
+      "focus reaches at least one selected project action link",
     ).toBe(true);
   });
 
@@ -100,42 +140,54 @@ test.describe("browser release checks", () => {
     );
 
     // Arrange
-    await page.goto("/");
-    const hoverTarget = page
-      .locator(
-        [
-          ".interactive-surface",
-          ".reactive-card",
-          ".surface-link",
-          ".focus-row",
-          ".story-card",
-          ".project-anchor-card",
-          ".theme-card",
-          ".contact-card",
-        ].join(", "),
-      )
-      .first();
-    const reactiveSurface = page.locator(".reactive-surface").first();
+    const routes = ["/", representativeProjectDetailRoute()] as const;
 
     // Act
-    await hoverTarget.hover();
-    const transform = await hoverTarget.evaluate((element) => getComputedStyle(element).transform);
-    const beforePointerVars = await inlinePointerVars(reactiveSurface);
-    const box = await reactiveSurface.boundingBox();
-
-    if (!box) {
-      throw new Error("Expected .reactive-surface to have a browser-visible bounding box.");
+    for (const route of routes) {
+      await assertReducedMotionStableOnRoute(page, route);
     }
-
-    await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2);
-    await page.waitForTimeout(100);
-    const afterPointerVars = await inlinePointerVars(reactiveSurface);
-
-    // Assert
-    expect(transform, "reduced-motion hover transform").toBe("none");
-    expect(afterPointerVars, "reduced-motion pointer CSS vars").toEqual(beforePointerVars);
   });
 });
+
+function representativeProjectDetailRoute(): string {
+  const maybeRoute = projectDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one selected project detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+async function assertReducedMotionStableOnRoute(page: Page, route: string): Promise<void> {
+  await page.goto(route);
+  const hoverTarget = await firstVisibleLocator(page, reducedMotionHoverSelectors.join(", "));
+
+  await hoverTarget.hover();
+  const transform = await hoverTarget.evaluate((element) => getComputedStyle(element).transform);
+  const maybeReactiveSurface = await maybeFirstVisibleLocator(page, ".reactive-surface");
+
+  expect(transform, `${route} reduced-motion hover transform`).toBe("none");
+
+  if (!maybeReactiveSurface) {
+    return;
+  }
+
+  const beforePointerVars = await inlinePointerVars(maybeReactiveSurface);
+  const box = await maybeReactiveSurface.boundingBox();
+
+  if (!box) {
+    throw new Error(
+      `Expected .reactive-surface to have a browser-visible bounding box on ${route}.`,
+    );
+  }
+
+  await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2);
+  await page.waitForTimeout(100);
+  const afterPointerVars = await inlinePointerVars(maybeReactiveSurface);
+
+  expect(afterPointerVars, `${route} reduced-motion pointer CSS vars`).toEqual(beforePointerVars);
+}
 
 function axeViolationSummaries(violations: readonly AxeViolation[]): readonly string[] {
   return violations.map((violation) => {
@@ -257,6 +309,31 @@ async function layoutFindingsForPage(page: Page): Promise<readonly LayoutFinding
   });
 }
 
+async function firstVisibleLocator(page: Page, selector: string): Promise<Locator> {
+  const maybeLocator = await maybeFirstVisibleLocator(page, selector);
+
+  if (!maybeLocator) {
+    throw new Error(`Expected a visible reduced-motion hover target for selector ${selector}.`);
+  }
+
+  return maybeLocator;
+}
+
+async function maybeFirstVisibleLocator(page: Page, selector: string): Promise<Locator | null> {
+  const locator = page.locator(selector);
+  const count = await locator.count();
+
+  for (let index = 0; index < count; index += 1) {
+    const candidate = locator.nth(index);
+
+    if (await candidate.isVisible()) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 async function keyboardFocusTargets(page: Page): Promise<readonly FocusSnapshot[]> {
   const targets: FocusSnapshot[] = [];
 
@@ -332,6 +409,22 @@ function hasFocusedProjectAnchor(focusedTargets: readonly FocusSnapshot[]): bool
     return (
       url.origin === "http://127.0.0.1:4173" && url.pathname === "/projects" && url.hash.length > 1
     );
+  });
+}
+
+function hasFocusedProjectActionLink(focusedTargets: readonly FocusSnapshot[]): boolean {
+  return focusedTargets.some((target) => {
+    if (!target.href) {
+      return false;
+    }
+
+    const url = new URL(target.href);
+
+    if (url.origin === "http://127.0.0.1:4173") {
+      return false;
+    }
+
+    return projectActionLabels.some((label) => target.label.includes(label));
   });
 }
 
