@@ -1,6 +1,10 @@
 ---
 phase: 13-project-page-release-coverage
 plan: 01
+generated_by: gsd-execute-plan
+lifecycle_mode: yolo
+phase_lifecycle_id: 13-2026-06-03T01-38-02
+generated_at: 2026-06-03T02:05:29Z
 subsystem: release-verification
 tags: [playwright, vitest, release-readiness, static-verification, project-detail-routes]
 
@@ -38,10 +42,6 @@ patterns-established:
   - "Release-readiness document guards use exact phrases for project detail route, static, browser, and smoke-route coverage."
 
 requirements-completed: [VERIFY-02, VERIFY-03, VERIFY-04]
-generated_by: gsd-execute-plan
-lifecycle_mode: yolo
-phase_lifecycle_id: 13-2026-06-03T01-38-02
-generated_at: 2026-06-03T02:05:29Z
 
 duration: 6 min
 completed: 2026-06-03
@@ -110,8 +110,6 @@ Each task was committed atomically:
 - **Verification:** `bun run test -- scripts/release-readiness.test.ts`, `mdformat --check docs/release-readiness.md`, and final `bun run verify` passed.
 - **Committed in:** `83e924b`
 
----
-
 **Total deviations:** 2 auto-fixed (1 blocking, 1 bug)
 **Impact on plan:** Both fixes preserved the requested scope and avoided adding UI, runtime network checks, or new metadata behavior.
 
@@ -156,8 +154,6 @@ Phase 13 is complete from the executor side. The orchestrator can update shared 
 - Found task commit `83e924b`.
 - Found task commit `9fe7175`.
 - Confirmed `.planning/STATE.md` and `.planning/config.json` remain unstaged and uncommitted for orchestrator ownership.
-
----
 
 *Phase: 13-project-page-release-coverage*
 *Completed: 2026-06-03*
