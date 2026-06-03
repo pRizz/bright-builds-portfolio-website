@@ -12,27 +12,18 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 ## Current State
 
-v1.1 shipped on 2026-06-01 as a release-confidence pass over the v1.0 static SolidStart portfolio. The site now has repeatable browser/accessibility automation, explicit clean-builder release/deploy readiness gates, and an intentional curated project helper surface with guardrails against seed-era helper imports.
-
-Phase 10 of v1.2 completed on 2026-06-02. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` route helpers, and prerendered static route foundations while unselected projects stay excluded.
-
-Phase 11 of v1.2 completed on 2026-06-02. Selected project cards now link into readable project story pages with authored narrative, proof points, GitHub snapshot facts, and clear project actions.
-
-Phase 12 of v1.2 completed on 2026-06-02. Selected project detail routes now have route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and deterministic static social preview fallback verification.
+v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` routes, prerendered static HTML, readable narrative pages, route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and explicit project-detail release coverage across static, browser, and release-readiness checks.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
-## Current Milestone: v1.2 Project Story Pages
+## Next Milestone Goals
 
-**Goal:** Turn curated project cards into deep, shareable static project pages with stronger narrative, metadata, and collaboration paths.
+No active milestone is defined yet. Candidate directions carried forward from v1.2:
 
-**Target features:**
-
-- Per-project static routes for selected flagship and supporting projects.
-- Rich project storytelling covering problem, why it matters, technical shape, current status, links, and collaboration angle.
-- Route-specific SEO, JSON-LD, sitemap entries, canonical metadata, and project-specific Open Graph image/card support.
-- Home and project-index navigation that moves visitors naturally from overview cards to project detail pages.
-- Verification that project pages remain static, dark-primary, accessible, no-overlap, and covered by the existing clean-builder release gate.
+- Add a dedicated writing or notes surface and connect selected project stories to related essays or notes.
+- Generate richer deterministic project-specific raster Open Graph images without introducing runtime server rendering.
+- Improve content operations when typed checked-in content becomes too slow for the portfolio scale.
+- Split or simplify large verifier modules if they keep growing during future release-gate work.
 
 ## Requirements
 
@@ -53,10 +44,12 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 10] v1.2 establishes selected project detail route foundations from typed curated data, prerenders six stable `/projects/{slug}` routes, and verifies eligibility, exclusions, and initial metadata derivation.
 - [x] [Phase 11] v1.2 turns selected project detail routes into readable story pages with narrative sections, proof points, GitHub facts, action links, and detail-aware home/project-index navigation.
 - [x] [Phase 12] v1.2 gives selected project detail routes route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and a deterministic checked-in social preview fallback.
+- [x] [Phase 13] v1.2 makes project detail route coverage explicit across static verification, browser release checks, release-readiness docs, release evidence labels, and the aggregate clean-builder gate.
 
 ### Active
 
-- [ ] [v1.2] Existing release verification covers the new project routes for static output, accessibility, visual layout, and deploy readiness.
+- [ ] [Future] Decide whether the next product milestone should prioritize writing/notes, richer social images, or content operations.
+- [ ] [Future] Evaluate whether large release verifier modules need a maintenance split before the next release-gate expansion.
 
 ### Out of Scope
 
@@ -79,7 +72,7 @@ Mystic UI is owned by Peter and is the preferred SolidJS component source for th
 
 Bright Builds repo instructions require the Bright Builds Rules workflow, including plan-first work for non-trivial changes, evidence-based verification, append-only planning/task artifacts, functional-core/imperative-shell architecture, repo-native verification, TypeScript/JavaScript guidance, and use of the OpenLinks identity-presence skill for website profile/footer/metadata surfaces owned by `pRizz`.
 
-v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`. v1.2 starts from the approved Project Story Pages scope, prioritizing deeper project narratives before a separate writing surface or CMS/admin tooling.
+v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`. v1.2 shipped with 4 phases, 4 plans, 9 recorded tasks, 19 completed requirements, and milestone audit status `passed`.
 
 ## Constraints
 
@@ -109,6 +102,7 @@ v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requiremen
 | Detail route selection is typed and curated | v1.2 should deepen selected project stories without becoming a raw repo mirror or exposing hidden/unselected records. | Phase 10 added `detail` story data and `projectDetailPageProjects()` as the public selector for selected detail routes. |
 | Story links prefer detail pages when available | Selected project cards should move visitors from overview to story depth without breaking anchors for unselected records. | Phase 11 added `projectStoryHref()` and uses it on home and project-index project links. |
 | Project metadata stays static and curated | Project detail routes need sharing metadata without dynamic OG endpoints, runtime GitHub dependencies, or visible identity repetition. | Phase 12 added `projectJsonLd()`, default sitemap coverage for selected detail routes, and static social preview fallback verification while preserving OpenLinks through profile `sameAs` metadata. |
+| Project detail release coverage derives from route helpers | Release checks should track selected project detail routes without duplicating route lists or claiming hosted/live checks. | Phase 13 derives representative browser checks from `projectDetailRoutes()`, keeps exhaustive axe/layout loops on `prerenderRoutes`, and adds release-readiness facts plus `project detail route coverage` evidence. |
 
 ## Evolution
 
@@ -131,4 +125,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-02 after Phase 12 completion*
+*Last updated: 2026-06-03 after v1.2 milestone completion*

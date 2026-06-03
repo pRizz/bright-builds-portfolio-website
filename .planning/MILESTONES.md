@@ -1,5 +1,20 @@
 # Milestones
 
+## v1.2 Project Story Pages (Shipped: 2026-06-03)
+
+**Phases completed:** 4 phases, 4 plans, 9 tasks
+**Audit:** passed — 19/19 requirements satisfied, 0 blockers
+**Archives:** `milestones/v1.2-ROADMAP.md`, `milestones/v1.2-REQUIREMENTS.md`, `milestones/v1.2-MILESTONE-AUDIT.md`
+
+**Key accomplishments:**
+
+- Selected curated projects now have typed detail story data, deterministic `/projects/{slug}` paths, and prerendered static route foundations.
+- Project detail pages now read as project stories, and selected cards route visitors into those pages while unselected records keep stable anchors.
+- Selected project detail routes now ship route-specific sharing metadata, SoftwareSourceCode JSON-LD, sitemap entries, and release checks backed by static curated data.
+- Project detail route coverage is now explicit across browser checks, release-readiness docs, release evidence labels, and the aggregate clean-builder gate.
+
+______________________________________________________________________
+
 ## v1.1 Release Confidence (Shipped: 2026-06-01)
 
 **Phases completed:** 4 phases, 4 plans, 13 tasks
@@ -11,7 +26,7 @@
 - Curated project data now has a documented selector API, no seed-era helper exports, and a checked AST import guard in the aggregate release gate.
 - Clean-builder release guidance now provisions Playwright Chromium explicitly and the release-readiness verifier guards the documented gate contract.
 
----
+______________________________________________________________________
 
 ## v1.0 MVP (Shipped: 2026-05-27)
 
@@ -42,4 +57,4 @@
 - Decide whether live external-link reachability should be automated.
 - Clean up or document seed-era helper exports that are not part of runtime wiring.
 
----
+______________________________________________________________________
