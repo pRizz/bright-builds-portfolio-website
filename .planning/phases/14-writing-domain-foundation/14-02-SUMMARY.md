@@ -26,6 +26,7 @@ key-files:
     - src/domain/writing-validation.test.ts
   modified:
     - scripts/verify-curation.ts
+    - src/domain/writing.test.ts
 
 key-decisions:
   - "Writing validation uses slug regex ^[a-z0-9]+(?:-[a-z0-9]+)*$ and YYYY-MM-DD date-shape checks."
@@ -76,6 +77,14 @@ Each task was committed atomically. TDD work produced RED and GREEN commits:
 2. **Task 2: Add writing validation to the curation verification command**
    - `6dc2c33` feat(14-02): validate writing in curation gate
 
+## Post-Review Fixes
+
+- `3b5d4c1` fix(14-02): reject empty writing list blocks
+  - Fixed the code review finding where an empty list block passed validation because `[].every(...)` returns true.
+  - Added a regression test that expects `empty_body_block` and `missing_body` for an empty list block.
+- `d5cbf4d` fix(14): organize writing imports
+  - Applied Biome's safe organize-imports fix to the writing tests and curation verifier.
+
 ## Files Created/Modified
 
 - `src/domain/writing-validation.ts` - Structured writing curation issue types, pure validation helpers, selected-project relationship validation, and assertion formatting.
@@ -97,6 +106,7 @@ None. The implementation stayed within the planned files and exclusions.
 - The delegated Wave 2 executor hit a subagent usage limit before making file changes. Work continued inline under the same GSD plan and lifecycle id.
 - The TDD RED commit intentionally failed before `src/domain/writing-validation.ts` existed.
 - `bun run format` formatted `scripts/verify-curation.ts` after curation-gate integration; focused tests, curation verification, and typecheck then passed.
+- Standard code review found one validator false negative and later Biome import-organization findings; both were fixed and re-verified.
 
 ## Verification
 
@@ -105,6 +115,7 @@ Passed:
 - `bun run test src/domain/writing-validation.test.ts src/domain/writing.test.ts`
 - `bun run verify:curation`
 - `bun run typecheck`
+- `bun run check`
 
 ## Known Stubs
 
@@ -129,6 +140,7 @@ Phase 15 can consume the validated writing registry and helpers with confidence 
 - Found updated `scripts/verify-curation.ts`.
 - Found `.planning/phases/14-writing-domain-foundation/14-02-SUMMARY.md`.
 - Found task commits `df8d619`, `32c73fa`, and `6dc2c33`.
+- Found post-review fix commits `3b5d4c1` and `d5cbf4d`.
 
 *Phase: 14-writing-domain-foundation*
 *Completed: 2026-06-03*

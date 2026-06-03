@@ -3,7 +3,7 @@ phase: 14-writing-domain-foundation
 review_path: .planning/phases/14-writing-domain-foundation/14-REVIEW.md
 fixed_at: 2026-06-03T20:36:04Z
 iteration: 1
-fix_scope: critical_warning
+fix_scope: all
 fixes_applied: 2
 remaining_findings:
   critical: 0
