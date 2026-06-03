@@ -37,7 +37,7 @@
 - [x] **Phase 10: Project Detail Route Foundation** — Maintainers can select project detail pages from curated data and prerender stable static routes for them. Completed 2026-06-02.
 - [x] **Phase 11: Project Story Page UI** — Visitors can read selected project detail pages with authored narrative, project facts, and clear project actions. Completed 2026-06-02.
 - [x] **Phase 12: Project Metadata & Sharing** — Project detail routes have specific metadata, structured data, sitemap coverage, and deterministic social preview support. (completed 2026-06-02)
-- [ ] **Phase 13: Project Page Release Coverage** — The clean-builder release gate verifies project detail routes across static output, browser behavior, and release documentation.
+- [x] **Phase 13: Project Page Release Coverage** — The clean-builder release gate verifies project detail routes across static output, browser behavior, and release documentation. (completed 2026-06-03)
 
 ## Phase Details
 
@@ -102,8 +102,8 @@
 1. Release-readiness docs and checks identify project detail route coverage as part of `bun run install:browser && bun run verify`.
 1. The aggregate release gate passes from a clean-builder path with project detail routes included.
 
-**Plans:** 1 plan
-- [ ] `13-01-PLAN.md` — Project detail release coverage, readiness contract, and aggregate gate
+**Plans:** 1/1 plans complete
+- [x] `13-01-PLAN.md` — Project detail release coverage, readiness contract, and aggregate gate
 **UI hint:** no
 
 ## Progress
@@ -123,8 +123,8 @@
 | 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete    | 2026-06-02 |
-| 13. Project Page Release Coverage | v1.2 | 0/1 | Not Started | - |
+| 13. Project Page Release Coverage | v1.2 | 1/1 | Complete   | 2026-06-03 |
 
 ## Next
 
-Start Phase 12 with `/gsd-discuss-phase 12` or `/gsd-plan-phase 12`.
+All v1.2 phases are complete. Run `/gsd-complete-milestone` to archive this milestone or `/gsd-new-milestone` to start the next milestone.

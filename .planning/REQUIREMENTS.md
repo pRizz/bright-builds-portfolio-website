@@ -36,9 +36,9 @@
 ### Verification
 
 - [x] **VERIFY-01**: Unit tests cover project detail eligibility, route derivation, metadata derivation, and unselected-project exclusions.
-- [ ] **VERIFY-02**: Static verification checks generated project detail HTML for expected story text, metadata, JSON-LD, sitemap inclusion, and forbidden runtime GitHub residue.
-- [ ] **VERIFY-03**: Browser release checks include project detail routes for axe, dark desktop/mobile layout, keyboard reachability, and reduced-motion behavior.
-- [ ] **VERIFY-04**: Release-readiness documentation and checks identify project detail route coverage as part of `bun run install:browser && bun run verify`.
+- [x] **VERIFY-02**: Static verification checks generated project detail HTML for expected story text, metadata, JSON-LD, sitemap inclusion, and forbidden runtime GitHub residue.
+- [x] **VERIFY-03**: Browser release checks include project detail routes for axe, dark desktop/mobile layout, keyboard reachability, and reduced-motion behavior.
+- [x] **VERIFY-04**: Release-readiness documentation and checks identify project detail route coverage as part of `bun run install:browser && bun run verify`.
 
 ## Future Requirements
 
@@ -92,9 +92,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-02 | Phase 11 | Complete |
 | NAV-03 | Phase 11 | Complete |
 | VERIFY-01 | Phase 10 | Complete |
-| VERIFY-02 | Phase 13 | Pending |
-| VERIFY-03 | Phase 13 | Pending |
-| VERIFY-04 | Phase 13 | Pending |
+| VERIFY-02 | Phase 13 | Complete |
+| VERIFY-03 | Phase 13 | Complete |
+| VERIFY-04 | Phase 13 | Complete |
 
 **Coverage:**
 
