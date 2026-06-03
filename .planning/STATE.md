@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Writing & Notes Surface
-current_phase: 14
-current_phase_name: Writing Domain Foundation
-current_plan: 1
-status: executing
-stopped_at: Phase 14 context gathered
-last_updated: "2026-06-03T14:17:36.289Z"
-last_activity: 2026-06-03 -- Phase 14 execution started
+current_phase: 15
+current_phase_name: Writing Routes and Dark UI
+current_plan: Not started
+status: ready
+stopped_at: Phase 14 verified and completed
+last_updated: "2026-06-03T20:38:30.240Z"
+last_activity: 2026-06-03
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 0
-  percent: 0
+  completed_plans: 2
+  percent: 25
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-03)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 14 — Writing Domain Foundation
+**Current focus:** Phase 15 — Writing Routes and Dark UI
 
 ## Current Position
 
-Current Phase: 14
-Current Phase Name: Writing Domain Foundation
-Current Plan: 1
+Current Phase: 15
+Current Phase Name: Writing Routes and Dark UI
+Current Plan: Not started
 Total Phases: 4
-Total Plans in Phase: 2
-Phase: 14 (Writing Domain Foundation) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 14
-Last activity: 2026-06-03 -- Phase 14 execution started
+Total Plans in Phase: TBD
+Phase: 15 (Writing Routes and Dark UI) — READY
+Plan: Not started
+Status: Ready to discuss Phase 15
+Last activity: 2026-06-03 -- Phase 14 verified and completed
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -47,12 +47,12 @@ Progress: [░░░░░░░░░░] 0%
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
-- Active milestone plans completed: 0
-- Active milestone plan count: TBD until phase planning creates plans
+- Active milestone plans completed: 2
+- Active milestone plan count: 2 planned so far; remaining phases TBD until planning creates plans
 
 **By Phase:**
 
-- Phase 14: Writing Domain Foundation — Not started
+- Phase 14: Writing Domain Foundation — Complete (2/2 plans, verified 2026-06-03)
 - Phase 15: Writing Routes and Dark UI — Not started
 - Phase 16: Writing Metadata and Structured Data — Not started
 - Phase 17: Writing Verification and Release Contract — Not started
@@ -60,7 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 **Recent Trend:**
 
 - Last completed work: v1.2 Project Story Pages shipped on 2026-06-03.
-- Trend: v1.3 starts from completed project detail routes and is ready to plan a curated static writing layer.
+- Trend: v1.3 now has validated writing domain data and is ready to build public writing routes.
 
 ## Accumulated Context
 
@@ -84,6 +84,7 @@ Recent decisions affecting current work:
 - [Phase 13]: Project detail release coverage derives from `projectDetailRoutes()` and `prerenderRoutes()` so static, browser, release-readiness, and evidence-label checks stay connected.
 - [v1.3 milestone]: Add a curated static writing and notes surface before richer social-image generation or CMS/admin tooling.
 - [v1.3 roadmap]: Use four coarse phases: writing domain foundation, writing routes and dark UI, writing metadata and structured data, and writing verification and release contract.
+- [Phase 14]: Writing domain data stays in typed checked-in TypeScript with pure helpers and curation validation before any public route, metadata, sitemap, or UI consumption.
 
 ### Pending Todos
 
@@ -95,7 +96,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-03T13:58:03.609Z
-Stopped at: Phase 14 context gathered
-Resume file: .planning/phases/14-writing-domain-foundation/14-CONTEXT.md
-Next action: run `/gsd-plan-phase 14`
+Last session: 2026-06-03T20:38:30.240Z
+Stopped at: Phase 14 verified and completed
+Resume file: .planning/phases/14-writing-domain-foundation/14-VERIFICATION.md
+Next action: run `/gsd-discuss-phase 15`

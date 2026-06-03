@@ -10,10 +10,10 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 
 ### Content Model
 
-- [ ] **WRITE-01**: Maintainer can define curated writing or note entries in a typed checked-in registry without adding runtime APIs, CMS, MDX, or external content dependencies.
-- [ ] **WRITE-02**: Maintainer can mark writing entries as published or hidden/draft so only selected public entries create public static routes.
-- [ ] **WRITE-03**: Maintainer can author entry title, summary, date or status, tags or topics, body sections or blocks, and optional related project slugs in a structure that validation can verify.
-- [ ] **WRITE-04**: Unit tests cover writing eligibility, slug and path derivation, public/draft exclusion, required field validation, and related project slug integrity.
+- [x] **WRITE-01**: Maintainer can define curated writing or note entries in a typed checked-in registry without adding runtime APIs, CMS, MDX, or external content dependencies.
+- [x] **WRITE-02**: Maintainer can mark writing entries as published or hidden/draft so only selected public entries create public static routes.
+- [x] **WRITE-03**: Maintainer can author entry title, summary, date or status, tags or topics, body sections or blocks, and optional related project slugs in a structure that validation can verify.
+- [x] **WRITE-04**: Unit tests cover writing eligibility, slug and path derivation, public/draft exclusion, required field validation, and related project slug integrity.
 
 ### Writing Routes
 
@@ -30,9 +30,9 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 
 ### Project Cross-Links
 
-- [ ] **LINK-01**: Writing entries can reference related selected project slugs through typed data.
+- [x] **LINK-01**: Writing entries can reference related selected project slugs through typed data.
 - [ ] **LINK-02**: Project detail pages can display related writing links derived from writing data without duplicating relationship data on project records.
-- [ ] **LINK-03**: Verification fails when a writing entry references an unknown, hidden, or unsupported project slug.
+- [x] **LINK-03**: Verification fails when a writing entry references an unknown, hidden, or unsupported project slug.
 
 ### Metadata and Discovery
 
@@ -89,10 +89,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| WRITE-01 | Phase 14 | Pending |
-| WRITE-02 | Phase 14 | Pending |
-| WRITE-03 | Phase 14 | Pending |
-| WRITE-04 | Phase 14 | Pending |
+| WRITE-01 | Phase 14 | Complete |
+| WRITE-02 | Phase 14 | Complete |
+| WRITE-03 | Phase 14 | Complete |
+| WRITE-04 | Phase 14 | Complete |
 | ROUTE-01 | Phase 15 | Pending |
 | ROUTE-02 | Phase 15 | Pending |
 | ROUTE-03 | Phase 15 | Pending |
@@ -100,9 +100,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | READ-01 | Phase 15 | Pending |
 | READ-02 | Phase 15 | Pending |
 | READ-03 | Phase 15 | Pending |
-| LINK-01 | Phase 14 | Pending |
+| LINK-01 | Phase 14 | Complete |
 | LINK-02 | Phase 15 | Pending |
-| LINK-03 | Phase 14 | Pending |
+| LINK-03 | Phase 14 | Complete |
 | META-01 | Phase 16 | Pending |
 | META-02 | Phase 16 | Pending |
 | META-03 | Phase 16 | Pending |
@@ -121,4 +121,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-03*
-*Last updated: 2026-06-03 after initial v1.3 definition*
+*Last updated: 2026-06-03 after Phase 14 completion*

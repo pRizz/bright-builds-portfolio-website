@@ -14,6 +14,8 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` routes, prerendered static HTML, readable narrative pages, route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and explicit project-detail release coverage across static, browser, and release-readiness checks.
 
+v1.3 Phase 14 completed on 2026-06-03. The site now has a typed checked-in writing registry with two authored public entries, published-only public writing helpers, stable `/writing/{slug}` path derivation, selected-project relationship resolution, structured writing curation validation, and `verify:curation` coverage for both project and writing registries. Public writing routes, writing metadata, sitemap entries, and release-specific writing coverage remain active work for Phases 15-17.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
 ## Current Milestone: v1.3 Writing & Notes Surface
@@ -48,6 +50,7 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 11] v1.2 turns selected project detail routes into readable story pages with narrative sections, proof points, GitHub facts, action links, and detail-aware home/project-index navigation.
 - [x] [Phase 12] v1.2 gives selected project detail routes route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and a deterministic checked-in social preview fallback.
 - [x] [Phase 13] v1.2 makes project detail route coverage explicit across static verification, browser release checks, release-readiness docs, release evidence labels, and the aggregate clean-builder gate.
+- [x] [Phase 14] v1.3 establishes validated writing domain data, public writing helper contracts, selected-project related-writing integrity, and curation-gate coverage without runtime content dependencies.
 
 ### Active
 
@@ -112,6 +115,7 @@ v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a smal
 | Project metadata stays static and curated | Project detail routes need sharing metadata without dynamic OG endpoints, runtime GitHub dependencies, or visible identity repetition. | Phase 12 added `projectJsonLd()`, default sitemap coverage for selected detail routes, and static social preview fallback verification while preserving OpenLinks through profile `sameAs` metadata. |
 | Project detail release coverage derives from route helpers | Release checks should track selected project detail routes without duplicating route lists or claiming hosted/live checks. | Phase 13 derives representative browser checks from `projectDetailRoutes()`, keeps exhaustive axe/layout loops on `prerenderRoutes`, and adds release-readiness facts plus `project detail route coverage` evidence. |
 | Writing comes after project story depth | Project pages now explain the work; the next core-value improvement is showing the thinking behind the work. | v1.3 scopes a curated static writing and notes surface with project cross-links while deferring CMS/admin and dynamic OG/server work. |
+| Writing domain stays static and validated before routes | Downstream writing routes, metadata, and release checks need trustworthy data before UI consumes it. | Phase 14 adds `curatedWriting`, public writing selectors, related project resolution, structured validation, and `verify:curation` integration while deferring route/UI/metadata/release expansion to Phases 15-17. |
 
 ## Evolution
 
@@ -134,4 +138,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-03 after v1.3 milestone start*
+*Last updated: 2026-06-03 after Phase 14 completion*

@@ -44,7 +44,7 @@
 <details open>
 <summary>v1.3 Writing & Notes Surface (Phases 14-17) — ACTIVE</summary>
 
-- [ ] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
+- [x] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
 - [ ] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface.
 - [ ] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior.
 - [ ] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate.
@@ -64,7 +64,7 @@
 1. Maintainer can ask writing helpers for public entries and stable `/writing/{slug}` paths while hidden or draft records stay excluded from public selectors.
 1. Unit and curation tests fail for duplicate or invalid slugs, missing required fields, draft/public filtering mistakes, and related project slugs that are unknown, hidden, or unsupported.
 
-**Plans**: TBD
+**Plans**: 2/2 complete
 
 ### Phase 15: Writing Routes and Dark UI
 
@@ -128,11 +128,11 @@
 | 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 13. Project Page Release Coverage | v1.2 | 1/1 | Complete | 2026-06-03 |
-| 14. Writing Domain Foundation | v1.3 | 0/TBD | Not started | - |
+| 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
 | 15. Writing Routes and Dark UI | v1.3 | 0/TBD | Not started | - |
 | 16. Writing Metadata and Structured Data | v1.3 | 0/TBD | Not started | - |
 | 17. Writing Verification and Release Contract | v1.3 | 0/TBD | Not started | - |
 
 ## Next
 
-v1.3 is active. Run `/gsd-plan-phase 14` to plan Phase 14: Writing Domain Foundation.
+v1.3 is active. Run `/gsd-discuss-phase 15` to start Phase 15: Writing Routes and Dark UI.
