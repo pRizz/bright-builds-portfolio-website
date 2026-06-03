@@ -5,7 +5,7 @@ import {
   validateWritingEntry,
   validateWritingRegistry,
 } from "./writing-validation";
-import { curatedWriting, type WritingEntry } from "./writing";
+import { curatedWriting, type WritingBodyBlock, type WritingEntry } from "./writing";
 
 describe("writing curation validation", () => {
   it("rejects duplicate writing slugs on the second entry", () => {
@@ -68,6 +68,24 @@ describe("writing curation validation", () => {
         "missing_body",
       ]),
     );
+  });
+
+  it("rejects empty list body blocks", () => {
+    // Arrange
+    const entry = makeWritingEntry({
+      sections: [
+        {
+          heading: "List section",
+          blocks: [{ kind: "list", items: [] } as unknown as WritingBodyBlock],
+        },
+      ],
+    });
+
+    // Act
+    const codes = validateWritingEntry(entry).map((issue) => issue.code);
+
+    // Assert
+    expect(codes).toEqual(expect.arrayContaining(["empty_body_block", "missing_body"]));
   });
 
   it("rejects related project slugs that are not selected project detail pages", () => {

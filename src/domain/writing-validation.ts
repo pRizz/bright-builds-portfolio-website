@@ -210,7 +210,7 @@ function hasBlockContent(block: WritingBodyBlock): boolean {
   }
 
   if (block.kind === "list") {
-    return block.items.every((item) => item.trim().length > 0);
+    return block.items.length > 0 && block.items.every((item) => item.trim().length > 0);
   }
 
   return block.label.trim().length > 0 && block.href.trim().length > 0;
