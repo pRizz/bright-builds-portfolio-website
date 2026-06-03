@@ -1,0 +1,124 @@
+# Requirements: Bright Builds Portfolio Website v1.3
+
+**Defined:** 2026-06-03
+**Milestone:** v1.3 Writing & Notes Surface
+**Core Value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
+
+## v1.3 Requirements
+
+Requirements for the writing and notes milestone. Each requirement maps to exactly one roadmap phase.
+
+### Content Model
+
+- [ ] **WRITE-01**: Maintainer can define curated writing or note entries in a typed checked-in registry without adding runtime APIs, CMS, MDX, or external content dependencies.
+- [ ] **WRITE-02**: Maintainer can mark writing entries as published or hidden/draft so only selected public entries create public static routes.
+- [ ] **WRITE-03**: Maintainer can author entry title, summary, date or status, tags or topics, body sections or blocks, and optional related project slugs in a structure that validation can verify.
+- [ ] **WRITE-04**: Unit tests cover writing eligibility, slug and path derivation, public/draft exclusion, required field validation, and related project slug integrity.
+
+### Writing Routes
+
+- [ ] **ROUTE-01**: Visitor can open a stable `/writing` index listing public writing entries in curated or reverse-chronological order.
+- [ ] **ROUTE-02**: Visitor can open stable `/writing/{slug}` static detail routes for every public writing entry.
+- [ ] **ROUTE-03**: Clean static builds prerender `/writing` and every public writing detail route before hydration.
+- [ ] **ROUTE-04**: Hidden, draft, archived-only, or otherwise unpublished writing entries do not create public detail pages.
+
+### Reading Experience
+
+- [ ] **READ-01**: Visitor can understand each writing entry's main idea, context, and relevance from the static detail page.
+- [ ] **READ-02**: Writing index and detail pages preserve dark-primary responsive layout, accessible headings, readable body text, and stable text layout on desktop and mobile.
+- [ ] **READ-03**: Writing detail pages provide clear paths back to the writing index and onward to related projects when relationships exist.
+
+### Project Cross-Links
+
+- [ ] **LINK-01**: Writing entries can reference related selected project slugs through typed data.
+- [ ] **LINK-02**: Project detail pages can display related writing links derived from writing data without duplicating relationship data on project records.
+- [ ] **LINK-03**: Verification fails when a writing entry references an unknown, hidden, or unsupported project slug.
+
+### Metadata and Discovery
+
+- [ ] **META-01**: `/writing` and each writing detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from writing and profile data.
+- [ ] **META-02**: Writing detail routes render static `BlogPosting` JSON-LD and the writing index renders appropriate collection or `ItemList` JSON-LD before hydration.
+- [ ] **META-03**: Generated sitemap output includes public writing routes and excludes draft or hidden writing routes.
+- [ ] **META-04**: Writing routes use the checked-in static social preview fallback or documented deterministic support without runtime image generation.
+
+### Verification
+
+- [ ] **VERIFY-01**: Static verification checks generated writing HTML for expected content, metadata, JSON-LD, sitemap inclusion and exclusion, related-project links, and forbidden runtime API residue.
+- [ ] **VERIFY-02**: Browser release checks include writing routes for axe, dark desktop and mobile layout, keyboard reachability, and reduced-motion behavior where relevant.
+- [ ] **VERIFY-03**: Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
+- [ ] **VERIFY-04**: The aggregate `bun run verify` gate passes with writing routes included and release evidence labels name only automated writing coverage.
+
+## Future Requirements
+
+Deferred beyond v1.3. Tracked here so the current milestone can explicitly avoid building a generic blog engine.
+
+### Social Images
+
+- **OG-01**: Maintainer can generate richer project and writing raster Open Graph images from deterministic templates.
+- **OG-02**: Visitor-visible social previews can vary by content theme without manual image editing.
+
+### Content Operations
+
+- **CMS-01**: Maintainer can draft, edit, and publish writing through a CMS or admin surface.
+- **CMS-02**: Maintainer can preview unpublished writing before it is published to static output.
+
+### Writing Enhancements
+
+- **WRITE-FUTURE-01**: Visitor can subscribe to an RSS or Atom feed of public writing.
+- **WRITE-FUTURE-02**: Visitor can search, filter, paginate, or browse tag archive pages if the writing set grows.
+- **WRITE-FUTURE-03**: Visitor can comment, subscribe, or otherwise opt into a newsletter only after there is a clear collaboration need.
+
+## Out of Scope
+
+Explicitly excluded from v1.3 to prevent scope creep.
+
+| Feature | Reason |
+| --- | --- |
+| CMS, admin UI, database, or auth-backed editor | Typed checked-in content is enough for v1.3 and preserves the static deployment model. |
+| Markdown, MDX, Contentlayer, or parser pipelines | No new content dependencies are needed; typed registry keeps validation, routing, and metadata simple. |
+| RSS, Atom, search, pagination, and tag archive pages | The first writing set should be curated and small; discovery expansion can wait until volume requires it. |
+| Comments, likes, reactions, webmentions, newsletter backend, or analytics stack | These are not core to the portfolio reading path and add operational surface. |
+| Dynamic Open Graph image routes or server endpoints | Static deployment remains the target; v1.3 can reuse the checked-in social preview fallback. |
+| Runtime GitHub, Gist, Notion, Substack, RSS, or token-dependent content fetches | Visitor paths must stay static, deterministic, and token-safe. |
+| Generic blog/archive engine or mirrored external writing | v1.3 is a curated writing graph tied to project stories, not a volume publishing platform. |
+| Live external link reachability automation | Existing policy and static verification are sufficient unless a future release gate expands link checks. |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+| --- | --- | --- |
+| WRITE-01 | TBD | Pending |
+| WRITE-02 | TBD | Pending |
+| WRITE-03 | TBD | Pending |
+| WRITE-04 | TBD | Pending |
+| ROUTE-01 | TBD | Pending |
+| ROUTE-02 | TBD | Pending |
+| ROUTE-03 | TBD | Pending |
+| ROUTE-04 | TBD | Pending |
+| READ-01 | TBD | Pending |
+| READ-02 | TBD | Pending |
+| READ-03 | TBD | Pending |
+| LINK-01 | TBD | Pending |
+| LINK-02 | TBD | Pending |
+| LINK-03 | TBD | Pending |
+| META-01 | TBD | Pending |
+| META-02 | TBD | Pending |
+| META-03 | TBD | Pending |
+| META-04 | TBD | Pending |
+| VERIFY-01 | TBD | Pending |
+| VERIFY-02 | TBD | Pending |
+| VERIFY-03 | TBD | Pending |
+| VERIFY-04 | TBD | Pending |
+
+**Coverage:**
+
+- v1.3 requirements: 22 total
+- Mapped to phases: 0
+- Unmapped: 22
+
+______________________________________________________________________
+
+*Requirements defined: 2026-06-03*
+*Last updated: 2026-06-03 after initial v1.3 definition*
