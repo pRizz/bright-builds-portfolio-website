@@ -5,10 +5,7 @@ import * as writingSurface from "./writing";
 describe("curated writing registry", () => {
   it("defines the initial authored writing entries in display order", () => {
     // Arrange
-    const expectedSlugs = [
-      "agentic-engineering-workflows",
-      "portable-identity-and-owned-surfaces",
-    ];
+    const expectedSlugs = ["agentic-engineering-workflows", "portable-identity-and-owned-surfaces"];
 
     // Act
     const slugs = curatedWriting.map((entry) => entry.slug);
@@ -22,16 +19,22 @@ describe("curated writing registry", () => {
     const entries = curatedWriting;
 
     // Act
-    const incompleteEntries = entries.filter(
-      (entry) =>
-        entry.title.trim().length === 0 ||
-        entry.summary.trim().length === 0 ||
-        entry.topics.length === 0 ||
-        entry.sections.length === 0,
-    );
+    const completenessChecks = entries.map((entry) => ({
+      hasTitle: entry.title.trim().length > 0,
+      hasSummary: entry.summary.trim().length > 0,
+      hasTopics: entry.topics.length > 0,
+      hasSections: entry.sections.length > 0,
+    }));
 
     // Assert
-    expect(incompleteEntries).toEqual([]);
+    expect(completenessChecks).toEqual(
+      entries.map(() => ({
+        hasTitle: true,
+        hasSummary: true,
+        hasTopics: true,
+        hasSections: true,
+      })),
+    );
   });
 
   it("exposes only the supported curated writing registry surface", () => {
