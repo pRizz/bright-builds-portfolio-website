@@ -2,7 +2,12 @@ import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
 import { routeByPath } from "../../domain/routes";
-import { metadataForRoute, siteAssetLinks } from "../../domain/seo";
+import {
+  jsonLdScriptContent,
+  metadataForRoute,
+  personJsonLd,
+  siteAssetLinks,
+} from "../../domain/seo";
 import {
   type PublicWritingEntry,
   publicWritingEntries,
@@ -13,6 +18,7 @@ import {
 const route = routeByPath("/writing");
 const metadata = metadataForRoute(route);
 const writingEntries = publicWritingEntries();
+const personJsonLdValue = personJsonLd();
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   month: "long",
@@ -54,6 +60,7 @@ export default function Writing() {
       <Meta name="twitter:description" content={metadata.twitter.description} />
       <Meta name="twitter:image" content={metadata.twitter.image.url} />
       <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
 
       <section class="page-intro">
         <p class="eyebrow">Notes and essays</p>

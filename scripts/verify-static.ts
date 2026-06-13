@@ -31,6 +31,15 @@ import {
   robotsTxt,
   sitemapXml,
 } from "../src/domain/seo";
+import type { PublicWritingEntry, WritingBodyBlock, WritingEntry } from "../src/domain/writing";
+import {
+  curatedWriting,
+  maybePublicWritingEntryBySlug,
+  publicWritingEntries,
+  relatedProjectDetailPageProjects,
+  writingDetailPath,
+  writingDetailRoutes,
+} from "../src/domain/writing";
 
 type StaticRouteCheck = {
   route: string;
@@ -60,6 +69,8 @@ const generatedOutputForbiddenPatterns = [
   { label: "Lorem ipsum", pattern: /Lorem ipsum/i },
   { label: "fake case study", pattern: /fake case study/i },
   { label: "skill bar", pattern: /skill bar/i },
+  { label: 'href="javascript:', pattern: /href=["']javascript:/i },
+  { label: 'href="data:', pattern: /href=["']data:/i },
   { label: "api.github.com", pattern: /api\.github\.com/i },
   { label: "github.com/graphql", pattern: /github\.com\/graphql/i },
   { label: "@octokit/", pattern: /@octokit\//i },
@@ -71,6 +82,13 @@ const generatedOutputForbiddenPatterns = [
     pattern: /GitHub metadata refresh failed/i,
   },
 ] as const satisfies readonly ForbiddenTextPattern[];
+
+const writingDateFormatter = new Intl.DateTimeFormat("en-US", {
+  day: "numeric",
+  month: "long",
+  timeZone: "UTC",
+  year: "numeric",
+});
 
 export const expectedRoutes: StaticRouteCheck[] = prerenderRoutes.map((route) => ({
   route,
@@ -241,6 +259,8 @@ function expectedTextsForRoute(route: string): readonly string[] {
   const maybeProject = maybeProjectForDetailRoute(route);
 
   if (maybeProject) {
+    const relatedWritingExpectedTexts = relatedWritingExpectedTextsForProject(maybeProject);
+
     return [
       "Project story",
       maybeProject.name,
@@ -266,7 +286,14 @@ function expectedTextsForRoute(route: string): readonly string[] {
       "Project index",
       "Use these links to inspect the source, try the live surface when one exists, or return to the full project index.",
       ...projectActionLinkExpectedTexts(maybeProject),
+      ...relatedWritingExpectedTexts,
     ];
+  }
+
+  const maybeWriting = maybeWritingForDetailRoute(route);
+
+  if (maybeWriting) {
+    return writingDetailExpectedTexts(maybeWriting);
   }
 
   if (route === "/") {
@@ -281,6 +308,16 @@ function expectedTextsForRoute(route: string): readonly string[] {
         project.story.whyItMatters,
         `href="${projectStoryHref(project)}"`,
       ]),
+    ];
+  }
+
+  if (route === "/writing") {
+    return [
+      routeStaticCheckText(route),
+      "Notes and essays",
+      "Writing",
+      "Curated notes on agentic engineering, open systems, identity, and practical web software.",
+      ...publicWritingEntries().flatMap(writingIndexEntryExpectedTexts),
     ];
   }
 
@@ -352,6 +389,16 @@ function maybeProjectForDetailRoute(route: string): ProjectDetailPageProject | n
   return maybeProjectDetailPageProjectBySlug(route.slice(detailRoutePrefix.length));
 }
 
+function maybeWritingForDetailRoute(route: string): PublicWritingEntry | null {
+  const detailRoutePrefix = "/writing/";
+
+  if (!route.startsWith(detailRoutePrefix)) {
+    return null;
+  }
+
+  return maybePublicWritingEntryBySlug(route.slice(detailRoutePrefix.length));
+}
+
 function routeStaticCheckText(route: string): string {
   return topLevelRouteForPath(route).staticCheckText;
 }
@@ -377,6 +424,105 @@ function writingGroupExpectedTexts(): readonly string[] {
   }
 
   return projects.flatMap((project) => [project.name, project.oneLine]);
+}
+
+function writingIndexEntryExpectedTexts(entry: PublicWritingEntry): readonly string[] {
+  const relatedProjects = relatedProjectDetailPageProjects(entry);
+
+  return [
+    entry.title,
+    entry.summary,
+    `href="${escapeHtmlAttribute(writingDetailPath(entry))}"`,
+    writingActionLabel(entry),
+    ...writingVisibleDateExpectedText(entry),
+    ...entry.topics,
+    ...entry.tags,
+    ...(relatedProjects.length > 0 ? [relatedProjectCountText(relatedProjects.length)] : []),
+  ];
+}
+
+function writingDetailExpectedTexts(entry: PublicWritingEntry): readonly string[] {
+  return [
+    "Back to writing",
+    writingKindLabel(entry),
+    entry.title,
+    entry.summary,
+    ...writingVisibleDateExpectedText(entry),
+    ...entry.sections.flatMap((section) => [
+      section.heading,
+      ...section.blocks.flatMap(writingBodyBlockExpectedTexts),
+    ]),
+    ...relatedProjectDetailPageProjects(entry).flatMap((project) => [
+      project.name,
+      project.oneLine,
+      "Project details",
+      `href="${escapeHtmlAttribute(projectDetailPath(project))}"`,
+    ]),
+  ];
+}
+
+function writingBodyBlockExpectedTexts(block: WritingBodyBlock): readonly string[] {
+  if (block.kind === "paragraph" || block.kind === "callout") {
+    return [block.text];
+  }
+
+  if (block.kind === "list") {
+    return [...block.items];
+  }
+
+  return [block.label, `href="${escapeHtmlAttribute(block.href)}"`];
+}
+
+function relatedWritingExpectedTextsForProject(
+  project: ProjectDetailPageProject,
+): readonly string[] {
+  const relatedWritingEntries = publicWritingEntries().filter((entry) =>
+    entry.relatedProjectSlugs.includes(project.slug),
+  );
+
+  if (relatedWritingEntries.length === 0) {
+    return [];
+  }
+
+  return [
+    "Related writing",
+    ...relatedWritingEntries.flatMap((entry) => [
+      entry.title,
+      entry.summary,
+      writingActionLabel(entry),
+      `href="${escapeHtmlAttribute(writingDetailPath(entry))}"`,
+    ]),
+  ];
+}
+
+function relatedProjectCountText(count: number): string {
+  return count === 1 ? "1 related project" : `${count} related projects`;
+}
+
+function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {
+  return entry.kind === "note" ? "Note" : "Essay";
+}
+
+function writingActionLabel(entry: Pick<PublicWritingEntry, "kind">): "Read note" | "Read essay" {
+  return entry.kind === "note" ? "Read note" : "Read essay";
+}
+
+function writingVisibleDateExpectedText(entry: PublicWritingEntry): readonly string[] {
+  const maybeDateLabel = writingDateLabel(entry);
+
+  return maybeDateLabel ? [maybeDateLabel] : [];
+}
+
+function writingDateLabel(entry: PublicWritingEntry): string | null {
+  if (entry.maybePublishedOn) {
+    return `Published ${writingDateFormatter.format(new Date(`${entry.maybePublishedOn}T00:00:00Z`))}`;
+  }
+
+  if (entry.maybeUpdatedOn) {
+    return `Updated ${writingDateFormatter.format(new Date(`${entry.maybeUpdatedOn}T00:00:00Z`))}`;
+  }
+
+  return null;
 }
 
 function assertGitHubMetadataEnrichmentHtml(route: string, bodyBeforeHydration: string): void {
@@ -757,6 +903,28 @@ function assertSitemapProjectDetailCoverage(root: string): void {
   }
 }
 
+function assertWritingDetailRouteCoverage(root: string): void {
+  for (const route of writingDetailRoutes()) {
+    routeHtmlPath(root, route);
+  }
+}
+
+function assertNoPrerenderedWritingRoute(root: string, route: string): void {
+  const maybeOutputPath = routeHtmlCandidates(root, route).find((path) => existsSync(path));
+
+  if (!maybeOutputPath) {
+    return;
+  }
+
+  throw new Error(
+    `Unexpected static writing output for ${route}: ${relative(root, maybeOutputPath)}`,
+  );
+}
+
+function assertNoPrerenderedWritingEntry(root: string, entry: WritingEntry): void {
+  assertNoPrerenderedWritingRoute(root, writingDetailPath(entry));
+}
+
 function assertNoRemoteRuntimeVisualAssets(root: string, paths: readonly string[]): void {
   const remoteAssetPatterns = [
     { label: "remote asset <img src>", pattern: /<img\b[^>]+\bsrc=["']https?:\/\//gi },
@@ -809,6 +977,12 @@ for (const check of expectedRoutes) {
     continue;
   }
 
+  const maybeWriting = maybeWritingForDetailRoute(check.route);
+
+  if (maybeWriting) {
+    continue;
+  }
+
   const route = topLevelRouteForPath(check.route);
 
   assertMetadataForRoute(route, html);
@@ -835,6 +1009,7 @@ function projectIndexItemPath(project: ProjectStory): string {
   return projectStoryHref(project);
 }
 
+assertWritingDetailRouteCoverage(outputRoot);
 assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);
 assertReducedMotionCss(outputRoot);
 
@@ -854,6 +1029,14 @@ assertPngDimensions(outputRoot, "icon-192.png", 192, 192);
 assertPngDimensions(outputRoot, "apple-touch-icon.png", 180, 180);
 assertOutputTextEquals(outputRoot, "sitemap.xml", sitemapXml());
 assertSitemapProjectDetailCoverage(outputRoot);
+for (const entry of curatedWriting) {
+  if (entry.status === "published") {
+    continue;
+  }
+
+  assertNoPrerenderedWritingEntry(outputRoot, entry);
+}
+assertNoPrerenderedWritingRoute(outputRoot, "/writing/unknown-writing-slug");
 assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
 
 for (const htmlPath of outputHtmlFiles) {
