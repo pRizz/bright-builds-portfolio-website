@@ -161,15 +161,25 @@ function duplicateDisplayOrderIssues(
 function dateIssues(entry: WritingEntry): readonly WritingCurationIssue[] {
   const issues: WritingCurationIssue[] = [];
 
-  if (entry.maybePublishedOn && !writingDatePattern.test(entry.maybePublishedOn)) {
-    issues.push(error(entry, "invalid_date", "maybePublishedOn must match YYYY-MM-DD."));
+  if (entry.maybePublishedOn && !isValidWritingDate(entry.maybePublishedOn)) {
+    issues.push(error(entry, "invalid_date", "maybePublishedOn must be a valid YYYY-MM-DD date."));
   }
 
-  if (entry.maybeUpdatedOn && !writingDatePattern.test(entry.maybeUpdatedOn)) {
-    issues.push(error(entry, "invalid_date", "maybeUpdatedOn must match YYYY-MM-DD."));
+  if (entry.maybeUpdatedOn && !isValidWritingDate(entry.maybeUpdatedOn)) {
+    issues.push(error(entry, "invalid_date", "maybeUpdatedOn must be a valid YYYY-MM-DD date."));
   }
 
   return issues;
+}
+
+function isValidWritingDate(value: string): boolean {
+  if (!writingDatePattern.test(value)) {
+    return false;
+  }
+
+  const date = new Date(`${value}T00:00:00Z`);
+
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
 
 function bodyIssues(entry: WritingEntry): readonly WritingCurationIssue[] {

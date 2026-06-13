@@ -53,6 +53,7 @@ type ForbiddenTextPattern = {
 };
 
 const staticOutputRoot = ".output/public";
+const writingDetailRouteSourcePath = "src/routes/writing/[slug].tsx";
 const staleStandaloneRepoHrefs = [
   "https://github.com/pRizz/openlinks",
   "https://github.com/pRizz/win3bitcoin",
@@ -925,6 +926,25 @@ function assertNoPrerenderedWritingEntry(root: string, entry: WritingEntry): voi
   assertNoPrerenderedWritingRoute(root, writingDetailPath(entry));
 }
 
+function assertWritingFallbackMetadataSource(): void {
+  const source = readFileSync(writingDetailRouteSourcePath, "utf8");
+  const context = "Writing detail unknown-slug fallback source";
+
+  assertHtmlContains(
+    source,
+    "<Title>No public writing here | Writing | Bright Builds</Title>",
+    context,
+  );
+  assertHtmlContains(source, 'name="description"', context);
+  assertHtmlContains(
+    source,
+    'content="Return to the writing index to browse published notes."',
+    context,
+  );
+  assertHtmlContains(source, "No public writing here", context);
+  assertHtmlContains(source, "Browse writing", context);
+}
+
 function assertNoRemoteRuntimeVisualAssets(root: string, paths: readonly string[]): void {
   const remoteAssetPatterns = [
     { label: "remote asset <img src>", pattern: /<img\b[^>]+\bsrc=["']https?:\/\//gi },
@@ -1037,6 +1057,7 @@ for (const entry of curatedWriting) {
   assertNoPrerenderedWritingEntry(outputRoot, entry);
 }
 assertNoPrerenderedWritingRoute(outputRoot, "/writing/unknown-writing-slug");
+assertWritingFallbackMetadataSource();
 assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
 
 for (const htmlPath of outputHtmlFiles) {

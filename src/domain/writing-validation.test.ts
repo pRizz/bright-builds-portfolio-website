@@ -89,6 +89,30 @@ describe("writing curation validation", () => {
   });
 
   it.each([
+    ["maybePublishedOn", "2026-99-99"],
+    ["maybePublishedOn", "2026-02-31"],
+    ["maybeUpdatedOn", "2026-13-01"],
+    ["maybeUpdatedOn", "2026-04-31"],
+  ] as const)("rejects invalid writing date %s=%s", (field, value) => {
+    // Arrange
+    const entry =
+      field === "maybePublishedOn"
+        ? makeWritingEntry({ maybePublishedOn: value })
+        : makeWritingEntry({ maybeUpdatedOn: value });
+
+    // Act
+    const issues = validateWritingEntry(entry);
+
+    // Assert
+    expect(issues).toContainEqual(
+      expect.objectContaining({
+        severity: "error",
+        code: "invalid_date",
+      }),
+    );
+  });
+
+  it.each([
     "javascript:alert(1)",
     "data:text/html,<p>x</p>",
     "http://example.com",

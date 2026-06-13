@@ -26,14 +26,21 @@ export default function WritingDetail() {
     <Show
       when={entry()}
       fallback={
-        <section class="page-intro">
-          <p class="eyebrow">Writing</p>
-          <h1 class="page-title">No public writing here</h1>
-          <p class="lead">Return to the writing index to browse published notes.</p>
-          <a class="primary-action interactive-surface" href="/writing">
-            Browse writing
-          </a>
-        </section>
+        <>
+          <Title>No public writing here | Writing | Bright Builds</Title>
+          <Meta
+            name="description"
+            content="Return to the writing index to browse published notes."
+          />
+          <section class="page-intro">
+            <p class="eyebrow">Writing</p>
+            <h1 class="page-title">No public writing here</h1>
+            <p class="lead">Return to the writing index to browse published notes.</p>
+            <a class="primary-action interactive-surface" href="/writing">
+              Browse writing
+            </a>
+          </section>
+        </>
       }
     >
       {(selectedEntry) => <WritingArticle entry={selectedEntry()} />}
