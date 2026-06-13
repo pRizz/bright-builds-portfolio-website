@@ -88,6 +88,60 @@ describe("writing curation validation", () => {
     expect(codes).toEqual(expect.arrayContaining(["empty_body_block", "missing_body"]));
   });
 
+  it.each([
+    "javascript:alert(1)",
+    "data:text/html,<p>x</p>",
+    "http://example.com",
+    "//evil.example/path",
+  ])("rejects unsafe writing link href %s", (href) => {
+    // Arrange
+    const entry = makeWritingEntry({
+      sections: [
+        {
+          heading: "Link section",
+          blocks: [{ kind: "link", label: "Read related source", href }],
+        },
+      ],
+    });
+
+    // Act
+    const issues = validateWritingEntry(entry);
+
+    // Assert
+    expect(issues).toContainEqual(
+      expect.objectContaining({
+        severity: "error",
+        code: "unsafe_link_href",
+        message: "Writing link blocks must use an internal path, same-page anchor, or HTTPS URL.",
+      }),
+    );
+  });
+
+  it.each([
+    "/projects/openlinks",
+    "/writing/agentic-engineering-workflows",
+    "#content",
+    "https://example.com/path",
+  ])("accepts safe writing link href %s", (href) => {
+    // Arrange
+    const entry = makeWritingEntry({
+      sections: [
+        {
+          heading: "Link section",
+          blocks: [{ kind: "link", label: "Read related source", href }],
+        },
+      ],
+    });
+
+    // Act
+    const linkHrefIssues = validateWritingEntry(entry).filter(
+      (issue) => issue.code === "unsafe_link_href",
+    );
+
+    // Assert
+    expect(linkHrefIssues).toEqual([]);
+  });
+
   it("rejects related project slugs that are not selected project detail pages", () => {
     // Arrange
     const hiddenProject = makeHiddenProject("hidden-project");

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { ProjectDetailPageProject } from "./projects";
 import * as writingSurface from "./writing";
 import {
   curatedWriting,
@@ -54,6 +55,7 @@ describe("curated writing registry", () => {
       "writingDetailPath",
       "writingDetailRoutes",
       "relatedProjectDetailPageProjects",
+      "publicWritingEntriesForProject",
     ];
     const legacyExports = ["writingSeeds", "featuredWriting", "primaryWritingEntry"];
 
@@ -151,6 +153,43 @@ describe("writing public helper surface", () => {
     expect(projectSlugs).toEqual(["openlinks"]);
     expect(defaultProjectSlugs).toEqual(["opencode-cloud", "free-the-world"]);
   });
+
+  it("returns OpenLinks writing for the OpenLinks project", () => {
+    // Arrange
+    const project = { slug: "openlinks" } as ProjectDetailPageProject;
+
+    // Act
+    const writingSlugs = publicWritingEntriesForProjectFromSurface(project).map(
+      (entry) => entry.slug,
+    );
+
+    // Assert
+    expect(writingSlugs).toEqual(["portable-identity-and-owned-surfaces"]);
+  });
+
+  it("returns agentic engineering writing for the opencode cloud project", () => {
+    // Arrange
+    const project = { slug: "opencode-cloud" } as ProjectDetailPageProject;
+
+    // Act
+    const writingSlugs = publicWritingEntriesForProjectFromSurface(project).map(
+      (entry) => entry.slug,
+    );
+
+    // Assert
+    expect(writingSlugs).toEqual(["agentic-engineering-workflows"]);
+  });
+
+  it("returns no writing for an unknown project slug", () => {
+    // Arrange
+    const project = { slug: "missing-project" } as ProjectDetailPageProject;
+
+    // Act
+    const writingEntries = publicWritingEntriesForProjectFromSurface(project);
+
+    // Assert
+    expect(writingEntries).toEqual([]);
+  });
 });
 
 function makeWritingEntry(overrides: Partial<WritingEntry>): WritingEntry {
@@ -173,4 +212,16 @@ function makeWritingEntry(overrides: Partial<WritingEntry>): WritingEntry {
     ],
     ...overrides,
   };
+}
+
+function publicWritingEntriesForProjectFromSurface(
+  project: Pick<ProjectDetailPageProject, "slug">,
+): readonly WritingEntry[] {
+  const surface = writingSurface as unknown as {
+    publicWritingEntriesForProject: (
+      project: Pick<ProjectDetailPageProject, "slug">,
+    ) => readonly WritingEntry[];
+  };
+
+  return surface.publicWritingEntriesForProject(project);
 }
