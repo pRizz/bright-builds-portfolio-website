@@ -16,6 +16,7 @@ const writingEntries = publicWritingEntries();
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   month: "long",
+  timeZone: "UTC",
   year: "numeric",
 });
 
