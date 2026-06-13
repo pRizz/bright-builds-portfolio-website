@@ -6,8 +6,8 @@ current_phase: 15
 current_phase_name: Writing Routes and Dark UI
 current_plan: Not started
 status: Ready to discuss Phase 15
-stopped_at: Phase 15 context gathered
-last_updated: "2026-06-13T17:01:00.057Z"
+stopped_at: Phase 15 UI-SPEC approved
+last_updated: "2026-06-13T17:10:34.323Z"
 last_activity: 2026-06-03 -- Phase 14 verified and completed
 progress:
   total_phases: 4
@@ -96,7 +96,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-13T17:01:00.054Z
-Stopped at: Phase 15 context gathered
-Resume file: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md
+Last session: 2026-06-13T17:10:34.320Z
+Stopped at: Phase 15 UI-SPEC approved
+Resume file: .planning/phases/15-writing-routes-and-dark-ui/15-UI-SPEC.md
 Next action: run `/gsd-discuss-phase 15`
