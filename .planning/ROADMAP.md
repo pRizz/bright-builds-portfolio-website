@@ -81,7 +81,7 @@
 
 **Plans**: 4 plans
 Plans:
-- [ ] 15-01-PLAN.md — Route/domain contracts, project-to-writing lookup, and writing link href safety.
+- [x] 15-01-PLAN.md — Route/domain contracts, project-to-writing lookup, and writing link href safety.
 - [ ] 15-02-PLAN.md — Public writing index and detail routes with dark-primary reading UI.
 - [ ] 15-03-PLAN.md — Related writing panel on selected project detail pages.
 - [ ] 15-04-PLAN.md — Static output, browser, and visual verification evidence for writing routes.
@@ -134,7 +134,7 @@ Plans:
 | 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 13. Project Page Release Coverage | v1.2 | 1/1 | Complete | 2026-06-03 |
 | 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
-| 15. Writing Routes and Dark UI | v1.3 | 0/4 | Not started | - |
+| 15. Writing Routes and Dark UI | v1.3 | 1/4 | In Progress|  |
 | 16. Writing Metadata and Structured Data | v1.3 | 0/TBD | Not started | - |
 | 17. Writing Verification and Release Contract | v1.3 | 0/TBD | Not started | - |
 
