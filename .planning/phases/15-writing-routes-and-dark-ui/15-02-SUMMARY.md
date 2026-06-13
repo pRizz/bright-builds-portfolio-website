@@ -163,6 +163,5 @@ Ready for the next Phase 15 plan. Writing route UI now consumes the 15-01 domain
 - Found task commits `d02bdc1`, `bf21007`, and `5e7e268`.
 - Confirmed shared tracking files were not modified by this executor; only orchestrator-owned `.planning/config.json` remains dirty.
 
----
 *Phase: 15-writing-routes-and-dark-ui*
 *Completed: 2026-06-13*

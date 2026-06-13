@@ -34,7 +34,7 @@ key-files:
 
 key-decisions:
   - "Writing static verification filters project related-writing checks from publicWritingEntries() instead of importing a reciprocal project field."
-  - "Writing detail pages are skipped from existing top-level metadata and Person JSON-LD assertions until Phase 16 owns full writing metadata scope."
+  - "Writing detail pages remain skipped from static verifier top-level metadata assertions; aggregate release JSON-LD is satisfied through sitewide Person JSON-LD until Phase 16 owns full writing metadata scope."
   - "The known browser title blocker was fixed with Title and description meta on writing details; the aggregate release JSON-LD gate was satisfied with existing sitewide Person JSON-LD, leaving BlogPosting, writing-specific JSON-LD, dynamic OG, and release labels deferred."
 
 patterns-established:
@@ -212,6 +212,5 @@ Phase 15 route/UI verification is complete. Phase 16 can add full writing metada
 - Confirmed summary evidence includes `/writing`, `/writing/agentic-engineering-workflows`, `/projects/openlinks`, `1280x900`, and `390x844`.
 - Confirmed `.planning/STATE.md`, `.planning/ROADMAP.md`, and `.planning/REQUIREMENTS.md` are unchanged; only orchestrator-owned `.planning/config.json` remains dirty and unstaged.
 
----
 *Phase: 15-writing-routes-and-dark-ui*
 *Completed: 2026-06-13*
