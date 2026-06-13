@@ -321,6 +321,53 @@
     @apply mt-4;
   }
 
+  .writing-list {
+    @apply mt-8 grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  }
+
+  .writing-card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .writing-article {
+    @apply mt-8 max-w-4xl;
+    min-width: 0;
+  }
+
+  .writing-body {
+    @apply mt-8 grid gap-6;
+  }
+
+  .writing-section {
+    @apply grid gap-4;
+    min-width: 0;
+  }
+
+  .writing-body-copy {
+    @apply m-0 text-zinc-300;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .writing-body-list {
+    @apply m-0 grid gap-4 pl-5 text-zinc-300;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .writing-callout {
+    @apply mt-0;
+  }
+
+  .writing-related-grid {
+    @apply mt-4 grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+
   .visual-surface,
   .interactive-surface,
   .reactive-card,
