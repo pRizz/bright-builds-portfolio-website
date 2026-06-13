@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProjectDetailPageProject } from "./projects";
+import { navigationRoutes, prerenderRoutes, routeByPath } from "./routes";
 import * as writingSurface from "./writing";
 import {
   curatedWriting,
@@ -189,6 +190,47 @@ describe("writing public helper surface", () => {
 
     // Assert
     expect(writingEntries).toEqual([]);
+  });
+});
+
+describe("writing route registry", () => {
+  it("exposes the writing index route contract", () => {
+    // Arrange
+    const expectedStaticText =
+      "Curated notes on agentic engineering, open systems, identity, and practical web software.";
+
+    // Act
+    const route = routeByPath("/writing");
+
+    // Assert
+    expect(route).toMatchObject({
+      id: "writing",
+      label: "Writing",
+      heading: "Writing",
+      staticCheckText: expectedStaticText,
+    });
+  });
+
+  it("places Writing after Projects and before Contact in primary navigation", () => {
+    // Arrange
+    const routes = navigationRoutes;
+
+    // Act
+    const labels = routes.map((route) => route.label);
+
+    // Assert
+    expect(labels).toEqual(["Home", "About", "Projects", "Writing", "Contact"]);
+  });
+
+  it("includes the writing index and public writing detail routes in prerender data", () => {
+    // Arrange
+    const expectedWritingRoutes = ["/writing", ...writingDetailRoutes()];
+
+    // Act
+    const routes = prerenderRoutes;
+
+    // Assert
+    expect(routes).toEqual(expect.arrayContaining(expectedWritingRoutes));
   });
 });
 
