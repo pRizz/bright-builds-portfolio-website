@@ -1,6 +1,7 @@
 import { projectDetailRoutes } from "./projects";
+import { writingDetailRoutes } from "./writing";
 
-export type RouteId = "home" | "about" | "projects" | "contact";
+export type RouteId = "home" | "about" | "projects" | "writing" | "contact";
 
 export type SiteRoute = {
   id: RouteId;
@@ -51,6 +52,18 @@ export const siteRoutes = [
     nav: true,
   },
   {
+    id: "writing",
+    path: "/writing",
+    label: "Writing",
+    title: "Writing | Peter Ryszkiewicz",
+    description:
+      "Curated notes and essays from Peter Ryszkiewicz on agentic engineering, open systems, identity, and practical web software.",
+    heading: "Writing",
+    staticCheckText:
+      "Curated notes on agentic engineering, open systems, identity, and practical web software.",
+    nav: true,
+  },
+  {
     id: "contact",
     path: "/contact",
     label: "Contact",
@@ -64,7 +77,11 @@ export const siteRoutes = [
   },
 ] as const satisfies readonly SiteRoute[];
 
-export const prerenderRoutes = [...siteRoutes.map((route) => route.path), ...projectDetailRoutes()];
+export const prerenderRoutes = [
+  ...siteRoutes.map((route) => route.path),
+  ...projectDetailRoutes(),
+  ...writingDetailRoutes(),
+];
 
 export const navigationRoutes = siteRoutes.filter((route) => route.nav);
 
