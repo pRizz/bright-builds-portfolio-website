@@ -417,17 +417,15 @@ const relatedWriting = () => publicWritingEntriesForProject(selectedProject());
 
 **If this table is empty:** All claims in this research were verified or cited; no user confirmation is needed. [VERIFIED: this document]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should local Bun be upgraded before execution?** [VERIFIED: package.json; VERIFIED: bun --version]
+1. **RESOLVED: Should local Bun be upgraded before execution?** [VERIFIED: package.json; VERIFIED: bun --version]
    - What we know: `package.json` pins `bun@1.3.14`, while local `bun --version` reports `1.3.9`. [VERIFIED: package.json; VERIFIED: bun --version]
-   - What's unclear: Whether the older local Bun will fail any Phase 15 verification command. [VERIFIED: no Phase 15 implementation commands were run during research]
-   - Recommendation: Planner should use repo scripts as-is and include "upgrade Bun to 1.3.14 or rerun with pinned CI Bun if Bun version drift causes failure" as a contingency, not as Phase 15 feature work. [VERIFIED: package.json; VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md]
+   - Resolution: Use repo scripts as-is during Phase 15 execution. Upgrade Bun to `1.3.14` only as a contingency if the local `1.3.9` runtime causes an actual command failure. This is not Phase 15 feature work. [VERIFIED: package.json; VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md]
 
-2. **How much static verification should Phase 15 add for sitemap side effects?** [VERIFIED: src/domain/seo.ts; VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md]
+2. **RESOLVED: How much static verification should Phase 15 add for sitemap side effects?** [VERIFIED: src/domain/seo.ts; VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md]
    - What we know: `sitemapXml()` defaults to `prerenderRoutes`, so writing routes may enter sitemap output automatically when added to `prerenderRoutes`. [VERIFIED: src/domain/seo.ts; VERIFIED: src/domain/routes.ts]
-   - What's unclear: Whether Phase 15 should add explicit sitemap inclusion/exclusion assertions or leave those for Phase 16. [VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md]
-   - Recommendation: Do not add writing-specific sitemap assertions in Phase 15; allow existing sitemap equality checks to pass and defer dedicated sitemap discovery assertions to Phase 16. [VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md; VERIFIED: scripts/verify-static.ts]
+   - Resolution: Do not add writing-specific sitemap assertions in Phase 15. Allow existing sitemap behavior that derives from `prerenderRoutes` to continue passing, and defer dedicated sitemap discovery assertions to Phase 16. [VERIFIED: .planning/phases/15-writing-routes-and-dark-ui/15-CONTEXT.md; VERIFIED: scripts/verify-static.ts]
 
 ## Environment Availability
 
