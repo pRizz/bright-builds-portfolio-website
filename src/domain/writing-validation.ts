@@ -17,7 +17,8 @@ export type WritingCurationErrorCode =
   | "empty_section_heading"
   | "empty_body_block"
   | "invalid_date"
-  | "unsupported_related_project";
+  | "unsupported_related_project"
+  | "unsafe_link_href";
 export type WritingCurationWarningCode = never;
 export type WritingCurationIssueCode = WritingCurationErrorCode | WritingCurationWarningCode;
 
@@ -194,6 +195,8 @@ function bodyIssues(entry: WritingEntry): readonly WritingCurationIssue[] {
       } else {
         issues.push(error(entry, "empty_body_block", "Writing body blocks need content."));
       }
+
+      issues.push(...linkHrefIssues(entry, block));
     }
   }
 
@@ -214,6 +217,37 @@ function hasBlockContent(block: WritingBodyBlock): boolean {
   }
 
   return block.label.trim().length > 0 && block.href.trim().length > 0;
+}
+
+function linkHrefIssues(
+  entry: WritingEntry,
+  block: WritingBodyBlock,
+): readonly WritingCurationIssue[] {
+  if (block.kind !== "link") {
+    return [];
+  }
+
+  const href = block.href.trim();
+
+  if (!href || isSafeWritingLinkHref(href)) {
+    return [];
+  }
+
+  return [
+    error(
+      entry,
+      "unsafe_link_href",
+      "Writing link blocks must use an internal path, same-page anchor, or HTTPS URL.",
+    ),
+  ];
+}
+
+function isSafeWritingLinkHref(href: string): boolean {
+  return (
+    href.startsWith("#") ||
+    (href.startsWith("/") && !href.startsWith("//")) ||
+    href.startsWith("https://")
+  );
 }
 
 function relatedProjectIssues(

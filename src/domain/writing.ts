@@ -44,7 +44,7 @@ export type PublicWritingEntry = WritingEntry & {
  * `curatedWriting` is the authoritative checked-in registry. Supported runtime
  * helper exports are `curatedWriting`, `publicWritingEntries`,
  * `maybePublicWritingEntryBySlug`, `writingDetailPath`, `writingDetailRoutes`,
- * and `relatedProjectDetailPageProjects`.
+ * `relatedProjectDetailPageProjects`, and `publicWritingEntriesForProject`.
  */
 export const curatedWriting = [
   {
@@ -140,6 +140,15 @@ export function relatedProjectDetailPageProjects(
     const maybeProject = maybeProjectDetailPageProjectBySlug(slug, projects);
     return maybeProject ? [maybeProject] : [];
   });
+}
+
+export function publicWritingEntriesForProject(
+  project: Pick<ProjectDetailPageProject, "slug">,
+  entries: readonly WritingEntry[] = curatedWriting,
+): readonly PublicWritingEntry[] {
+  return publicWritingEntries(entries).filter((entry) =>
+    entry.relatedProjectSlugs.includes(project.slug),
+  );
 }
 
 function isPublicWritingEntry(entry: WritingEntry): entry is PublicWritingEntry {
