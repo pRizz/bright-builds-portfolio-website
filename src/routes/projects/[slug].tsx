@@ -6,7 +6,7 @@ import {
   maybeGitHubHomepageLinkForProject,
   maybeGitHubMetadataForProject,
 } from "../../domain/github-metadata";
-import type { ProjectStory } from "../../domain/projects";
+import type { ProjectDetailPageProject, ProjectStory } from "../../domain/projects";
 import {
   maybeProjectDetailPageProjectBySlug,
   projectLinkDisplayLabel,
@@ -17,6 +17,18 @@ import {
   projectJsonLd,
   siteAssetLinks,
 } from "../../domain/seo";
+import {
+  type PublicWritingEntry,
+  publicWritingEntriesForProject,
+  writingDetailPath,
+} from "../../domain/writing";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  day: "numeric",
+  month: "long",
+  timeZone: "UTC",
+  year: "numeric",
+});
 
 export default function ProjectDetail() {
   const params = useParams();
@@ -222,6 +234,8 @@ export default function ProjectDetail() {
                     </Show>
                   </nav>
                 </section>
+
+                <RelatedWritingPanel project={selectedProject()} />
               </aside>
             </div>
           </article>
@@ -246,4 +260,63 @@ function GitHubMetadataRow(props: { project: ProjectStory }) {
       </dl>
     </Show>
   );
+}
+
+function RelatedWritingPanel(props: { project: ProjectDetailPageProject }) {
+  const relatedWriting = () => publicWritingEntriesForProject(props.project);
+
+  return (
+    <Show when={relatedWriting().length > 0}>
+      <section class="project-detail-panel visual-surface" aria-labelledby="related-writing">
+        <h2 id="related-writing" class="card-title">
+          Related writing
+        </h2>
+        <div class="writing-related-grid">
+          <For each={relatedWriting()}>
+            {(entry) => {
+              const maybeDateLabel = writingDateLabel(entry);
+
+              return (
+                <article class="surface-card">
+                  <h3 class="card-title">{entry.title}</h3>
+                  <ul class="label-row" aria-label={`${entry.title} metadata`}>
+                    <li class="chip">{writingKindLabel(entry)}</li>
+                    <Show when={maybeDateLabel}>
+                      {(dateLabel) => <li class="chip">{dateLabel()}</li>}
+                    </Show>
+                  </ul>
+                  <p class="card-copy">{entry.summary}</p>
+                  <div class="link-list">
+                    <a class="text-link surface-link" href={writingDetailPath(entry)}>
+                      {writingActionLabel(entry)}
+                    </a>
+                  </div>
+                </article>
+              );
+            }}
+          </For>
+        </div>
+      </section>
+    </Show>
+  );
+}
+
+function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {
+  return entry.kind === "note" ? "Note" : "Essay";
+}
+
+function writingActionLabel(entry: Pick<PublicWritingEntry, "kind">): "Read note" | "Read essay" {
+  return entry.kind === "note" ? "Read note" : "Read essay";
+}
+
+function writingDateLabel(entry: PublicWritingEntry): string | null {
+  if (entry.maybePublishedOn) {
+    return `Published ${dateFormatter.format(new Date(`${entry.maybePublishedOn}T00:00:00Z`))}`;
+  }
+
+  if (entry.maybeUpdatedOn) {
+    return `Updated ${dateFormatter.format(new Date(`${entry.maybeUpdatedOn}T00:00:00Z`))}`;
+  }
+
+  return null;
 }
