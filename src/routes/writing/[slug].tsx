@@ -2,6 +2,7 @@ import { Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
+import { jsonLdScriptContent, personJsonLd } from "../../domain/seo";
 import {
   maybePublicWritingEntryBySlug,
   type PublicWritingEntry,
@@ -9,6 +10,7 @@ import {
   type WritingBodyBlock,
 } from "../../domain/writing";
 
+const personJsonLdValue = personJsonLd();
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   month: "long",
@@ -49,6 +51,7 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
     <article class="writing-article">
       <Title>{title}</Title>
       <Meta name="description" content={entry.summary} />
+      <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
 
       <div class="page-intro">
         <a class="text-link detail-back-link" href="/writing">
