@@ -25,6 +25,7 @@ import {
   robotsTxt,
   sitemapXml,
 } from "./seo";
+import { writingDetailRoutes } from "./writing";
 
 describe("portfolio project surfaces", () => {
   it("returns exactly six flagship stories with complete story details", () => {
@@ -302,6 +303,7 @@ describe("portfolio SEO surfaces", () => {
     expect(prerenderRoutes).toEqual([
       ...routes.map((route) => route.path),
       ...projectDetailRoutes(),
+      ...writingDetailRoutes(),
     ]);
     for (const path of allPrerenderRoutes) {
       const routePath = path === "/" ? "" : path;

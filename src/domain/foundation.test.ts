@@ -4,11 +4,16 @@ import * as projectSurface from "./projects";
 import { curatedProjects, homeProjects, projectDetailRoutes } from "./projects";
 import { navigationRoutes, prerenderRoutes, routeByPath, siteRoutes } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
+import { writingDetailRoutes } from "./writing";
 
 describe("foundation route registry", () => {
-  it("defines the current prerender route set with project detail pages", () => {
+  it("defines the current prerender route set with detail pages", () => {
     // Arrange
-    const expectedRoutes = ["/", "/about", "/projects", "/contact", ...projectDetailRoutes()];
+    const expectedRoutes = [
+      ...siteRoutes.map((route) => route.path),
+      ...projectDetailRoutes(),
+      ...writingDetailRoutes(),
+    ];
 
     // Act
     const routes = prerenderRoutes;
