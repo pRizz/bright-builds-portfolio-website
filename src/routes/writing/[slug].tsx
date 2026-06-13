@@ -1,3 +1,4 @@
+import { Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
@@ -40,11 +41,15 @@ export default function WritingDetail() {
 
 function WritingArticle(props: { entry: PublicWritingEntry }) {
   const entry = props.entry;
+  const title = `${entry.title} | Writing | Bright Builds`;
   const maybeDateLabel = writingDateLabel(entry);
   const relatedProjects = relatedProjectDetailPageProjects(entry);
 
   return (
     <article class="writing-article">
+      <Title>{title}</Title>
+      <Meta name="description" content={entry.summary} />
+
       <div class="page-intro">
         <a class="text-link detail-back-link" href="/writing">
           Back to writing
