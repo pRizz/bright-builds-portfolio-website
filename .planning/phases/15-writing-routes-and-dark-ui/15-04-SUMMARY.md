@@ -21,7 +21,7 @@ tech-stack:
   patterns:
     - "Static verifier dynamic-route branches for writing details before top-level metadata assertions"
     - "Route-derived browser verification remains driven by prerenderRoutes"
-    - "Narrow document-title metadata fix for writing details without BlogPosting or writing JSON-LD scope"
+    - "Narrow document-title and sitewide Person JSON-LD fixes for writing details without BlogPosting or writing-specific JSON-LD scope"
 
 key-files:
   created:
@@ -35,7 +35,7 @@ key-files:
 key-decisions:
   - "Writing static verification filters project related-writing checks from publicWritingEntries() instead of importing a reciprocal project field."
   - "Writing detail pages are skipped from existing top-level metadata and Person JSON-LD assertions until Phase 16 owns full writing metadata scope."
-  - "The known browser title blocker was fixed with only Title and description meta on writing details, leaving BlogPosting, writing JSON-LD, dynamic OG, and release labels deferred."
+  - "The known browser title blocker was fixed with Title and description meta on writing details; the aggregate release JSON-LD gate was satisfied with existing sitewide Person JSON-LD, leaving BlogPosting, writing-specific JSON-LD, dynamic OG, and release labels deferred."
 
 patterns-established:
   - "Use maybeWritingForDetailRoute(route) to keep writing detail static checks separate from top-level route metadata checks."
@@ -90,7 +90,7 @@ Each task was committed atomically:
 
 - `scripts/verify-static.ts` - Adds writing route/detail expected text helpers, unsafe href forbidden patterns, writing detail route coverage, non-public writing route exclusion, and project related-writing expected text checks.
 - `src/routes/writing/index.tsx` - Adds existing top-level Person JSON-LD pattern for `/writing` so top-level static metadata assertions continue to apply.
-- `src/routes/writing/[slug].tsx` - Adds non-empty document titles and description meta for public writing details.
+- `src/routes/writing/[slug].tsx` - Adds non-empty document titles, description meta, and existing sitewide Person JSON-LD for public writing details.
 - `public/sitemap.xml` - Regenerated from the existing `sitemapXml()` helper after writing routes entered `prerenderRoutes`.
 - `.planning/phases/15-writing-routes-and-dark-ui/15-04-SUMMARY.md` - Execution summary and self-check record.
 
@@ -136,10 +136,18 @@ Each task was committed atomically:
 - **Verification:** `bun run verify:browser` passed with 68 passed and 16 skipped.
 - **Committed in:** `e797f1b`
 
+**5. [Rule 3 - Blocking] Added sitewide Person JSON-LD to writing detail routes**
+- **Found during:** Orchestrator-level aggregate `bun run verify` after plan execution.
+- **Issue:** `bun run verify:release` requires every generated route to contain a JSON-LD script, and the newly generated writing detail routes had none.
+- **Fix:** Reused the existing `personJsonLd()` and `jsonLdScriptContent()` pattern on writing detail pages. This satisfies the sitewide release semantic gate without adding `BlogPosting`, writing-specific JSON-LD, dynamic OG, release evidence labels, or Phase 16 sitemap assertions.
+- **Files modified:** `src/routes/writing/[slug].tsx`
+- **Verification:** Re-run aggregate verification after this summary update.
+- **Committed in:** `68de224`
+
 ---
 
-**Total deviations:** 4 auto-fixed (3 Rule 1 bugs, 1 Rule 3 blocker)
-**Impact on plan:** All fixes were required to complete Phase 15 verification. No BlogPosting, writing JSON-LD, release-readiness label changes, dynamic OG images, or broader Phase 16/17 scope were added.
+**Total deviations:** 5 auto-fixed (3 Rule 1 bugs, 2 Rule 3 blockers)
+**Impact on plan:** All fixes were required to complete Phase 15 verification. No BlogPosting, writing-specific JSON-LD, release-readiness label changes, dynamic OG images, or broader Phase 16/17 scope were added.
 
 ## Issues Encountered
 
@@ -147,6 +155,7 @@ Each task was committed atomically:
 - Second `bun run verify:static` run failed because `/writing` lacked the existing top-level Person JSON-LD pattern; fixed narrowly.
 - Third `bun run verify:static` run failed because the checked-in sitemap was stale; regenerated from the existing helper.
 - First `bun run verify:browser` run failed on writing detail `document-title` axe violations; fixed with narrow detail title/description meta.
+- Orchestrator-level `bun run verify` failed on `verify:release` because the newly generated writing detail routes lacked a JSON-LD script; fixed with the existing sitewide Person JSON-LD pattern.
 
 No remaining issues.
 
