@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Writing & Notes Surface
-current_phase: 15
-current_phase_name: Writing Routes and Dark UI
-current_plan: 4
-status: executing
-stopped_at: Completed Phase 15 Wave 2
-last_updated: "2026-06-13T18:08:47.511Z"
+current_phase: 16
+current_phase_name: Writing Metadata and Structured Data
+current_plan: Not started
+status: ready_to_plan
+stopped_at: Phase 15 complete; ready to discuss Phase 16
+last_updated: "2026-06-13T18:55:17.512Z"
 last_activity: 2026-06-13
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 5
-  percent: 83
+  completed_plans: 6
+  percent: 100
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-03)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 15 — Writing Routes and Dark UI
+**Current focus:** Phase 16 — Writing Metadata and Structured Data
 
 ## Current Position
 
-Current Phase: 15
-Current Phase Name: Writing Routes and Dark UI
-Current Plan: 4
+Current Phase: 16
+Current Phase Name: Writing Metadata and Structured Data
+Current Plan: Not started
 Total Phases: 4
-Total Plans in Phase: 4
-Phase: 15 (Writing Routes and Dark UI) — EXECUTING
-Plan: 4 of 4
-Status: Ready to execute
+Total Plans in Phase: TBD
+Phase: 16 (Writing Metadata and Structured Data) — READY TO PLAN
+Plan: Not started
+Status: Ready to plan
 Last activity: 2026-06-13
 
-Progress: [██░░░░░░░░] 25%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -47,13 +47,13 @@ Progress: [██░░░░░░░░] 25%
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
-- Active milestone plans completed: 2
-- Active milestone plan count: 2 planned so far; remaining phases TBD until planning creates plans
+- Active milestone plans completed: 6
+- Active milestone plan count: 6 planned so far; remaining phases TBD until planning creates plans
 
 **By Phase:**
 
 - Phase 14: Writing Domain Foundation — Complete (2/2 plans, verified 2026-06-03)
-- Phase 15: Writing Routes and Dark UI — Not started
+- Phase 15: Writing Routes and Dark UI — Complete (4/4 plans, verified 2026-06-13)
 - Phase 16: Writing Metadata and Structured Data — Not started
 - Phase 17: Writing Verification and Release Contract — Not started
 
@@ -97,6 +97,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-13T18:08:47.508Z
-Stopped at: Completed Phase 15 Wave 2
-Resume file: .planning/phases/15-writing-routes-and-dark-ui/15-04-PLAN.md
-Next action: run `/gsd-discuss-phase 15`
+Stopped at: Phase 15 complete; ready to discuss Phase 16
+Resume file: .planning/phases/15-writing-routes-and-dark-ui/15-VERIFICATION.md
+Next action: run `/gsd-discuss-phase 16`

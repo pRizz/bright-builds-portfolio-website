@@ -45,7 +45,7 @@
 <summary>v1.3 Writing & Notes Surface (Phases 14-17) — ACTIVE</summary>
 
 - [x] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
-- [ ] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface.
+- [x] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface. (completed 2026-06-13)
 - [ ] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior.
 - [ ] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate.
 
@@ -79,12 +79,12 @@
 1. Visitor can move from a writing detail page to related selected project stories, and selected project detail pages can show related writing derived from writing data.
 1. Writing index and detail pages remain readable in the dark-primary interface on desktop and mobile, with accessible headings and stable text wrapping for long titles, links, and note content.
 
-**Plans**: 4 plans
+**Plans**: 4/4 plans complete
 Plans:
 - [x] 15-01-PLAN.md — Route/domain contracts, project-to-writing lookup, and writing link href safety.
 - [x] 15-02-PLAN.md — Public writing index and detail routes with dark-primary reading UI.
 - [x] 15-03-PLAN.md — Related writing panel on selected project detail pages.
-- [ ] 15-04-PLAN.md — Static output, browser, and visual verification evidence for writing routes.
+- [x] 15-04-PLAN.md — Static output, browser, and visual verification evidence for writing routes.
 **UI hint**: yes
 
 ### Phase 16: Writing Metadata and Structured Data
@@ -134,10 +134,10 @@ Plans:
 | 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete | 2026-06-02 |
 | 13. Project Page Release Coverage | v1.2 | 1/1 | Complete | 2026-06-03 |
 | 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
-| 15. Writing Routes and Dark UI | v1.3 | 3/4 | In Progress|  |
+| 15. Writing Routes and Dark UI | v1.3 | 4/4 | Complete    | 2026-06-13 |
 | 16. Writing Metadata and Structured Data | v1.3 | 0/TBD | Not started | - |
 | 17. Writing Verification and Release Contract | v1.3 | 0/TBD | Not started | - |
 
 ## Next
 
-v1.3 is active. Run `/gsd-discuss-phase 15` to start Phase 15: Writing Routes and Dark UI.
+v1.3 is active. Run `/gsd-discuss-phase 16` to start Phase 16: Writing Metadata and Structured Data.
