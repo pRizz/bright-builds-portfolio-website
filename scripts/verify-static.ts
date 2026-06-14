@@ -25,11 +25,14 @@ import type { PageMetadata } from "../src/domain/seo";
 import {
   metadataForProject,
   metadataForRoute,
+  metadataForWritingEntry,
   personJsonLd,
   projectItemListJsonLd,
   projectJsonLd,
   robotsTxt,
   sitemapXml,
+  writingBlogPostingJsonLd,
+  writingItemListJsonLd,
 } from "../src/domain/seo";
 import type { PublicWritingEntry, WritingBodyBlock, WritingEntry } from "../src/domain/writing";
 import {
@@ -711,6 +714,43 @@ function assertMetadataForProject(project: ProjectDetailPageProject, html: strin
   assertMetadata(projectDetailPath(project), metadataForProject(project), html);
 }
 
+function assertMetadataForWritingEntry(entry: PublicWritingEntry, html: string): void {
+  const metadata = metadataForWritingEntry(entry);
+  assertMetadata(writingDetailPath(entry), metadata, html);
+
+  if (!metadata.article) {
+    throw new Error(`Writing metadata for ${entry.slug} did not include article fields.`);
+  }
+
+  if (metadata.article.maybePublishedTime) {
+    assertHtmlContains(
+      html,
+      `property="article:published_time" content="${escapeHtmlAttribute(
+        metadata.article.maybePublishedTime,
+      )}"`,
+      `${entry.slug} article:published_time`,
+    );
+  }
+
+  if (metadata.article.maybeModifiedTime) {
+    assertHtmlContains(
+      html,
+      `property="article:modified_time" content="${escapeHtmlAttribute(
+        metadata.article.maybeModifiedTime,
+      )}"`,
+      `${entry.slug} article:modified_time`,
+    );
+  }
+
+  for (const tag of metadata.article.tags) {
+    assertHtmlContains(
+      html,
+      `property="article:tag" content="${escapeHtmlAttribute(tag)}"`,
+      `${entry.slug} article:tag ${tag}`,
+    );
+  }
+}
+
 function assertMetadata(path: string, metadata: PageMetadata, html: string): void {
   const image = metadata.openGraph.image;
 
@@ -810,6 +850,24 @@ function assertProjectJsonLd(project: ProjectDetailPageProject, html: string): v
   ]);
 }
 
+function assertWritingBlogPostingJsonLd(entry: PublicWritingEntry, html: string): void {
+  const expectedJsonLd = writingBlogPostingJsonLd(entry);
+  const maybeProfileSameAsUrl = expectedJsonLd.author.sameAs[0];
+
+  if (!maybeProfileSameAsUrl) {
+    throw new Error(`Writing JSON-LD for ${entry.slug} did not include a profile sameAs URL.`);
+  }
+
+  assertJsonLdContains(html, [
+    "BlogPosting",
+    expectedJsonLd.headline,
+    expectedJsonLd.description,
+    expectedJsonLd.url,
+    maybeProfileSameAsUrl,
+    "https://openlinks.us/",
+  ]);
+}
+
 function assertJsonLdContains(html: string, expectedTexts: readonly string[]): void {
   const jsonLdScripts = [
     ...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>(.*?)<\/script>/gs),
@@ -901,6 +959,41 @@ function assertSitemapProjectDetailCoverage(root: string): void {
 
   if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}/projects/open-bitcoin</loc>`)) {
     throw new Error("sitemap.xml included unselected detail route /projects/open-bitcoin.");
+  }
+}
+
+function assertSitemapWritingCoverage(root: string): void {
+  const sitemapPath = assertOutputFile(root, "sitemap.xml");
+  const sitemap = readFileSync(sitemapPath, "utf8");
+
+  assertHtmlContains(
+    sitemap,
+    `<loc>${peterProfile.canonicalOrigin}/writing</loc>`,
+    "sitemap writing index route",
+  );
+
+  for (const route of writingDetailRoutes()) {
+    assertHtmlContains(
+      sitemap,
+      `<loc>${peterProfile.canonicalOrigin}${route}</loc>`,
+      `sitemap writing detail route ${route}`,
+    );
+  }
+
+  for (const entry of curatedWriting) {
+    if (entry.status === "published") {
+      continue;
+    }
+
+    const route = writingDetailPath(entry);
+
+    if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}${route}</loc>`)) {
+      throw new Error(`sitemap.xml included non-public writing route ${route}.`);
+    }
+  }
+
+  if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}/writing/unknown-writing-slug</loc>`)) {
+    throw new Error("sitemap.xml included unknown writing route /writing/unknown-writing-slug.");
   }
 }
 
@@ -1000,6 +1093,8 @@ for (const check of expectedRoutes) {
   const maybeWriting = maybeWritingForDetailRoute(check.route);
 
   if (maybeWriting) {
+    assertMetadataForWritingEntry(maybeWriting, html);
+    assertWritingBlogPostingJsonLd(maybeWriting, html);
     continue;
   }
 
@@ -1020,6 +1115,16 @@ for (const check of expectedRoutes) {
       JSON.stringify(projectItemListJsonLd()),
       ...publicProjectIndexProjects().map(
         (project) => `${peterProfile.canonicalOrigin}${projectIndexItemPath(project)}`,
+      ),
+    ]);
+  }
+
+  if (check.route === "/writing") {
+    assertJsonLdContains(html, [
+      "ItemList",
+      JSON.stringify(writingItemListJsonLd()),
+      ...publicWritingEntries().map(
+        (entry) => `${peterProfile.canonicalOrigin}${writingDetailPath(entry)}`,
       ),
     ]);
   }
@@ -1049,6 +1154,7 @@ assertPngDimensions(outputRoot, "icon-192.png", 192, 192);
 assertPngDimensions(outputRoot, "apple-touch-icon.png", 180, 180);
 assertOutputTextEquals(outputRoot, "sitemap.xml", sitemapXml());
 assertSitemapProjectDetailCoverage(outputRoot);
+assertSitemapWritingCoverage(outputRoot);
 for (const entry of curatedWriting) {
   if (entry.status === "published") {
     continue;

@@ -7,6 +7,7 @@ import {
   metadataForRoute,
   personJsonLd,
   siteAssetLinks,
+  writingItemListJsonLd,
 } from "../../domain/seo";
 import {
   type PublicWritingEntry,
@@ -19,6 +20,7 @@ const route = routeByPath("/writing");
 const metadata = metadataForRoute(route);
 const writingEntries = publicWritingEntries();
 const personJsonLdValue = personJsonLd();
+const writingItemListJsonLdValue = writingItemListJsonLd(writingEntries);
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   month: "long",
@@ -61,6 +63,7 @@ export default function Writing() {
       <Meta name="twitter:image" content={metadata.twitter.image.url} />
       <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
       <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
+      <script type="application/ld+json">{jsonLdScriptContent(writingItemListJsonLdValue)}</script>
 
       <section class="page-intro">
         <p class="eyebrow">Notes and essays</p>

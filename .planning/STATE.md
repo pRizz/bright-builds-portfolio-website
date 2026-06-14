@@ -2,43 +2,43 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Writing & Notes Surface
-current_phase: 16
-current_phase_name: Writing Metadata and Structured Data
+current_phase: 17
+current_phase_name: Writing Verification and Release Contract
 current_plan: Not started
 status: ready_to_plan
-stopped_at: Phase 15 complete; ready to discuss Phase 16
-last_updated: "2026-06-13T18:55:17.512Z"
-last_activity: 2026-06-13
+stopped_at: Phase 16 complete; ready to discuss Phase 17
+last_updated: "2026-06-14T16:12:32.409Z"
+last_activity: 2026-06-14
 progress:
   total_phases: 4
-  completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
-  percent: 100
+  completed_phases: 3
+  total_plans: 8
+  completed_plans: 8
+  percent: 75
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-03)
+See: .planning/PROJECT.md (updated 2026-06-14)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 16 — Writing Metadata and Structured Data
+**Current focus:** Phase 17 — Writing Verification and Release Contract
 
 ## Current Position
 
-Current Phase: 16
-Current Phase Name: Writing Metadata and Structured Data
+Current Phase: 17
+Current Phase Name: Writing Verification and Release Contract
 Current Plan: Not started
 Total Phases: 4
 Total Plans in Phase: TBD
-Phase: 16 (Writing Metadata and Structured Data) — READY TO PLAN
+Phase: 17 (Writing Verification and Release Contract) — READY TO PLAN
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-06-13
+Last activity: 2026-06-14
 
-Progress: [█████░░░░░] 50%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -47,20 +47,20 @@ Progress: [█████░░░░░] 50%
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
-- Active milestone plans completed: 6
-- Active milestone plan count: 6 planned so far; remaining phases TBD until planning creates plans
+- Active milestone plans completed: 8
+- Active milestone plan count: 8 planned so far; remaining phases TBD until planning creates plans
 
 **By Phase:**
 
 - Phase 14: Writing Domain Foundation — Complete (2/2 plans, verified 2026-06-03)
 - Phase 15: Writing Routes and Dark UI — Complete (4/4 plans, verified 2026-06-13)
-- Phase 16: Writing Metadata and Structured Data — Not started
+- Phase 16: Writing Metadata and Structured Data — Complete (2/2 plans, verified 2026-06-14)
 - Phase 17: Writing Verification and Release Contract — Not started
 
 **Recent Trend:**
 
-- Last completed work: v1.2 Project Story Pages shipped on 2026-06-03.
-- Trend: v1.3 now has validated writing domain data and is ready to build public writing routes.
+- Last completed work: Phase 16 added helper-derived writing metadata, BlogPosting/ItemList JSON-LD, sitemap coverage, and static social fallback verification on 2026-06-14.
+- Trend: v1.3 now has static writing routes and discovery metadata; Phase 17 is ready to expand release verification and release-contract evidence.
 
 ## Accumulated Context
 
@@ -96,7 +96,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-13T18:08:47.508Z
-Stopped at: Phase 15 complete; ready to discuss Phase 16
-Resume file: .planning/phases/15-writing-routes-and-dark-ui/15-VERIFICATION.md
-Next action: run `/gsd-discuss-phase 16`
+Last session: 2026-06-14T16:12:32.409Z
+Stopped at: Phase 16 complete; ready to discuss Phase 17
+Resume file: .planning/phases/16-writing-metadata-and-structured-data/16-VERIFICATION.md
+Next action: run `/gsd-discuss-phase 17`

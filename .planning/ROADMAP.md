@@ -135,7 +135,7 @@ Plans:
 | 13. Project Page Release Coverage | v1.2 | 1/1 | Complete | 2026-06-03 |
 | 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
 | 15. Writing Routes and Dark UI | v1.3 | 4/4 | Complete    | 2026-06-13 |
-| 16. Writing Metadata and Structured Data | v1.3 | 0/TBD | Not started | - |
+| 16. Writing Metadata and Structured Data | v1.3 | 2/2 | Complete    | 2026-06-14 |
 | 17. Writing Verification and Release Contract | v1.3 | 0/TBD | Not started | - |
 
 ## Next

@@ -8,6 +8,8 @@ import {
 } from "./projects";
 import type { SiteRoute } from "./routes";
 import { prerenderRoutes } from "./routes";
+import type { PublicWritingEntry, WritingBodyBlock } from "./writing";
+import { publicWritingEntries, writingDetailPath } from "./writing";
 
 export type SocialImageMetadata = {
   url: string;
@@ -31,7 +33,7 @@ export type PageMetadata = {
     title: string;
     description: string;
     url: string;
-    type: "website";
+    type: "website" | "article";
     image: SocialImageMetadata;
   };
   twitter: {
@@ -39,6 +41,11 @@ export type PageMetadata = {
     title: string;
     description: string;
     image: SocialImageMetadata;
+  };
+  article?: {
+    maybePublishedTime?: string;
+    maybeModifiedTime?: string;
+    tags: readonly string[];
   };
 };
 
@@ -81,6 +88,36 @@ export type ProjectJsonLd = {
   keywords: string;
   creator: PersonJsonLd;
   about: string[];
+};
+
+export type WritingBlogPostingJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "BlogPosting";
+  headline: string;
+  name: string;
+  description: string;
+  url: string;
+  mainEntityOfPage: string;
+  image: string;
+  author: PersonJsonLd;
+  creator: PersonJsonLd;
+  datePublished?: string;
+  dateModified?: string;
+  keywords: readonly string[];
+  about: readonly string[];
+  articleBody: string;
+};
+
+type WritingBlogPostingItemJsonLd = Omit<WritingBlogPostingJsonLd, "@context" | "articleBody">;
+
+export type WritingItemListJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "ItemList";
+  itemListElement: Array<{
+    "@type": "ListItem";
+    position: number;
+    item: WritingBlogPostingItemJsonLd;
+  }>;
 };
 
 const socialImagePath = "/social/bright-builds-og.png";
@@ -162,6 +199,40 @@ export function metadataForProject(
   };
 }
 
+export function metadataForWritingEntry(
+  entry: PublicWritingEntry,
+  profile: Profile = peterProfile,
+): PageMetadata {
+  const canonical = `${profile.canonicalOrigin}${writingDetailPath(entry)}`;
+  const title = `${entry.title} | Writing | Bright Builds`;
+  const description = entry.summary;
+  const socialImage = socialImageForProfile(profile);
+
+  return {
+    title,
+    description,
+    canonical,
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: "article",
+      image: socialImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      image: socialImage,
+    },
+    article: {
+      ...(entry.maybePublishedOn ? { maybePublishedTime: entry.maybePublishedOn } : {}),
+      ...(entry.maybeUpdatedOn ? { maybeModifiedTime: entry.maybeUpdatedOn } : {}),
+      tags: [...entry.topics, ...entry.tags],
+    },
+  };
+}
+
 export function personJsonLd(profile: Profile = peterProfile): PersonJsonLd {
   return {
     "@context": "https://schema.org",
@@ -232,6 +303,32 @@ export function projectJsonLd(
   };
 }
 
+export function writingBlogPostingJsonLd(
+  entry: PublicWritingEntry,
+  profile: Profile = peterProfile,
+): WritingBlogPostingJsonLd {
+  return {
+    "@context": "https://schema.org",
+    ...writingBlogPostingItemJsonLd(entry, profile),
+    articleBody: writingArticleBodyText(entry),
+  };
+}
+
+export function writingItemListJsonLd(
+  entries: readonly PublicWritingEntry[] = publicWritingEntries(),
+  profile: Profile = peterProfile,
+): WritingItemListJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: entries.map((entry, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: writingBlogPostingItemJsonLd(entry, profile),
+    })),
+  };
+}
+
 export function sitemapXml(
   paths: readonly string[] = prerenderRoutes,
   profile: Profile = peterProfile,
@@ -259,4 +356,50 @@ function socialImageForProfile(profile: Profile): SocialImageMetadata {
     url: `${profile.canonicalOrigin}${socialImagePath}`,
     ...socialImageSize,
   };
+}
+
+function writingBlogPostingItemJsonLd(
+  entry: PublicWritingEntry,
+  profile: Profile,
+): WritingBlogPostingItemJsonLd {
+  const canonical = `${profile.canonicalOrigin}${writingDetailPath(entry)}`;
+  const identity = personJsonLd(profile);
+  const labels = [...entry.topics, ...entry.tags];
+
+  return {
+    "@type": "BlogPosting",
+    headline: entry.title,
+    name: entry.title,
+    description: entry.summary,
+    url: canonical,
+    mainEntityOfPage: canonical,
+    image: socialImageForProfile(profile).url,
+    author: identity,
+    creator: identity,
+    ...(entry.maybePublishedOn ? { datePublished: entry.maybePublishedOn } : {}),
+    ...(entry.maybeUpdatedOn ? { dateModified: entry.maybeUpdatedOn } : {}),
+    keywords: labels,
+    about: labels,
+  };
+}
+
+function writingArticleBodyText(entry: PublicWritingEntry): string {
+  return entry.sections
+    .flatMap((section) => [
+      section.heading,
+      ...section.blocks.flatMap((block) => writingBodyBlockText(block)),
+    ])
+    .join("\n\n");
+}
+
+function writingBodyBlockText(block: WritingBodyBlock): readonly string[] {
+  if (block.kind === "paragraph" || block.kind === "callout") {
+    return [block.text];
+  }
+
+  if (block.kind === "list") {
+    return [...block.items];
+  }
+
+  return [block.label];
 }

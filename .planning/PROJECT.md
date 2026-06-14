@@ -14,7 +14,7 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` routes, prerendered static HTML, readable narrative pages, route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and explicit project-detail release coverage across static, browser, and release-readiness checks.
 
-v1.3 Phase 14 completed on 2026-06-03. The site now has a typed checked-in writing registry with two authored public entries, published-only public writing helpers, stable `/writing/{slug}` path derivation, selected-project relationship resolution, structured writing curation validation, and `verify:curation` coverage for both project and writing registries. Public writing routes, writing metadata, sitemap entries, and release-specific writing coverage remain active work for Phases 15-17.
+v1.3 Phase 16 completed on 2026-06-14. The site now has a typed checked-in writing registry, public `/writing` and `/writing/{slug}` static routes, selected-project writing cross-links, helper-derived route metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, static social preview fallback verification, and generated-output checks for writing discovery metadata. Release-specific writing coverage remains active work for Phase 17.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, static output verification, and release verification over `.output/public`.
 
@@ -51,12 +51,12 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 12] v1.2 gives selected project detail routes route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and a deterministic checked-in social preview fallback.
 - [x] [Phase 13] v1.2 makes project detail route coverage explicit across static verification, browser release checks, release-readiness docs, release evidence labels, and the aggregate clean-builder gate.
 - [x] [Phase 14] v1.3 establishes validated writing domain data, public writing helper contracts, selected-project related-writing integrity, and curation-gate coverage without runtime content dependencies.
+- [x] [Phase 15] v1.3 gives visitors dark-primary static `/writing` index and `/writing/{slug}` detail routes with authored entries, related project links, fallback behavior, responsive dark UI, and route-derived prerendering.
+- [x] [Phase 16] v1.3 gives writing routes helper-derived static metadata, BlogPosting/ItemList JSON-LD, route-derived sitemap coverage, and checked-in social-preview fallback verification without runtime image generation.
 
 ### Active
 
-- [ ] [v1.3] Visitors can browse a curated writing or notes surface rendered as static routes.
-- [ ] [v1.3] Visitors can move between selected project stories and related writing without runtime data dependencies.
-- [ ] [v1.3] Writing routes have static metadata, structured data, sitemap coverage, and release verification.
+- [ ] [v1.3] Writing routes have explicit release verification and release-contract coverage across aggregate gates, browser evidence, static checks, and release-readiness docs.
 - [ ] [Future] Decide whether richer project-specific raster Open Graph images or content operations should follow after the writing surface.
 - [ ] [Future] Evaluate whether large release verifier modules need a maintenance split before the next release-gate expansion.
 
@@ -116,6 +116,8 @@ v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a smal
 | Project detail release coverage derives from route helpers | Release checks should track selected project detail routes without duplicating route lists or claiming hosted/live checks. | Phase 13 derives representative browser checks from `projectDetailRoutes()`, keeps exhaustive axe/layout loops on `prerenderRoutes`, and adds release-readiness facts plus `project detail route coverage` evidence. |
 | Writing comes after project story depth | Project pages now explain the work; the next core-value improvement is showing the thinking behind the work. | v1.3 scopes a curated static writing and notes surface with project cross-links while deferring CMS/admin and dynamic OG/server work. |
 | Writing domain stays static and validated before routes | Downstream writing routes, metadata, and release checks need trustworthy data before UI consumes it. | Phase 14 adds `curatedWriting`, public writing selectors, related project resolution, structured validation, and `verify:curation` integration while deferring route/UI/metadata/release expansion to Phases 15-17. |
+| Writing route UI stays dark-primary and static | Writing should extend the portfolio without adding CMS/runtime fetches or weakening the established dark design system. | Phase 15 adds the `/writing` index, public detail pages, related project cross-links, non-leaking fallback, and responsive dark UI checks. |
+| Writing discovery metadata derives from helper contracts | Static writing pages need crawler/social metadata without route-level duplication, runtime image generation, or duplicated OpenLinks promotion. | Phase 16 adds `metadataForWritingEntry()`, `writingBlogPostingJsonLd()`, `writingItemListJsonLd()`, static verifier coverage, and social fallback reuse through profile/SEO helpers. |
 
 ## Evolution
 
@@ -138,4 +140,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-03 after Phase 14 completion*
+*Last updated: 2026-06-14 after Phase 16 completion*

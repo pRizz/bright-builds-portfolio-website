@@ -17,29 +17,29 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 
 ### Writing Routes
 
-- [ ] **ROUTE-01**: Visitor can open a stable `/writing` index listing public writing entries in curated or reverse-chronological order.
-- [ ] **ROUTE-02**: Visitor can open stable `/writing/{slug}` static detail routes for every public writing entry.
-- [ ] **ROUTE-03**: Clean static builds prerender `/writing` and every public writing detail route before hydration.
-- [ ] **ROUTE-04**: Hidden, draft, archived-only, or otherwise unpublished writing entries do not create public detail pages.
+- [x] **ROUTE-01**: Visitor can open a stable `/writing` index listing public writing entries in curated or reverse-chronological order.
+- [x] **ROUTE-02**: Visitor can open stable `/writing/{slug}` static detail routes for every public writing entry.
+- [x] **ROUTE-03**: Clean static builds prerender `/writing` and every public writing detail route before hydration.
+- [x] **ROUTE-04**: Hidden, draft, archived-only, or otherwise unpublished writing entries do not create public detail pages.
 
 ### Reading Experience
 
-- [ ] **READ-01**: Visitor can understand each writing entry's main idea, context, and relevance from the static detail page.
-- [ ] **READ-02**: Writing index and detail pages preserve dark-primary responsive layout, accessible headings, readable body text, and stable text layout on desktop and mobile.
-- [ ] **READ-03**: Writing detail pages provide clear paths back to the writing index and onward to related projects when relationships exist.
+- [x] **READ-01**: Visitor can understand each writing entry's main idea, context, and relevance from the static detail page.
+- [x] **READ-02**: Writing index and detail pages preserve dark-primary responsive layout, accessible headings, readable body text, and stable text layout on desktop and mobile.
+- [x] **READ-03**: Writing detail pages provide clear paths back to the writing index and onward to related projects when relationships exist.
 
 ### Project Cross-Links
 
 - [x] **LINK-01**: Writing entries can reference related selected project slugs through typed data.
-- [ ] **LINK-02**: Project detail pages can display related writing links derived from writing data without duplicating relationship data on project records.
+- [x] **LINK-02**: Project detail pages can display related writing links derived from writing data without duplicating relationship data on project records.
 - [x] **LINK-03**: Verification fails when a writing entry references an unknown, hidden, or unsupported project slug.
 
 ### Metadata and Discovery
 
-- [ ] **META-01**: `/writing` and each writing detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from writing and profile data.
-- [ ] **META-02**: Writing detail routes render static `BlogPosting` JSON-LD and the writing index renders appropriate collection or `ItemList` JSON-LD before hydration.
-- [ ] **META-03**: Generated sitemap output includes public writing routes and excludes draft or hidden writing routes.
-- [ ] **META-04**: Writing routes use the checked-in static social preview fallback or documented deterministic support without runtime image generation.
+- [x] **META-01**: `/writing` and each writing detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from writing and profile data.
+- [x] **META-02**: Writing detail routes render static `BlogPosting` JSON-LD and the writing index renders appropriate collection or `ItemList` JSON-LD before hydration.
+- [x] **META-03**: Generated sitemap output includes public writing routes and excludes draft or hidden writing routes.
+- [x] **META-04**: Writing routes use the checked-in static social preview fallback or documented deterministic support without runtime image generation.
 
 ### Verification
 
@@ -93,20 +93,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WRITE-02 | Phase 14 | Complete |
 | WRITE-03 | Phase 14 | Complete |
 | WRITE-04 | Phase 14 | Complete |
-| ROUTE-01 | Phase 15 | Pending |
-| ROUTE-02 | Phase 15 | Pending |
-| ROUTE-03 | Phase 15 | Pending |
-| ROUTE-04 | Phase 15 | Pending |
-| READ-01 | Phase 15 | Pending |
-| READ-02 | Phase 15 | Pending |
-| READ-03 | Phase 15 | Pending |
+| ROUTE-01 | Phase 15 | Complete |
+| ROUTE-02 | Phase 15 | Complete |
+| ROUTE-03 | Phase 15 | Complete |
+| ROUTE-04 | Phase 15 | Complete |
+| READ-01 | Phase 15 | Complete |
+| READ-02 | Phase 15 | Complete |
+| READ-03 | Phase 15 | Complete |
 | LINK-01 | Phase 14 | Complete |
-| LINK-02 | Phase 15 | Pending |
+| LINK-02 | Phase 15 | Complete |
 | LINK-03 | Phase 14 | Complete |
-| META-01 | Phase 16 | Pending |
-| META-02 | Phase 16 | Pending |
-| META-03 | Phase 16 | Pending |
-| META-04 | Phase 16 | Pending |
+| META-01 | Phase 16 | Complete |
+| META-02 | Phase 16 | Complete |
+| META-03 | Phase 16 | Complete |
+| META-04 | Phase 16 | Complete |
 | VERIFY-01 | Phase 17 | Pending |
 | VERIFY-02 | Phase 17 | Pending |
 | VERIFY-03 | Phase 17 | Pending |
@@ -121,4 +121,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-03*
-*Last updated: 2026-06-03 after Phase 14 completion*
+*Last updated: 2026-06-14 after Phase 16 completion*
