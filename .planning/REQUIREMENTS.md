@@ -43,10 +43,10 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 
 ### Verification
 
-- [ ] **VERIFY-01**: Static verification checks generated writing HTML for expected content, metadata, JSON-LD, sitemap inclusion and exclusion, related-project links, and forbidden runtime API residue.
-- [ ] **VERIFY-02**: Browser release checks include writing routes for axe, dark desktop and mobile layout, keyboard reachability, and reduced-motion behavior where relevant.
-- [ ] **VERIFY-03**: Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
-- [ ] **VERIFY-04**: The aggregate `bun run verify` gate passes with writing routes included and release evidence labels name only automated writing coverage.
+- [x] **VERIFY-01**: Static verification checks generated writing HTML for expected content, metadata, JSON-LD, sitemap inclusion and exclusion, related-project links, and forbidden runtime API residue.
+- [x] **VERIFY-02**: Browser release checks include writing routes for axe, dark desktop and mobile layout, keyboard reachability, and reduced-motion behavior where relevant.
+- [x] **VERIFY-03**: Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
+- [x] **VERIFY-04**: The aggregate `bun run verify` gate passes with writing routes included and release evidence labels name only automated writing coverage.
 
 ## Future Requirements
 
@@ -107,10 +107,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | META-02 | Phase 16 | Complete |
 | META-03 | Phase 16 | Complete |
 | META-04 | Phase 16 | Complete |
-| VERIFY-01 | Phase 17 | Pending |
-| VERIFY-02 | Phase 17 | Pending |
-| VERIFY-03 | Phase 17 | Pending |
-| VERIFY-04 | Phase 17 | Pending |
+| VERIFY-01 | Phase 17 | Complete |
+| VERIFY-02 | Phase 17 | Complete |
+| VERIFY-03 | Phase 17 | Complete |
+| VERIFY-04 | Phase 17 | Complete |
 
 **Coverage:**
 
@@ -121,4 +121,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-03*
-*Last updated: 2026-06-14 after Phase 16 completion*
+*Last updated: 2026-06-14 after Phase 17 completion*

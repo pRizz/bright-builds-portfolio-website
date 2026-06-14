@@ -1,7 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Locator, type Page, test } from "@playwright/test";
-import { projectDetailRoutes } from "../src/domain/projects";
+import { projectDetailPath, projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
+import {
+  publicWritingEntries,
+  relatedProjectDetailPageProjects,
+  writingDetailRoutes,
+} from "../src/domain/writing";
 
 type LayoutFinding = {
   label: string;
@@ -86,6 +91,8 @@ test.describe("browser release checks", () => {
 
     // Arrange
     const detailRoute = representativeProjectDetailRoute();
+    const writingRoute = representativeWritingDetailRoute();
+    const relatedProjectRoute = representativeWritingRelatedProjectRoute();
     await page.goto("/");
 
     // Act
@@ -96,6 +103,9 @@ test.describe("browser release checks", () => {
     expect(hasFocusedInternalPath(focusedTargets, "/"), "focus reaches Home nav").toBe(true);
     expect(hasFocusedInternalPath(focusedTargets, "/about"), "focus reaches About nav").toBe(true);
     expect(hasFocusedInternalPath(focusedTargets, "/projects"), "focus reaches Projects nav").toBe(
+      true,
+    );
+    expect(hasFocusedInternalPath(focusedTargets, "/writing"), "focus reaches Writing nav").toBe(
       true,
     );
     expect(hasFocusedInternalPath(focusedTargets, "/contact"), "focus reaches Contact nav").toBe(
@@ -129,6 +139,34 @@ test.describe("browser release checks", () => {
       hasFocusedProjectActionLink(detailFocusedTargets),
       "focus reaches at least one selected project action link",
     ).toBe(true);
+
+    await page.goto("/writing");
+    const writingFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(writingFocusedTargets),
+      "writing focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(writingFocusedTargets, writingRoute),
+      "focus reaches public writing detail route",
+    ).toBe(true);
+
+    await page.goto(writingRoute);
+    const writingDetailFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(writingDetailFocusedTargets),
+      "writing detail focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(writingDetailFocusedTargets, "/writing"),
+      "focus reaches Writing index from writing detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedInternalPath(writingDetailFocusedTargets, relatedProjectRoute),
+      "focus reaches related project route from writing detail route",
+    ).toBe(true);
   });
 
   test("reduced-motion disables decorative hover and pointer motion", async ({
@@ -140,7 +178,11 @@ test.describe("browser release checks", () => {
     );
 
     // Arrange
-    const routes = ["/", representativeProjectDetailRoute()] as const;
+    const routes = [
+      "/",
+      representativeProjectDetailRoute(),
+      representativeWritingDetailRoute(),
+    ] as const;
 
     // Act
     for (const route of routes) {
@@ -157,6 +199,30 @@ function representativeProjectDetailRoute(): string {
   }
 
   return maybeRoute;
+}
+
+function representativeWritingDetailRoute(): string {
+  const maybeRoute = writingDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public writing detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+function representativeWritingRelatedProjectRoute(): string {
+  for (const entry of publicWritingEntries()) {
+    const maybeProject = relatedProjectDetailPageProjects(entry)[0];
+
+    if (maybeProject) {
+      return projectDetailPath(maybeProject);
+    }
+  }
+
+  throw new Error(
+    "Expected at least one public writing entry with a related project detail route for release coverage.",
+  );
 }
 
 async function assertReducedMotionStableOnRoute(page: Page, route: string): Promise<void> {

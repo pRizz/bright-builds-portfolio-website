@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { writingDetailRoutes } from "../src/domain/writing";
 import {
   externalLinkFindingsForRoutes,
   releaseReadinessDocumentFindings,
@@ -57,6 +58,27 @@ describe("release-readiness external link policy", () => {
       "external link policy coverage",
       "external link policy coverage",
     ]);
+  });
+
+  it("requires primary GitHub profile presence, not only project repository links", () => {
+    // Arrange
+    const routes = [
+      routeFixture(
+        "/",
+        [
+          '<a href="https://github.com/pRizz/openlinks">Project source</a>',
+          '<a href="https://openlinks.us/">OpenLinks</a>',
+        ].join(""),
+      ),
+    ];
+
+    // Act
+    const findings = externalLinkFindingsForRoutes(routes);
+    const messages = findings.map((finding) => finding.message).join("\n");
+
+    // Assert
+    expect(findings.map((finding) => finding.label)).toEqual(["primary external link presence"]);
+    expect(messages).toContain("https://github.com/pRizz");
   });
 
   it("reports sensitive query keys without leaking values", () => {
@@ -194,7 +216,7 @@ describe("release-readiness document contract", () => {
   it("reports missing project detail browser coverage guidance", () => {
     // Arrange
     const fixture = releaseDocumentFixtureWithout(
-      "project detail axe, layout, keyboard, and reduced-motion coverage",
+      "project detail axe, layout, representative keyboard, and representative reduced-motion coverage",
     );
 
     try {
@@ -205,7 +227,7 @@ describe("release-readiness document contract", () => {
       // Assert
       expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
       expect(messages).toContain(
-        "Release-readiness document is missing project detail browser coverage: project detail axe, layout, keyboard, and reduced-motion coverage.",
+        "Release-readiness document is missing project detail browser coverage: project detail axe, layout, representative keyboard, and representative reduced-motion coverage.",
       );
     } finally {
       fixture.cleanup();
@@ -231,11 +253,92 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing writing route coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("writing route coverage");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing writing route coverage: writing route coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing writing static coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing writing static coverage: writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing writing browser coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "writing axe, layout, representative keyboard, and representative reduced-motion coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing writing browser coverage: writing axe, layout, representative keyboard, and representative reduced-motion coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing selected writing smoke route guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(representativeWritingDetailRoute());
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        `Release-readiness document is missing selected writing smoke route: ${representativeWritingDetailRoute()}.`,
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("names release-readiness evidence covered by the aggregate gate", () => {
     // Arrange
     const expectedLabels = [
       "SEO/static metadata",
       "project detail route coverage",
+      "writing route coverage",
       "static performance budgets",
       "external link policy",
       "Cloudflare/static deployment",
@@ -272,4 +375,14 @@ function releaseDocumentFixtureWithout(textToRemove: string) {
     path: documentPath,
     cleanup: () => rmSync(directoryPath, { recursive: true, force: true }),
   };
+}
+
+function representativeWritingDetailRoute(): string {
+  const maybeRoute = writingDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public writing detail route for release coverage.");
+  }
+
+  return maybeRoute;
 }

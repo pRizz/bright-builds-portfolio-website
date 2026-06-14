@@ -4,17 +4,17 @@ milestone: v1.3
 milestone_name: Writing & Notes Surface
 current_phase: 17
 current_phase_name: Writing Verification and Release Contract
-current_plan: Not started
-status: ready_to_plan
-stopped_at: Phase 16 complete; ready to discuss Phase 17
-last_updated: "2026-06-14T16:12:32.409Z"
+current_plan: 17-01-PLAN.md
+status: complete
+stopped_at: Phase 17 complete; v1.3 phase work ready for milestone audit/completion
+last_updated: "2026-06-14T19:33:34Z"
 last_activity: 2026-06-14
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
-  percent: 75
+  completed_phases: 4
+  total_plans: 9
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -30,15 +30,15 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 
 Current Phase: 17
 Current Phase Name: Writing Verification and Release Contract
-Current Plan: Not started
+Current Plan: 17-01-PLAN.md
 Total Phases: 4
-Total Plans in Phase: TBD
-Phase: 17 (Writing Verification and Release Contract) — READY TO PLAN
-Plan: Not started
-Status: Ready to plan
+Total Plans in Phase: 1
+Phase: 17 (Writing Verification and Release Contract) — COMPLETE
+Plan: 1 of 1
+Status: Phase complete — ready for milestone audit/completion
 Last activity: 2026-06-14
 
-Progress: [████████░░] 75%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -47,20 +47,20 @@ Progress: [████████░░] 75%
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
-- Active milestone plans completed: 8
-- Active milestone plan count: 8 planned so far; remaining phases TBD until planning creates plans
+- Active milestone plans completed: 9
+- Active milestone plan count: 9 planned
 
 **By Phase:**
 
 - Phase 14: Writing Domain Foundation — Complete (2/2 plans, verified 2026-06-03)
 - Phase 15: Writing Routes and Dark UI — Complete (4/4 plans, verified 2026-06-13)
 - Phase 16: Writing Metadata and Structured Data — Complete (2/2 plans, verified 2026-06-14)
-- Phase 17: Writing Verification and Release Contract — Not started
+- Phase 17: Writing Verification and Release Contract — Complete (1/1 plan, verified 2026-06-14)
 
 **Recent Trend:**
 
-- Last completed work: Phase 16 added helper-derived writing metadata, BlogPosting/ItemList JSON-LD, sitemap coverage, and static social fallback verification on 2026-06-14.
-- Trend: v1.3 now has static writing routes and discovery metadata; Phase 17 is ready to expand release verification and release-contract evidence.
+- Last completed work: Phase 17 added writing route release coverage across static, browser, release-readiness, release labels, and the aggregate clean-builder gate on 2026-06-14.
+- Trend: v1.3 phase work is complete; the milestone is ready for audit/completion.
 
 ## Accumulated Context
 
@@ -96,7 +96,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-14T16:12:32.409Z
-Stopped at: Phase 16 complete; ready to discuss Phase 17
-Resume file: .planning/phases/16-writing-metadata-and-structured-data/16-VERIFICATION.md
-Next action: run `/gsd-discuss-phase 17`
+Last session: 2026-06-14T19:33:34Z
+Stopped at: Phase 17 complete; v1.3 phase work ready for milestone audit/completion
+Resume file: .planning/phases/17-writing-verification-and-release-contract/17-VERIFICATION.md
+Next action: run `/gsd-audit-milestone`

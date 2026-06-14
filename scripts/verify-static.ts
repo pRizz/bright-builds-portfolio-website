@@ -1176,5 +1176,5 @@ for (const htmlPath of outputHtmlFiles) {
 }
 
 console.log(
-  `Verified ${expectedRoutes.length} prerendered routes, metadata, JSON-LD, assets, sitemap, and robots in ${outputRoot}.`,
+  `Verified ${expectedRoutes.length} prerendered routes, metadata, JSON-LD, writing route coverage, assets, sitemap, and robots in ${outputRoot}.`,
 );

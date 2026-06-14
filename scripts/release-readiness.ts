@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 
+import { peterProfile } from "../src/domain/profile";
 import { projectDetailRoutes } from "../src/domain/projects";
+import { writingDetailRoutes } from "../src/domain/writing";
 import type { ReleaseFinding, StaticReleaseRoute } from "./verify-release";
 
 export type ExternalLinkPolicy = {
@@ -60,7 +62,9 @@ export const externalLinkPolicies = [
   },
 ] as const satisfies readonly ExternalLinkPolicy[];
 
-const requiredPrimaryExternalHrefs = ["https://github.com/", "https://openlinks.us/"] as const;
+const requiredPrimaryExternalHrefs = peterProfile.links
+  .filter((link) => link.kind === "code" || link.kind === "identity")
+  .map((link) => link.href);
 
 const sensitiveQueryKeyPatterns = [
   /token/i,
@@ -96,9 +100,19 @@ const requiredReleaseReadinessDocumentFacts = [
   },
   {
     label: "project detail browser coverage",
-    text: "project detail axe, layout, keyboard, and reduced-motion coverage",
+    text: "project detail axe, layout, representative keyboard, and representative reduced-motion coverage",
+  },
+  { label: "writing route coverage", text: "writing route coverage" },
+  {
+    label: "writing static coverage",
+    text: "writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage",
+  },
+  {
+    label: "writing browser coverage",
+    text: "writing axe, layout, representative keyboard, and representative reduced-motion coverage",
   },
   { label: "selected project smoke route", text: representativeProjectDetailRoute() },
+  { label: "selected writing smoke route", text: representativeWritingDetailRoute() },
   { label: "manual external-link smoke check", text: "Manual external-link smoke check" },
   { label: "preview deployment", text: "preview deployment" },
   { label: "post-deploy smoke check", text: "post-deploy smoke check" },
@@ -109,13 +123,13 @@ export function externalLinkFindingsForRoutes(
   routes: readonly StaticReleaseRoute[],
 ): readonly ReleaseFinding[] {
   const findings: ReleaseFinding[] = [];
-  const combinedHtml = routes.map((route) => route.html).join("\n");
+  const anchorHrefs = new Set(uniqueExternalAnchorHrefsForRoutes(routes));
   const policiesByOrigin = new Map<string, ExternalLinkPolicy>(
     externalLinkPolicies.map((policy) => [policy.origin, policy]),
   );
 
   for (const requiredHref of requiredPrimaryExternalHrefs) {
-    if (combinedHtml.includes(requiredHref)) {
+    if (anchorHrefs.has(requiredHref)) {
       continue;
     }
 
@@ -205,6 +219,7 @@ export function releaseReadinessEvidenceLabels(): readonly string[] {
   return [
     "SEO/static metadata",
     "project detail route coverage",
+    "writing route coverage",
     "static performance budgets",
     "external link policy",
     "Cloudflare/static deployment",
@@ -217,6 +232,16 @@ function representativeProjectDetailRoute(): string {
 
   if (!maybeRoute) {
     throw new Error("Expected at least one selected project detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+function representativeWritingDetailRoute(): string {
+  const maybeRoute = writingDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public writing detail route for release coverage.");
   }
 
   return maybeRoute;

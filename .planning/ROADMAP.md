@@ -5,7 +5,7 @@
 - ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
 - ✅ **v1.1 Release Confidence** — Phases 6-9 shipped 2026-06-01. Archive: [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md). Audit: [v1.1-MILESTONE-AUDIT.md](milestones/v1.1-MILESTONE-AUDIT.md).
 - ✅ **v1.2 Project Story Pages** — Phases 10-13 shipped 2026-06-03. Archive: [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md). Audit: [v1.2-MILESTONE-AUDIT.md](milestones/v1.2-MILESTONE-AUDIT.md).
-- 🚧 **v1.3 Writing & Notes Surface** — Phases 14-17 active. Goal: give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
+- 🚧 **v1.3 Writing & Notes Surface** — Phase work complete; ready for milestone audit/completion. Goal: give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
 
 ## Phases
 
@@ -42,12 +42,12 @@
 </details>
 
 <details open>
-<summary>v1.3 Writing & Notes Surface (Phases 14-17) — ACTIVE</summary>
+<summary>v1.3 Writing & Notes Surface (Phases 14-17) — PHASE WORK COMPLETE</summary>
 
 - [x] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
 - [x] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface. (completed 2026-06-13)
-- [ ] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior.
-- [ ] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate.
+- [x] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior. (completed 2026-06-14)
+- [x] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate. (completed 2026-06-14)
 
 </details>
 
@@ -99,7 +99,7 @@ Plans:
 1. Generated sitemap output includes `/writing` and every public writing detail route while excluding hidden, draft, archived-only, or otherwise unpublished writing routes.
 1. Writing routes use the checked-in static social preview fallback or documented deterministic support without adding runtime image generation or server endpoints.
 
-**Plans**: TBD
+**Plans**: 2/2 complete
 
 ### Phase 17: Writing Verification and Release Contract
 
@@ -113,7 +113,9 @@ Plans:
 1. Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
 1. The aggregate `bun run verify` gate includes writing coverage, and release evidence labels name only automated writing checks that actually run.
 
-**Plans**: TBD
+**Plans**: 1/1 complete
+Plans:
+- [x] 17-01-PLAN.md — Writing release coverage across browser, static, release-readiness, release labels, and aggregate verification.
 
 ## Progress
 
@@ -136,8 +138,8 @@ Plans:
 | 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
 | 15. Writing Routes and Dark UI | v1.3 | 4/4 | Complete    | 2026-06-13 |
 | 16. Writing Metadata and Structured Data | v1.3 | 2/2 | Complete    | 2026-06-14 |
-| 17. Writing Verification and Release Contract | v1.3 | 0/TBD | Not started | - |
+| 17. Writing Verification and Release Contract | v1.3 | 1/1 | Complete    | 2026-06-14 |
 
 ## Next
 
-v1.3 is active. Run `/gsd-discuss-phase 16` to start Phase 16: Writing Metadata and Structured Data.
+v1.3 phase work is complete. Run `/gsd-audit-milestone` and `/gsd-complete-milestone` when ready to close the milestone.

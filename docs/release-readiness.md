@@ -16,7 +16,7 @@ On a clean local machine or static builder where Playwright Chromium is not alre
 bun run install:browser && bun run verify
 ```
 
-This primary release gate includes project detail route coverage for selected `/projects/{slug}` pages. The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage with project detail axe, layout, keyboard, and reduced-motion coverage.
+This primary release gate includes project detail route coverage for selected `/projects/{slug}` pages and writing route coverage for `/writing` plus public `/writing/{slug}` pages. The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage with project detail axe, layout, representative keyboard, and representative reduced-motion coverage. The writing route coverage contract combines writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage with writing axe, layout, representative keyboard, and representative reduced-motion coverage.
 
 The aggregate gate includes:
 
@@ -42,17 +42,17 @@ bun run build
 ```
 
 The static host must serve `.output/public` as the site root. That directory contains prerendered route HTML, `_build/` assets, local icons, the social preview image, `robots.txt`, and `sitemap.xml`.
-Selected project detail routes are part of the static artifact and are covered by project detail metadata, JSON-LD, and sitemap coverage.
+Selected project detail routes and public writing routes are part of the static artifact. Project detail routes are covered by project detail metadata, JSON-LD, and sitemap coverage. Writing routes are covered by writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage.
 
 ## Automated Gates
 
 ### SEO and Static Metadata
 
-`bun run verify:static` checks route titles, descriptions, canonical links, Open Graph and Twitter metadata, local social image fields, sitemap, robots, JSON-LD, generated static assets, dark root HTML, and forbidden template/runtime residue. It includes project detail metadata, JSON-LD, and sitemap coverage for selected project detail routes.
+`bun run verify:static` checks route titles, descriptions, canonical links, Open Graph and Twitter metadata, local social image fields, sitemap, robots, JSON-LD, generated static assets, dark root HTML, and forbidden template/runtime residue. It includes project detail metadata, JSON-LD, and sitemap coverage for selected project detail routes. It also includes writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage for `/writing` and public writing detail routes.
 
 ### Browser and Accessibility
 
-`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It requires the Chromium browser installed by `bun run install:browser`, and it covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior. It includes project detail axe, layout, keyboard, and reduced-motion coverage for selected project detail routes.
+`bun run verify:browser` runs the checked-in Playwright and axe suite against built `.output/public` output. It requires the Chromium browser installed by `bun run install:browser`, and it covers route accessibility scans, desktop and mobile dark-primary layout overflow/overlap checks, keyboard focus reachability, and reduced-motion behavior. It includes project detail axe and layout coverage for every selected project detail route, plus representative keyboard and reduced-motion checks for selected project detail navigation. It also includes writing axe and layout coverage for `/writing` and every public writing detail route, plus representative keyboard and reduced-motion checks for writing navigation and a public writing detail route.
 
 ### Performance and Best Practices
 
@@ -117,7 +117,7 @@ Recommended settings:
 | Node environment variable | `NODE_VERSION=22.16.0` |
 
 Use `bun run install:browser && bun run verify` as the clean-builder command sequence when the deployment should block on the full release gate. `bun run verify` remains the aggregate release gate once Chromium has been provisioned. Use `bun run build` only for emergency artifact generation after the full gate has already passed locally or in CI.
-That clean-builder sequence includes project detail route coverage before `.output/public` is accepted for deployment.
+That clean-builder sequence includes project detail route coverage and writing route coverage before `.output/public` is accepted for deployment.
 
 Environment expectations:
 
@@ -132,18 +132,18 @@ Before creating a preview deployment:
 
 1. Run `bun run install:browser` on a clean builder or fresh local environment.
 1. Run `bun run verify`.
-1. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
+1. Confirm `.output/public/index.html`, `.output/public/projects/index.html`, `.output/public/writing/index.html`, `.output/public/sitemap.xml`, and `.output/public/robots.txt` exist.
 1. Confirm the preview deployment uses `.output/public`.
 1. Confirm no token values are present in Cloudflare Pages public environment variables.
 
 After the preview deployment is available:
 
-1. Open `/`, `/about`, `/projects`, `/projects/openlinks`, and `/contact`.
+1. Open `/`, `/about`, `/projects`, `/projects/openlinks`, `/writing`, `/writing/agentic-engineering-workflows`, and `/contact`.
 1. Confirm the site renders dark-primary by default.
 1. Confirm the project anchors on `/projects` work.
 1. Run the Manual external-link smoke check.
 
-Preview and production smoke checks include one selected project detail route, currently /projects/openlinks.
+Preview and production smoke checks include one selected project detail route, currently /projects/openlinks, and one public writing detail route, currently /writing/agentic-engineering-workflows.
 
 ## Production Deployment Checklist
 
@@ -152,7 +152,7 @@ Before production:
 1. Confirm preview deployment smoke checks passed.
 1. Confirm `bun run install:browser && bun run verify` passed on the exact commit being deployed in any clean-builder environment.
 1. Confirm Cloudflare Pages build settings still match this document.
-1. Confirm the selected project detail route `/projects/openlinks` is included in the deployment smoke path.
+1. Confirm the selected project detail route `/projects/openlinks` and the public writing detail route `/writing/agentic-engineering-workflows` are included in the deployment smoke path.
 
 Post-deploy smoke check:
 
@@ -161,5 +161,7 @@ Use this post-deploy smoke check after the production deployment:
 1. Open `https://www.brightbuilds.us/`.
 1. Open `https://www.brightbuilds.us/projects`.
 1. Open `https://www.brightbuilds.us/projects/openlinks`.
+1. Open `https://www.brightbuilds.us/writing`.
+1. Open `https://www.brightbuilds.us/writing/agentic-engineering-workflows`.
 1. Confirm `https://www.brightbuilds.us/sitemap.xml` and `https://www.brightbuilds.us/robots.txt` load.
 1. Confirm GitHub and OpenLinks links remain reachable from the footer or contact surface.

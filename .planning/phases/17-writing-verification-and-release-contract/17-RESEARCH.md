@@ -461,12 +461,12 @@ Config does not explicitly set `security_enforcement: false`, so this research i
 |---|---|---|---|
 | A1 | The validity window is 7 days for registry/runtime-version details and 30 days for repo-internal architecture findings if Phase 17 source files do not change. [ASSUMED] | Metadata | Planner may rely on stale package/version context if dependency pins or release scripts change sooner. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should the static verifier success message explicitly name writing route coverage?** [VERIFIED: command output]
+1. **Should the static verifier success message explicitly name writing route coverage?** [RESOLVED: yes -- Task 3 updates the final `bun run verify:static` success message to include `writing route coverage`.] [VERIFIED: command output]
    - What we know: Static assertions already prove the writing static contract and pass. [VERIFIED: scripts/verify-static.ts; `bun run build && bun run verify:static` output]
-   - What's unclear: The phase could satisfy VERIFY-01 through existing assertions plus release labels, or add a tiny success-message wording change for clearer terminal evidence. [VERIFIED: 17-CONTEXT.md]
-   - Recommendation: Treat this as a small optional task after browser/docs/labels, not a verifier rewrite. [VERIFIED: current gap audit]
+   - Decision: Add the tiny success-message wording change for clearer terminal evidence, without rewriting the static verifier or duplicating writing slugs. [VERIFIED: 17-CONTEXT.md]
+   - Recommendation: Treat this as a small task after browser/docs/labels, not a verifier rewrite. [VERIFIED: current gap audit]
 
 ## Verification Commands
 
