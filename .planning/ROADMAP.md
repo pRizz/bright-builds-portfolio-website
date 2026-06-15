@@ -5,7 +5,7 @@
 - ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
 - ✅ **v1.1 Release Confidence** — Phases 6-9 shipped 2026-06-01. Archive: [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md). Audit: [v1.1-MILESTONE-AUDIT.md](milestones/v1.1-MILESTONE-AUDIT.md).
 - ✅ **v1.2 Project Story Pages** — Phases 10-13 shipped 2026-06-03. Archive: [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md). Audit: [v1.2-MILESTONE-AUDIT.md](milestones/v1.2-MILESTONE-AUDIT.md).
-- 🚧 **v1.3 Writing & Notes Surface** — Phase work complete; ready for milestone audit/completion. Goal: give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
+- 🚧 **v1.3 Writing & Notes Surface** — Product phase work complete; audit found one non-blocking verifier maintenance cleanup before milestone completion. Goal: give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
 
 ## Phases
 
@@ -42,12 +42,13 @@
 </details>
 
 <details open>
-<summary>v1.3 Writing & Notes Surface (Phases 14-17) — PHASE WORK COMPLETE</summary>
+<summary>v1.3 Writing & Notes Surface (Phases 14-18) — CLEANUP PENDING</summary>
 
 - [x] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
 - [x] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface. (completed 2026-06-13)
 - [x] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior. (completed 2026-06-14)
 - [x] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate. (completed 2026-06-14)
+- [ ] **Phase 18: Static Verifier Modularization** - Maintainers can evolve writing and project generated-output assertions without keeping all static verification logic in one oversized script.
 
 </details>
 
@@ -117,6 +118,21 @@ Plans:
 Plans:
 - [x] 17-01-PLAN.md — Writing release coverage across browser, static, release-readiness, release labels, and aggregate verification.
 
+### Phase 18: Static Verifier Modularization
+
+**Goal**: Maintainers can evolve writing and project generated-output assertions without keeping all static verification logic in one oversized script.
+**Depends on**: Phase 17
+**Requirements**: MAINT-01
+**Gap Closure**: Closes the non-blocking tech debt from `.planning/v1.3-MILESTONE-AUDIT.md` for `VERIFY-01`.
+**Success Criteria** (what must be TRUE):
+
+1. Static verification keeps the existing CLI contract and assertion coverage while moving writing, project, metadata, JSON-LD, sitemap, assets, and robots checks into focused modules or named verifier helpers.
+1. `scripts/verify-static.ts` becomes a thin orchestrator under the Bright Builds large-file refactor trigger, with reusable assertions living in repo-owned TypeScript files.
+1. Focused tests or fixture-backed checks prove the split preserves writing route coverage, project detail coverage, metadata/JSON-LD checks, sitemap inclusion/exclusion, unsafe href guards, and release evidence output.
+1. `bun run verify:static` and the aggregate `bun run verify` gate pass without changing visitor-facing behavior or release-readiness claims.
+
+**Plans**: 0/1 planned
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -139,7 +155,8 @@ Plans:
 | 15. Writing Routes and Dark UI | v1.3 | 4/4 | Complete    | 2026-06-13 |
 | 16. Writing Metadata and Structured Data | v1.3 | 2/2 | Complete    | 2026-06-14 |
 | 17. Writing Verification and Release Contract | v1.3 | 1/1 | Complete    | 2026-06-14 |
+| 18. Static Verifier Modularization | v1.3 | 0/1 | Pending | |
 
 ## Next
 
-v1.3 phase work is complete. Run `/gsd-audit-milestone` and `/gsd-complete-milestone` when ready to close the milestone.
+Plan and execute Phase 18, then rerun `/gsd-audit-milestone` before `/gsd-complete-milestone`.

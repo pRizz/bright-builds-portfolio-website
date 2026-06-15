@@ -48,6 +48,10 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 - [x] **VERIFY-03**: Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
 - [x] **VERIFY-04**: The aggregate `bun run verify` gate passes with writing routes included and release evidence labels name only automated writing coverage.
 
+### Maintenance Cleanup
+
+- [ ] **MAINT-01**: Static verification is split into focused, repo-owned TypeScript modules or helpers so writing and project generated-output assertions remain maintainable while preserving existing `verify:static` and aggregate release coverage.
+
 ## Future Requirements
 
 Deferred beyond v1.3. Tracked here so the current milestone can explicitly avoid building a generic blog engine.
@@ -111,14 +115,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VERIFY-02 | Phase 17 | Complete |
 | VERIFY-03 | Phase 17 | Complete |
 | VERIFY-04 | Phase 17 | Complete |
+| MAINT-01 | Phase 18 | Pending |
 
 **Coverage:**
 
-- v1.3 requirements: 22 total
-- Mapped to phases: 22
+- v1.3 requirements: 23 total
+- Mapped to phases: 23
 - Unmapped: 0
 
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-03*
-*Last updated: 2026-06-14 after Phase 17 completion*
+*Last updated: 2026-06-15 after milestone audit tech-debt planning*
