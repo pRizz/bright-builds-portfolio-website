@@ -89,7 +89,10 @@ Prior milestone phase details are archived. This active roadmap covers v1.4 only
 1. Unit and curation checks fail for duplicate or invalid theme slugs, missing required fields, unsupported theme status, unknown project slugs, unknown writing slugs, hidden project references, and unpublished writing references.
 1. Theme records keep project and writing registries authoritative by resolving display content from existing project and writing data instead of duplicating authored project or writing copy.
 
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 19-01-PLAN.md — Theme domain registry, helper contracts, validation, and curation gate wiring
+
 **UI hint**: yes
 
 ### Phase 20: Theme Routes and Dark UI
@@ -159,7 +162,7 @@ Prior milestone phase details are archived. This active roadmap covers v1.4 only
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 | --- | --- | --- | --- | --- |
-| 19. Theme Domain Foundation | v1.4 | 0/TBD | Not started | - |
+| 19. Theme Domain Foundation | v1.4 | 0/1 | Not started | - |
 | 20. Theme Routes and Dark UI | v1.4 | 0/TBD | Not started | - |
 | 21. Collaboration Pathways and Cross-Links | v1.4 | 0/TBD | Not started | - |
 | 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
