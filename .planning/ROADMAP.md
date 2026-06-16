@@ -2,161 +2,199 @@
 
 ## Milestones
 
-- ✅ **v1.0 MVP** — Phases 1-5 shipped 2026-05-27. Archive: [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md). Audit: [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md).
-- ✅ **v1.1 Release Confidence** — Phases 6-9 shipped 2026-06-01. Archive: [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md). Audit: [v1.1-MILESTONE-AUDIT.md](milestones/v1.1-MILESTONE-AUDIT.md).
-- ✅ **v1.2 Project Story Pages** — Phases 10-13 shipped 2026-06-03. Archive: [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md). Audit: [v1.2-MILESTONE-AUDIT.md](milestones/v1.2-MILESTONE-AUDIT.md).
-- 🚧 **v1.3 Writing & Notes Surface** — Product phase work complete; audit found one non-blocking verifier maintenance cleanup before milestone completion. Goal: give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
+- 🚧 **v1.4 Theme Paths & Collaboration Surface** — Phases 19-23 in progress. Goal: help visitors explore Peter's work by durable themes and move from those themes into relevant projects, writing, proof points, and collaboration paths.
+
+## Archived Milestones
+
+Prior milestone phase details are archived. This active roadmap covers v1.4 only.
+
+<details>
+<summary>v1.3 Writing & Notes Surface - shipped 2026-06-16</summary>
+
+**Phases:** 14-18
+**Archive:** [v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
+**Audit:** [v1.3-MILESTONE-AUDIT.md](milestones/v1.3-MILESTONE-AUDIT.md)
+
+**Summary:** v1.3 added typed writing data, static `/writing` and `/writing/{slug}` routes, project-writing cross-links, writing metadata and JSON-LD, sitemap coverage, release verification, and modular static verification helpers.
+
+</details>
+
+<details>
+<summary>v1.2 Project Story Pages - shipped 2026-06-03</summary>
+
+**Phases:** 10-13
+**Archive:** [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
+**Audit:** [v1.2-MILESTONE-AUDIT.md](milestones/v1.2-MILESTONE-AUDIT.md)
+
+**Summary:** v1.2 added selected project detail story routes, readable project narratives, detail-aware navigation, route metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and release checks for project pages.
+
+</details>
+
+<details>
+<summary>v1.1 Release Confidence - shipped 2026-06-01</summary>
+
+**Phases:** 6-9
+**Archive:** [v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
+**Audit:** [v1.1-MILESTONE-AUDIT.md](milestones/v1.1-MILESTONE-AUDIT.md)
+
+**Summary:** v1.1 converted browser and accessibility evidence into repeatable release checks, documented the release-readiness contract, cleaned up curated helper exports, and closed the clean-builder browser provisioning gate.
+
+</details>
+
+<details>
+<summary>v1.0 MVP - shipped 2026-05-27</summary>
+
+**Phases:** 1-5 plus Phase 01.1
+**Archive:** [v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
+**Audit:** [v1.0-MILESTONE-AUDIT.md](milestones/v1.0-MILESTONE-AUDIT.md)
+
+**Summary:** v1.0 established the SolidStart static shell, dark-primary visual system, curated project registry, route and SEO helpers, motion constraints, checked-in GitHub metadata enrichment, and aggregate release verification.
+
+</details>
+
+## Current Milestone
+
+**v1.4 Theme Paths & Collaboration Surface**
+
+**Milestone Goal:** Help visitors explore Peter's work by durable themes and move from those themes into relevant projects, writing, proof points, and collaboration paths.
+
+**Granularity:** coarse
+**Requirement Coverage:** 23/23 v1.4 requirements mapped exactly once to Phases 19-23.
 
 ## Phases
 
-<details>
-<summary>✅ v1.0 MVP (Phases 1-5) — SHIPPED 2026-05-27</summary>
+**Phase Numbering:**
 
-- [x] Phase 1: Static App Foundation & UI Shell — 2/2 plans, completed 2026-05-24
-- [x] Phase 01.1: Dark-Primary Visual Rule and Shell Refactor — 1/1 plan, completed 2026-05-25
-- [x] Phase 2: Curated Content Model — 2/2 plans, completed 2026-05-26
-- [x] Phase 3: Portfolio Surfaces & SEO — 3/3 plans, completed 2026-05-26
-- [x] Phase 4: Visual System & Motion — 3/3 plans, completed 2026-05-26
-- [x] Phase 5: GitHub Enrichment & Release Verification — 3/3 plans, completed 2026-05-27
+- Integer phases are planned milestone work.
+- Decimal phases are urgent insertions created after planning.
+- v1.4 continues after Phase 18 and starts at Phase 19.
 
-</details>
-
-<details>
-<summary>✅ v1.1 Release Confidence (Phases 6-9) — SHIPPED 2026-06-01</summary>
-
-- [x] Phase 6: Browser & Accessibility Release Automation — 1/1 plan, completed 2026-05-31
-- [x] Phase 7: Release Gates & Deploy Readiness — 1/1 plan, completed 2026-05-31
-- [x] Phase 8: Content Helper Surface Cleanup — 1/1 plan, completed 2026-05-31
-- [x] Phase 9: Clean Builder Release Gate Closure — 1/1 plan, completed 2026-06-01
-
-</details>
-
-<details>
-<summary>✅ v1.2 Project Story Pages (Phases 10-13) — SHIPPED 2026-06-03</summary>
-
-- [x] Phase 10: Project Detail Route Foundation — 1/1 plan, completed 2026-06-02
-- [x] Phase 11: Project Story Page UI — 1/1 plan, completed 2026-06-02
-- [x] Phase 12: Project Metadata & Sharing — 1/1 plan, completed 2026-06-02
-- [x] Phase 13: Project Page Release Coverage — 1/1 plan, completed 2026-06-03
-
-</details>
-
-<details open>
-<summary>v1.3 Writing & Notes Surface (Phases 14-18) — CLEANUP PENDING</summary>
-
-- [x] **Phase 14: Writing Domain Foundation** - Maintainers can define validated writing entries, public route helpers, and project relationships from typed checked-in data.
-- [x] **Phase 15: Writing Routes and Dark UI** - Visitors can browse writing, read public note pages, and move between notes and related project stories in the dark-primary interface. (completed 2026-06-13)
-- [x] **Phase 16: Writing Metadata and Structured Data** - Writing routes expose static route-specific metadata, JSON-LD, sitemap entries, and social-preview fallback behavior. (completed 2026-06-14)
-- [x] **Phase 17: Writing Verification and Release Contract** - Automated verification and release-readiness checks prove the writing surface in the aggregate release gate. (completed 2026-06-14)
-- [ ] **Phase 18: Static Verifier Modularization** - Maintainers can evolve writing and project generated-output assertions without keeping all static verification logic in one oversized script.
-
-</details>
+- [ ] **Phase 19: Theme Domain Foundation** - Maintainers can define validated theme paths from typed checked-in data and existing project/writing registries.
+- [ ] **Phase 20: Theme Routes and Dark UI** - Visitors can browse static theme index and detail pages in the dark-primary interface.
+- [ ] **Phase 21: Collaboration Pathways and Cross-Links** - Visitors can move from themes into related projects, writing, and practical collaboration entry points.
+- [ ] **Phase 22: Theme Metadata and Structured Data** - Theme routes are discoverable through static metadata, structured data, sitemap entries, and social-preview fallback behavior.
+- [ ] **Phase 23: Theme Verification and Release Contract** - Automated checks prove theme route coverage in the aggregate release gate without overclaiming manual or hosted evidence.
 
 ## Phase Details
 
-### Phase 14: Writing Domain Foundation
+### Phase 19: Theme Domain Foundation
 
-**Goal**: Maintainers can define curated writing and notes as validated static domain data that downstream routes, metadata, and verification can trust.
-**Depends on**: Phase 13
-**Requirements**: WRITE-01, WRITE-02, WRITE-03, WRITE-04, LINK-01, LINK-03
+**Goal**: Maintainers can define curated theme paths as validated static domain data that composes existing project and writing records.
+**Depends on**: Phase 18
+**Requirements**: THEME-01, THEME-02, THEME-03, THEME-04
 **Success Criteria** (what must be TRUE):
 
-1. Maintainer can add a writing or note entry with title, summary, date or status, tags or topics, body content, slug, and optional related project slugs in a typed checked-in registry without adding runtime APIs, CMS, MDX, or external content dependencies.
-1. Maintainer can ask writing helpers for public entries and stable `/writing/{slug}` paths while hidden or draft records stay excluded from public selectors.
-1. Unit and curation tests fail for duplicate or invalid slugs, missing required fields, draft/public filtering mistakes, and related project slugs that are unknown, hidden, or unsupported.
+1. Maintainer can add a theme path with slug, title, summary, audience, proof points, collaboration angle, related project slugs, and related writing slugs in typed checked-in data without adding runtime APIs, CMS, MDX, parser pipelines, or external content dependencies.
+1. Maintainer can ask theme helpers for public theme entries, stable `/themes/{slug}` paths, and ordered theme lists while hidden or unsupported theme records stay out of public selectors.
+1. Unit and curation checks fail for duplicate or invalid theme slugs, missing required fields, unsupported theme status, unknown project slugs, unknown writing slugs, hidden project references, and unpublished writing references.
+1. Theme records keep project and writing registries authoritative by resolving display content from existing project and writing data instead of duplicating authored project or writing copy.
 
-**Plans**: 2/2 complete
-
-### Phase 15: Writing Routes and Dark UI
-
-**Goal**: Visitors can browse and read public writing routes, then move between notes and selected project stories without runtime data dependencies.
-**Depends on**: Phase 14
-**Requirements**: ROUTE-01, ROUTE-02, ROUTE-03, ROUTE-04, READ-01, READ-02, READ-03, LINK-02
-**Success Criteria** (what must be TRUE):
-
-1. Visitor can reach `/writing` from the site navigation and see only public writing entries in curated or reverse-chronological order.
-1. Visitor can open static `/writing/{slug}` detail pages for every public writing entry and understand each entry's main idea, context, relevance, and body content before hydration.
-1. Hidden, draft, archived-only, unpublished, or missing writing slugs do not expose private content or create public detail pages.
-1. Visitor can move from a writing detail page to related selected project stories, and selected project detail pages can show related writing derived from writing data.
-1. Writing index and detail pages remain readable in the dark-primary interface on desktop and mobile, with accessible headings and stable text wrapping for long titles, links, and note content.
-
-**Plans**: 4/4 plans complete
-Plans:
-- [x] 15-01-PLAN.md — Route/domain contracts, project-to-writing lookup, and writing link href safety.
-- [x] 15-02-PLAN.md — Public writing index and detail routes with dark-primary reading UI.
-- [x] 15-03-PLAN.md — Related writing panel on selected project detail pages.
-- [x] 15-04-PLAN.md — Static output, browser, and visual verification evidence for writing routes.
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 16: Writing Metadata and Structured Data
+### Phase 20: Theme Routes and Dark UI
 
-**Goal**: Writing routes are discoverable as static pages with metadata, structured data, sitemap behavior, and social-preview fallback derived from writing helpers.
-**Depends on**: Phase 15
+**Goal**: Visitors can browse and read static theme routes that synthesize Peter's work in the established dark-primary interface.
+**Depends on**: Phase 19
+**Requirements**: ROUTE-01, ROUTE-02, ROUTE-03, ROUTE-04, SYNTH-01, SYNTH-04
+**Success Criteria** (what must be TRUE):
+
+1. Visitor can open `/themes` and see public theme paths presented as curated entry points into Peter's work.
+1. Visitor can open stable `/themes/{slug}` static detail pages for every public theme path and understand each theme's main idea, why it matters, representative proof points, and connection to Peter's projects and writing before hydration.
+1. Clean static builds prerender `/themes` and every public theme detail route, while hidden, unsupported, or invalid theme records do not create public pages or leak private content through fallback routes.
+1. Theme index and detail pages preserve the dark-primary responsive interface with accessible headings, readable text hierarchy, keyboard reachability, and stable text wrapping on desktop and mobile.
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 21: Collaboration Pathways and Cross-Links
+
+**Goal**: Visitors can move from theme paths into related projects, writing, and useful collaboration starting points without making identity links the primary call to action.
+**Depends on**: Phase 20
+**Requirements**: SYNTH-02, SYNTH-03, COLLAB-01, COLLAB-02, COLLAB-03
+**Success Criteria** (what must be TRUE):
+
+1. Visitor can move from theme detail pages to related selected project stories and public writing entries through helper-derived relationships.
+1. Visitor can find related theme links on project and writing surfaces when those links clarify the content graph without overwhelming the primary project or writing narrative.
+1. Visitor can identify a useful collaboration starting point for each theme, including reviewed source links, live surfaces, relevant writing, and practical next actions when available.
+1. Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data without introducing unreviewed external-link sources or live reachability claims.
+1. OpenLinks remains discoverable as a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA.
+
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 22: Theme Metadata and Structured Data
+
+**Goal**: Theme routes are discoverable through static metadata, structured data, sitemap behavior, and social-preview fallback derived from theme helpers.
+**Depends on**: Phase 21
 **Requirements**: META-01, META-02, META-03, META-04
 **Success Criteria** (what must be TRUE):
 
-1. Crawlers and social previews can read route-specific title, description, canonical URL, Open Graph, and Twitter metadata for `/writing` and each public writing detail route.
-1. Writing detail routes render static `BlogPosting` JSON-LD and the writing index renders static collection or `ItemList` JSON-LD before hydration.
-1. Generated sitemap output includes `/writing` and every public writing detail route while excluding hidden, draft, archived-only, or otherwise unpublished writing routes.
-1. Writing routes use the checked-in static social preview fallback or documented deterministic support without adding runtime image generation or server endpoints.
+1. Crawlers and social previews can read route-specific title, description, canonical URL, Open Graph, and Twitter metadata for `/themes` and every public theme detail route.
+1. Theme index and detail routes render static structured data before hydration using helper-derived theme, project, writing, and profile relationships.
+1. Generated sitemap output includes `/themes` and every public theme detail route while excluding hidden, unsupported, or invalid theme routes.
+1. Theme routes use the checked-in static social preview fallback or deterministic static support without runtime image generation or server endpoints.
 
-**Plans**: 2/2 complete
+**Plans**: TBD
+**UI hint**: yes
 
-### Phase 17: Writing Verification and Release Contract
+### Phase 23: Theme Verification and Release Contract
 
-**Goal**: The release gate proves writing routes, metadata, cross-links, accessibility coverage, and release evidence without overclaiming manual or hosted checks.
-**Depends on**: Phase 16
+**Goal**: The release gate proves theme routes, metadata, cross-links, collaboration paths, and accessibility coverage through automated checks that actually run.
+**Depends on**: Phase 22
 **Requirements**: VERIFY-01, VERIFY-02, VERIFY-03, VERIFY-04
 **Success Criteria** (what must be TRUE):
 
-1. Static verification checks generated writing HTML for expected content, metadata, JSON-LD, sitemap inclusion and exclusion, related-project links, and forbidden runtime API residue.
-1. Browser release checks include writing routes for axe, dark desktop and mobile readability, keyboard reachability, and reduced-motion behavior where relevant.
-1. Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
-1. The aggregate `bun run verify` gate includes writing coverage, and release evidence labels name only automated writing checks that actually run.
+1. Static verification checks generated theme HTML for expected content, metadata, structured data, sitemap inclusion and exclusion, related project links, related writing links, collaboration links, and forbidden runtime API residue.
+1. Browser release checks include theme routes for axe, dark desktop and mobile layout, keyboard reachability, reduced-motion behavior where relevant, and text-overlap risk.
+1. Release-readiness docs and checks identify theme route coverage as part of `bun run install:browser && bun run verify`.
+1. The aggregate `bun run verify` gate passes with theme routes included, and release evidence labels name only automated theme coverage that actually runs.
 
-**Plans**: 1/1 complete
-Plans:
-- [x] 17-01-PLAN.md — Writing release coverage across browser, static, release-readiness, release labels, and aggregate verification.
-
-### Phase 18: Static Verifier Modularization
-
-**Goal**: Maintainers can evolve writing and project generated-output assertions without keeping all static verification logic in one oversized script.
-**Depends on**: Phase 17
-**Requirements**: MAINT-01
-**Gap Closure**: Closes the non-blocking tech debt from `.planning/v1.3-MILESTONE-AUDIT.md` for `VERIFY-01`.
-**Success Criteria** (what must be TRUE):
-
-1. Static verification keeps the existing CLI contract and assertion coverage while moving writing, project, metadata, JSON-LD, sitemap, assets, and robots checks into focused modules or named verifier helpers.
-1. `scripts/verify-static.ts` becomes a thin orchestrator under the Bright Builds large-file refactor trigger, with reusable assertions living in repo-owned TypeScript files.
-1. Focused tests or fixture-backed checks prove the split preserves writing route coverage, project detail coverage, metadata/JSON-LD checks, sitemap inclusion/exclusion, unsafe href guards, and release evidence output.
-1. `bun run verify:static` and the aggregate `bun run verify` gate pass without changing visitor-facing behavior or release-readiness claims.
-
-**Plans**: 0/1 planned
+**Plans**: TBD
+**UI hint**: yes
 
 ## Progress
 
+**Execution Order:** Phase 19 -> Phase 20 -> Phase 21 -> Phase 22 -> Phase 23
+
 | Phase | Milestone | Plans Complete | Status | Completed |
 | --- | --- | --- | --- | --- |
-| 1. Static App Foundation & UI Shell | v1.0 | 2/2 | Complete | 2026-05-24 |
-| 01.1. Dark-Primary Visual Rule and Shell Refactor | v1.0 | 1/1 | Complete | 2026-05-25 |
-| 2. Curated Content Model | v1.0 | 2/2 | Complete | 2026-05-26 |
-| 3. Portfolio Surfaces & SEO | v1.0 | 3/3 | Complete | 2026-05-26 |
-| 4. Visual System & Motion | v1.0 | 3/3 | Complete | 2026-05-26 |
-| 5. GitHub Enrichment & Release Verification | v1.0 | 3/3 | Complete | 2026-05-27 |
-| 6. Browser & Accessibility Release Automation | v1.1 | 1/1 | Complete | 2026-05-31 |
-| 7. Release Gates & Deploy Readiness | v1.1 | 1/1 | Complete | 2026-05-31 |
-| 8. Content Helper Surface Cleanup | v1.1 | 1/1 | Complete | 2026-05-31 |
-| 9. Clean Builder Release Gate Closure | v1.1 | 1/1 | Complete | 2026-06-01 |
-| 10. Project Detail Route Foundation | v1.2 | 1/1 | Complete | 2026-06-02 |
-| 11. Project Story Page UI | v1.2 | 1/1 | Complete | 2026-06-02 |
-| 12. Project Metadata & Sharing | v1.2 | 1/1 | Complete | 2026-06-02 |
-| 13. Project Page Release Coverage | v1.2 | 1/1 | Complete | 2026-06-03 |
-| 14. Writing Domain Foundation | v1.3 | 2/2 | Complete    | 2026-06-03 |
-| 15. Writing Routes and Dark UI | v1.3 | 4/4 | Complete    | 2026-06-13 |
-| 16. Writing Metadata and Structured Data | v1.3 | 2/2 | Complete    | 2026-06-14 |
-| 17. Writing Verification and Release Contract | v1.3 | 1/1 | Complete    | 2026-06-14 |
-| 18. Static Verifier Modularization | v1.3 | 1/1 | Complete    | 2026-06-16 |
+| 19. Theme Domain Foundation | v1.4 | 0/TBD | Not started | - |
+| 20. Theme Routes and Dark UI | v1.4 | 0/TBD | Not started | - |
+| 21. Collaboration Pathways and Cross-Links | v1.4 | 0/TBD | Not started | - |
+| 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
+| 23. Theme Verification and Release Contract | v1.4 | 0/TBD | Not started | - |
+
+## Requirement Coverage
+
+| Requirement | Phase |
+| --- | --- |
+| THEME-01 | Phase 19 |
+| THEME-02 | Phase 19 |
+| THEME-03 | Phase 19 |
+| THEME-04 | Phase 19 |
+| ROUTE-01 | Phase 20 |
+| ROUTE-02 | Phase 20 |
+| ROUTE-03 | Phase 20 |
+| ROUTE-04 | Phase 20 |
+| SYNTH-01 | Phase 20 |
+| SYNTH-04 | Phase 20 |
+| SYNTH-02 | Phase 21 |
+| SYNTH-03 | Phase 21 |
+| COLLAB-01 | Phase 21 |
+| COLLAB-02 | Phase 21 |
+| COLLAB-03 | Phase 21 |
+| META-01 | Phase 22 |
+| META-02 | Phase 22 |
+| META-03 | Phase 22 |
+| META-04 | Phase 22 |
+| VERIFY-01 | Phase 23 |
+| VERIFY-02 | Phase 23 |
+| VERIFY-03 | Phase 23 |
+| VERIFY-04 | Phase 23 |
+
+**Coverage:** 23/23 v1.4 requirements mapped. No orphaned or duplicate requirement mappings.
 
 ## Next
 
-Plan and execute Phase 18, then rerun `/gsd-audit-milestone` before `/gsd-complete-milestone`.
+Run `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`.
