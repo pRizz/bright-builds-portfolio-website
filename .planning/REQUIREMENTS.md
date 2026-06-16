@@ -50,7 +50,7 @@ Requirements for the writing and notes milestone. Each requirement maps to exact
 
 ### Maintenance Cleanup
 
-- [ ] **MAINT-01**: Static verification is split into focused, repo-owned TypeScript modules or helpers so writing and project generated-output assertions remain maintainable while preserving existing `verify:static` and aggregate release coverage.
+- [x] **MAINT-01**: Static verification is split into focused, repo-owned TypeScript modules or helpers so writing and project generated-output assertions remain maintainable while preserving existing `verify:static` and aggregate release coverage.
 
 ## Future Requirements
 
@@ -115,7 +115,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VERIFY-02 | Phase 17 | Complete |
 | VERIFY-03 | Phase 17 | Complete |
 | VERIFY-04 | Phase 17 | Complete |
-| MAINT-01 | Phase 18 | Pending |
+| MAINT-01 | Phase 18 | Complete |
 
 **Coverage:**
 

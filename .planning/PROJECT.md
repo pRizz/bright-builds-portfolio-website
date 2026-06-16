@@ -16,6 +16,8 @@ v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagsh
 
 v1.3 Phase 17 completed on 2026-06-14. The site now has a typed checked-in writing registry, public `/writing` and `/writing/{slug}` static routes, selected-project writing cross-links, helper-derived route metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, static social preview fallback verification, and explicit writing route release coverage across browser, static, release-readiness, release-label, and aggregate clean-builder gates.
 
+v1.3 Phase 18 completed on 2026-06-16. The static verifier now keeps its existing `verify:static` CLI contract through a thin entrypoint while route text, generated HTML, metadata/JSON-LD, sitemap, robots, asset, and forbidden-output assertions live in focused import-safe TypeScript modules with targeted regression coverage.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing and project route coverage, static output verification, and release verification over `.output/public`.
 
 ## Current Milestone: v1.3 Writing & Notes Surface
@@ -54,6 +56,7 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 15] v1.3 gives visitors dark-primary static `/writing` index and `/writing/{slug}` detail routes with authored entries, related project links, fallback behavior, responsive dark UI, and route-derived prerendering.
 - [x] [Phase 16] v1.3 gives writing routes helper-derived static metadata, BlogPosting/ItemList JSON-LD, route-derived sitemap coverage, and checked-in social-preview fallback verification without runtime image generation.
 - [x] [Phase 17] v1.3 gives writing routes explicit release verification and release-contract coverage across aggregate gates, browser evidence, static checks, release-readiness docs, and truthful automated evidence labels.
+- [x] [Phase 18] v1.3 splits static verification into focused repo-owned TypeScript modules while preserving `verify:static`, helper-derived writing/project/generated-output coverage, and the aggregate release gate.
 
 ### Active
 
@@ -119,6 +122,7 @@ v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a smal
 | Writing route UI stays dark-primary and static | Writing should extend the portfolio without adding CMS/runtime fetches or weakening the established dark design system. | Phase 15 adds the `/writing` index, public detail pages, related project cross-links, non-leaking fallback, and responsive dark UI checks. |
 | Writing discovery metadata derives from helper contracts | Static writing pages need crawler/social metadata without route-level duplication, runtime image generation, or duplicated OpenLinks promotion. | Phase 16 adds `metadataForWritingEntry()`, `writingBlogPostingJsonLd()`, `writingItemListJsonLd()`, static verifier coverage, and social fallback reuse through profile/SEO helpers. |
 | Writing release coverage stays local and truthful | The release contract should prove writing route coverage without claiming hosted audits, live-link crawling, or manual checks as automated evidence. | Phase 17 adds helper-derived writing browser checks, release-readiness document guards, exact primary identity link checks, `writing route coverage` evidence labels, and clean-builder aggregate verification. |
+| Static verifier logic is modularized by concern | The v1.3 audit identified `scripts/verify-static.ts` as maintainability debt after writing and project coverage accumulated in one oversized file. | Phase 18 reduces the CLI to a thin entrypoint and moves output, route text, HTML, metadata/JSON-LD, sitemap/assets/robots, and residue checks into focused import-safe modules with targeted tests. |
 
 ## Evolution
 
@@ -141,4 +145,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-14 after Phase 17 completion*
+*Last updated: 2026-06-16 after Phase 18 completion*
