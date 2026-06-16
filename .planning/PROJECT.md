@@ -18,7 +18,7 @@ v1.3 shipped on 2026-06-16 as the Writing & Notes Surface milestone. The site no
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing and project route coverage, static output verification, and release verification over `.output/public`.
 
-v1.4 is starting as the Theme Paths & Collaboration Surface milestone. The milestone will turn the existing project stories and writing routes into curated theme paths that help visitors choose an entry point into Peter's work and understand how to collaborate without adding runtime services, analytics, CMS/admin tooling, or dynamic Open Graph endpoints.
+v1.4 is underway as the Theme Paths & Collaboration Surface milestone. Phase 19 established typed checked-in theme domain data, public theme helper contracts, slug-only project and writing relationships, structured theme validation, and curation-gate coverage. The remaining v1.4 phases will turn that trusted domain layer into static theme routes, collaboration pathways, metadata, sitemap behavior, browser coverage, and release verification without adding runtime services, analytics, CMS/admin tooling, or dynamic Open Graph endpoints.
 
 ## Current Milestone: v1.4 Theme Paths & Collaboration Surface
 
@@ -57,11 +57,11 @@ v1.4 is starting as the Theme Paths & Collaboration Surface milestone. The miles
 - [x] [Phase 16] v1.3 gives writing routes helper-derived static metadata, BlogPosting/ItemList JSON-LD, route-derived sitemap coverage, and checked-in social-preview fallback verification without runtime image generation.
 - [x] [Phase 17] v1.3 gives writing routes explicit release verification and release-contract coverage across aggregate gates, browser evidence, static checks, release-readiness docs, and truthful automated evidence labels.
 - [x] [Phase 18] v1.3 splits static verification into focused repo-owned TypeScript modules while preserving `verify:static`, helper-derived writing/project/generated-output coverage, and the aggregate release gate.
+- [x] [Phase 19] v1.4 establishes typed theme domain data, public theme helper contracts, selected-project/public-writing relationship resolution, and curation-gate validation for unknown, unsupported, hidden, or unpublished references.
 
 ### Active
 
 - [ ] [v1.4] Visitors can browse curated theme paths that synthesize existing project stories and writing into clear technical entry points.
-- [ ] [v1.4] Maintainers can evolve theme relationships through typed checked-in data with validation for unknown, hidden, or unsupported references.
 - [ ] [v1.4] Visitors can find theme-aware collaboration paths without weakening the existing static deployment, dark-primary UI, or low-intrusion OpenLinks identity placement.
 - [ ] [v1.4] Theme routes have metadata, structured data, sitemap coverage, browser checks, and release-readiness verification in the aggregate gate.
 
@@ -126,6 +126,7 @@ v1.3 shipped with 5 phases, 10 plans, 18 recorded tasks, writing route coverage,
 | Writing release coverage stays local and truthful | The release contract should prove writing route coverage without claiming hosted audits, live-link crawling, or manual checks as automated evidence. | Phase 17 adds helper-derived writing browser checks, release-readiness document guards, exact primary identity link checks, `writing route coverage` evidence labels, and clean-builder aggregate verification. |
 | Static verifier logic is modularized by concern | The v1.3 audit identified `scripts/verify-static.ts` as maintainability debt after writing and project coverage accumulated in one oversized file. | Phase 18 reduces the CLI to a thin entrypoint and moves output, route text, HTML, metadata/JSON-LD, sitemap/assets/robots, and residue checks into focused import-safe modules with targeted tests. |
 | Theme paths come before content operations | Projects and writing now exist as separate strong surfaces; the next core-value improvement is helping visitors choose a coherent path into the work. | v1.4 scopes static curated theme paths and collaboration cues while deferring CMS/admin, analytics, comments/newsletter, dynamic OG endpoints, and runtime content fetches. |
+| Theme domain stays validated before routes | Theme routes, metadata, and collaboration UI need trustworthy relationships before visitor-facing surfaces consume theme data. | Phase 19 adds `curatedThemes`, public theme selectors, `/themes/{slug}` path helpers, slug-only project/writing relationship resolvers, structured validation, focused tests, and `verify:curation` integration while deferring route/UI/metadata/release work to Phases 20-23. |
 
 ## Evolution
 
@@ -148,4 +149,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-16 after v1.4 milestone start*
+*Last updated: 2026-06-16 after Phase 19 completion*
