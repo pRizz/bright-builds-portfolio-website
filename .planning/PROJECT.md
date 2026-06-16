@@ -14,23 +14,23 @@ Help visitors quickly understand what Peter builds, why it matters, and which pr
 
 v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagship projects now have typed detail-page story data, deterministic `/projects/{slug}` routes, prerendered static HTML, readable narrative pages, route-specific metadata, SoftwareSourceCode JSON-LD, sitemap coverage, and explicit project-detail release coverage across static, browser, and release-readiness checks.
 
-v1.3 Phase 17 completed on 2026-06-14. The site now has a typed checked-in writing registry, public `/writing` and `/writing/{slug}` static routes, selected-project writing cross-links, helper-derived route metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, static social preview fallback verification, and explicit writing route release coverage across browser, static, release-readiness, release-label, and aggregate clean-builder gates.
-
-v1.3 Phase 18 completed on 2026-06-16. The static verifier now keeps its existing `verify:static` CLI contract through a thin entrypoint while route text, generated HTML, metadata/JSON-LD, sitemap, robots, asset, and forbidden-output assertions live in focused import-safe TypeScript modules with targeted regression coverage.
+v1.3 shipped on 2026-06-16 as the Writing & Notes Surface milestone. The site now has a typed checked-in writing registry, public `/writing` and `/writing/{slug}` static routes, selected-project writing cross-links, helper-derived route metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, static social preview fallback verification, explicit writing route release coverage, and modular static verification helpers.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing and project route coverage, static output verification, and release verification over `.output/public`.
 
-## Current Milestone: v1.3 Writing & Notes Surface
+v1.4 is starting as the Theme Paths & Collaboration Surface milestone. The milestone will turn the existing project stories and writing routes into curated theme paths that help visitors choose an entry point into Peter's work and understand how to collaborate without adding runtime services, analytics, CMS/admin tooling, or dynamic Open Graph endpoints.
 
-**Goal:** Give visitors a curated, static way to read Peter's technical thinking and move between notes and related projects.
+## Current Milestone: v1.4 Theme Paths & Collaboration Surface
+
+**Goal:** Help visitors explore Peter's work by durable themes and move from those themes into relevant projects, writing, proof points, and collaboration paths.
 
 **Target features:**
 
-- Typed checked-in writing/notes registry with curated entries.
-- `/writing` index plus static `/writing/{slug}` note routes.
-- Bidirectional project/note links so project pages can point to related writing and notes can point back to related projects.
-- Route-specific metadata, JSON-LD, sitemap coverage, and release verification for writing routes.
-- Dark-primary responsive UI with browser/accessibility/reduced-motion coverage in the aggregate gate.
+- Typed checked-in theme registry for agentic engineering, open identity, Bitcoin/open systems, and web tooling style paths.
+- `/themes` index plus static `/themes/{slug}` detail routes that synthesize related projects, writing, proof points, and collaboration angles.
+- Theme-aware links from project and writing surfaces where those links clarify the existing content graph.
+- Collaboration panels that point visitors to reviewed source, live surfaces, writing context, GitHub, and the existing low-intrusion OpenLinks identity hub without making OpenLinks the primary CTA.
+- Route-specific metadata, structured data, sitemap coverage, and release verification for theme routes.
 
 ## Requirements
 
@@ -60,8 +60,10 @@ The current release is verified by `bun run install:browser && bun run verify` o
 
 ### Active
 
-- [ ] [Future] Decide whether richer project-specific raster Open Graph images or content operations should follow after the writing surface.
-- [ ] [Future] Evaluate whether large release verifier modules need a maintenance split before the next release-gate expansion.
+- [ ] [v1.4] Visitors can browse curated theme paths that synthesize existing project stories and writing into clear technical entry points.
+- [ ] [v1.4] Maintainers can evolve theme relationships through typed checked-in data with validation for unknown, hidden, or unsupported references.
+- [ ] [v1.4] Visitors can find theme-aware collaboration paths without weakening the existing static deployment, dark-primary UI, or low-intrusion OpenLinks identity placement.
+- [ ] [v1.4] Theme routes have metadata, structured data, sitemap coverage, browser checks, and release-readiness verification in the aggregate gate.
 
 ### Out of Scope
 
@@ -86,7 +88,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 
 v1.0 shipped with 6 phases, 14 plans, 40 recorded tasks, 38 completed requirements, and milestone audit status `tech_debt` with no functional blockers. v1.1 shipped with 4 phases, 4 plans, 13 recorded tasks, 15 completed requirements, and milestone audit status `passed`. v1.2 shipped with 4 phases, 4 plans, 9 recorded tasks, 19 completed requirements, and milestone audit status `passed`.
 
-v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a small curated static writing layer before richer social-image generation or CMS/admin tooling.
+v1.3 shipped with 5 phases, 10 plans, 18 recorded tasks, writing route coverage, project-writing cross-links, and modular static verification. v1.4 starts from the observation that the site now has strong individual surfaces, but visitors still need a better synthesis layer that explains the durable themes across those surfaces.
 
 ## Constraints
 
@@ -123,6 +125,7 @@ v1.3 starts from the approved Writing & Notes Surface scope, prioritizing a smal
 | Writing discovery metadata derives from helper contracts | Static writing pages need crawler/social metadata without route-level duplication, runtime image generation, or duplicated OpenLinks promotion. | Phase 16 adds `metadataForWritingEntry()`, `writingBlogPostingJsonLd()`, `writingItemListJsonLd()`, static verifier coverage, and social fallback reuse through profile/SEO helpers. |
 | Writing release coverage stays local and truthful | The release contract should prove writing route coverage without claiming hosted audits, live-link crawling, or manual checks as automated evidence. | Phase 17 adds helper-derived writing browser checks, release-readiness document guards, exact primary identity link checks, `writing route coverage` evidence labels, and clean-builder aggregate verification. |
 | Static verifier logic is modularized by concern | The v1.3 audit identified `scripts/verify-static.ts` as maintainability debt after writing and project coverage accumulated in one oversized file. | Phase 18 reduces the CLI to a thin entrypoint and moves output, route text, HTML, metadata/JSON-LD, sitemap/assets/robots, and residue checks into focused import-safe modules with targeted tests. |
+| Theme paths come before content operations | Projects and writing now exist as separate strong surfaces; the next core-value improvement is helping visitors choose a coherent path into the work. | v1.4 scopes static curated theme paths and collaboration cues while deferring CMS/admin, analytics, comments/newsletter, dynamic OG endpoints, and runtime content fetches. |
 
 ## Evolution
 
@@ -145,4 +148,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-16 after Phase 18 completion*
+*Last updated: 2026-06-16 after v1.4 milestone start*

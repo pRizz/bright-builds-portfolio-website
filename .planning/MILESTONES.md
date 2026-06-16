@@ -1,5 +1,26 @@
 # Milestones
 
+## v1.3 Writing & Notes Surface (Shipped: 2026-06-16)
+
+**Phases completed:** 5 phases, 10 plans, 18 tasks
+**Audit:** tech_debt — 23/23 requirements satisfied after Phase 18 closed the non-blocking static verifier maintenance item
+**Archives:** `milestones/v1.3-ROADMAP.md`, `milestones/v1.3-REQUIREMENTS.md`, `milestones/v1.3-MILESTONE-AUDIT.md`, `milestones/v1.3-phases/`
+
+**Key accomplishments:**
+
+- Typed writing registry with published-only selectors, `/writing/{slug}` path helpers, and selected-project relationship resolution
+- Structured writing curation validation with curation-gate integration
+- Writing route registry contracts with public project cross-links and unsafe authored-link validation
+- Static writing index and detail routes with direct typed body rendering and dark-primary readability CSS
+- Selected project detail pages now show public related writing from the writing registry without adding reciprocal project fields
+- Writing routes are now proven through static HTML assertions, unsafe href guards, and route-derived Playwright browser checks
+- Pure writing metadata and structured-data helpers
+- Generated writing metadata and static verifier coverage
+- Writing route coverage now runs through the existing browser, static, release-readiness, and release evidence gates
+- Static verifier split into import-safe concern modules while preserving generated-output release coverage
+
+---
+
 ## v1.2 Project Story Pages (Shipped: 2026-06-03)
 
 **Phases completed:** 4 phases, 4 plans, 9 tasks

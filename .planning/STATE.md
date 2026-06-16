@@ -1,20 +1,20 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: Writing & Notes Surface
-current_phase: 18
-current_phase_name: Static Verifier Modularization
-current_plan: 18-01-PLAN.md
-status: complete
-stopped_at: Phase 18 complete; v1.3 phase work ready for milestone audit/completion
-last_updated: "2026-06-16T01:36:16.052Z"
+milestone: v1.4
+milestone_name: Theme Paths & Collaboration Surface
+current_phase: 19
+current_phase_name: Theme Domain Foundation
+current_plan: null
+status: ready_for_phase
+stopped_at: Milestone v1.4 initialized; ready to discuss or plan Phase 19
+last_updated: "2026-06-16T14:32:32.188Z"
 last_activity: 2026-06-16
 progress:
   total_phases: 5
-  completed_phases: 5
-  total_plans: 10
-  completed_plans: 10
-  percent: 100
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-16)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 18 — Static Verifier Modularization
+**Current focus:** Phase 19 — Theme Domain Foundation
 
 ## Current Position
 
-Current Phase: 18
-Current Phase Name: Static Verifier Modularization
-Current Plan: 18-01-PLAN.md
+Current Phase: 19
+Current Phase Name: Theme Domain Foundation
+Current Plan: —
 Total Phases: 5
-Total Plans in Phase: 1
-Phase: 18 (Static Verifier Modularization) — COMPLETE
-Plan: 1 of 1
-Status: Phase complete — ready for milestone audit/completion
+Total Plans in Phase: —
+Phase: 19 (Theme Domain Foundation) — NOT STARTED
+Plan: —
+Status: Milestone v1.4 initialized — ready to discuss or plan Phase 19
 Last activity: 2026-06-16
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -47,21 +47,22 @@ Progress: [██████████] 100%
 - v1.0 plans completed: 14
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
-- Active milestone plans completed: 9
-- Active milestone plan count: 10 planned
+- v1.3 plans completed: 10
+- Active milestone plans completed: 0
+- Active milestone plan count: 0 planned
 
 **By Phase:**
 
-- Phase 14: Writing Domain Foundation — Complete (2/2 plans, verified 2026-06-03)
-- Phase 15: Writing Routes and Dark UI — Complete (4/4 plans, verified 2026-06-13)
-- Phase 16: Writing Metadata and Structured Data — Complete (2/2 plans, verified 2026-06-14)
-- Phase 17: Writing Verification and Release Contract — Complete (1/1 plan, verified 2026-06-14)
-- Phase 18: Static Verifier Modularization — Complete (1/1 plan, verified 2026-06-16)
+- Phase 19: Theme Domain Foundation — Not started
+- Phase 20: Theme Routes and Dark UI — Pending
+- Phase 21: Collaboration Pathways and Cross-Links — Pending
+- Phase 22: Theme Metadata and Structured Data — Pending
+- Phase 23: Theme Verification and Release Contract — Pending
 
 **Recent Trend:**
 
 - Last completed work: Phase 18 modularized the static verifier while preserving writing/project generated-output coverage and the aggregate clean-builder gate on 2026-06-16.
-- Trend: v1.3 phase work is complete; the milestone is ready for audit/completion.
+- Trend: v1.4 starts from strong project and writing surfaces; the next product step is a synthesis layer that helps visitors choose a theme path and collaboration entry point.
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 - [v1.3 milestone]: Add a curated static writing and notes surface before richer social-image generation or CMS/admin tooling.
 - [v1.3 roadmap]: Use four coarse phases: writing domain foundation, writing routes and dark UI, writing metadata and structured data, and writing verification and release contract.
 - [Phase 14]: Writing domain data stays in typed checked-in TypeScript with pure helpers and curation validation before any public route, metadata, sitemap, or UI consumption.
+- [Phase 18]: Static verification stays behind the existing `verify:static` CLI while generated-output assertions live in focused import-safe TypeScript modules.
+- [v1.4 milestone]: Theme paths synthesize existing project and writing surfaces before CMS/admin, analytics, comments/newsletter, or dynamic Open Graph work.
+- [v1.4 scope]: Keep OpenLinks as a subtle identity hub in footer/profile/contact/metadata surfaces; theme collaboration panels should not turn OpenLinks into the primary CTA.
 
 ### Pending Todos
 
@@ -97,7 +101,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-16T01:29:31.665Z
-Stopped at: Phase 18 complete; v1.3 phase work ready for milestone audit/completion
-Resume file: .planning/phases/18-static-verifier-modularization/18-VERIFICATION.md
-Next action: run `/gsd-audit-milestone`
+Last session: 2026-06-16T14:32:32.188Z
+Stopped at: Milestone v1.4 initialized; ready to discuss or plan Phase 19
+Resume file: .planning/ROADMAP.md
+Next action: run `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`
