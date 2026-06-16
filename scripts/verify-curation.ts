@@ -1,11 +1,15 @@
 import { validateProjectRegistry } from "../src/domain/project-validation";
 import { curatedProjects } from "../src/domain/projects";
+import { validateThemeRegistry } from "../src/domain/theme-validation";
+import { curatedThemes } from "../src/domain/themes";
 import { curatedWriting } from "../src/domain/writing";
 import { validateWritingRegistry } from "../src/domain/writing-validation";
 
 const projectResult = validateProjectRegistry(curatedProjects);
 const writingResult = validateWritingRegistry(curatedWriting);
-const warningCount = projectResult.warnings.length + writingResult.warnings.length;
+const themeResult = validateThemeRegistry(curatedThemes);
+const warningCount =
+  projectResult.warnings.length + writingResult.warnings.length + themeResult.warnings.length;
 
 for (const warning of projectResult.warnings) {
   console.warn(`[curation warning] ${warning.slug}: ${warning.code} - ${warning.message}`);
@@ -15,7 +19,11 @@ for (const warning of writingResult.warnings) {
   console.warn(`[curation warning] writing/${warning.slug}: ${warning.code} - ${warning.message}`);
 }
 
-if (projectResult.errors.length + writingResult.errors.length > 0) {
+for (const warning of themeResult.warnings) {
+  console.warn(`[curation warning] theme/${warning.slug}: ${warning.code} - ${warning.message}`);
+}
+
+if (projectResult.errors.length + writingResult.errors.length + themeResult.errors.length > 0) {
   for (const error of projectResult.errors) {
     console.error(`[curation error] ${error.slug}: ${error.code} - ${error.message}`);
   }
@@ -24,9 +32,13 @@ if (projectResult.errors.length + writingResult.errors.length > 0) {
     console.error(`[curation error] writing/${error.slug}: ${error.code} - ${error.message}`);
   }
 
+  for (const error of themeResult.errors) {
+    console.error(`[curation error] theme/${error.slug}: ${error.code} - ${error.message}`);
+  }
+
   process.exit(1);
 }
 
 console.log(
-  `Curated registries valid: ${curatedProjects.length} projects, ${curatedWriting.length} writing entries, ${warningCount} warnings.`,
+  `Curated registries valid: ${curatedProjects.length} projects, ${curatedWriting.length} writing entries, ${curatedThemes.length} themes, ${warningCount} warnings.`,
 );
