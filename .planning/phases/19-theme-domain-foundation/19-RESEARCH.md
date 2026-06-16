@@ -476,16 +476,18 @@ The exact public helper names in this export test are recommended names; the loc
 | A3 | Illustrative seed theme copy should be replaced or reviewed before implementation. [ASSUMED] | Code Examples | Medium; inaccurate seed copy would violate content-quality constraints and THEME-04's source-of-truth boundary. |
 | A4 | STRIDE classifications in Security Domain are threat-model labels inferred from the phase scope. [ASSUMED] | Security Domain | Low; mitigations are still grounded in verified phase requirements and local code patterns. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **How many public seed themes should Phase 19 check in?**
+   - RESOLVED: Phase 19 should check in exactly two public seed themes: `agentic-engineering` and `open-identity`. This keeps the initial public registry accurate because both themes can connect selected project detail pages with existing public writing entries.
    - What we know: v1.4 project context names target paths around agentic engineering, open identity, Bitcoin/open systems, and web tooling; current public writing contains `agentic-engineering-workflows` and `portable-identity-and-owned-surfaces`. [VERIFIED: .planning/PROJECT.md; VERIFIED: src/domain/writing.ts]
-   - What's unclear: Whether every named target path can be made accurate now while also requiring at least one public writing relation per theme. [VERIFIED: 19-CONTEXT.md; VERIFIED: src/domain/writing.ts]
+   - Resolution boundary: Bitcoin/open systems and web tooling themes can wait until enough public writing relationships exist or later phases deliberately loosen the relationship model. [VERIFIED: 19-CONTEXT.md; VERIFIED: src/domain/writing.ts]
    - Recommendation: Prefer a small public seed set that accurately connects existing selected project detail pages with existing public writing, and cover hidden/draft/unsupported behavior with test fixtures rather than weak checked-in public records. [VERIFIED: 19-CONTEXT.md; ASSUMED]
 
 2. **Should `relatedProjectSlugs` and `relatedWritingSlugs` be non-empty tuple types?**
+   - RESOLVED: Use non-empty tuple types for normal authored theme records: `readonly [string, ...string[]]` for `proofPoints`, `relatedProjectSlugs`, and `relatedWritingSlugs`.
    - What we know: Validation must fail when related project or writing slugs are missing. [VERIFIED: 19-CONTEXT.md; VERIFIED: .planning/REQUIREMENTS.md]
-   - What's unclear: Whether the planner wants the type layer to make normal authoring non-empty or leave arrays loose and rely on validation. [VERIFIED: 19-CONTEXT.md]
+   - Resolution boundary: Runtime validation still needs to check missing relationships because tests and future data can bypass compile-time tuple guarantees through casts, fixture mutation, or externalized content. [VERIFIED: 19-CONTEXT.md]
    - Recommendation: Use non-empty tuple types for normal records and keep runtime validation for casts, tests, and future data drift. [CITED: standards/core/architecture.md; VERIFIED: src/domain/writing-validation.test.ts; ASSUMED]
 
 ## Environment Availability
