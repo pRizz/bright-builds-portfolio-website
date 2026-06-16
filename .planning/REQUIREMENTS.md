@@ -1,91 +1,88 @@
-# Requirements: Bright Builds Portfolio Website v1.3
+# Requirements: Bright Builds Portfolio Website v1.4
 
-**Defined:** 2026-06-03
-**Milestone:** v1.3 Writing & Notes Surface
+**Defined:** 2026-06-16
+**Milestone:** v1.4 Theme Paths & Collaboration Surface
 **Core Value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
 
-## v1.3 Requirements
+## v1.4 Requirements
 
-Requirements for the writing and notes milestone. Each requirement maps to exactly one roadmap phase.
+Requirements for the theme paths and collaboration milestone. Each requirement maps to exactly one roadmap phase.
 
-### Content Model
+### Theme Model
 
-- [x] **WRITE-01**: Maintainer can define curated writing or note entries in a typed checked-in registry without adding runtime APIs, CMS, MDX, or external content dependencies.
-- [x] **WRITE-02**: Maintainer can mark writing entries as published or hidden/draft so only selected public entries create public static routes.
-- [x] **WRITE-03**: Maintainer can author entry title, summary, date or status, tags or topics, body sections or blocks, and optional related project slugs in a structure that validation can verify.
-- [x] **WRITE-04**: Unit tests cover writing eligibility, slug and path derivation, public/draft exclusion, required field validation, and related project slug integrity.
+- [ ] **THEME-01**: Maintainer can define curated theme paths with slug, title, summary, audience, proof points, collaboration angle, related project slugs, and related writing slugs in typed checked-in data.
+- [ ] **THEME-02**: Maintainer can ask theme helpers for public theme entries, stable `/themes/{slug}` paths, and ordered theme lists without adding runtime APIs, CMS, MDX, parser pipelines, or external content dependencies.
+- [ ] **THEME-03**: Unit and curation tests fail for duplicate or invalid theme slugs, missing required fields, unsupported theme status, unknown project slugs, unknown writing slugs, hidden project references, or unpublished writing references.
+- [ ] **THEME-04**: Theme model decisions keep the existing project and writing registries authoritative instead of duplicating authored project or writing content inside theme records.
 
-### Writing Routes
+### Theme Routes
 
-- [x] **ROUTE-01**: Visitor can open a stable `/writing` index listing public writing entries in curated or reverse-chronological order.
-- [x] **ROUTE-02**: Visitor can open stable `/writing/{slug}` static detail routes for every public writing entry.
-- [x] **ROUTE-03**: Clean static builds prerender `/writing` and every public writing detail route before hydration.
-- [x] **ROUTE-04**: Hidden, draft, archived-only, or otherwise unpublished writing entries do not create public detail pages.
+- [ ] **ROUTE-01**: Visitor can open a stable `/themes` index listing public theme paths as curated entry points into Peter's work.
+- [ ] **ROUTE-02**: Visitor can open stable `/themes/{slug}` static detail routes for every public theme path.
+- [ ] **ROUTE-03**: Clean static builds prerender `/themes` and every public theme detail route before hydration.
+- [ ] **ROUTE-04**: Hidden, unsupported, or invalid theme records do not create public detail pages or leak private content through fallback routes.
 
-### Reading Experience
+### Synthesis Experience
 
-- [x] **READ-01**: Visitor can understand each writing entry's main idea, context, and relevance from the static detail page.
-- [x] **READ-02**: Writing index and detail pages preserve dark-primary responsive layout, accessible headings, readable body text, and stable text layout on desktop and mobile.
-- [x] **READ-03**: Writing detail pages provide clear paths back to the writing index and onward to related projects when relationships exist.
+- [ ] **SYNTH-01**: Visitor can understand each theme's main idea, why it matters, representative proof points, and connection to Peter's projects and writing from the static theme detail page.
+- [ ] **SYNTH-02**: Visitor can move from theme detail pages to related selected project stories and public writing entries using helper-derived relationships.
+- [ ] **SYNTH-03**: Project and writing surfaces can show related theme links where those links clarify the existing content graph without overwhelming the primary project or writing narrative.
+- [ ] **SYNTH-04**: Theme index and detail pages preserve the dark-primary responsive interface, accessible headings, readable text hierarchy, keyboard reachability, and stable text wrapping on desktop and mobile.
 
-### Project Cross-Links
+### Collaboration Pathways
 
-- [x] **LINK-01**: Writing entries can reference related selected project slugs through typed data.
-- [x] **LINK-02**: Project detail pages can display related writing links derived from writing data without duplicating relationship data on project records.
-- [x] **LINK-03**: Verification fails when a writing entry references an unknown, hidden, or unsupported project slug.
+- [ ] **COLLAB-01**: Visitor can identify a useful collaboration starting point for each theme, including reviewed source links, live surfaces, relevant writing, and practical next actions when available.
+- [ ] **COLLAB-02**: Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data instead of introducing unreviewed external-link sources or live reachability claims.
+- [ ] **COLLAB-03**: OpenLinks remains a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA unless explicitly requested later.
 
 ### Metadata and Discovery
 
-- [x] **META-01**: `/writing` and each writing detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from writing and profile data.
-- [x] **META-02**: Writing detail routes render static `BlogPosting` JSON-LD and the writing index renders appropriate collection or `ItemList` JSON-LD before hydration.
-- [x] **META-03**: Generated sitemap output includes public writing routes and excludes draft or hidden writing routes.
-- [x] **META-04**: Writing routes use the checked-in static social preview fallback or documented deterministic support without runtime image generation.
+- [ ] **META-01**: `/themes` and each public theme detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from theme and profile data.
+- [ ] **META-02**: Theme index and detail routes render static structured data before hydration using helper-derived theme, project, writing, and profile relationships.
+- [ ] **META-03**: Generated sitemap output includes `/themes` and every public theme detail route while excluding hidden, unsupported, or invalid theme routes.
+- [ ] **META-04**: Theme routes use the checked-in static social preview fallback or deterministic static support without runtime image generation or server endpoints.
 
 ### Verification
 
-- [x] **VERIFY-01**: Static verification checks generated writing HTML for expected content, metadata, JSON-LD, sitemap inclusion and exclusion, related-project links, and forbidden runtime API residue.
-- [x] **VERIFY-02**: Browser release checks include writing routes for axe, dark desktop and mobile layout, keyboard reachability, and reduced-motion behavior where relevant.
-- [x] **VERIFY-03**: Release-readiness docs and checks identify writing route coverage as part of `bun run install:browser && bun run verify`.
-- [x] **VERIFY-04**: The aggregate `bun run verify` gate passes with writing routes included and release evidence labels name only automated writing coverage.
-
-### Maintenance Cleanup
-
-- [x] **MAINT-01**: Static verification is split into focused, repo-owned TypeScript modules or helpers so writing and project generated-output assertions remain maintainable while preserving existing `verify:static` and aggregate release coverage.
+- [ ] **VERIFY-01**: Static verification checks generated theme HTML for expected content, metadata, structured data, sitemap inclusion and exclusion, related project links, related writing links, collaboration links, and forbidden runtime API residue.
+- [ ] **VERIFY-02**: Browser release checks include theme routes for axe, dark desktop and mobile layout, keyboard reachability, reduced-motion behavior where relevant, and text-overlap risk.
+- [ ] **VERIFY-03**: Release-readiness docs and checks identify theme route coverage as part of `bun run install:browser && bun run verify`.
+- [ ] **VERIFY-04**: The aggregate `bun run verify` gate passes with theme routes included and release evidence labels name only automated theme coverage that actually runs.
 
 ## Future Requirements
 
-Deferred beyond v1.3. Tracked here so the current milestone can explicitly avoid building a generic blog engine.
+Deferred beyond v1.4. Tracked here so theme paths stay focused on static synthesis and collaboration clarity.
 
 ### Social Images
 
-- **OG-01**: Maintainer can generate richer project and writing raster Open Graph images from deterministic templates.
+- **OG-01**: Maintainer can generate richer project, writing, and theme raster Open Graph images from deterministic templates.
 - **OG-02**: Visitor-visible social previews can vary by content theme without manual image editing.
 
 ### Content Operations
 
-- **CMS-01**: Maintainer can draft, edit, and publish writing through a CMS or admin surface.
-- **CMS-02**: Maintainer can preview unpublished writing before it is published to static output.
+- **CMS-01**: Maintainer can draft, edit, and publish writing or theme copy through a CMS or admin surface.
+- **CMS-02**: Maintainer can preview unpublished content before it is published to static output.
 
-### Writing Enhancements
+### Discovery Enhancements
 
-- **WRITE-FUTURE-01**: Visitor can subscribe to an RSS or Atom feed of public writing.
-- **WRITE-FUTURE-02**: Visitor can search, filter, paginate, or browse tag archive pages if the writing set grows.
-- **WRITE-FUTURE-03**: Visitor can comment, subscribe, or otherwise opt into a newsletter only after there is a clear collaboration need.
+- **DISC-FUTURE-01**: Visitor can search, filter, or browse tag archive pages if project, writing, or theme volume grows enough to require it.
+- **DISC-FUTURE-02**: Visitor can subscribe to RSS, Atom, newsletter, or other update surfaces after there is a clear collaboration need.
+- **DISC-FUTURE-03**: Maintainer can run live external-link reachability automation if release needs justify the network and flake surface.
 
 ## Out of Scope
 
-Explicitly excluded from v1.3 to prevent scope creep.
+Explicitly excluded from v1.4 to prevent scope creep.
 
 | Feature | Reason |
 | --- | --- |
-| CMS, admin UI, database, or auth-backed editor | Typed checked-in content is enough for v1.3 and preserves the static deployment model. |
-| Markdown, MDX, Contentlayer, or parser pipelines | No new content dependencies are needed; typed registry keeps validation, routing, and metadata simple. |
-| RSS, Atom, search, pagination, and tag archive pages | The first writing set should be curated and small; discovery expansion can wait until volume requires it. |
-| Comments, likes, reactions, webmentions, newsletter backend, or analytics stack | These are not core to the portfolio reading path and add operational surface. |
-| Dynamic Open Graph image routes or server endpoints | Static deployment remains the target; v1.3 can reuse the checked-in social preview fallback. |
+| CMS, admin UI, database, auth-backed editor, or preview workflow | Typed checked-in content remains enough and preserves the static deployment model. |
+| Markdown, MDX, Contentlayer, parser pipelines, or external content fetches | Theme paths can compose existing typed project and writing data without new content dependencies. |
+| Search, filters, pagination, tag archive pages, or personalized recommendation flows | The goal is curated theme synthesis, not a generic discovery engine. |
+| Comments, likes, reactions, webmentions, newsletter backend, or analytics stack | These add operational surface and are not required for theme-based collaboration clarity. |
+| Dynamic Open Graph image routes, server endpoints, or runtime image generation | Static deployment remains the target; v1.4 can reuse the checked-in social preview fallback. |
 | Runtime GitHub, Gist, Notion, Substack, RSS, or token-dependent content fetches | Visitor paths must stay static, deterministic, and token-safe. |
-| Generic blog/archive engine or mirrored external writing | v1.3 is a curated writing graph tied to project stories, not a volume publishing platform. |
-| Live external link reachability automation | Existing policy and static verification are sufficient unless a future release gate expands link checks. |
+| Prominent OpenLinks promotion in theme navigation or primary CTAs | OpenLinks should stay discoverable as an identity hub while Bright Builds, projects, writing, and collaboration context remain primary. |
+| Live external link reachability automation | Existing policy and static verification are sufficient unless a future release gate deliberately expands link checks. |
 
 ## Traceability
 
@@ -93,37 +90,37 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| WRITE-01 | Phase 14 | Complete |
-| WRITE-02 | Phase 14 | Complete |
-| WRITE-03 | Phase 14 | Complete |
-| WRITE-04 | Phase 14 | Complete |
-| ROUTE-01 | Phase 15 | Complete |
-| ROUTE-02 | Phase 15 | Complete |
-| ROUTE-03 | Phase 15 | Complete |
-| ROUTE-04 | Phase 15 | Complete |
-| READ-01 | Phase 15 | Complete |
-| READ-02 | Phase 15 | Complete |
-| READ-03 | Phase 15 | Complete |
-| LINK-01 | Phase 14 | Complete |
-| LINK-02 | Phase 15 | Complete |
-| LINK-03 | Phase 14 | Complete |
-| META-01 | Phase 16 | Complete |
-| META-02 | Phase 16 | Complete |
-| META-03 | Phase 16 | Complete |
-| META-04 | Phase 16 | Complete |
-| VERIFY-01 | Phase 17 | Complete |
-| VERIFY-02 | Phase 17 | Complete |
-| VERIFY-03 | Phase 17 | Complete |
-| VERIFY-04 | Phase 17 | Complete |
-| MAINT-01 | Phase 18 | Complete |
+| THEME-01 | Phase 19 | Pending |
+| THEME-02 | Phase 19 | Pending |
+| THEME-03 | Phase 19 | Pending |
+| THEME-04 | Phase 19 | Pending |
+| ROUTE-01 | Phase 20 | Pending |
+| ROUTE-02 | Phase 20 | Pending |
+| ROUTE-03 | Phase 20 | Pending |
+| ROUTE-04 | Phase 20 | Pending |
+| SYNTH-01 | Phase 20 | Pending |
+| SYNTH-04 | Phase 20 | Pending |
+| SYNTH-02 | Phase 21 | Pending |
+| SYNTH-03 | Phase 21 | Pending |
+| COLLAB-01 | Phase 21 | Pending |
+| COLLAB-02 | Phase 21 | Pending |
+| COLLAB-03 | Phase 21 | Pending |
+| META-01 | Phase 22 | Pending |
+| META-02 | Phase 22 | Pending |
+| META-03 | Phase 22 | Pending |
+| META-04 | Phase 22 | Pending |
+| VERIFY-01 | Phase 23 | Pending |
+| VERIFY-02 | Phase 23 | Pending |
+| VERIFY-03 | Phase 23 | Pending |
+| VERIFY-04 | Phase 23 | Pending |
 
 **Coverage:**
 
-- v1.3 requirements: 23 total
+- v1.4 requirements: 23 total
 - Mapped to phases: 23
 - Unmapped: 0
 
 ______________________________________________________________________
 
-*Requirements defined: 2026-06-03*
-*Last updated: 2026-06-15 after milestone audit tech-debt planning*
+*Requirements defined: 2026-06-16*
+*Last updated: 2026-06-16 after v1.4 milestone initialization*
