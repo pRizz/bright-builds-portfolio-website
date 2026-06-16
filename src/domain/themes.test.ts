@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { type WritingEntry } from "./writing";
 import * as themeSurface from "./themes";
 import {
   curatedThemes,
@@ -11,6 +10,7 @@ import {
   themeDetailPath,
   themeDetailRoutes,
 } from "./themes";
+import type { WritingEntry } from "./writing";
 
 describe("curated theme registry", () => {
   it("defines the initial authored theme entries in display order", () => {
