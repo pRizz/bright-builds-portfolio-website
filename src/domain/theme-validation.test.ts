@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { curatedProjects, type ProjectStory } from "./projects";
-import { curatedThemes, type ThemeRecord } from "./themes";
-import { curatedWriting, type WritingEntry } from "./writing";
 import {
   assertValidCuratedThemes,
   themeCurationErrors,
@@ -9,6 +7,8 @@ import {
   validateThemeEntry,
   validateThemeRegistry,
 } from "./theme-validation";
+import { curatedThemes, type ThemeRecord } from "./themes";
+import { curatedWriting, type WritingEntry } from "./writing";
 
 describe("theme curation validation", () => {
   it("rejects duplicate theme slugs on the second entry", () => {
