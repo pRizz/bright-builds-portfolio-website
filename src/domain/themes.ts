@@ -37,6 +37,7 @@ export type PublicThemeEntry = ThemeRecord & {
  * `curatedThemes` is the authoritative checked-in registry. Supported runtime
  * helper exports are `curatedThemes`, `publicThemeEntries`,
  * `maybePublicThemeEntryBySlug`, `themeDetailPath`, `themeDetailRoutes`,
+ * `publicThemeEntriesForProject`, `publicThemeEntriesForWritingEntry`,
  * `relatedProjectDetailPageProjectsForTheme`, and `relatedWritingEntriesForTheme`.
  */
 export const curatedThemes = [
@@ -99,6 +100,24 @@ export function themeDetailRoutes(
   themes: readonly ThemeRecord[] = curatedThemes,
 ): readonly string[] {
   return publicThemeEntries(themes).map(themeDetailPath);
+}
+
+export function publicThemeEntriesForProject(
+  project: Pick<ProjectDetailPageProject, "slug">,
+  themes: readonly ThemeRecord[] = curatedThemes,
+): readonly PublicThemeEntry[] {
+  return publicThemeEntries(themes).filter((theme) =>
+    theme.relatedProjectSlugs.includes(project.slug),
+  );
+}
+
+export function publicThemeEntriesForWritingEntry(
+  entry: Pick<PublicWritingEntry, "slug">,
+  themes: readonly ThemeRecord[] = curatedThemes,
+): readonly PublicThemeEntry[] {
+  return publicThemeEntries(themes).filter((theme) =>
+    theme.relatedWritingSlugs.includes(entry.slug),
+  );
 }
 
 export function relatedProjectDetailPageProjectsForTheme(
