@@ -429,17 +429,15 @@ export function maybeThemeForDetailRoute(route: string): PublicThemeEntry | null
 |---|-------|---------|---------------|
 | - | No `[ASSUMED]` claims were used. | All sections | No user confirmation is needed for assumed research facts. [VERIFIED: this document review] |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should fallback set an explicit 404 status?** [CITED: https://docs.solidjs.com/solid-start/reference/server/http-status-code]
-   - What we know: SolidStart provides `HttpStatusCode` to set server response status, and existing project/writing fallbacks currently render generic copy without an explicit status component. [CITED: https://docs.solidjs.com/solid-start/reference/server/http-status-code] [VERIFIED: src/routes/projects/[slug].tsx; src/routes/writing/[slug].tsx]
-   - What's unclear: The Phase 20 context requires generic fallback behavior but does not explicitly require an HTTP 404 status. [VERIFIED: 20-CONTEXT.md]
-   - Recommendation: Use `HttpStatusCode code={404}` only if it works cleanly with the static build and existing route tests; otherwise match the existing writing/project fallback pattern and focus on non-leaking copy. [VERIFIED: src/routes/writing/[slug].tsx; app.config.ts]
+1. **Should fallback set an explicit 404 status?** [RESOLVED: no Phase 20 404-status work]
+   - Resolution: Phase 20 matches the existing project/writing section-local generic fallback behavior and does not add SolidStart `HttpStatusCode` or catch-all 404 work. Stronger HTTP status semantics remain deferred unless later verification requires them. [VERIFIED: src/routes/projects/[slug].tsx; src/routes/writing/[slug].tsx; 20-CONTEXT.md]
+   - Plan alignment: Theme fallback planning should focus on generic, non-leaking copy that links back to `/themes`, without echoing the raw slug, status, private fields, or non-public content. [VERIFIED: 20-UI-SPEC.md]
 
-2. **How much browser test expansion belongs in Phase 20?** [VERIFIED: 20-CONTEXT.md]
-   - What we know: Phase 23 owns full browser release-suite expansion, while Phase 20 may add focused verification directly needed for route/UI behavior. [VERIFIED: 20-CONTEXT.md; .planning/ROADMAP.md]
-   - What's unclear: The planner must choose between focused Vitest/static verifier checks and limited Playwright route inclusion for desktop/mobile dark rendering. [VERIFIED: 20-CONTEXT.md]
-   - Recommendation: Plan focused unit/static tests first, and add a small browser route sample only if route UI cannot be credibly verified through existing browser loops after `prerenderRoutes` includes themes. [VERIFIED: tests/browser-release.playwright.ts; scripts/verify-static/expected-route-text.ts]
+2. **How much browser test expansion belongs in Phase 20?** [RESOLVED: route-local Phase 20 coverage only]
+   - Resolution: Phase 20 adds route-local browser coverage for the new `/themes` surfaces needed to prove dark desktop/mobile layout, keyboard reachability, reduced-motion behavior, and no text overlap. Phase 23 owns aggregate release contract work and evidence-label expansion. [VERIFIED: 20-CONTEXT.md; 20-UI-SPEC.md; .planning/ROADMAP.md]
+   - Plan alignment: Browser coverage should extend existing Playwright route loops and focused keyboard/reduced-motion checks for `/themes` and representative public theme detail routes, without release-readiness docs, hosted/live claims, or Phase 23 evidence labels. [VERIFIED: tests/browser-release.playwright.ts]
 
 ## Environment Availability
 
