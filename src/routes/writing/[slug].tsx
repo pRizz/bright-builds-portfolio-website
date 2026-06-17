@@ -9,6 +9,11 @@ import {
   writingBlogPostingJsonLd,
 } from "../../domain/seo";
 import {
+  type PublicThemeEntry,
+  publicThemeEntriesForWritingEntry,
+  themeDetailPath,
+} from "../../domain/themes";
+import {
   maybePublicWritingEntryBySlug,
   type PublicWritingEntry,
   relatedProjectDetailPageProjects,
@@ -59,6 +64,7 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
   const jsonLd = writingBlogPostingJsonLd(entry);
   const maybeDateLabel = writingDateLabel(entry);
   const relatedProjects = relatedProjectDetailPageProjects(entry);
+  const relatedThemes = publicThemeEntriesForWritingEntry(entry);
 
   return (
     <article class="writing-article">
@@ -147,6 +153,29 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
                   <div class="link-list">
                     <a class="text-link surface-link" href={projectDetailPath(project)}>
                       Project details
+                    </a>
+                  </div>
+                </article>
+              )}
+            </For>
+          </div>
+        </section>
+      </Show>
+
+      <Show when={relatedThemes.length > 0}>
+        <section class="content-section" aria-labelledby="writing-related-theme-paths">
+          <h2 id="writing-related-theme-paths" class="section-title">
+            Related theme paths
+          </h2>
+          <div class="writing-related-grid">
+            <For each={relatedThemes}>
+              {(theme: PublicThemeEntry) => (
+                <article class="surface-card">
+                  <h3 class="card-title">{theme.title}</h3>
+                  <p class="card-copy">{theme.summary}</p>
+                  <div class="link-list">
+                    <a class="text-link surface-link" href={themeDetailPath(theme)}>
+                      Explore theme
                     </a>
                   </div>
                 </article>
