@@ -1,4 +1,4 @@
-import snapshotData from "./github-metadata.snapshot.json";
+import snapshotData from "./github-metadata.snapshot.json" with { type: "json" };
 import type { ProjectLink, ProjectStory } from "./projects";
 
 export type GitHubRepositoryMetadata =
