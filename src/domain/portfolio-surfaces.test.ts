@@ -14,7 +14,7 @@ import {
   projectsByPlacement,
   visibleProjects,
 } from "./projects";
-import { prerenderRoutes, siteRoutes } from "./routes";
+import { prerenderRoutes, sitemapRoutes, siteRoutes } from "./routes";
 import {
   jsonLdScriptContent,
   metadataForProject,
@@ -25,6 +25,7 @@ import {
   robotsTxt,
   sitemapXml,
 } from "./seo";
+import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
 
 describe("portfolio project surfaces", () => {
@@ -294,9 +295,10 @@ describe("portfolio SEO surfaces", () => {
     // Arrange
     const routes = siteRoutes;
     const allPrerenderRoutes = prerenderRoutes;
+    const themeRoutes = themeDetailRoutes();
 
     // Act
-    const sitemap = sitemapXml(allPrerenderRoutes, peterProfile);
+    const sitemap = sitemapXml(undefined, peterProfile);
     const robots = robotsTxt(peterProfile);
 
     // Assert
@@ -304,14 +306,21 @@ describe("portfolio SEO surfaces", () => {
       ...routes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
+      ...themeRoutes,
     ]);
-    for (const path of allPrerenderRoutes) {
+    expect(sitemapRoutes).toEqual([
+      ...routes.filter((route) => route.id !== "themes").map((route) => route.path),
+      ...projectDetailRoutes(),
+      ...writingDetailRoutes(),
+    ]);
+    for (const path of sitemapRoutes) {
       const routePath = path === "/" ? "" : path;
       expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${routePath}</loc>`);
     }
-    for (const route of routes) {
-      const path = route.path === "/" ? "" : route.path;
-      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
+    expect(sitemap).not.toContain("<loc>https://www.brightbuilds.us/themes</loc>");
+    for (const path of themeRoutes) {
+      expect(allPrerenderRoutes).toContain(path);
+      expect(sitemap).not.toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
     }
     expect(robots).toBe(
       "User-agent: *\nAllow: /\nSitemap: https://www.brightbuilds.us/sitemap.xml",

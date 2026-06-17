@@ -2,8 +2,15 @@ import { describe, expect, it } from "vitest";
 import { peterProfile, profileLinksByKind, profileSameAsLinks } from "./profile";
 import * as projectSurface from "./projects";
 import { curatedProjects, homeProjects, projectDetailRoutes } from "./projects";
-import { navigationRoutes, prerenderRoutes, routeByPath, siteRoutes } from "./routes";
+import {
+  navigationRoutes,
+  prerenderRoutes,
+  routeByPath,
+  sitemapRoutes,
+  siteRoutes,
+} from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
+import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
 
 describe("foundation route registry", () => {
@@ -13,13 +20,21 @@ describe("foundation route registry", () => {
       ...siteRoutes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
+      ...themeDetailRoutes(),
+    ];
+    const expectedSitemapRoutes = [
+      ...siteRoutes.filter((route) => route.id !== "themes").map((route) => route.path),
+      ...projectDetailRoutes(),
+      ...writingDetailRoutes(),
     ];
 
     // Act
     const routes = prerenderRoutes;
+    const publicSitemapRoutes = sitemapRoutes;
 
     // Assert
     expect(routes).toEqual(expectedRoutes);
+    expect(publicSitemapRoutes).toEqual(expectedSitemapRoutes);
     expect(navigationRoutes).toHaveLength(siteRoutes.length);
   });
 });
