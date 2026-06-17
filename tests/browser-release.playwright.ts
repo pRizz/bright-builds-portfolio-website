@@ -3,8 +3,15 @@ import { expect, type Locator, type Page, test } from "@playwright/test";
 import { projectDetailPath, projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
 import {
+  publicThemeEntries,
+  relatedProjectDetailPageProjectsForTheme,
+  relatedWritingEntriesForTheme,
+  themeDetailRoutes,
+} from "../src/domain/themes";
+import {
   publicWritingEntries,
   relatedProjectDetailPageProjects,
+  writingDetailPath,
   writingDetailRoutes,
 } from "../src/domain/writing";
 
@@ -93,6 +100,9 @@ test.describe("browser release checks", () => {
     const detailRoute = representativeProjectDetailRoute();
     const writingRoute = representativeWritingDetailRoute();
     const relatedProjectRoute = representativeWritingRelatedProjectRoute();
+    const themeRoute = representativeThemeDetailRoute();
+    const relatedThemeProjectRoute = representativeThemeRelatedProjectRoute();
+    const relatedThemeWritingRoute = representativeThemeRelatedWritingRoute();
     await page.goto("/");
 
     // Act
@@ -106,6 +116,9 @@ test.describe("browser release checks", () => {
       true,
     );
     expect(hasFocusedInternalPath(focusedTargets, "/writing"), "focus reaches Writing nav").toBe(
+      true,
+    );
+    expect(hasFocusedInternalPath(focusedTargets, "/themes"), "focus reaches Themes nav").toBe(
       true,
     );
     expect(hasFocusedInternalPath(focusedTargets, "/contact"), "focus reaches Contact nav").toBe(
@@ -167,6 +180,38 @@ test.describe("browser release checks", () => {
       hasFocusedInternalPath(writingDetailFocusedTargets, relatedProjectRoute),
       "focus reaches related project route from writing detail route",
     ).toBe(true);
+
+    await page.goto("/themes");
+    const themeFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(themeFocusedTargets),
+      "theme focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(themeFocusedTargets, themeRoute),
+      "focus reaches public theme detail route",
+    ).toBe(true);
+
+    await page.goto(themeRoute);
+    const themeDetailFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(themeDetailFocusedTargets),
+      "theme detail focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(themeDetailFocusedTargets, "/themes"),
+      "focus reaches Themes index from theme detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedInternalPath(themeDetailFocusedTargets, relatedThemeProjectRoute),
+      "focus reaches related project route from theme detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedInternalPath(themeDetailFocusedTargets, relatedThemeWritingRoute),
+      "focus reaches related writing route from theme detail route",
+    ).toBe(true);
   });
 
   test("reduced-motion disables decorative hover and pointer motion", async ({
@@ -182,6 +227,8 @@ test.describe("browser release checks", () => {
       "/",
       representativeProjectDetailRoute(),
       representativeWritingDetailRoute(),
+      "/themes",
+      representativeThemeDetailRoute(),
     ] as const;
 
     // Act
@@ -222,6 +269,44 @@ function representativeWritingRelatedProjectRoute(): string {
 
   throw new Error(
     "Expected at least one public writing entry with a related project detail route for release coverage.",
+  );
+}
+
+function representativeThemeDetailRoute(): string {
+  const maybeRoute = themeDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public theme detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+function representativeThemeRelatedProjectRoute(): string {
+  for (const theme of publicThemeEntries()) {
+    const maybeProject = relatedProjectDetailPageProjectsForTheme(theme)[0];
+
+    if (maybeProject) {
+      return projectDetailPath(maybeProject);
+    }
+  }
+
+  throw new Error(
+    "Expected at least one public theme with a related selected project detail route for release coverage.",
+  );
+}
+
+function representativeThemeRelatedWritingRoute(): string {
+  for (const theme of publicThemeEntries()) {
+    const maybeEntry = relatedWritingEntriesForTheme(theme)[0];
+
+    if (maybeEntry) {
+      return writingDetailPath(maybeEntry);
+    }
+  }
+
+  throw new Error(
+    "Expected at least one public theme with a related public writing route for release coverage.",
   );
 }
 
