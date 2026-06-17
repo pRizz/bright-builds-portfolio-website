@@ -211,7 +211,7 @@ describe("writing route registry", () => {
     });
   });
 
-  it("places Writing after Projects and before Contact in primary navigation", () => {
+  it("places Writing before Themes and Contact in primary navigation", () => {
     // Arrange
     const routes = navigationRoutes;
 
@@ -219,7 +219,7 @@ describe("writing route registry", () => {
     const labels = routes.map((route) => route.label);
 
     // Assert
-    expect(labels).toEqual(["Home", "About", "Projects", "Writing", "Contact"]);
+    expect(labels).toEqual(["Home", "About", "Projects", "Writing", "Themes", "Contact"]);
   });
 
   it("includes the writing index and public writing detail routes in prerender data", () => {

@@ -1,7 +1,8 @@
 import { projectDetailRoutes } from "./projects";
+import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
 
-export type RouteId = "home" | "about" | "projects" | "writing" | "contact";
+export type RouteId = "home" | "about" | "projects" | "writing" | "themes" | "contact";
 
 export type SiteRoute = {
   id: RouteId;
@@ -64,6 +65,18 @@ export const siteRoutes = [
     nav: true,
   },
   {
+    id: "themes",
+    path: "/themes",
+    label: "Themes",
+    title: "Themes | Peter Ryszkiewicz",
+    description:
+      "Curated routes through Peter Ryszkiewicz's work, connecting durable ideas to selected projects, public writing, and proof points.",
+    heading: "Themes",
+    staticCheckText:
+      "Curated routes through Peter's work connect durable ideas to selected projects, public writing, and proof points.",
+    nav: true,
+  },
+  {
     id: "contact",
     path: "/contact",
     label: "Contact",
@@ -79,6 +92,13 @@ export const siteRoutes = [
 
 export const prerenderRoutes = [
   ...siteRoutes.map((route) => route.path),
+  ...projectDetailRoutes(),
+  ...writingDetailRoutes(),
+  ...themeDetailRoutes(),
+];
+
+export const sitemapRoutes = [
+  ...siteRoutes.filter((route) => route.id !== "themes").map((route) => route.path),
   ...projectDetailRoutes(),
   ...writingDetailRoutes(),
 ];

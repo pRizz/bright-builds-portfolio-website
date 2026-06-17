@@ -7,7 +7,7 @@ import {
   publicProjectIndexProjects,
 } from "./projects";
 import type { SiteRoute } from "./routes";
-import { prerenderRoutes } from "./routes";
+import { sitemapRoutes } from "./routes";
 import type { PublicWritingEntry, WritingBodyBlock } from "./writing";
 import { publicWritingEntries, writingDetailPath } from "./writing";
 
@@ -330,7 +330,7 @@ export function writingItemListJsonLd(
 }
 
 export function sitemapXml(
-  paths: readonly string[] = prerenderRoutes,
+  paths: readonly string[] = sitemapRoutes,
   profile: Profile = peterProfile,
 ): string {
   const urls = paths
