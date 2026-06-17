@@ -22,7 +22,7 @@ describe("theme route registry", () => {
         "Curated routes through Peter Ryszkiewicz's work, connecting durable ideas to selected projects, public writing, and proof points.",
       heading: "Themes",
       staticCheckText:
-        "Curated routes through Peter's work connect durable ideas to selected projects, public writing, and proof points.",
+        "Curated routes through Peter's work, connecting durable ideas to selected projects, public writing, and proof points.",
       nav: true,
     };
     const expectedLabels = ["Home", "About", "Projects", "Writing", "Themes", "Contact"];

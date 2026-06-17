@@ -3,6 +3,7 @@ import type { ForbiddenTextPattern } from "./types";
 
 export const staticOutputRoot = ".output/public";
 export const writingDetailRouteSourcePath = "src/routes/writing/[slug].tsx";
+export const themeDetailRouteSourcePath = "src/routes/themes/[slug].tsx";
 
 const staleStandaloneRepoHrefs = [
   "https://github.com/pRizz/openlinks",

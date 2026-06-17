@@ -12,6 +12,14 @@ import {
 } from "../../src/domain/projects";
 import type { SiteRoute } from "../../src/domain/routes";
 import { prerenderRoutes, routeByPath } from "../../src/domain/routes";
+import type { PublicThemeEntry } from "../../src/domain/themes";
+import {
+  maybePublicThemeEntryBySlug,
+  publicThemeEntries,
+  relatedProjectDetailPageProjectsForTheme,
+  relatedWritingEntriesForTheme,
+  themeDetailPath,
+} from "../../src/domain/themes";
 import type { PublicWritingEntry, WritingBodyBlock } from "../../src/domain/writing";
 import {
   maybePublicWritingEntryBySlug,
@@ -70,6 +78,12 @@ export function expectedTextsForRoute(route: string): readonly string[] {
     return writingDetailExpectedTexts(maybeWriting);
   }
 
+  const maybeTheme = maybeThemeForDetailRoute(route);
+
+  if (maybeTheme) {
+    return themeDetailExpectedTexts(maybeTheme);
+  }
+
   if (route === "/") {
     return [
       routeStaticCheckText(route),
@@ -92,6 +106,16 @@ export function expectedTextsForRoute(route: string): readonly string[] {
       "Writing",
       "Curated notes on agentic engineering, open systems, identity, and practical web software.",
       ...publicWritingEntries().flatMap(writingIndexEntryExpectedTexts),
+    ];
+  }
+
+  if (route === "/themes") {
+    return [
+      routeStaticCheckText(route),
+      "Theme paths",
+      "Themes",
+      "Curated routes through Peter's work, connecting durable ideas to selected projects, public writing, and proof points.",
+      ...publicThemeEntries().flatMap(themeIndexEntryExpectedTexts),
     ];
   }
 
@@ -173,6 +197,16 @@ export function maybeWritingForDetailRoute(route: string): PublicWritingEntry | 
   return maybePublicWritingEntryBySlug(route.slice(detailRoutePrefix.length));
 }
 
+export function maybeThemeForDetailRoute(route: string): PublicThemeEntry | null {
+  const detailRoutePrefix = "/themes/";
+
+  if (!route.startsWith(detailRoutePrefix)) {
+    return null;
+  }
+
+  return maybePublicThemeEntryBySlug(route.slice(detailRoutePrefix.length));
+}
+
 export function topLevelRouteForPath(path: string): SiteRoute {
   const routeDefinition = routeByPath(path);
 
@@ -214,6 +248,49 @@ export function writingDetailExpectedTexts(entry: PublicWritingEntry): readonly 
       project.oneLine,
       "Project details",
       `href="${escapeHtmlAttribute(projectDetailPath(project))}"`,
+    ]),
+  ];
+}
+
+export function themeIndexEntryExpectedTexts(theme: PublicThemeEntry): readonly string[] {
+  const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme);
+  const relatedWriting = relatedWritingEntriesForTheme(theme);
+
+  return [
+    theme.title,
+    theme.summary,
+    theme.audience,
+    `href="${escapeHtmlAttribute(themeDetailPath(theme))}"`,
+    "Explore theme",
+    themeRelatedProjectCountText(relatedProjects.length),
+    ...themeWritingKindCountTexts(relatedWriting),
+  ];
+}
+
+export function themeDetailExpectedTexts(theme: PublicThemeEntry): readonly string[] {
+  return [
+    "Back to themes",
+    "Theme path",
+    theme.title,
+    theme.summary,
+    theme.audience,
+    "Why it matters",
+    "Audience",
+    "Proof points",
+    ...theme.proofPoints,
+    "Related projects",
+    ...relatedProjectDetailPageProjectsForTheme(theme).flatMap((project) => [
+      project.name,
+      project.oneLine,
+      "Project details",
+      `href="${escapeHtmlAttribute(projectDetailPath(project))}"`,
+    ]),
+    "Related writing",
+    ...relatedWritingEntriesForTheme(theme).flatMap((entry) => [
+      entry.title,
+      entry.summary,
+      writingActionLabel(entry),
+      `href="${escapeHtmlAttribute(writingDetailPath(entry))}"`,
     ]),
   ];
 }
@@ -275,6 +352,35 @@ function writingBodyBlockExpectedTexts(block: WritingBodyBlock): readonly string
 
 function relatedProjectCountText(count: number): string {
   return count === 1 ? "1 related project" : `${count} related projects`;
+}
+
+function themeRelatedProjectCountText(count: number): string {
+  return count === 1 ? "1 related project" : `${count} related projects`;
+}
+
+function themeWritingKindCountTexts(
+  entries: readonly Pick<PublicWritingEntry, "kind">[],
+): readonly string[] {
+  let noteCount = 0;
+  let essayCount = 0;
+
+  for (const entry of entries) {
+    if (entry.kind === "note") {
+      noteCount += 1;
+      continue;
+    }
+
+    essayCount += 1;
+  }
+
+  return [
+    ...(noteCount > 0 ? [themeWritingKindCountText(noteCount, "note")] : []),
+    ...(essayCount > 0 ? [themeWritingKindCountText(essayCount, "essay")] : []),
+  ];
+}
+
+function themeWritingKindCountText(count: number, kind: "note" | "essay"): string {
+  return count === 1 ? `1 related ${kind}` : `${count} related ${kind}s`;
 }
 
 function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {

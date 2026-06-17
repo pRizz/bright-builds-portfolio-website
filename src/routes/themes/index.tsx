@@ -65,8 +65,8 @@ export default function Themes() {
         <p class="eyebrow">Theme paths</p>
         <h1 class="page-title">Themes</h1>
         <p class="lead">
-          Curated routes through Peter&apos;s work, connecting durable ideas to selected projects,
-          public writing, and proof points.
+          Curated routes through Peter's work, connecting durable ideas to selected projects, public
+          writing, and proof points.
         </p>
       </section>
 

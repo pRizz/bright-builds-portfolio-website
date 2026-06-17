@@ -4,9 +4,14 @@ import { relative } from "node:path";
 import { peterProfile } from "../../src/domain/profile";
 import { projectDetailRoutes } from "../../src/domain/projects";
 import { robotsTxt, sitemapXml } from "../../src/domain/seo";
+import { themeDetailRoutes } from "../../src/domain/themes";
 import type { WritingEntry } from "../../src/domain/writing";
 import { curatedWriting, writingDetailPath, writingDetailRoutes } from "../../src/domain/writing";
-import { generatedOutputForbiddenPatterns, writingDetailRouteSourcePath } from "./config";
+import {
+  generatedOutputForbiddenPatterns,
+  themeDetailRouteSourcePath,
+  writingDetailRouteSourcePath,
+} from "./config";
 import { assertForbiddenTextAbsent, assertHtmlContains } from "./html-assertions";
 import {
   assertOutputFile,
@@ -23,6 +28,7 @@ export function assertSitemapAssetsAndRobots(
   outputCssFiles: readonly string[],
 ): void {
   assertWritingDetailRouteCoverage(outputRoot);
+  assertThemeDetailRouteCoverage(outputRoot);
   assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);
   assertReducedMotionCss(outputRoot, outputCssFiles);
 
@@ -53,7 +59,9 @@ export function assertSitemapAssetsAndRobots(
   }
 
   assertNoPrerenderedWritingRoute(outputRoot, "/writing/unknown-writing-slug");
+  assertNoPrerenderedThemeRoute(outputRoot, "/themes/unknown-theme-slug");
   assertWritingFallbackMetadataSource();
+  assertThemeFallbackSource();
   assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
   assertAllOutputForbiddenTextAbsent(outputRoot, outputHtmlFiles);
 }
@@ -116,6 +124,12 @@ export function assertWritingDetailRouteCoverage(root: string): void {
   }
 }
 
+export function assertThemeDetailRouteCoverage(root: string): void {
+  for (const route of themeDetailRoutes()) {
+    routeHtmlPath(root, route);
+  }
+}
+
 export function assertNoPrerenderedWritingRoute(root: string, route: string): void {
   const maybeOutputPath = routeHtmlCandidates(root, route).find((path) => existsSync(path));
 
@@ -130,6 +144,18 @@ export function assertNoPrerenderedWritingRoute(root: string, route: string): vo
 
 export function assertNoPrerenderedWritingEntry(root: string, entry: WritingEntry): void {
   assertNoPrerenderedWritingRoute(root, writingDetailPath(entry));
+}
+
+export function assertNoPrerenderedThemeRoute(root: string, route: string): void {
+  const maybeOutputPath = routeHtmlCandidates(root, route).find((path) => existsSync(path));
+
+  if (!maybeOutputPath) {
+    return;
+  }
+
+  throw new Error(
+    `Unexpected static theme output for ${route}: ${relative(root, maybeOutputPath)}`,
+  );
 }
 
 export function assertWritingFallbackMetadataSource(): void {
@@ -149,6 +175,16 @@ export function assertWritingFallbackMetadataSource(): void {
   );
   assertHtmlContains(source, "No public writing here", context);
   assertHtmlContains(source, "Browse writing", context);
+}
+
+export function assertThemeFallbackSource(): void {
+  const source = readFileSync(themeDetailRouteSourcePath, "utf8");
+  const context = "Theme detail unknown-slug fallback source";
+
+  assertHtmlContains(source, 'maybePublicThemeEntryBySlug(params.slug ?? "")', context);
+  assertHtmlContains(source, "No public theme here", context);
+  assertHtmlContains(source, "Browse theme paths", context);
+  assertHtmlContains(source, 'href="/themes"', context);
 }
 
 export function assertNoRemoteRuntimeVisualAssets(root: string, paths: readonly string[]): void {

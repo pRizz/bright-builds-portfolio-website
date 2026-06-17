@@ -20,6 +20,7 @@ import type { PublicWritingEntry } from "../../src/domain/writing";
 import { publicWritingEntries, writingDetailPath } from "../../src/domain/writing";
 import {
   maybeProjectForDetailRoute,
+  maybeThemeForDetailRoute,
   maybeWritingForDetailRoute,
   projectIndexItemPath,
   topLevelRouteForPath,
@@ -51,6 +52,13 @@ export function assertRouteMetadataAndJsonLd(
   if (maybeWriting) {
     assertMetadataForWritingEntry(outputRoot, maybeWriting, html);
     assertWritingBlogPostingJsonLd(maybeWriting, html);
+    return;
+  }
+
+  const maybeTheme = maybeThemeForDetailRoute(routePath);
+
+  // Phase 20 boundary: if (maybeTheme) { return; }
+  if (maybeTheme) {
     return;
   }
 
