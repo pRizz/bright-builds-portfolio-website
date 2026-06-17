@@ -2,10 +2,12 @@ import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
 import {
+  collaborationActionsForTheme,
   maybePublicThemeEntryBySlug,
   type PublicThemeEntry,
   relatedProjectDetailPageProjectsForTheme,
   relatedWritingEntriesForTheme,
+  type ThemeCollaborationAction,
 } from "../../domain/themes";
 import { type PublicWritingEntry, writingDetailPath } from "../../domain/writing";
 
@@ -39,6 +41,7 @@ function ThemeFallback() {
 
 function ThemeArticle(props: { theme: PublicThemeEntry }) {
   const theme = props.theme;
+  const collaborationActions = collaborationActionsForTheme(theme);
   const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme);
   const relatedWriting = relatedWritingEntriesForTheme(theme);
 
@@ -83,11 +86,63 @@ function ThemeArticle(props: { theme: PublicThemeEntry }) {
         </section>
 
         <aside class="project-detail-aside" aria-label={`${theme.title} related work`}>
+          <ThemeCollaborationPanel theme={theme} actions={collaborationActions} />
           <RelatedProjectsPanel projects={relatedProjects} />
           <RelatedWritingPanel entries={relatedWriting} />
         </aside>
       </div>
     </article>
+  );
+}
+
+function ThemeCollaborationPanel(props: {
+  theme: PublicThemeEntry;
+  actions: readonly ThemeCollaborationAction[];
+}) {
+  return (
+    <section
+      class="project-detail-panel visual-surface"
+      aria-labelledby="collaboration-starting-points"
+    >
+      <Show
+        when={props.actions.length > 0}
+        fallback={
+          <>
+            <h2 id="collaboration-starting-points" class="card-title">
+              No collaboration paths yet
+            </h2>
+            <p class="card-copy">
+              When reviewed project, source, live, or writing links are available for this theme,
+              they will appear here.
+            </p>
+          </>
+        }
+      >
+        <h2 id="collaboration-starting-points" class="card-title">
+          Collaboration starting points
+        </h2>
+        <div class="story-stack project-detail-stack">
+          <p>
+            <span class="story-label">Where to start</span>
+            {props.theme.collaborationAngle}
+          </p>
+        </div>
+        <nav class="link-list" aria-label={`${props.theme.title} collaboration starting points`}>
+          <For each={props.actions}>
+            {(action) => (
+              <a
+                class="text-link surface-link"
+                href={action.href}
+                target={action.external ? "_blank" : undefined}
+                rel={action.maybeRel ?? (action.external ? "noopener noreferrer" : undefined)}
+              >
+                {action.label}
+              </a>
+            )}
+          </For>
+        </nav>
+      </Show>
+    </section>
   );
 }
 
