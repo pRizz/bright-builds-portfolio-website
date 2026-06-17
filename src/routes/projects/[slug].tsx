@@ -18,6 +18,11 @@ import {
   siteAssetLinks,
 } from "../../domain/seo";
 import {
+  type PublicThemeEntry,
+  publicThemeEntriesForProject,
+  themeDetailPath,
+} from "../../domain/themes";
+import {
   type PublicWritingEntry,
   publicWritingEntriesForProject,
   writingDetailPath,
@@ -236,6 +241,7 @@ export default function ProjectDetail() {
                 </section>
 
                 <RelatedWritingPanel project={selectedProject()} />
+                <RelatedThemesPanel project={selectedProject()} />
               </aside>
             </div>
           </article>
@@ -294,6 +300,38 @@ function RelatedWritingPanel(props: { project: ProjectDetailPageProject }) {
                 </article>
               );
             }}
+          </For>
+        </div>
+      </section>
+    </Show>
+  );
+}
+
+function RelatedThemesPanel(props: { project: ProjectDetailPageProject }) {
+  const relatedThemes = () => publicThemeEntriesForProject(props.project);
+
+  return (
+    <Show when={relatedThemes().length > 0}>
+      <section
+        class="project-detail-panel visual-surface"
+        aria-labelledby="project-related-theme-paths"
+      >
+        <h2 id="project-related-theme-paths" class="card-title">
+          Related theme paths
+        </h2>
+        <div class="writing-related-grid">
+          <For each={relatedThemes()}>
+            {(theme: PublicThemeEntry) => (
+              <article class="surface-card">
+                <h3 class="card-title">{theme.title}</h3>
+                <p class="card-copy">{theme.summary}</p>
+                <div class="link-list">
+                  <a class="text-link surface-link" href={themeDetailPath(theme)}>
+                    Explore theme
+                  </a>
+                </div>
+              </article>
+            )}
           </For>
         </div>
       </section>
