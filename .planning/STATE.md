@@ -6,8 +6,8 @@ current_phase: 21
 current_phase_name: Collaboration Pathways and Cross-Links
 current_plan: Not started
 status: planning
-stopped_at: Phase 21 context gathered
-last_updated: "2026-06-17T22:56:27.930Z"
+stopped_at: Phase 21 UI-SPEC approved
+last_updated: "2026-06-17T23:04:47.436Z"
 last_activity: 2026-06-17 -- Phase 20 verified and completed
 progress:
   total_phases: 5
@@ -86,7 +86,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-17T22:56:27.922Z
-Stopped at: Phase 21 context gathered
-Resume file: .planning/phases/21-collaboration-pathways-and-cross-links/21-CONTEXT.md
+Last session: 2026-06-17T23:04:47.432Z
+Stopped at: Phase 21 UI-SPEC approved
+Resume file: .planning/phases/21-collaboration-pathways-and-cross-links/21-UI-SPEC.md
 Next action: run `/gsd-discuss-phase 21`
