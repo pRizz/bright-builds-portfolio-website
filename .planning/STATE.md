@@ -3,18 +3,18 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Theme Paths & Collaboration Surface
 current_phase: 20
-current_phase_name: theme routes and dark ui
-current_plan: Not started
+current_phase_name: Theme Routes and Dark UI
+current_plan: 1
 status: executing
 stopped_at: Phase 20 UI-SPEC approved
-last_updated: "2026-06-17T17:22:11.822Z"
-last_activity: 2026-06-17 -- Phase 20 planning complete
+last_updated: "2026-06-17T17:30:15.501Z"
+last_activity: 2026-06-17 -- Phase 20 execution started
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 5
-  completed_plans: 1
-  percent: 20
+  completed_plans: 2
+  percent: 40
 ---
 
 # Project State
@@ -24,19 +24,19 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-16)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 19 — Theme Domain Foundation
+**Current focus:** Phase 20 — Theme Routes and Dark UI
 
 ## Current Position
 
 Current Phase: 20
-Current Phase Name: theme routes and dark ui
-Current Plan: Not started
+Current Phase Name: Theme Routes and Dark UI
+Current Plan: 1
 Total Phases: 5
 Total Plans in Phase: 4
-Phase: 19 (Theme Domain Foundation) — EXECUTING
-Plan: 1 of 1
-Status: Ready to execute
-Last activity: 2026-06-17 -- Phase 20 planning complete
+Phase: 20 (Theme Routes and Dark UI) — EXECUTING
+Plan: 1 of 4
+Status: Executing Phase 20
+Last activity: 2026-06-17 -- Phase 20 execution started
 
 Progress: [░░░░░░░░░░] 0%
 

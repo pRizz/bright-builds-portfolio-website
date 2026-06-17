@@ -109,7 +109,7 @@ Plans:
 
 **Plans**: 4 plans
 Plans:
-- [ ] 20-01-PLAN.md — Theme route registry, navigation, and helper-derived prerender contract
+- [x] 20-01-PLAN.md — Theme route registry, navigation, and helper-derived prerender contract
 - [ ] 20-02-PLAN.md — Dark-primary `/themes` index and gated theme detail route UI
 - [ ] 20-03-PLAN.md — Static output verification and generated metadata consistency for theme routes
 - [ ] 20-04-PLAN.md — Focused browser keyboard and reduced-motion coverage for theme routes
@@ -168,7 +168,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 | --- | --- | --- | --- | --- |
 | 19. Theme Domain Foundation | v1.4 | 1/1 | Complete    | 2026-06-16 |
-| 20. Theme Routes and Dark UI | v1.4 | 0/4 | Not started | - |
+| 20. Theme Routes and Dark UI | v1.4 | 1/4 | In Progress|  |
 | 21. Collaboration Pathways and Cross-Links | v1.4 | 0/TBD | Not started | - |
 | 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
 | 23. Theme Verification and Release Contract | v1.4 | 0/TBD | Not started | - |
