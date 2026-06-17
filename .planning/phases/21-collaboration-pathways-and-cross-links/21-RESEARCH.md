@@ -411,17 +411,17 @@ Static checks should verify generated body content before hydration while leavin
 
 All claims in this research were verified against local project files, local command output, npm registry output, or cited official documentation; no `[ASSUMED]` claims are intentionally used. [VERIFIED: research session command output]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should every theme panel include an internal Contact path?**
+1. **RESOLVED: Should every theme panel include an internal Contact path?**
    - What we know: Existing footer/about/contact/profile surfaces already expose OpenLinks and contact/identity paths. [VERIFIED: src/components/SiteLayout.tsx] [VERIFIED: src/routes/about.tsx] [VERIFIED: src/routes/contact.tsx]
    - What's unclear: The context allows a low-intrusion identity/contact fallback "only when useful", but does not require it for every theme. [VERIFIED: 21-CONTEXT.md]
-   - Recommendation: Default to no generic OpenLinks link in theme collaboration panels; include an internal `/contact` "Contact path" only if the panel would otherwise lack a practical next action after project/writing/source links. [VERIFIED: openlinks-identity-presence/references/surface-patterns.md]
+   - Selected answer: Default to no generic OpenLinks link in theme collaboration panels; include an internal `/contact` "Contact path" only if the panel would otherwise lack a practical next action after project/writing/source links. [VERIFIED: openlinks-identity-presence/references/surface-patterns.md] [RESOLVED]
 
-2. **Should collaboration action assembly live in `themes.ts` or an adjacent module?**
+2. **RESOLVED: Should collaboration action assembly live in `themes.ts` or an adjacent module?**
    - What we know: Context explicitly leaves this to planner discretion if the helper remains pure and tested. [VERIFIED: 21-CONTEXT.md]
    - What's unclear: The final helper size may make `themes.ts` crowded if action assembly grows beyond reciprocal lookups. [VERIFIED: src/domain/themes.ts]
-   - Recommendation: Start in `src/domain/themes.ts`; split to `src/domain/theme-collaboration.ts` only if the action types/helper tests become meaningfully separate. [VERIFIED: standards/core/code-shape.md]
+   - Selected answer: Start in `src/domain/themes.ts`; split to `src/domain/theme-collaboration.ts` only if the action types/helper tests become meaningfully separate. [VERIFIED: standards/core/code-shape.md] [RESOLVED]
 
 ## Environment Availability
 
