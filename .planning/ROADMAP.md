@@ -70,7 +70,7 @@ Prior milestone phase details are archived. This active roadmap covers v1.4 only
 - v1.4 continues after Phase 18 and starts at Phase 19.
 
 - [x] **Phase 19: Theme Domain Foundation** - Maintainers can define validated theme paths from typed checked-in data and existing project/writing registries. (completed 2026-06-16)
-- [ ] **Phase 20: Theme Routes and Dark UI** - Visitors can browse static theme index and detail pages in the dark-primary interface.
+- [x] **Phase 20: Theme Routes and Dark UI** - Visitors can browse static theme index and detail pages in the dark-primary interface. (completed 2026-06-17)
 - [ ] **Phase 21: Collaboration Pathways and Cross-Links** - Visitors can move from themes into related projects, writing, and practical collaboration entry points.
 - [ ] **Phase 22: Theme Metadata and Structured Data** - Theme routes are discoverable through static metadata, structured data, sitemap entries, and social-preview fallback behavior.
 - [ ] **Phase 23: Theme Verification and Release Contract** - Automated checks prove theme route coverage in the aggregate release gate without overclaiming manual or hosted evidence.
@@ -111,8 +111,8 @@ Plans:
 Plans:
 - [x] 20-01-PLAN.md — Theme route registry, navigation, and helper-derived prerender contract
 - [x] 20-02-PLAN.md — Dark-primary `/themes` index and gated theme detail route UI
-- [ ] 20-03-PLAN.md — Static output verification and generated metadata consistency for theme routes
-- [ ] 20-04-PLAN.md — Focused browser keyboard and reduced-motion coverage for theme routes
+- [x] 20-03-PLAN.md — Static output verification and generated metadata consistency for theme routes
+- [x] 20-04-PLAN.md — Focused browser keyboard and reduced-motion coverage for theme routes
 **UI hint**: yes
 
 ### Phase 21: Collaboration Pathways and Cross-Links
@@ -168,7 +168,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 | --- | --- | --- | --- | --- |
 | 19. Theme Domain Foundation | v1.4 | 1/1 | Complete    | 2026-06-16 |
-| 20. Theme Routes and Dark UI | v1.4 | 2/4 | In Progress|  |
+| 20. Theme Routes and Dark UI | v1.4 | 4/4 | Complete   | 2026-06-17 |
 | 21. Collaboration Pathways and Cross-Links | v1.4 | 0/TBD | Not started | - |
 | 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
 | 23. Theme Verification and Release Contract | v1.4 | 0/TBD | Not started | - |
