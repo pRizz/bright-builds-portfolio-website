@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Theme Paths & Collaboration Surface
-current_phase: 20
-current_phase_name: Theme Routes and Dark UI
-current_plan: 1
-status: executing
-stopped_at: Phase 20 UI-SPEC approved
-last_updated: "2026-06-17T18:05:33.081Z"
-last_activity: 2026-06-17 -- Phase 20 execution started
+current_phase: 21
+current_phase_name: Collaboration Pathways and Cross-Links
+current_plan: Not started
+status: ready_to_plan
+stopped_at: Phase 20 verification passed and phase marked complete
+last_updated: "2026-06-17T18:32:27.396Z"
+last_activity: 2026-06-17 -- Phase 20 verified and completed
 progress:
   total_phases: 5
   completed_phases: 2
@@ -21,22 +21,22 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-16)
+See: .planning/PROJECT.md (updated 2026-06-17)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 20 — Theme Routes and Dark UI
+**Current focus:** Phase 21 — Collaboration Pathways and Cross-Links
 
 ## Current Position
 
-Current Phase: 20
-Current Phase Name: Theme Routes and Dark UI
-Current Plan: 1
+Current Phase: 21
+Current Phase Name: Collaboration Pathways and Cross-Links
+Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 4
-Phase: 20 (Theme Routes and Dark UI) — EXECUTING
-Plan: 1 of 4
-Status: Executing Phase 20
-Last activity: 2026-06-17 -- Phase 20 execution started
+Total Plans in Phase: TBD
+Phase: 21 (Collaboration Pathways and Cross-Links) — READY TO PLAN
+Plan: Not started
+Status: Ready to plan Phase 21
+Last activity: 2026-06-17 -- Phase 20 verified and completed
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -48,21 +48,21 @@ Progress: [░░░░░░░░░░] 0%
 - v1.1 plans completed: 4
 - v1.2 plans completed: 4
 - v1.3 plans completed: 10
-- Active milestone plans completed: 0
-- Active milestone plan count: 0 planned
+- Active milestone plans completed: 5
+- Active milestone plan count: 5 planned so far
 
 **By Phase:**
 
-- Phase 19: Theme Domain Foundation — Not started
-- Phase 20: Theme Routes and Dark UI — Pending
-- Phase 21: Collaboration Pathways and Cross-Links — Pending
+- Phase 19: Theme Domain Foundation — Complete
+- Phase 20: Theme Routes and Dark UI — Complete
+- Phase 21: Collaboration Pathways and Cross-Links — Ready to plan
 - Phase 22: Theme Metadata and Structured Data — Pending
 - Phase 23: Theme Verification and Release Contract — Pending
 
 **Recent Trend:**
 
-- Last completed work: Phase 18 modularized the static verifier while preserving writing/project generated-output coverage and the aggregate clean-builder gate on 2026-06-16.
-- Trend: v1.4 starts from strong project and writing surfaces; the next product step is a synthesis layer that helps visitors choose a theme path and collaboration entry point.
+- Last completed work: Phase 20 added dark-primary static theme routes, helper-derived prerendering, non-leaking fallback behavior, static output verification, and browser accessibility/layout coverage on 2026-06-17.
+- Trend: v1.4 now has trusted theme data plus browsable static theme routes; the next product step is collaboration pathways and cross-links.
 
 ## Accumulated Context
 
@@ -86,7 +86,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-17T16:27:00.300Z
-Stopped at: Phase 20 UI-SPEC approved
-Resume file: .planning/phases/20-theme-routes-and-dark-ui/20-UI-SPEC.md
-Next action: run `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`
+Last session: 2026-06-17T18:32:27.396Z
+Stopped at: Phase 20 verification passed and phase marked complete
+Resume file: .planning/phases/20-theme-routes-and-dark-ui/20-VERIFICATION.md
+Next action: run `/gsd-discuss-phase 21`

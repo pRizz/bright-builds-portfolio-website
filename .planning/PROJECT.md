@@ -16,9 +16,9 @@ v1.2 shipped on 2026-06-03 as the Project Story Pages milestone. Selected flagsh
 
 v1.3 shipped on 2026-06-16 as the Writing & Notes Surface milestone. The site now has a typed checked-in writing registry, public `/writing` and `/writing/{slug}` static routes, selected-project writing cross-links, helper-derived route metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, static social preview fallback verification, explicit writing route release coverage, and modular static verification helpers.
 
-The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing and project route coverage, static output verification, and release verification over `.output/public`.
+The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing, project, and theme route coverage, and static output verification over `.output/public`. Release-specific checks remain available through `bun run verify:release` and are intentionally outside the aggregate gate until the Phase 23 theme release contract lands.
 
-v1.4 is underway as the Theme Paths & Collaboration Surface milestone. Phase 19 established typed checked-in theme domain data, public theme helper contracts, slug-only project and writing relationships, structured theme validation, and curation-gate coverage. The remaining v1.4 phases will turn that trusted domain layer into static theme routes, collaboration pathways, metadata, sitemap behavior, browser coverage, and release verification without adding runtime services, analytics, CMS/admin tooling, or dynamic Open Graph endpoints.
+v1.4 is underway as the Theme Paths & Collaboration Surface milestone. Phase 19 established typed checked-in theme domain data, public theme helper contracts, slug-only project and writing relationships, structured theme validation, and curation-gate coverage. Phase 20 added dark-primary static `/themes` and `/themes/{slug}` routes, helper-derived prerendering, non-leaking fallback behavior, static output verification, and browser accessibility/layout coverage. The remaining v1.4 phases will add collaboration pathways, metadata, sitemap behavior, and release-contract verification without adding runtime services, analytics, CMS/admin tooling, or dynamic Open Graph endpoints.
 
 ## Current Milestone: v1.4 Theme Paths & Collaboration Surface
 
@@ -58,10 +58,10 @@ v1.4 is underway as the Theme Paths & Collaboration Surface milestone. Phase 19 
 - [x] [Phase 17] v1.3 gives writing routes explicit release verification and release-contract coverage across aggregate gates, browser evidence, static checks, release-readiness docs, and truthful automated evidence labels.
 - [x] [Phase 18] v1.3 splits static verification into focused repo-owned TypeScript modules while preserving `verify:static`, helper-derived writing/project/generated-output coverage, and the aggregate release gate.
 - [x] [Phase 19] v1.4 establishes typed theme domain data, public theme helper contracts, selected-project/public-writing relationship resolution, and curation-gate validation for unknown, unsupported, hidden, or unpublished references.
+- [x] [Phase 20] v1.4 gives visitors dark-primary static `/themes` and `/themes/{slug}` routes that synthesize public theme records, proof points, related projects, and related writing, with helper-derived prerendering, non-leaking fallback behavior, and automated static/browser verification.
 
 ### Active
 
-- [ ] [v1.4] Visitors can browse curated theme paths that synthesize existing project stories and writing into clear technical entry points.
 - [ ] [v1.4] Visitors can find theme-aware collaboration paths without weakening the existing static deployment, dark-primary UI, or low-intrusion OpenLinks identity placement.
 - [ ] [v1.4] Theme routes have metadata, structured data, sitemap coverage, browser checks, and release-readiness verification in the aggregate gate.
 
@@ -127,6 +127,7 @@ v1.3 shipped with 5 phases, 10 plans, 18 recorded tasks, writing route coverage,
 | Static verifier logic is modularized by concern | The v1.3 audit identified `scripts/verify-static.ts` as maintainability debt after writing and project coverage accumulated in one oversized file. | Phase 18 reduces the CLI to a thin entrypoint and moves output, route text, HTML, metadata/JSON-LD, sitemap/assets/robots, and residue checks into focused import-safe modules with targeted tests. |
 | Theme paths come before content operations | Projects and writing now exist as separate strong surfaces; the next core-value improvement is helping visitors choose a coherent path into the work. | v1.4 scopes static curated theme paths and collaboration cues while deferring CMS/admin, analytics, comments/newsletter, dynamic OG endpoints, and runtime content fetches. |
 | Theme domain stays validated before routes | Theme routes, metadata, and collaboration UI need trustworthy relationships before visitor-facing surfaces consume theme data. | Phase 19 adds `curatedThemes`, public theme selectors, `/themes/{slug}` path helpers, slug-only project/writing relationship resolvers, structured validation, focused tests, and `verify:curation` integration while deferring route/UI/metadata/release work to Phases 20-23. |
+| Theme routes stay dark-primary and static | Theme paths should synthesize existing work without adding runtime fetches, sitemap/metadata overclaiming, or a new design system. | Phase 20 adds `/themes` and public `/themes/{slug}` routes from theme helpers, keeps theme sitemap/metadata/release work deferred to Phases 22-23, and verifies generated HTML plus desktop/mobile dark UI and keyboard coverage. |
 
 ## Evolution
 
@@ -149,4 +150,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-16 after Phase 19 completion*
+*Last updated: 2026-06-17 after Phase 20 completion*
