@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
+import type { ProjectStory } from "./projects";
 import * as themeSurface from "./themes";
 import {
+  collaborationActionsForTheme,
   curatedThemes,
   maybePublicThemeEntryBySlug,
   publicThemeEntries,
@@ -65,6 +67,7 @@ describe("curated theme registry", () => {
       "themeDetailRoutes",
       "publicThemeEntriesForProject",
       "publicThemeEntriesForWritingEntry",
+      "collaborationActionsForTheme",
       "relatedProjectDetailPageProjectsForTheme",
       "relatedWritingEntriesForTheme",
     ];
@@ -360,6 +363,155 @@ describe("theme public helper surface", () => {
   });
 });
 
+describe("theme collaboration actions", () => {
+  it("assembles collaboration actions in project story, source, live, and writing order", () => {
+    // Arrange
+    const theme = makeThemeRecord({
+      relatedProjectSlugs: ["selected-project"],
+      relatedWritingSlugs: ["related-note", "related-essay"],
+    });
+    const projects = [
+      makeProjectStory({
+        slug: "selected-project",
+        links: [
+          {
+            label: "Source",
+            href: "https://github.com/pRizz/selected-project",
+            kind: "repo",
+          },
+          { label: "Live site", href: "https://selected.example/", kind: "live" },
+        ],
+      }),
+    ];
+    const entries = [
+      makeWritingEntry({ slug: "related-note", kind: "note" }),
+      makeWritingEntry({ slug: "related-essay", kind: "essay" }),
+    ];
+
+    // Act
+    const actions = collaborationActionsForTheme(theme, projects, entries);
+
+    // Assert
+    expect(actions).toEqual([
+      {
+        kind: "project-story",
+        label: "Project story",
+        href: "/projects/selected-project",
+        external: false,
+        maybeProjectSlug: "selected-project",
+      },
+      {
+        kind: "source",
+        label: "Source",
+        href: "https://github.com/pRizz/selected-project",
+        external: true,
+        maybeRel: "noopener noreferrer",
+        maybeProjectSlug: "selected-project",
+      },
+      {
+        kind: "live-surface",
+        label: "Live surface",
+        href: "https://selected.example/",
+        external: true,
+        maybeRel: "noopener noreferrer",
+        maybeProjectSlug: "selected-project",
+      },
+      {
+        kind: "writing",
+        label: "Read note",
+        href: "/writing/related-note",
+        external: false,
+        maybeWritingSlug: "related-note",
+      },
+      {
+        kind: "writing",
+        label: "Read essay",
+        href: "/writing/related-essay",
+        external: false,
+        maybeWritingSlug: "related-essay",
+      },
+    ]);
+  });
+
+  it("does not add a generic OpenLinks profile action for unrelated themes", () => {
+    // Arrange
+    const agenticTheme = curatedThemes[0];
+    const openIdentityTheme = curatedThemes[1];
+
+    // Act
+    const agenticActions = collaborationActionsForTheme(agenticTheme);
+    const openIdentityActions = collaborationActionsForTheme(openIdentityTheme);
+    const maybeOpenLinksLiveAction = openIdentityActions.find(
+      (action) => action.href === "https://openlinks.us/",
+    );
+
+    // Assert
+    expect(agenticActions.map((action) => action.href)).not.toContain("https://openlinks.us/");
+    expect(agenticActions.map((action) => action.label)).not.toContain("OpenLinks profile");
+    expect(maybeOpenLinksLiveAction).toMatchObject({
+      kind: "live-surface",
+      label: "Live surface",
+      external: true,
+      maybeRel: "noopener noreferrer",
+      maybeProjectSlug: "openlinks",
+    });
+  });
+
+  it("uses Contact path only when no project, source, live, or writing actions resolve", () => {
+    // Arrange
+    const theme = makeThemeRecord({
+      relatedProjectSlugs: ["missing-project"],
+      relatedWritingSlugs: ["missing-writing"],
+    });
+
+    // Act
+    const actions = collaborationActionsForTheme(theme, [], []);
+
+    // Assert
+    expect(actions).toEqual([
+      {
+        kind: "contact-path",
+        label: "Contact path",
+        href: "/contact",
+        external: false,
+      },
+    ]);
+  });
+
+  it("deduplicates collaboration actions by href while keeping the first action", () => {
+    // Arrange
+    const theme = makeThemeRecord({
+      relatedProjectSlugs: ["duplicate-project"],
+      relatedWritingSlugs: ["duplicate-writing"],
+    });
+    const projects = [
+      makeProjectStory({
+        slug: "duplicate-project",
+        links: [
+          { label: "Source", href: "https://duplicate.example/", kind: "repo" },
+          { label: "Live site", href: "https://duplicate.example/", kind: "live" },
+        ],
+      }),
+    ];
+    const entries = [makeWritingEntry({ slug: "duplicate-writing" })];
+
+    // Act
+    const actions = collaborationActionsForTheme(theme, projects, entries);
+
+    // Assert
+    expect(actions.filter((action) => action.href === "https://duplicate.example/")).toEqual([
+      {
+        kind: "source",
+        label: "Source",
+        href: "https://duplicate.example/",
+        external: true,
+        maybeRel: "noopener noreferrer",
+        maybeProjectSlug: "duplicate-project",
+      },
+    ]);
+  });
+});
+
 function makeThemeRecord(overrides: Partial<ThemeRecord> = {}): ThemeRecord {
   return {
     slug: "base-theme",
@@ -372,6 +524,42 @@ function makeThemeRecord(overrides: Partial<ThemeRecord> = {}): ThemeRecord {
     collaborationAngle: "A practical collaboration angle for the theme path.",
     relatedProjectSlugs: ["openlinks"],
     relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+    ...overrides,
+  };
+}
+
+function makeProjectStory(overrides: Partial<ProjectStory> = {}): ProjectStory {
+  return {
+    slug: "base-project",
+    name: "Base project",
+    aliases: [],
+    placement: "home",
+    tier: "flagship",
+    sourceType: "original",
+    maturity: "active",
+    status: "building",
+    includeOnHome: true,
+    includeInProjectIndex: true,
+    displayOrder: 10,
+    themes: ["Testing"],
+    tags: ["test"],
+    role: "Creator",
+    oneLine: "Base project summary.",
+    story: {
+      problem: "A test project problem.",
+      approach: "A test project approach.",
+      whyItMatters: "A test project rationale.",
+    },
+    detail: {
+      intro: "A selected project detail intro.",
+      technicalShape: "A selected project technical shape.",
+      proofPoints: ["A selected project proof point."],
+      currentStatus: "Building.",
+      collaborationAngle: "A selected project collaboration angle.",
+    },
+    curationReason: "Included for helper tests.",
+    originalWork: { kind: "original" },
+    links: [{ label: "Source", href: "https://github.com/pRizz/base-project", kind: "repo" }],
     ...overrides,
   };
 }
