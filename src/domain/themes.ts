@@ -1,14 +1,18 @@
+import { maybeGitHubHomepageLinkForProject } from "./github-metadata";
 import {
   curatedProjects,
   maybeProjectDetailPageProjectBySlug,
   type ProjectDetailPageProject,
+  type ProjectLink,
   type ProjectStory,
+  projectDetailPath,
 } from "./projects";
 import {
   curatedWriting,
   maybePublicWritingEntryBySlug,
   type PublicWritingEntry,
   type WritingEntry,
+  writingDetailPath,
 } from "./writing";
 
 export type ThemeStatus = "public" | "draft" | "hidden" | "unsupported" | "archived";
@@ -31,6 +35,23 @@ export type PublicThemeEntry = ThemeRecord & {
   status: "public";
 };
 
+export type ThemeCollaborationActionKind =
+  | "project-story"
+  | "source"
+  | "live-surface"
+  | "writing"
+  | "contact-path";
+
+export type ThemeCollaborationAction = {
+  kind: ThemeCollaborationActionKind;
+  label: "Project story" | "Source" | "Live surface" | "Read note" | "Read essay" | "Contact path";
+  href: string;
+  external: boolean;
+  maybeRel?: string;
+  maybeProjectSlug?: string;
+  maybeWritingSlug?: string;
+};
+
 /**
  * Maintainer-facing theme data surface.
  *
@@ -38,7 +59,8 @@ export type PublicThemeEntry = ThemeRecord & {
  * helper exports are `curatedThemes`, `publicThemeEntries`,
  * `maybePublicThemeEntryBySlug`, `themeDetailPath`, `themeDetailRoutes`,
  * `publicThemeEntriesForProject`, `publicThemeEntriesForWritingEntry`,
- * `relatedProjectDetailPageProjectsForTheme`, and `relatedWritingEntriesForTheme`.
+ * `collaborationActionsForTheme`, `relatedProjectDetailPageProjectsForTheme`,
+ * and `relatedWritingEntriesForTheme`.
  */
 export const curatedThemes = [
   {
@@ -120,6 +142,33 @@ export function publicThemeEntriesForWritingEntry(
   );
 }
 
+export function collaborationActionsForTheme(
+  theme: Pick<ThemeRecord, "relatedProjectSlugs" | "relatedWritingSlugs">,
+  projects: readonly ProjectStory[] = curatedProjects,
+  entries: readonly WritingEntry[] = curatedWriting,
+): readonly ThemeCollaborationAction[] {
+  const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme, projects);
+  const relatedWriting = relatedWritingEntriesForTheme(theme, entries);
+  const actions = deduplicateActionsByHref([
+    ...relatedProjects.map(projectStoryActionForProject),
+    ...relatedProjects.flatMap(sourceAndLiveActionsForProject),
+    ...relatedWriting.map(writingActionForEntry),
+  ]);
+
+  if (actions.length > 0) {
+    return actions;
+  }
+
+  return [
+    {
+      kind: "contact-path",
+      label: "Contact path",
+      href: "/contact",
+      external: false,
+    },
+  ];
+}
+
 export function relatedProjectDetailPageProjectsForTheme(
   theme: Pick<ThemeRecord, "relatedProjectSlugs">,
   projects: readonly ProjectStory[] = curatedProjects,
@@ -142,6 +191,96 @@ export function relatedWritingEntriesForTheme(
 
 function isPublicThemeEntry(theme: ThemeRecord): theme is PublicThemeEntry {
   return theme.status === "public";
+}
+
+function projectStoryActionForProject(project: ProjectDetailPageProject): ThemeCollaborationAction {
+  return {
+    kind: "project-story",
+    label: "Project story",
+    href: projectDetailPath(project),
+    external: false,
+    maybeProjectSlug: project.slug,
+  };
+}
+
+function sourceAndLiveActionsForProject(
+  project: ProjectDetailPageProject,
+): readonly ThemeCollaborationAction[] {
+  const actions = project.links.flatMap((link) => {
+    const maybeAction = collaborationActionForProjectLink(project, link);
+    return maybeAction ? [maybeAction] : [];
+  });
+  const maybeHomepageLink = maybeGitHubHomepageLinkForProject(project);
+
+  if (!maybeHomepageLink) {
+    return actions;
+  }
+
+  return [...actions, liveSurfaceActionForProjectLink(project, maybeHomepageLink)];
+}
+
+function collaborationActionForProjectLink(
+  project: ProjectDetailPageProject,
+  link: ProjectLink,
+): ThemeCollaborationAction | null {
+  if (link.kind === "repo") {
+    return {
+      kind: "source",
+      label: "Source",
+      href: link.href,
+      external: true,
+      maybeRel: "noopener noreferrer",
+      maybeProjectSlug: project.slug,
+    };
+  }
+
+  if (link.kind === "live" || link.kind === "docs") {
+    return liveSurfaceActionForProjectLink(project, link);
+  }
+
+  return null;
+}
+
+function liveSurfaceActionForProjectLink(
+  project: ProjectDetailPageProject,
+  link: ProjectLink,
+): ThemeCollaborationAction {
+  return {
+    kind: "live-surface",
+    label: "Live surface",
+    href: link.href,
+    external: true,
+    maybeRel: "noopener noreferrer",
+    maybeProjectSlug: project.slug,
+  };
+}
+
+function writingActionForEntry(entry: PublicWritingEntry): ThemeCollaborationAction {
+  return {
+    kind: "writing",
+    label: entry.kind === "note" ? "Read note" : "Read essay",
+    href: writingDetailPath(entry),
+    external: false,
+    maybeWritingSlug: entry.slug,
+  };
+}
+
+function deduplicateActionsByHref(
+  actions: readonly ThemeCollaborationAction[],
+): readonly ThemeCollaborationAction[] {
+  const seenHrefs = new Set<string>();
+  const deduplicatedActions: ThemeCollaborationAction[] = [];
+
+  for (const action of actions) {
+    if (seenHrefs.has(action.href)) {
+      continue;
+    }
+
+    seenHrefs.add(action.href);
+    deduplicatedActions.push(action);
+  }
+
+  return deduplicatedActions;
 }
 
 function sortThemes<TTheme extends ThemeRecord>(themes: readonly TTheme[]): readonly TTheme[] {
