@@ -4,6 +4,8 @@ import {
   curatedThemes,
   maybePublicThemeEntryBySlug,
   publicThemeEntries,
+  publicThemeEntriesForProject,
+  publicThemeEntriesForWritingEntry,
   relatedProjectDetailPageProjectsForTheme,
   relatedWritingEntriesForTheme,
   type ThemeRecord,
@@ -61,6 +63,8 @@ describe("curated theme registry", () => {
       "maybePublicThemeEntryBySlug",
       "themeDetailPath",
       "themeDetailRoutes",
+      "publicThemeEntriesForProject",
+      "publicThemeEntriesForWritingEntry",
       "relatedProjectDetailPageProjectsForTheme",
       "relatedWritingEntriesForTheme",
     ];
@@ -197,6 +201,162 @@ describe("theme public helper surface", () => {
     // Assert
     expect(writingSlugs).toEqual(["published-writing"]);
     expect(defaultWritingSlugs).toEqual(["agentic-engineering-workflows"]);
+  });
+
+  it("returns only public themes for a project in display order", () => {
+    // Arrange
+    const project = { slug: "openlinks" };
+    const themes = [
+      makeThemeRecord({
+        slug: "draft-theme",
+        status: "draft",
+        displayOrder: 1,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+      makeThemeRecord({
+        slug: "public-later",
+        status: "public",
+        displayOrder: 30,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+      makeThemeRecord({
+        slug: "public-unrelated",
+        status: "public",
+        displayOrder: 5,
+        relatedProjectSlugs: ["free-the-world"],
+      }),
+      makeThemeRecord({
+        slug: "public-earlier",
+        status: "public",
+        displayOrder: 20,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+      makeThemeRecord({
+        slug: "hidden-theme",
+        status: "hidden",
+        displayOrder: 10,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+      makeThemeRecord({
+        slug: "unsupported-theme",
+        status: "unsupported",
+        displayOrder: 40,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+      makeThemeRecord({
+        slug: "archived-theme",
+        status: "archived",
+        displayOrder: 50,
+        relatedProjectSlugs: ["openlinks"],
+      }),
+    ];
+
+    // Act
+    const publicSlugs = publicThemeEntriesForProject(project, themes).map((theme) => theme.slug);
+
+    // Assert
+    expect(publicSlugs).toEqual(["public-earlier", "public-later"]);
+  });
+
+  it("returns only public themes for a writing entry in display order", () => {
+    // Arrange
+    const entry = { slug: "portable-identity-and-owned-surfaces" };
+    const themes = [
+      makeThemeRecord({
+        slug: "draft-theme",
+        status: "draft",
+        displayOrder: 1,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "public-later",
+        status: "public",
+        displayOrder: 30,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "public-unrelated",
+        status: "public",
+        displayOrder: 5,
+        relatedWritingSlugs: ["agentic-engineering-workflows"],
+      }),
+      makeThemeRecord({
+        slug: "public-earlier",
+        status: "public",
+        displayOrder: 20,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "hidden-theme",
+        status: "hidden",
+        displayOrder: 10,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "unsupported-theme",
+        status: "unsupported",
+        displayOrder: 40,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "archived-theme",
+        status: "archived",
+        displayOrder: 50,
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+    ];
+
+    // Act
+    const publicSlugs = publicThemeEntriesForWritingEntry(entry, themes).map((theme) => theme.slug);
+
+    // Assert
+    expect(publicSlugs).toEqual(["public-earlier", "public-later"]);
+  });
+
+  it("returns no reciprocal themes for unreferenced project and writing records", () => {
+    // Arrange
+    const project = { slug: "unreferenced-project" };
+    const entry = { slug: "unreferenced-writing" };
+    const themes = [
+      makeThemeRecord({
+        slug: "public-theme",
+        status: "public",
+        relatedProjectSlugs: ["openlinks"],
+        relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
+      }),
+      makeThemeRecord({
+        slug: "draft-theme",
+        status: "draft",
+        relatedProjectSlugs: ["unreferenced-project"],
+        relatedWritingSlugs: ["unreferenced-writing"],
+      }),
+      makeThemeRecord({
+        slug: "hidden-theme",
+        status: "hidden",
+        relatedProjectSlugs: ["unreferenced-project"],
+        relatedWritingSlugs: ["unreferenced-writing"],
+      }),
+      makeThemeRecord({
+        slug: "unsupported-theme",
+        status: "unsupported",
+        relatedProjectSlugs: ["unreferenced-project"],
+        relatedWritingSlugs: ["unreferenced-writing"],
+      }),
+      makeThemeRecord({
+        slug: "archived-theme",
+        status: "archived",
+        relatedProjectSlugs: ["unreferenced-project"],
+        relatedWritingSlugs: ["unreferenced-writing"],
+      }),
+    ];
+
+    // Act
+    const projectThemes = publicThemeEntriesForProject(project, themes);
+    const writingThemes = publicThemeEntriesForWritingEntry(entry, themes);
+
+    // Assert
+    expect(projectThemes).toEqual([]);
+    expect(writingThemes).toEqual([]);
   });
 });
 
