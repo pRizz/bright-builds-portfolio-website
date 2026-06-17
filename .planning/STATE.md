@@ -6,8 +6,8 @@ current_phase: 20
 current_phase_name: theme routes and dark ui
 current_plan: Not started
 status: executing
-stopped_at: Phase 20 context gathered
-last_updated: "2026-06-17T16:18:49.385Z"
+stopped_at: Phase 20 UI-SPEC approved
+last_updated: "2026-06-17T16:27:00.304Z"
 last_activity: 2026-06-16
 progress:
   total_phases: 5
@@ -86,7 +86,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-17T16:18:49.377Z
-Stopped at: Phase 20 context gathered
-Resume file: .planning/phases/20-theme-routes-and-dark-ui/20-CONTEXT.md
+Last session: 2026-06-17T16:27:00.300Z
+Stopped at: Phase 20 UI-SPEC approved
+Resume file: .planning/phases/20-theme-routes-and-dark-ui/20-UI-SPEC.md
 Next action: run `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`
