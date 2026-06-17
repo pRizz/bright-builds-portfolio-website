@@ -95,7 +95,7 @@ Each task was committed atomically:
 - **Verification:** `bun run verify:browser` passed with 83 passed and 19 skipped after the fix; `bun run typecheck`, `bun run check`, `bun run test`, and `bun run build` also passed.
 - **Committed in:** `021239b`
 
----
+***
 
 **Total deviations:** 1 auto-fixed (1 missing critical)
 **Impact on plan:** Accessibility improved without adding Phase 22 theme-detail metadata or expanding route-specific SEO scope.
@@ -136,6 +136,6 @@ Plan 20-03 can verify static output for `/themes` and public theme detail routes
 - Found task commit `709bd90`.
 - Found task commit `021239b`.
 
----
+***
 *Phase: 20-theme-routes-and-dark-ui*
 *Completed: 2026-06-17*

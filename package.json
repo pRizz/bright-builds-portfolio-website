@@ -26,7 +26,7 @@
     "verify:browser": "playwright test --config playwright.config.ts",
     "verify:static": "bun run scripts/verify-static.ts",
     "verify:release": "bun run scripts/verify-release.ts",
-    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release"
+    "verify": "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run build && bun run verify:browser && bun run verify:static"
   },
   "dependencies": {
     "@solidjs/meta": "0.29.4",

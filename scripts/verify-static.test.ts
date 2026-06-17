@@ -106,6 +106,29 @@ describe("static verifier import-safe helpers", () => {
     expect(assertUnsafeHtml).toThrow(/href="javascript:/);
   });
 
+  it("rejects whitespace-prefixed unsafe generated href patterns", () => {
+    // Arrange
+    const root = ".output/public";
+    const htmlPath = ".output/public/index.html";
+    const unsafeJavaScriptHtml = '<a href=" javascript:alert(1)">bad</a>';
+    const unsafeDataHtml = '<a href=" data:text/html,bad">bad</a>';
+
+    // Act
+    const assertUnsafeJavaScriptHtml = () =>
+      assertForbiddenTextAbsent(
+        root,
+        htmlPath,
+        unsafeJavaScriptHtml,
+        generatedOutputForbiddenPatterns,
+      );
+    const assertUnsafeDataHtml = () =>
+      assertForbiddenTextAbsent(root, htmlPath, unsafeDataHtml, generatedOutputForbiddenPatterns);
+
+    // Assert
+    expect(assertUnsafeJavaScriptHtml).toThrow(/href="javascript:/);
+    expect(assertUnsafeDataHtml).toThrow(/href="data:/);
+  });
+
   it("rejects remote image candidates inside mixed srcset values", () => {
     // Arrange
     const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-assets-"));

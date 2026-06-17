@@ -100,7 +100,7 @@ This TDD task produced separate RED and GREEN commits:
 - **Verification:** `bun run test` passed with 173 tests.
 - **Committed in:** `80ffb41`
 
----
+***
 
 **Total deviations:** 1 auto-fixed (1 bug)
 **Impact on plan:** Directly related test expectation fix only. No production scope expansion and no Phase 21/22/23 work added.
@@ -143,6 +143,6 @@ Plan 20-02 can consume the route registry output to build `/themes` and public t
 - Found task commit `01b601a`.
 - Found task commit `80ffb41`.
 
----
+***
 *Phase: 20-theme-routes-and-dark-ui*
 *Completed: 2026-06-17*

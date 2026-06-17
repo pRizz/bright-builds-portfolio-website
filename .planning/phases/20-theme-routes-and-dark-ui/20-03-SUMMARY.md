@@ -125,7 +125,7 @@ This plan used TDD where the task shape allowed it:
 - **Verification:** `bun run test scripts/verify-static.test.ts tests/theme-detail-route.test.tsx src/domain/theme-routes.test.ts`, `bun run build && bun run verify:static`, and the theme-only route HTML snippet passed.
 - **Committed in:** `b094526`
 
----
+***
 
 **Total deviations:** 2 auto-fixed (1 blocking, 1 bug)
 **Impact on plan:** Both fixes were required to make the planned route render and generated static HTML verification executable. No new dependencies, DOM test environment, theme metadata helpers, JSON-LD helpers, sitemap theme coverage, browser labels, release docs, schema changes, or dynamic Open Graph routes were added.
@@ -174,6 +174,6 @@ Plan 20-04 can consume verified static theme output. Theme-specific metadata, JS
 - Found task commit `28645d8`.
 - Found task commit `b094526`.
 
----
+***
 *Phase: 20-theme-routes-and-dark-ui*
 *Completed: 2026-06-17*
