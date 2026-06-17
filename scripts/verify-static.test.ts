@@ -6,11 +6,13 @@ import { describe, expect, it } from "vitest";
 
 import { projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
+import { publicThemeEntries, themeDetailRoutes } from "../src/domain/themes";
 import { publicWritingEntries, writingDetailRoutes } from "../src/domain/writing";
 import { generatedOutputForbiddenPatterns } from "./verify-static/config";
 import {
   expectedRoutes,
   maybeProjectForDetailRoute,
+  maybeThemeForDetailRoute,
   maybeWritingForDetailRoute,
 } from "./verify-static/expected-route-text";
 import {
@@ -21,12 +23,14 @@ import {
 } from "./verify-static/html-assertions";
 import { staticVerificationSummary } from "./verify-static/run-static-verification";
 import {
+  assertNoPrerenderedThemeRoute,
   assertNoPrerenderedWritingRoute,
   assertNoRemoteRuntimeVisualAssets,
   assertReducedMotionCss,
   assertSitemapAssetsAndRobots,
   assertSitemapProjectDetailCoverage,
   assertSitemapWritingCoverage,
+  assertThemeFallbackSource,
   assertWritingFallbackMetadataSource,
 } from "./verify-static/sitemap-assets-verifier";
 
@@ -164,6 +168,40 @@ describe("static verifier import-safe helpers", () => {
     }
   });
 
+  it("derives theme index and detail text from theme helpers", () => {
+    // Arrange
+    const themeIndex = expectedRoutes.find((check) => check.route === "/themes");
+    const routes = themeDetailRoutes();
+
+    // Act
+    const publicEntries = publicThemeEntries();
+    const checks = routes.map((route) => ({
+      route,
+      maybeTheme: maybeThemeForDetailRoute(route),
+      maybeCheck: expectedRoutes.find((check) => check.route === route),
+    }));
+
+    // Assert
+    expect(themeIndex).toBeDefined();
+    for (const theme of publicEntries) {
+      expect(themeIndex?.expectedTexts).toContain(theme.title);
+      expect(themeIndex?.expectedTexts).toContain(theme.summary);
+    }
+
+    for (const { maybeCheck, maybeTheme } of checks) {
+      expect(maybeTheme).not.toBeNull();
+
+      if (!maybeTheme) {
+        throw new Error("Expected public theme route helper to resolve a theme.");
+      }
+
+      expect(maybeCheck?.expectedTexts).toContain(maybeTheme.title);
+      expect(maybeCheck?.expectedTexts).toContain(maybeTheme.summary);
+      expect(maybeCheck?.expectedTexts).toContain("Related projects");
+      expect(maybeCheck?.expectedTexts).toContain("Related writing");
+    }
+  });
+
   it("derives project detail text from project helpers", () => {
     // Arrange
     const routes = projectDetailRoutes();
@@ -190,7 +228,9 @@ describe("static verifier import-safe helpers", () => {
       assertSitemapAssetsAndRobots,
       assertSitemapProjectDetailCoverage,
       assertSitemapWritingCoverage,
+      assertNoPrerenderedThemeRoute,
       assertNoPrerenderedWritingRoute,
+      assertThemeFallbackSource,
       assertWritingFallbackMetadataSource,
       assertNoRemoteRuntimeVisualAssets,
       assertReducedMotionCss,
