@@ -12,7 +12,7 @@ vi.mock("@solidjs/router", () => ({
 const { default: ThemeDetail } = await import("../src/routes/themes/[slug]");
 
 describe("theme detail route rendering", () => {
-  it("renders public theme detail content and related work", () => {
+  it("renders collaboration starting points on public theme detail routes", () => {
     // Arrange
     mockedSlug = "agentic-engineering";
     const maybeTheme = curatedThemes.find((theme) => theme.slug === mockedSlug);
@@ -37,7 +37,17 @@ describe("theme detail route rendering", () => {
     expect(html).toContain("Related projects");
     expect(html).toContain("Related writing");
     expect(html).toContain("Project details");
+    expect(html).toContain("Collaboration starting points");
+    expect(html).toContain("Where to start");
+    expect(html).toContain(maybeTheme.collaborationAngle);
+    expect(html).toContain("Project story");
+    expect(html).toContain("Source");
+    expect(html).toContain("Live surface");
     expect(html).toContain("Read note");
+    expect(html).toContain('href="/projects/opencode-cloud"');
+    expect(html).toContain("https://github.com/pRizz/opencode-cloud");
+    expect(html).toContain('href="/writing/agentic-engineering-workflows"');
+    expect(html).not.toContain("OpenLinks profile");
   });
 
   it("renders a generic fallback for unknown theme slugs without leaking theme data", () => {
@@ -54,7 +64,14 @@ describe("theme detail route rendering", () => {
       "unsupported",
       "archived",
       "collaborationAngle",
+      "Collaboration starting points",
+      "Where to start",
       "OpenLinks profile",
+      "Project story",
+      "Source",
+      "Live surface",
+      "Contact path",
+      "No collaboration paths yet",
       "Project details",
       "Read note",
       "Read essay",
