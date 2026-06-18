@@ -14,8 +14,11 @@ import type { SiteRoute } from "../../src/domain/routes";
 import { prerenderRoutes, routeByPath } from "../../src/domain/routes";
 import type { PublicThemeEntry } from "../../src/domain/themes";
 import {
+  collaborationActionsForTheme,
   maybePublicThemeEntryBySlug,
   publicThemeEntries,
+  publicThemeEntriesForProject,
+  publicThemeEntriesForWritingEntry,
   relatedProjectDetailPageProjectsForTheme,
   relatedWritingEntriesForTheme,
   themeDetailPath,
@@ -69,6 +72,7 @@ export function expectedTextsForRoute(route: string): readonly string[] {
       "Use these links to inspect the source, try the live surface when one exists, or return to the full project index.",
       ...projectActionLinkExpectedTexts(maybeProject),
       ...relatedWritingExpectedTexts,
+      ...relatedThemeExpectedTextsForProject(maybeProject),
     ];
   }
 
@@ -249,6 +253,7 @@ export function writingDetailExpectedTexts(entry: PublicWritingEntry): readonly 
       "Project details",
       `href="${escapeHtmlAttribute(projectDetailPath(project))}"`,
     ]),
+    ...relatedThemeExpectedTextsForWriting(entry),
   ];
 }
 
@@ -278,6 +283,10 @@ export function themeDetailExpectedTexts(theme: PublicThemeEntry): readonly stri
     "Audience",
     "Proof points",
     ...theme.proofPoints,
+    "Collaboration starting points",
+    "Where to start",
+    theme.collaborationAngle,
+    ...collaborationActionsForTheme(theme).flatMap(collaborationActionExpectedTexts),
     "Related projects",
     ...relatedProjectDetailPageProjectsForTheme(theme).flatMap((project) => [
       project.name,
@@ -293,6 +302,16 @@ export function themeDetailExpectedTexts(theme: PublicThemeEntry): readonly stri
       `href="${escapeHtmlAttribute(writingDetailPath(entry))}"`,
     ]),
   ];
+}
+
+export function relatedThemeExpectedTextsForProject(
+  project: ProjectDetailPageProject,
+): readonly string[] {
+  return relatedThemeExpectedTexts(publicThemeEntriesForProject(project));
+}
+
+export function relatedThemeExpectedTextsForWriting(entry: PublicWritingEntry): readonly string[] {
+  return relatedThemeExpectedTexts(publicThemeEntriesForWritingEntry(entry));
 }
 
 export function relatedWritingExpectedTextsForProject(
@@ -381,6 +400,37 @@ function themeWritingKindCountTexts(
 
 function themeWritingKindCountText(count: number, kind: "note" | "essay"): string {
   return count === 1 ? `1 related ${kind}` : `${count} related ${kind}s`;
+}
+
+function collaborationActionExpectedTexts(
+  action: ReturnType<typeof collaborationActionsForTheme>[number],
+): readonly string[] {
+  return [
+    action.label,
+    `href="${escapeHtmlAttribute(action.href)}"`,
+    ...(action.external
+      ? [
+          'target="_blank"',
+          `rel="${escapeHtmlAttribute(action.maybeRel ?? "noopener noreferrer")}"`,
+        ]
+      : []),
+  ];
+}
+
+function relatedThemeExpectedTexts(themes: readonly PublicThemeEntry[]): readonly string[] {
+  if (themes.length === 0) {
+    return [];
+  }
+
+  return [
+    "Related theme paths",
+    ...themes.flatMap((theme) => [
+      theme.title,
+      theme.summary,
+      "Explore theme",
+      `href="${escapeHtmlAttribute(themeDetailPath(theme))}"`,
+    ]),
+  ];
 }
 
 function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {
