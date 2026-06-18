@@ -236,6 +236,7 @@ describe("release verifier accessibility and release evidence labels", () => {
       "SEO/static metadata",
       "project detail route coverage",
       "writing route coverage",
+      "theme route coverage",
       "static performance budgets",
       "external link policy",
       "Cloudflare/static deployment",

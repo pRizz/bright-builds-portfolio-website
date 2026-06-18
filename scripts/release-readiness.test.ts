@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { themeDetailRoutes } from "../src/domain/themes";
 import { writingDetailRoutes } from "../src/domain/writing";
 import {
   externalLinkFindingsForRoutes,
@@ -333,12 +334,93 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing theme route coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("theme route coverage");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing theme route coverage: theme route coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing theme static coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing theme static coverage: theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing theme browser coverage guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(
+      "theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage",
+    );
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing theme browser coverage: theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing representative theme smoke route guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout(representativeThemeDetailRoute());
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        `Release-readiness document is missing representative theme smoke route: ${representativeThemeDetailRoute()}.`,
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("names release-readiness evidence covered by the aggregate gate", () => {
     // Arrange
     const expectedLabels = [
       "SEO/static metadata",
       "project detail route coverage",
       "writing route coverage",
+      "theme route coverage",
       "static performance budgets",
       "external link policy",
       "Cloudflare/static deployment",
@@ -350,6 +432,25 @@ describe("release-readiness document contract", () => {
 
     // Assert
     expect(labels).toEqual(expectedLabels);
+  });
+});
+
+describe("aggregate release script contract", () => {
+  it("runs release verification last without hidden mutation or browser install steps", () => {
+    // Arrange
+    const expectedVerifyScript =
+      "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
+    const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
+      scripts: { verify: string };
+    };
+
+    // Act
+    const verifyScript = packageJson.scripts.verify;
+
+    // Assert
+    expect(verifyScript).toBe(expectedVerifyScript);
+    expect(verifyScript).not.toContain("bun run generate:static-metadata");
+    expect(verifyScript).not.toContain("bun run install:browser");
   });
 });
 
@@ -382,6 +483,16 @@ function representativeWritingDetailRoute(): string {
 
   if (!maybeRoute) {
     throw new Error("Expected at least one public writing detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+function representativeThemeDetailRoute(): string {
+  const maybeRoute = themeDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public theme detail route for release coverage.");
   }
 
   return maybeRoute;
