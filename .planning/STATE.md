@@ -5,9 +5,9 @@ milestone_name: Theme Paths & Collaboration Surface
 current_phase: 22
 current_phase_name: Theme Metadata and Structured Data
 current_plan: Not started
-status: ready_to_plan
-stopped_at: Phase 21 complete; next step is Phase 22 planning
-last_updated: "2026-06-18T00:31:43.133Z"
+status: planning
+stopped_at: Phase 22 context gathered
+last_updated: "2026-06-18T01:14:12.487Z"
 last_activity: 2026-06-18
 progress:
   total_phases: 5
@@ -86,7 +86,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-18T00:31:43.131Z
-Stopped at: Phase 21 complete; next step is Phase 22 planning
-Resume file: .planning/phases/21-collaboration-pathways-and-cross-links/21-VERIFICATION.md
+Last session: 2026-06-18T01:14:12.482Z
+Stopped at: Phase 22 context gathered
+Resume file: .planning/phases/22-theme-metadata-and-structured-data/22-CONTEXT.md
 Next action: run `/gsd-discuss-phase 22`
