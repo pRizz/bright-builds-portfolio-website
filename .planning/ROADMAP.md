@@ -73,7 +73,7 @@ Prior milestone phase details are archived. This active roadmap covers v1.4 only
 - [x] **Phase 20: Theme Routes and Dark UI** - Visitors can browse static theme index and detail pages in the dark-primary interface. (completed 2026-06-17)
 - [x] **Phase 21: Collaboration Pathways and Cross-Links** - Visitors can move from themes into related projects, writing, and practical collaboration entry points. (completed 2026-06-18)
 - [x] **Phase 22: Theme Metadata and Structured Data** - Theme routes are discoverable through static metadata, structured data, sitemap entries, and social-preview fallback behavior. (completed 2026-06-18)
-- [ ] **Phase 23: Theme Verification and Release Contract** - Automated checks prove theme route coverage in the aggregate release gate without overclaiming manual or hosted evidence.
+- [x] **Phase 23: Theme Verification and Release Contract** - Automated checks prove theme route coverage in the aggregate release gate without overclaiming manual or hosted evidence. (completed 2026-06-18)
 
 ## Phase Details
 
@@ -131,7 +131,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 23-01-PLAN.md - Aggregate release-readiness contract, theme evidence labels, docs, and verify ordering
-- [ ] 23-02-PLAN.md - Static verifier theme route coverage evidence wording
+- [x] 23-02-PLAN.md - Static verifier theme route coverage evidence wording
 **UI hint**: yes
 
 ### Phase 22: Theme Metadata and Structured Data
@@ -174,7 +174,7 @@ Plans:
 | 20. Theme Routes and Dark UI | v1.4 | 4/4 | Complete    | 2026-06-17 |
 | 21. Collaboration Pathways and Cross-Links | v1.4 | 4/4 | Complete    | 2026-06-18 |
 | 22. Theme Metadata and Structured Data | v1.4 | 1/1 | Complete    | 2026-06-18 |
-| 23. Theme Verification and Release Contract | v1.4 | 1/2 | In Progress|  |
+| 23. Theme Verification and Release Contract | v1.4 | 2/2 | Complete   | 2026-06-18 |
 
 ## Requirement Coverage
 
