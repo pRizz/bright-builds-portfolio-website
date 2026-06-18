@@ -36,16 +36,16 @@ import {
 } from "./verify-static/sitemap-assets-verifier";
 
 describe("static verifier import-safe helpers", () => {
-  it("preserves writing route coverage evidence wording", () => {
+  it("preserves writing and theme route coverage evidence wording", () => {
     // Arrange
-    const result = { routeCount: 13, outputRoot: ".output/public" };
+    const result = { routeCount: 16, outputRoot: ".output/public" };
 
     // Act
     const summary = staticVerificationSummary(result);
 
     // Assert
     expect(summary).toBe(
-      "Verified 13 prerendered routes, metadata, JSON-LD, writing route coverage, assets, sitemap, and robots in .output/public.",
+      "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, assets, sitemap, and robots in .output/public.",
     );
   });
 
