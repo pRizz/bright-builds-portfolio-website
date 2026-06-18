@@ -8,7 +8,7 @@ export function staticVerificationSummary(options: {
   routeCount: number;
   outputRoot: string;
 }): string {
-  return `Verified ${options.routeCount} prerendered routes, metadata, JSON-LD, writing route coverage, assets, sitemap, and robots in ${options.outputRoot}.`;
+  return `Verified ${options.routeCount} prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, assets, sitemap, and robots in ${options.outputRoot}.`;
 }
 
 export function runStaticVerification(): void {
