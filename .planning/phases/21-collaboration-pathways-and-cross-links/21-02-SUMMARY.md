@@ -144,6 +144,6 @@ Plan 21-03 can add reciprocal related-theme panels to project and writing detail
 - Found `src/domain/github-metadata.ts`.
 - Found task commits `c84f253`, `4984e89`, and `bb36904` in git history.
 
----
+***
 *Phase: 21-collaboration-pathways-and-cross-links*
 *Completed: 2026-06-17*

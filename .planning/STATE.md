@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Theme Paths & Collaboration Surface
-current_phase: 21
-current_phase_name: Collaboration Pathways and Cross-Links
-current_plan: 4
-status: verifying
-stopped_at: Completed 21-04-PLAN.md
-last_updated: "2026-06-18T00:10:45.727Z"
+current_phase: 22
+current_phase_name: Theme Metadata and Structured Data
+current_plan: Not started
+status: ready_to_plan
+stopped_at: Phase 21 complete; next step is Phase 22 planning
+last_updated: "2026-06-18T00:31:43.133Z"
 last_activity: 2026-06-18
 progress:
   total_phases: 5
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-17)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 21 — Collaboration Pathways and Cross-Links
+**Current focus:** Phase 22 — Theme Metadata and Structured Data
 
 ## Current Position
 
-Current Phase: 21
-Current Phase Name: Collaboration Pathways and Cross-Links
-Current Plan: 4
+Current Phase: 22
+Current Phase Name: Theme Metadata and Structured Data
+Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 4
-Phase: 21 (Collaboration Pathways and Cross-Links) — EXECUTING
-Plan: 4 of 4
-Status: Phase complete — ready for verification
+Total Plans in Phase: Not planned
+Phase: 22 (Theme Metadata and Structured Data) — READY TO PLAN
+Plan: Not started
+Status: Ready to plan
 Last activity: 2026-06-18
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -55,14 +55,14 @@ Progress: [░░░░░░░░░░] 0%
 
 - Phase 19: Theme Domain Foundation — Complete
 - Phase 20: Theme Routes and Dark UI — Complete
-- Phase 21: Collaboration Pathways and Cross-Links — Ready to plan
-- Phase 22: Theme Metadata and Structured Data — Pending
+- Phase 21: Collaboration Pathways and Cross-Links — Complete
+- Phase 22: Theme Metadata and Structured Data — Ready to plan
 - Phase 23: Theme Verification and Release Contract — Pending
 
 **Recent Trend:**
 
-- Last completed work: Phase 20 added dark-primary static theme routes, helper-derived prerendering, non-leaking fallback behavior, static output verification, and browser accessibility/layout coverage on 2026-06-17.
-- Trend: v1.4 now has trusted theme data plus browsable static theme routes; the next product step is collaboration pathways and cross-links.
+- Last completed work: Phase 21 added helper-derived collaboration starting points, reciprocal project/writing theme links, static output coverage, keyboard checks, and a clean verification report on 2026-06-18.
+- Trend: v1.4 now has trusted theme data, browsable static theme routes, and practical collaboration pathways; the next product step is metadata and structured data.
 
 ## Accumulated Context
 
@@ -86,7 +86,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-18T00:10:45.725Z
-Stopped at: Completed 21-04-PLAN.md
-Resume file: None
-Next action: run `/gsd-discuss-phase 21`
+Last session: 2026-06-18T00:31:43.131Z
+Stopped at: Phase 21 complete; next step is Phase 22 planning
+Resume file: .planning/phases/21-collaboration-pathways-and-cross-links/21-VERIFICATION.md
+Next action: run `/gsd-discuss-phase 22`

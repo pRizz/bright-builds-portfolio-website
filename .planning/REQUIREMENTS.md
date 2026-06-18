@@ -25,15 +25,15 @@ Requirements for the theme paths and collaboration milestone. Each requirement m
 ### Synthesis Experience
 
 - [ ] **SYNTH-01**: Visitor can understand each theme's main idea, why it matters, representative proof points, and connection to Peter's projects and writing from the static theme detail page.
-- [ ] **SYNTH-02**: Visitor can move from theme detail pages to related selected project stories and public writing entries using helper-derived relationships.
-- [ ] **SYNTH-03**: Project and writing surfaces can show related theme links where those links clarify the existing content graph without overwhelming the primary project or writing narrative.
+- [x] **SYNTH-02**: Visitor can move from theme detail pages to related selected project stories and public writing entries using helper-derived relationships.
+- [x] **SYNTH-03**: Project and writing surfaces can show related theme links where those links clarify the existing content graph without overwhelming the primary project or writing narrative.
 - [ ] **SYNTH-04**: Theme index and detail pages preserve the dark-primary responsive interface, accessible headings, readable text hierarchy, keyboard reachability, and stable text wrapping on desktop and mobile.
 
 ### Collaboration Pathways
 
-- [ ] **COLLAB-01**: Visitor can identify a useful collaboration starting point for each theme, including reviewed source links, live surfaces, relevant writing, and practical next actions when available.
-- [ ] **COLLAB-02**: Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data instead of introducing unreviewed external-link sources or live reachability claims.
-- [ ] **COLLAB-03**: OpenLinks remains a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA unless explicitly requested later.
+- [x] **COLLAB-01**: Visitor can identify a useful collaboration starting point for each theme, including reviewed source links, live surfaces, relevant writing, and practical next actions when available.
+- [x] **COLLAB-02**: Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data instead of introducing unreviewed external-link sources or live reachability claims.
+- [x] **COLLAB-03**: OpenLinks remains a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA unless explicitly requested later.
 
 ### Metadata and Discovery
 
@@ -100,11 +100,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROUTE-04 | Phase 20 | Pending |
 | SYNTH-01 | Phase 20 | Pending |
 | SYNTH-04 | Phase 20 | Pending |
-| SYNTH-02 | Phase 21 | Pending |
-| SYNTH-03 | Phase 21 | Pending |
-| COLLAB-01 | Phase 21 | Pending |
-| COLLAB-02 | Phase 21 | Pending |
-| COLLAB-03 | Phase 21 | Pending |
+| SYNTH-02 | Phase 21 | Complete |
+| SYNTH-03 | Phase 21 | Complete |
+| COLLAB-01 | Phase 21 | Complete |
+| COLLAB-02 | Phase 21 | Complete |
+| COLLAB-03 | Phase 21 | Complete |
 | META-01 | Phase 22 | Pending |
 | META-02 | Phase 22 | Pending |
 | META-03 | Phase 22 | Pending |

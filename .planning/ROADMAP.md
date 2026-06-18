@@ -169,7 +169,7 @@ Plans:
 | --- | --- | --- | --- | --- |
 | 19. Theme Domain Foundation | v1.4 | 1/1 | Complete    | 2026-06-16 |
 | 20. Theme Routes and Dark UI | v1.4 | 4/4 | Complete    | 2026-06-17 |
-| 21. Collaboration Pathways and Cross-Links | v1.4 | 4/4 | Complete   | 2026-06-18 |
+| 21. Collaboration Pathways and Cross-Links | v1.4 | 4/4 | Complete    | 2026-06-18 |
 | 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
 | 23. Theme Verification and Release Contract | v1.4 | 0/TBD | Not started | - |
 

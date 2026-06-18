@@ -145,6 +145,6 @@ Plan 21-04 can expand static/browser release verification around the new project
 - Found `tests/collaboration-route-links.test.tsx`.
 - Found task commits `3582e86`, `110b889`, and `11b2edb` in git history.
 
----
+***
 *Phase: 21-collaboration-pathways-and-cross-links*
 *Completed: 2026-06-17*
