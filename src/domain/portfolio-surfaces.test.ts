@@ -309,18 +309,19 @@ describe("portfolio SEO surfaces", () => {
       ...themeRoutes,
     ]);
     expect(sitemapRoutes).toEqual([
-      ...routes.filter((route) => route.id !== "themes").map((route) => route.path),
+      ...routes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
+      ...themeRoutes,
     ]);
     for (const path of sitemapRoutes) {
       const routePath = path === "/" ? "" : path;
       expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${routePath}</loc>`);
     }
-    expect(sitemap).not.toContain("<loc>https://www.brightbuilds.us/themes</loc>");
+    expect(sitemap).toContain("<loc>https://www.brightbuilds.us/themes</loc>");
     for (const path of themeRoutes) {
       expect(allPrerenderRoutes).toContain(path);
-      expect(sitemap).not.toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
+      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
     }
     expect(robots).toBe(
       "User-agent: *\nAllow: /\nSitemap: https://www.brightbuilds.us/sitemap.xml",

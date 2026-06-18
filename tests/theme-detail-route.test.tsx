@@ -1,3 +1,4 @@
+import { MetaProvider } from "@solidjs/meta";
 import { renderToString } from "solid-js/web";
 import { describe, expect, it, vi } from "vitest";
 
@@ -11,6 +12,14 @@ vi.mock("@solidjs/router", () => ({
 
 const { default: ThemeDetail } = await import("../src/routes/themes/[slug]");
 
+function renderThemeDetail(): string {
+  return renderToString(() => (
+    <MetaProvider>
+      <ThemeDetail />
+    </MetaProvider>
+  ));
+}
+
 describe("theme detail route rendering", () => {
   it("renders collaboration starting points on public theme detail routes", () => {
     // Arrange
@@ -22,7 +31,7 @@ describe("theme detail route rendering", () => {
     }
 
     // Act
-    const html = renderToString(() => ThemeDetail());
+    const html = renderThemeDetail();
 
     // Assert
     expect(html).toContain("Agentic engineering");
@@ -78,7 +87,7 @@ describe("theme detail route rendering", () => {
     ];
 
     // Act
-    const html = renderToString(() => ThemeDetail());
+    const html = renderThemeDetail();
 
     // Assert
     expect(html).toContain("No public theme here");

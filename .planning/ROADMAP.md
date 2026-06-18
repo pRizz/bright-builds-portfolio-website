@@ -72,7 +72,7 @@ Prior milestone phase details are archived. This active roadmap covers v1.4 only
 - [x] **Phase 19: Theme Domain Foundation** - Maintainers can define validated theme paths from typed checked-in data and existing project/writing registries. (completed 2026-06-16)
 - [x] **Phase 20: Theme Routes and Dark UI** - Visitors can browse static theme index and detail pages in the dark-primary interface. (completed 2026-06-17)
 - [x] **Phase 21: Collaboration Pathways and Cross-Links** - Visitors can move from themes into related projects, writing, and practical collaboration entry points. (completed 2026-06-18)
-- [ ] **Phase 22: Theme Metadata and Structured Data** - Theme routes are discoverable through static metadata, structured data, sitemap entries, and social-preview fallback behavior.
+- [x] **Phase 22: Theme Metadata and Structured Data** - Theme routes are discoverable through static metadata, structured data, sitemap entries, and social-preview fallback behavior. (completed 2026-06-18)
 - [ ] **Phase 23: Theme Verification and Release Contract** - Automated checks prove theme route coverage in the aggregate release gate without overclaiming manual or hosted evidence.
 
 ## Phase Details
@@ -170,7 +170,7 @@ Plans:
 | 19. Theme Domain Foundation | v1.4 | 1/1 | Complete    | 2026-06-16 |
 | 20. Theme Routes and Dark UI | v1.4 | 4/4 | Complete    | 2026-06-17 |
 | 21. Collaboration Pathways and Cross-Links | v1.4 | 4/4 | Complete    | 2026-06-18 |
-| 22. Theme Metadata and Structured Data | v1.4 | 0/TBD | Not started | - |
+| 22. Theme Metadata and Structured Data | v1.4 | 1/1 | Complete    | 2026-06-18 |
 | 23. Theme Verification and Release Contract | v1.4 | 0/TBD | Not started | - |
 
 ## Requirement Coverage

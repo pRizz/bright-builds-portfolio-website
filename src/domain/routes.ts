@@ -98,9 +98,10 @@ export const prerenderRoutes = [
 ];
 
 export const sitemapRoutes = [
-  ...siteRoutes.filter((route) => route.id !== "themes").map((route) => route.path),
+  ...siteRoutes.map((route) => route.path),
   ...projectDetailRoutes(),
   ...writingDetailRoutes(),
+  ...themeDetailRoutes(),
 ];
 
 export const navigationRoutes = siteRoutes.filter((route) => route.nav);

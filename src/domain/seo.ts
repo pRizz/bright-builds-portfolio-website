@@ -8,6 +8,13 @@ import {
 } from "./projects";
 import type { SiteRoute } from "./routes";
 import { sitemapRoutes } from "./routes";
+import type { PublicThemeEntry } from "./themes";
+import {
+  publicThemeEntries,
+  relatedProjectDetailPageProjectsForTheme,
+  relatedWritingEntriesForTheme,
+  themeDetailPath,
+} from "./themes";
 import type { PublicWritingEntry, WritingBodyBlock } from "./writing";
 import { publicWritingEntries, writingDetailPath } from "./writing";
 
@@ -118,6 +125,44 @@ export type WritingItemListJsonLd = {
     position: number;
     item: WritingBlogPostingItemJsonLd;
   }>;
+};
+
+export type ThemeItemListJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "ItemList";
+  itemListElement: Array<{
+    "@type": "ListItem";
+    position: number;
+    item: {
+      "@type": "CollectionPage";
+      name: string;
+      description: string;
+      url: string;
+    };
+  }>;
+};
+
+type ThemeProjectPartJsonLd = {
+  "@type": "SoftwareSourceCode";
+  name: string;
+  description: string;
+  url: string;
+  sameAs: string[];
+};
+
+export type ThemeCollectionPageJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "CollectionPage";
+  name: string;
+  description: string;
+  url: string;
+  mainEntityOfPage: string;
+  image: string;
+  creator: PersonJsonLd;
+  keywords: readonly string[];
+  about: readonly string[];
+  mentions: readonly string[];
+  hasPart: Array<ThemeProjectPartJsonLd | WritingBlogPostingItemJsonLd>;
 };
 
 const socialImagePath = "/social/bright-builds-og.png";
@@ -233,6 +278,35 @@ export function metadataForWritingEntry(
   };
 }
 
+export function metadataForTheme(
+  theme: PublicThemeEntry,
+  profile: Profile = peterProfile,
+): PageMetadata {
+  const canonical = `${profile.canonicalOrigin}${themeDetailPath(theme)}`;
+  const title = `${theme.title} | Themes | Bright Builds`;
+  const description = theme.summary;
+  const socialImage = socialImageForProfile(profile);
+
+  return {
+    title,
+    description,
+    canonical,
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: "website",
+      image: socialImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      image: socialImage,
+    },
+  };
+}
+
 export function personJsonLd(profile: Profile = peterProfile): PersonJsonLd {
   return {
     "@context": "https://schema.org",
@@ -326,6 +400,60 @@ export function writingItemListJsonLd(
       position: index + 1,
       item: writingBlogPostingItemJsonLd(entry, profile),
     })),
+  };
+}
+
+export function themeItemListJsonLd(
+  themes: readonly PublicThemeEntry[] = publicThemeEntries(),
+  profile: Profile = peterProfile,
+): ThemeItemListJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: themes.map((theme, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "CollectionPage",
+        name: theme.title,
+        description: theme.summary,
+        url: `${profile.canonicalOrigin}${themeDetailPath(theme)}`,
+      },
+    })),
+  };
+}
+
+export function themeCollectionPageJsonLd(
+  theme: PublicThemeEntry,
+  profile: Profile = peterProfile,
+): ThemeCollectionPageJsonLd {
+  const canonical = `${profile.canonicalOrigin}${themeDetailPath(theme)}`;
+  const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme);
+  const relatedWriting = relatedWritingEntriesForTheme(theme);
+  const labels = [theme.title, theme.audience, ...theme.proofPoints];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: theme.title,
+    description: theme.summary,
+    url: canonical,
+    mainEntityOfPage: canonical,
+    image: socialImageForProfile(profile).url,
+    creator: personJsonLd(profile),
+    keywords: labels,
+    about: [theme.summary, theme.audience, theme.collaborationAngle, ...theme.proofPoints],
+    mentions: [theme.collaborationAngle, ...theme.proofPoints],
+    hasPart: [
+      ...relatedProjects.map((project) => ({
+        "@type": "SoftwareSourceCode" as const,
+        name: project.name,
+        description: project.oneLine,
+        url: `${profile.canonicalOrigin}${projectDetailPath(project)}`,
+        sameAs: project.links.map((link) => link.href),
+      })),
+      ...relatedWriting.map((entry) => writingBlogPostingItemJsonLd(entry, profile)),
+    ],
   };
 }
 

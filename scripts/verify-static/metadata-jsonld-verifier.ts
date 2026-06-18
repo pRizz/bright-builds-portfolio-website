@@ -9,13 +9,18 @@ import type { PageMetadata } from "../../src/domain/seo";
 import {
   metadataForProject,
   metadataForRoute,
+  metadataForTheme,
   metadataForWritingEntry,
   personJsonLd,
   projectItemListJsonLd,
   projectJsonLd,
+  themeCollectionPageJsonLd,
+  themeItemListJsonLd,
   writingBlogPostingJsonLd,
   writingItemListJsonLd,
 } from "../../src/domain/seo";
+import type { PublicThemeEntry } from "../../src/domain/themes";
+import { publicThemeEntries, themeDetailPath } from "../../src/domain/themes";
 import type { PublicWritingEntry } from "../../src/domain/writing";
 import { publicWritingEntries, writingDetailPath } from "../../src/domain/writing";
 import {
@@ -57,8 +62,9 @@ export function assertRouteMetadataAndJsonLd(
 
   const maybeTheme = maybeThemeForDetailRoute(routePath);
 
-  // Phase 20 boundary: if (maybeTheme) { return; }
   if (maybeTheme) {
+    assertMetadataForTheme(outputRoot, maybeTheme, html);
+    assertThemeCollectionPageJsonLd(maybeTheme, html);
     return;
   }
 
@@ -89,6 +95,16 @@ export function assertRouteMetadataAndJsonLd(
       JSON.stringify(writingItemListJsonLd()),
       ...publicWritingEntries().map(
         (entry) => `${peterProfile.canonicalOrigin}${writingDetailPath(entry)}`,
+      ),
+    ]);
+  }
+
+  if (routePath === "/themes") {
+    assertJsonLdContains(html, [
+      "ItemList",
+      JSON.stringify(themeItemListJsonLd()),
+      ...publicThemeEntries().map(
+        (theme) => `${peterProfile.canonicalOrigin}${themeDetailPath(theme)}`,
       ),
     ]);
   }
@@ -145,6 +161,14 @@ export function assertMetadataForWritingEntry(
       `${entry.slug} article:tag ${tag}`,
     );
   }
+}
+
+export function assertMetadataForTheme(
+  outputRoot: string,
+  theme: PublicThemeEntry,
+  html: string,
+): void {
+  assertMetadata(outputRoot, themeDetailPath(theme), metadataForTheme(theme), html);
 }
 
 function assertMetadata(
@@ -286,5 +310,26 @@ export function assertWritingBlogPostingJsonLd(entry: PublicWritingEntry, html: 
     expectedJsonLd.url,
     maybeProfileSameAsUrl,
     "https://openlinks.us/",
+  ]);
+}
+
+export function assertThemeCollectionPageJsonLd(theme: PublicThemeEntry, html: string): void {
+  const expectedJsonLd = themeCollectionPageJsonLd(theme);
+  const maybeProfileSameAsUrl = expectedJsonLd.creator.sameAs[0];
+
+  if (!maybeProfileSameAsUrl) {
+    throw new Error(`Theme JSON-LD for ${theme.slug} did not include a profile sameAs URL.`);
+  }
+
+  assertJsonLdContains(html, [
+    "CollectionPage",
+    expectedJsonLd.name,
+    expectedJsonLd.description,
+    expectedJsonLd.url,
+    expectedJsonLd.mainEntityOfPage,
+    maybeProfileSameAsUrl,
+    "https://openlinks.us/",
+    theme.collaborationAngle,
+    ...expectedJsonLd.hasPart.map((part) => part.url),
   ]);
 }

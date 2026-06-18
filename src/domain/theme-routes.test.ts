@@ -56,12 +56,13 @@ describe("theme route registry", () => {
     }
   });
 
-  it("keeps Phase 20 sitemap routes on the pre-theme public boundary", () => {
+  it("includes theme index and detail routes in sitemap routes", () => {
     // Arrange
     const expectedRoutes = [
-      ...siteRoutes.filter((route) => route.id !== "themes").map((route) => route.path),
+      ...siteRoutes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
+      ...themeDetailRoutes(),
     ];
     const themeRoutes = themeDetailRoutes();
 
@@ -70,9 +71,9 @@ describe("theme route registry", () => {
 
     // Assert
     expect(routes).toEqual(expectedRoutes);
-    expect(routes).not.toContain("/themes");
+    expect(routes).toContain("/themes");
     for (const route of themeRoutes) {
-      expect(routes).not.toContain(route);
+      expect(routes).toContain(route);
     }
   });
 });

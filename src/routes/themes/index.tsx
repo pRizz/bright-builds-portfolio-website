@@ -7,6 +7,7 @@ import {
   metadataForRoute,
   personJsonLd,
   siteAssetLinks,
+  themeItemListJsonLd,
 } from "../../domain/seo";
 import {
   type PublicThemeEntry,
@@ -23,6 +24,7 @@ type WritingKindEntry = {
 const route = routeByPath("/themes");
 const metadata = metadataForRoute(route);
 const themes = publicThemeEntries();
+const themeItemListJsonLdValue = themeItemListJsonLd(themes);
 const personJsonLdValue = personJsonLd();
 
 export default function Themes() {
@@ -59,6 +61,7 @@ export default function Themes() {
       <Meta name="twitter:description" content={metadata.twitter.description} />
       <Meta name="twitter:image" content={metadata.twitter.image.url} />
       <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <script type="application/ld+json">{jsonLdScriptContent(themeItemListJsonLdValue)}</script>
       <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
 
       <section class="page-intro">

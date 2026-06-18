@@ -29,6 +29,7 @@ import {
   assertReducedMotionCss,
   assertSitemapAssetsAndRobots,
   assertSitemapProjectDetailCoverage,
+  assertSitemapThemeCoverage,
   assertSitemapWritingCoverage,
   assertThemeFallbackSource,
   assertWritingFallbackMetadataSource,
@@ -156,12 +157,14 @@ describe("static verifier import-safe helpers", () => {
     // Act
     const projectRoutes = projectDetailRoutes();
     const writingRoutes = writingDetailRoutes();
+    const themeRoutes = themeDetailRoutes();
 
     // Assert
     expect(routes).toEqual(prerenderRoutes);
     expect(projectRoutes.length).toBeGreaterThan(0);
     expect(writingRoutes.length).toBeGreaterThan(0);
-    for (const route of [...projectRoutes, ...writingRoutes]) {
+    expect(themeRoutes.length).toBeGreaterThan(0);
+    for (const route of [...projectRoutes, ...writingRoutes, ...themeRoutes]) {
       expect(routes).toContain(route);
     }
   });
@@ -251,6 +254,7 @@ describe("static verifier import-safe helpers", () => {
       assertSitemapAssetsAndRobots,
       assertSitemapProjectDetailCoverage,
       assertSitemapWritingCoverage,
+      assertSitemapThemeCoverage,
       assertNoPrerenderedThemeRoute,
       assertNoPrerenderedWritingRoute,
       assertThemeFallbackSource,

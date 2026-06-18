@@ -4,7 +4,7 @@ import { relative } from "node:path";
 import { peterProfile } from "../../src/domain/profile";
 import { projectDetailRoutes } from "../../src/domain/projects";
 import { robotsTxt, sitemapXml } from "../../src/domain/seo";
-import { themeDetailRoutes } from "../../src/domain/themes";
+import { curatedThemes, themeDetailPath, themeDetailRoutes } from "../../src/domain/themes";
 import type { WritingEntry } from "../../src/domain/writing";
 import { curatedWriting, writingDetailPath, writingDetailRoutes } from "../../src/domain/writing";
 import {
@@ -49,6 +49,7 @@ export function assertSitemapAssetsAndRobots(
   assertOutputTextEquals(outputRoot, "sitemap.xml", sitemapXml());
   assertSitemapProjectDetailCoverage(outputRoot);
   assertSitemapWritingCoverage(outputRoot);
+  assertSitemapThemeCoverage(outputRoot);
 
   for (const entry of curatedWriting) {
     if (entry.status === "published") {
@@ -118,6 +119,41 @@ export function assertSitemapWritingCoverage(root: string): void {
   }
 }
 
+export function assertSitemapThemeCoverage(root: string): void {
+  const sitemapPath = assertOutputFile(root, "sitemap.xml");
+  const sitemap = readFileSync(sitemapPath, "utf8");
+
+  assertHtmlContains(
+    sitemap,
+    `<loc>${peterProfile.canonicalOrigin}/themes</loc>`,
+    "sitemap theme index route",
+  );
+
+  for (const route of themeDetailRoutes()) {
+    assertHtmlContains(
+      sitemap,
+      `<loc>${peterProfile.canonicalOrigin}${route}</loc>`,
+      `sitemap theme detail route ${route}`,
+    );
+  }
+
+  for (const theme of curatedThemes) {
+    if (theme.status === "public") {
+      continue;
+    }
+
+    const route = themeDetailPath(theme);
+
+    if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}${route}</loc>`)) {
+      throw new Error(`sitemap.xml included non-public theme route ${route}.`);
+    }
+  }
+
+  if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}/themes/unknown-theme-slug</loc>`)) {
+    throw new Error("sitemap.xml included unknown theme route /themes/unknown-theme-slug.");
+  }
+}
+
 export function assertWritingDetailRouteCoverage(root: string): void {
   for (const route of writingDetailRoutes()) {
     routeHtmlPath(root, route);
@@ -182,6 +218,9 @@ export function assertThemeFallbackSource(): void {
   const context = "Theme detail unknown-slug fallback source";
 
   assertHtmlContains(source, 'maybePublicThemeEntryBySlug(params.slug ?? "")', context);
+  assertHtmlContains(source, "<Title>{metadata.title}</Title>", context);
+  assertHtmlContains(source, "No public theme here | Themes | Bright Builds", context);
+  assertHtmlContains(source, 'name="description"', context);
   assertHtmlContains(source, "No public theme here", context);
   assertHtmlContains(source, "Browse theme paths", context);
   assertHtmlContains(source, 'href="/themes"', context);

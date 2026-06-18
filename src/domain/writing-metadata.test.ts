@@ -4,12 +4,22 @@ import { routeByPath } from "./routes";
 import {
   jsonLdScriptContent,
   metadataForRoute,
+  metadataForTheme,
   metadataForWritingEntry,
   personJsonLd,
   sitemapXml,
+  themeCollectionPageJsonLd,
+  themeItemListJsonLd,
   writingBlogPostingJsonLd,
   writingItemListJsonLd,
 } from "./seo";
+import {
+  type PublicThemeEntry,
+  publicThemeEntries,
+  type ThemeRecord,
+  themeDetailPath,
+  themeDetailRoutes,
+} from "./themes";
 import {
   type PublicWritingEntry,
   publicWritingEntries,
@@ -108,6 +118,167 @@ describe("writing metadata", () => {
       height: 630,
     });
     expect(metadata.twitter.card).toBe("summary_large_image");
+  });
+});
+
+describe("theme metadata", () => {
+  it("derives theme detail metadata from a public theme entry", () => {
+    // Arrange
+    const theme = publicThemeEntries()[0];
+
+    // Act
+    const metadata = metadataForTheme(theme, peterProfile);
+
+    // Assert
+    expect(metadata.title).toBe(`${theme.title} | Themes | Bright Builds`);
+    expect(metadata.description).toBe(theme.summary);
+    expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}${themeDetailPath(theme)}`);
+    expect(metadata.openGraph).toMatchObject({
+      title: metadata.title,
+      description: theme.summary,
+      url: metadata.canonical,
+      type: "website",
+    });
+    expect(metadata.twitter).toMatchObject({
+      card: "summary_large_image",
+      title: metadata.title,
+      description: theme.summary,
+    });
+  });
+
+  it("reuses the checked-in social fallback for theme detail sharing", () => {
+    // Arrange
+    const theme = publicThemeEntries()[0];
+    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
+
+    // Act
+    const metadata = metadataForTheme(theme, peterProfile);
+
+    // Assert
+    expect(metadata.openGraph.image).toMatchObject({
+      url: expectedSocialImageUrl,
+      width: 1200,
+      height: 630,
+    });
+    expect(metadata.openGraph.image.alt).not.toHaveLength(0);
+    expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+  });
+
+  it("creates ordered theme ItemList JSON-LD for public entries only", () => {
+    // Arrange
+    const fixtures = [
+      makeThemeRecord({ slug: "draft-theme", status: "draft", displayOrder: 1 }),
+      makeThemeRecord({ slug: "public-later", title: "Public later", displayOrder: 30 }),
+      makeThemeRecord({ slug: "public-earlier", title: "Public earlier", displayOrder: 20 }),
+      makeThemeRecord({ slug: "hidden-theme", status: "hidden", displayOrder: 10 }),
+    ];
+    const themes = publicThemeEntries(fixtures);
+
+    // Act
+    const jsonLd = themeItemListJsonLd(themes, peterProfile);
+
+    // Assert
+    expect(jsonLd["@type"]).toBe("ItemList");
+    expect(jsonLd.itemListElement).toHaveLength(2);
+    expect(jsonLd.itemListElement.map((element) => element.position)).toEqual([1, 2]);
+    expect(jsonLd.itemListElement.map((element) => element.item)).toEqual([
+      expect.objectContaining({
+        "@type": "CollectionPage",
+        name: "Public earlier",
+        description: "Base summary for a theme path.",
+        url: `${peterProfile.canonicalOrigin}/themes/public-earlier`,
+      }),
+      expect.objectContaining({
+        "@type": "CollectionPage",
+        name: "Public later",
+        description: "Base summary for a theme path.",
+        url: `${peterProfile.canonicalOrigin}/themes/public-later`,
+      }),
+    ]);
+  });
+
+  it("creates CollectionPage JSON-LD from helper-derived theme relationships", () => {
+    // Arrange
+    const theme = publicThemeEntries()[0];
+    const canonical = `${peterProfile.canonicalOrigin}${themeDetailPath(theme)}`;
+
+    // Act
+    const jsonLd = themeCollectionPageJsonLd(theme, peterProfile);
+
+    // Assert
+    expect(jsonLd).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: theme.title,
+      description: theme.summary,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      image: `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`,
+      creator: personJsonLd(peterProfile),
+    });
+    expect(jsonLd.keywords).toContain(theme.title);
+    expect(jsonLd.about).toEqual([
+      theme.summary,
+      theme.audience,
+      theme.collaborationAngle,
+      ...theme.proofPoints,
+    ]);
+    expect(jsonLd.mentions).toContain(theme.collaborationAngle);
+    expect(jsonLd.hasPart).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          "@type": "SoftwareSourceCode",
+          url: `${peterProfile.canonicalOrigin}/projects/opencode-cloud`,
+        }),
+        expect.objectContaining({
+          "@type": "BlogPosting",
+          url: `${peterProfile.canonicalOrigin}/writing/agentic-engineering-workflows`,
+        }),
+      ]),
+    );
+  });
+
+  it("serializes theme CollectionPage JSON-LD safely for script tags", () => {
+    // Arrange
+    const theme = makePublicThemeEntry({
+      title: "Theme <schema>",
+    });
+
+    // Act
+    const content = jsonLdScriptContent(themeCollectionPageJsonLd(theme, peterProfile));
+
+    // Assert
+    expect(content).not.toContain("<");
+    expect(content).toContain("\\u003c");
+  });
+
+  it("derives sitemap theme coverage from public theme routes only", () => {
+    // Arrange
+    const fixtures = [
+      makeThemeRecord({ slug: "public-theme", status: "public", displayOrder: 10 }),
+      makeThemeRecord({ slug: "draft-theme", status: "draft", displayOrder: 20 }),
+      makeThemeRecord({ slug: "hidden-theme", status: "hidden", displayOrder: 30 }),
+      makeThemeRecord({ slug: "unsupported-theme", status: "unsupported", displayOrder: 40 }),
+      makeThemeRecord({ slug: "archived-theme", status: "archived", displayOrder: 50 }),
+    ];
+
+    // Act
+    const sitemap = sitemapXml(["/themes", ...themeDetailRoutes(fixtures)], peterProfile);
+
+    // Assert
+    expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}/themes</loc>`);
+    expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}/themes/public-theme</loc>`);
+    expect(sitemap).not.toContain(`<loc>${peterProfile.canonicalOrigin}/themes/draft-theme</loc>`);
+    expect(sitemap).not.toContain(`<loc>${peterProfile.canonicalOrigin}/themes/hidden-theme</loc>`);
+    expect(sitemap).not.toContain(
+      `<loc>${peterProfile.canonicalOrigin}/themes/unsupported-theme</loc>`,
+    );
+    expect(sitemap).not.toContain(
+      `<loc>${peterProfile.canonicalOrigin}/themes/archived-theme</loc>`,
+    );
+    expect(sitemap).not.toContain(
+      `<loc>${peterProfile.canonicalOrigin}/themes/unknown-theme</loc>`,
+    );
   });
 });
 
@@ -287,6 +458,29 @@ function makePublicWritingEntry(
         blocks: [{ kind: "paragraph", text: "Public paragraph body." }],
       },
     ],
+    ...overrides,
+  };
+}
+
+function makePublicThemeEntry(overrides: Partial<Omit<ThemeRecord, "status">>): PublicThemeEntry {
+  return {
+    ...makeThemeRecord(overrides),
+    status: "public",
+  };
+}
+
+function makeThemeRecord(overrides: Partial<ThemeRecord> = {}): ThemeRecord {
+  return {
+    slug: "base-theme",
+    title: "Base theme",
+    summary: "Base summary for a theme path.",
+    status: "public",
+    displayOrder: 10,
+    audience: "Builders evaluating a test theme path.",
+    proofPoints: ["A concrete proof point for the theme path."],
+    collaborationAngle: "A practical collaboration angle for the theme path.",
+    relatedProjectSlugs: ["openlinks"],
+    relatedWritingSlugs: ["portable-identity-and-owned-surfaces"],
     ...overrides,
   };
 }

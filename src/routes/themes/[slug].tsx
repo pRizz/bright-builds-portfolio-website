@@ -1,6 +1,16 @@
+import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
+import { routeByPath } from "../../domain/routes";
+import {
+  jsonLdScriptContent,
+  metadataForRoute,
+  metadataForTheme,
+  type PageMetadata,
+  siteAssetLinks,
+  themeCollectionPageJsonLd,
+} from "../../domain/seo";
 import {
   collaborationActionsForTheme,
   maybePublicThemeEntryBySlug,
@@ -12,6 +22,7 @@ import {
 import { type PublicWritingEntry, writingDetailPath } from "../../domain/writing";
 
 type RelatedProjectEntry = ReturnType<typeof relatedProjectDetailPageProjectsForTheme>[number];
+const fallbackMetadata = themeFallbackMetadata();
 
 export default function ThemeDetail() {
   const params = useParams();
@@ -26,27 +37,33 @@ export default function ThemeDetail() {
 
 function ThemeFallback() {
   return (
-    <section class="page-intro">
-      <p class="eyebrow">Theme path</p>
-      <h1 class="page-title">No public theme here</h1>
-      <p class="lead">
-        No public theme here. Browse theme paths to find a public route through Peter&apos;s work.
-      </p>
-      <a class="primary-action interactive-surface" href="/themes">
-        Browse theme paths
-      </a>
-    </section>
+    <>
+      <ThemeHead metadata={fallbackMetadata} />
+      <section class="page-intro">
+        <p class="eyebrow">Theme path</p>
+        <h1 class="page-title">No public theme here</h1>
+        <p class="lead">
+          No public theme here. Browse theme paths to find a public route through Peter&apos;s work.
+        </p>
+        <a class="primary-action interactive-surface" href="/themes">
+          Browse theme paths
+        </a>
+      </section>
+    </>
   );
 }
 
 function ThemeArticle(props: { theme: PublicThemeEntry }) {
   const theme = props.theme;
+  const metadata = metadataForTheme(theme);
+  const jsonLd = themeCollectionPageJsonLd(theme);
   const collaborationActions = collaborationActionsForTheme(theme);
   const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme);
   const relatedWriting = relatedWritingEntriesForTheme(theme);
 
   return (
     <article class="content-section">
+      <ThemeHead metadata={metadata} jsonLd={jsonLd} />
       <div class="page-intro">
         <a class="text-link detail-back-link" href="/themes">
           Back to themes
@@ -92,6 +109,49 @@ function ThemeArticle(props: { theme: PublicThemeEntry }) {
         </aside>
       </div>
     </article>
+  );
+}
+
+function ThemeHead(props: { metadata: PageMetadata; jsonLd?: unknown }) {
+  const metadata = props.metadata;
+
+  return (
+    <>
+      <Title>{metadata.title}</Title>
+      <Meta name="description" content={metadata.description} />
+      <HeadLink rel="canonical" href={metadata.canonical} />
+      <For each={siteAssetLinks}>
+        {(asset) => {
+          if (asset.rel === "apple-touch-icon") {
+            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
+          }
+
+          if ("sizes" in asset) {
+            return (
+              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
+            );
+          }
+
+          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
+        }}
+      </For>
+      <Meta property="og:title" content={metadata.openGraph.title} />
+      <Meta property="og:description" content={metadata.openGraph.description} />
+      <Meta property="og:url" content={metadata.openGraph.url} />
+      <Meta property="og:type" content={metadata.openGraph.type} />
+      <Meta property="og:image" content={metadata.openGraph.image.url} />
+      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
+      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
+      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
+      <Meta name="twitter:card" content={metadata.twitter.card} />
+      <Meta name="twitter:title" content={metadata.twitter.title} />
+      <Meta name="twitter:description" content={metadata.twitter.description} />
+      <Meta name="twitter:image" content={metadata.twitter.image.url} />
+      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <Show when={props.jsonLd}>
+        {(jsonLd) => <script type="application/ld+json">{jsonLdScriptContent(jsonLd())}</script>}
+      </Show>
+    </>
   );
 }
 
@@ -209,4 +269,26 @@ function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Es
 
 function writingActionLabel(entry: Pick<PublicWritingEntry, "kind">): "Read note" | "Read essay" {
   return entry.kind === "note" ? "Read note" : "Read essay";
+}
+
+function themeFallbackMetadata(): PageMetadata {
+  const fallbackTitle = "No public theme here | Themes | Bright Builds";
+  const fallbackDescription = "Browse public theme paths to find a route through Peter's work.";
+  const routeMetadata = metadataForRoute(routeByPath("/themes"));
+
+  return {
+    ...routeMetadata,
+    title: fallbackTitle,
+    description: fallbackDescription,
+    openGraph: {
+      ...routeMetadata.openGraph,
+      title: fallbackTitle,
+      description: fallbackDescription,
+    },
+    twitter: {
+      ...routeMetadata.twitter,
+      title: fallbackTitle,
+      description: fallbackDescription,
+    },
+  };
 }
