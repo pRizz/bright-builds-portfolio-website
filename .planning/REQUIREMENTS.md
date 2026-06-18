@@ -45,9 +45,9 @@ Requirements for the theme paths and collaboration milestone. Each requirement m
 ### Verification
 
 - [ ] **VERIFY-01**: Static verification checks generated theme HTML for expected content, metadata, structured data, sitemap inclusion and exclusion, related project links, related writing links, collaboration links, and forbidden runtime API residue.
-- [ ] **VERIFY-02**: Browser release checks include theme routes for axe, dark desktop and mobile layout, keyboard reachability, reduced-motion behavior where relevant, and text-overlap risk.
-- [ ] **VERIFY-03**: Release-readiness docs and checks identify theme route coverage as part of `bun run install:browser && bun run verify`.
-- [ ] **VERIFY-04**: The aggregate `bun run verify` gate passes with theme routes included and release evidence labels name only automated theme coverage that actually runs.
+- [x] **VERIFY-02**: Browser release checks include theme routes for axe, dark desktop and mobile layout, keyboard reachability, reduced-motion behavior where relevant, and text-overlap risk.
+- [x] **VERIFY-03**: Release-readiness docs and checks identify theme route coverage as part of `bun run install:browser && bun run verify`.
+- [x] **VERIFY-04**: The aggregate `bun run verify` gate passes with theme routes included and release evidence labels name only automated theme coverage that actually runs.
 
 ## Future Requirements
 
@@ -110,9 +110,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | META-03 | Phase 22 | Pending |
 | META-04 | Phase 22 | Pending |
 | VERIFY-01 | Phase 23 | Pending |
-| VERIFY-02 | Phase 23 | Pending |
-| VERIFY-03 | Phase 23 | Pending |
-| VERIFY-04 | Phase 23 | Pending |
+| VERIFY-02 | Phase 23 | Complete |
+| VERIFY-03 | Phase 23 | Complete |
+| VERIFY-04 | Phase 23 | Complete |
 
 **Coverage:**
 

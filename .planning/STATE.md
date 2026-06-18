@@ -4,17 +4,17 @@ milestone: v1.4
 milestone_name: Theme Paths & Collaboration Surface
 current_phase: 23
 current_phase_name: theme-verification-and-release-contract
-current_plan: 1
+current_plan: 2
 status: executing
-stopped_at: Phase 23 context gathered
-last_updated: "2026-06-18T05:14:30.166Z"
-last_activity: 2026-06-18 -- Phase 23 execution started
+stopped_at: Completed 23-01-PLAN.md
+last_updated: "2026-06-18T05:24:16.246Z"
+last_activity: 2026-06-18
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 12
-  completed_plans: 10
-  percent: 83
+  completed_plans: 11
+  percent: 92
 ---
 
 # Project State
@@ -30,13 +30,13 @@ See: .planning/PROJECT.md (updated 2026-06-17)
 
 Current Phase: 23
 Current Phase Name: theme-verification-and-release-contract
-Current Plan: 1
+Current Plan: 2
 Total Phases: 5
 Total Plans in Phase: 2
 Phase: 23 (theme-verification-and-release-contract) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 23
-Last activity: 2026-06-18 -- Phase 23 execution started
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-06-18
 
 Progress: [██████████] 100%
 
@@ -75,6 +75,9 @@ Recent decisions affecting current work:
 - [v1.4 milestone]: Theme paths synthesize existing project and writing surfaces before CMS/admin, analytics, comments/newsletter, or dynamic Open Graph work.
 - [v1.4 scope]: Keep OpenLinks as a subtle identity hub in footer/profile/contact/metadata surfaces; theme collaboration panels should not turn OpenLinks into the primary CTA.
 - [v1.4 roadmap]: Use five coarse phases from the active requirements: theme domain foundation, routes and dark UI, collaboration pathways and cross-links, metadata and structured data, and verification/release contract.
+- [Phase 23]: Run `bun run verify:release` last in the aggregate `bun run verify` gate without adding browser installation or metadata generation to the aggregate script. — This keeps the aggregate release gate truthful, non-mutating, and aligned with the clean-builder prerequisite documented for Playwright Chromium.
+- [Phase 23]: Use `themeDetailRoutes()[0]` for the representative theme smoke route in executable release-readiness checks. — The code-owned release guard stays aligned with public theme helpers instead of copying a route slug into implementation code.
+- [Phase 23]: Limit automated release evidence wording to `theme route coverage` and keep manual external-link, preview, post-deploy, and hosted checks as checklist prose. — This avoids overclaiming manual or network-dependent verification as automated local evidence.
 
 ### Pending Todos
 
@@ -86,7 +89,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-18T04:34:31.228Z
-Stopped at: Phase 23 context gathered
-Resume file: .planning/phases/23-theme-verification-and-release-contract/23-CONTEXT.md
+Last session: 2026-06-18T05:23:48.964Z
+Stopped at: Completed 23-01-PLAN.md
+Resume file: None
 Next action: run /gsd-discuss-phase 23
