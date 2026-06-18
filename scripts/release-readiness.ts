@@ -15,7 +15,8 @@ export type ExternalLinkPolicy = {
 
 type RequiredDocumentFact = {
   label: string;
-  text: string;
+  pattern: RegExp;
+  expectedDescription: string;
 };
 
 export const externalLinkPolicies = [
@@ -79,55 +80,171 @@ const sensitiveQueryKeyPatterns = [
 const releaseReadinessDocumentPath = "docs/release-readiness.md";
 
 const requiredReleaseReadinessDocumentFacts = [
-  { label: "aggregate release command", text: "bun run verify" },
-  { label: "production build command", text: "bun run build" },
-  { label: "static output directory", text: ".output/public" },
-  { label: "Cloudflare Pages", text: "Cloudflare Pages" },
-  { label: "Bun version pin", text: "BUN_VERSION=1.3.14" },
-  { label: "Node version pin", text: "NODE_VERSION=22.16.0" },
-  { label: "Playwright Chromium provisioning command", text: "bun run install:browser" },
+  {
+    label: "aggregate release command",
+    pattern: /```bash\s*bun run verify\s*```/m,
+    expectedDescription: "bun run verify",
+  },
+  {
+    label: "production build command",
+    pattern: /## Static Output[\s\S]*```bash\s*bun run build\s*```/m,
+    expectedDescription: "bun run build",
+  },
+  {
+    label: "static output directory",
+    pattern: /The static host must serve `\.output\/public` as the site root\./,
+    expectedDescription: ".output/public",
+  },
+  {
+    label: "Cloudflare Pages",
+    pattern:
+      /## Cloudflare Pages[\s\S]*Cloudflare Pages should serve the generated static artifact directly\./,
+    expectedDescription: "Cloudflare Pages",
+  },
+  {
+    label: "Bun version pin",
+    pattern: /\| Bun environment variable \| `BUN_VERSION=1\.3\.14` \|/,
+    expectedDescription: "BUN_VERSION=1.3.14",
+  },
+  {
+    label: "Node version pin",
+    pattern: /\| Node environment variable \| `NODE_VERSION=22\.16\.0` \|/,
+    expectedDescription: "NODE_VERSION=22.16.0",
+  },
+  {
+    label: "Playwright Chromium provisioning command",
+    pattern:
+      /install the browser dependency explicitly before the aggregate gate:[\s\S]*```bash\s*bun run install:browser && bun run verify\s*```/m,
+    expectedDescription: "bun run install:browser",
+  },
   {
     label: "clean-builder browser provisioning before aggregate verify",
-    text: "bun run install:browser && bun run verify",
+    pattern:
+      /Use `bun run install:browser && bun run verify` as the clean-builder command sequence when the deployment should block on the full release gate\./,
+    expectedDescription: "bun run install:browser && bun run verify",
   },
-  { label: "browser release gate", text: "bun run verify:browser" },
-  { label: "project helper surface gate", text: "bun run verify:project-helper-surface" },
-  { label: "static metadata gate", text: "bun run verify:static" },
-  { label: "release verifier gate", text: "bun run verify:release" },
-  { label: "project detail route coverage", text: "project detail route coverage" },
+  {
+    label: "browser release gate",
+    pattern:
+      /## Automated Gates[\s\S]*### Browser and Accessibility[\s\S]*`bun run verify:browser` runs/,
+    expectedDescription: "bun run verify:browser",
+  },
+  {
+    label: "project helper surface gate",
+    pattern: /## Primary Release Gate[\s\S]*- `bun run verify:project-helper-surface`/,
+    expectedDescription: "bun run verify:project-helper-surface",
+  },
+  {
+    label: "static metadata gate",
+    pattern: /### SEO and Static Metadata[\s\S]*`bun run verify:static` checks/,
+    expectedDescription: "bun run verify:static",
+  },
+  {
+    label: "release verifier gate",
+    pattern:
+      /### Performance and Best Practices[\s\S]*`bun run verify:release` enforces deterministic static output budgets/,
+    expectedDescription: "bun run verify:release",
+  },
+  {
+    label: "project detail route coverage",
+    pattern: /This primary release gate includes project detail route coverage/,
+    expectedDescription: "project detail route coverage",
+  },
   {
     label: "project detail static coverage",
-    text: "project detail metadata, JSON-LD, and sitemap coverage",
+    pattern:
+      /The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage/,
+    expectedDescription: "project detail metadata, JSON-LD, and sitemap coverage",
   },
   {
     label: "project detail browser coverage",
-    text: "project detail axe, layout, representative keyboard, and representative reduced-motion coverage",
+    pattern:
+      /with project detail axe, layout, representative keyboard, and representative reduced-motion coverage/,
+    expectedDescription:
+      "project detail axe, layout, representative keyboard, and representative reduced-motion coverage",
   },
-  { label: "writing route coverage", text: "writing route coverage" },
+  {
+    label: "writing route coverage",
+    pattern: /This primary release gate includes[\s\S]*writing route coverage/,
+    expectedDescription: "writing route coverage",
+  },
   {
     label: "writing static coverage",
-    text: "writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage",
+    pattern:
+      /The writing route coverage contract combines writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage/,
+    expectedDescription:
+      "writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage",
   },
   {
     label: "writing browser coverage",
-    text: "writing axe, layout, representative keyboard, and representative reduced-motion coverage",
+    pattern:
+      /with writing axe, layout, representative keyboard, and representative reduced-motion coverage/,
+    expectedDescription:
+      "writing axe, layout, representative keyboard, and representative reduced-motion coverage",
   },
-  { label: "theme route coverage", text: "theme route coverage" },
+  {
+    label: "theme route coverage",
+    pattern: /This primary release gate includes[\s\S]*theme route coverage/,
+    expectedDescription: "theme route coverage",
+  },
   {
     label: "theme static coverage",
-    text: "theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage",
+    pattern:
+      /The theme route coverage contract combines theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage/,
+    expectedDescription:
+      "theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage",
   },
   {
     label: "theme browser coverage",
-    text: "theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage",
+    pattern:
+      /with theme axe, desktop\/mobile dark layout, representative keyboard, and representative reduced-motion coverage/,
+    expectedDescription:
+      "theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage",
   },
-  { label: "selected project smoke route", text: representativeProjectDetailRoute() },
-  { label: "selected writing smoke route", text: representativeWritingDetailRoute() },
-  { label: "representative theme smoke route", text: representativeThemeDetailRoute() },
-  { label: "manual external-link smoke check", text: "Manual external-link smoke check" },
-  { label: "preview deployment", text: "preview deployment" },
-  { label: "post-deploy smoke check", text: "post-deploy smoke check" },
-  { label: "public token prefix warning", text: "Do not use VITE_" },
+  {
+    label: "selected project smoke route",
+    pattern: new RegExp(
+      `Confirm the selected project detail route \`${escapedRegExpText(
+        representativeProjectDetailRoute(),
+      )}\``,
+    ),
+    expectedDescription: representativeProjectDetailRoute(),
+  },
+  {
+    label: "selected writing smoke route",
+    pattern: new RegExp(
+      `the public writing detail route \`${escapedRegExpText(representativeWritingDetailRoute())}\``,
+    ),
+    expectedDescription: representativeWritingDetailRoute(),
+  },
+  {
+    label: "representative theme smoke route",
+    pattern: new RegExp(
+      `the public theme detail route \`${escapedRegExpText(representativeThemeDetailRoute())}\``,
+    ),
+    expectedDescription: representativeThemeDetailRoute(),
+  },
+  {
+    label: "manual external-link smoke check",
+    pattern: /Manual external-link smoke check before release:/,
+    expectedDescription: "Manual external-link smoke check",
+  },
+  {
+    label: "preview deployment",
+    pattern: /## Preview Deployment Checklist[\s\S]*Before creating a preview deployment:/,
+    expectedDescription: "preview deployment",
+  },
+  {
+    label: "post-deploy smoke check",
+    pattern:
+      /Post-deploy smoke check:[\s\S]*Use this post-deploy smoke check after the production deployment:/,
+    expectedDescription: "post-deploy smoke check",
+  },
+  {
+    label: "public token prefix warning",
+    pattern: /Do not use VITE_, PUBLIC_, or SOLID_PUBLIC_ prefixes for GitHub tokens\./,
+    expectedDescription: "Do not use VITE_",
+  },
 ] as const satisfies readonly RequiredDocumentFact[];
 
 export function externalLinkFindingsForRoutes(
@@ -212,14 +329,14 @@ export function releaseReadinessDocumentFindings(
   const findings: ReleaseFinding[] = [];
 
   for (const fact of requiredReleaseReadinessDocumentFacts) {
-    if (normalizedDocumentText.includes(fact.text)) {
+    if (fact.pattern.test(normalizedDocumentText)) {
       continue;
     }
 
     findings.push({
       path: documentPath,
       label: "release-readiness document",
-      message: `Release-readiness document is missing ${fact.label}: ${fact.text}.`,
+      message: `Release-readiness document is missing ${fact.label}: ${fact.expectedDescription}.`,
     });
   }
 
@@ -267,6 +384,10 @@ function representativeThemeDetailRoute(): string {
   }
 
   return maybeRoute;
+}
+
+function escapedRegExpText(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function uniqueExternalAnchorHrefsForRoutes(

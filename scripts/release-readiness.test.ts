@@ -155,6 +155,33 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("rejects negated release facts even when the required command names appear", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithReplacements([
+      [
+        "```bash\nbun run verify\n```",
+        "Do not treat a bare mention of bun run verify as release evidence.",
+      ],
+      ["`bun run verify:browser` runs", "`bun run verify:browser` does not run"],
+    ]);
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(messages).toContain(
+        "Release-readiness document is missing aggregate release command: bun run verify.",
+      );
+      expect(messages).toContain(
+        "Release-readiness document is missing browser release gate: bun run verify:browser.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("reports missing project helper surface gate guidance", () => {
     // Arrange
     const fixture = releaseDocumentFixtureWithout("bun run verify:project-helper-surface");
@@ -469,6 +496,25 @@ function releaseDocumentFixtureWithout(textToRemove: string) {
     textToRemove,
     "",
   );
+
+  writeFileSync(documentPath, documentText);
+
+  return {
+    path: documentPath,
+    cleanup: () => rmSync(directoryPath, { recursive: true, force: true }),
+  };
+}
+
+function releaseDocumentFixtureWithReplacements(
+  replacements: readonly (readonly [string, string])[],
+) {
+  const directoryPath = mkdtempSync(join(tmpdir(), "release-readiness-"));
+  const documentPath = join(directoryPath, "release-readiness.md");
+  let documentText = readFileSync("docs/release-readiness.md", "utf8");
+
+  for (const [from, to] of replacements) {
+    documentText = documentText.replaceAll(from, to);
+  }
 
   writeFileSync(documentPath, documentText);
 
