@@ -128,7 +128,10 @@ Plans:
 1. Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data without introducing unreviewed external-link sources or live reachability claims.
 1. OpenLinks remains discoverable as a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA.
 
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 23-01-PLAN.md - Aggregate release-readiness contract, theme evidence labels, docs, and verify ordering
+- [ ] 23-02-PLAN.md - Static verifier theme route coverage evidence wording
 **UI hint**: yes
 
 ### Phase 22: Theme Metadata and Structured Data
