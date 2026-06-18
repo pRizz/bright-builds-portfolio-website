@@ -208,7 +208,7 @@ describe("release verifier accessibility and release evidence labels", () => {
     ]);
   });
 
-  it("emits scoped browser-evidence labels without claiming external suite coverage", () => {
+  it("emits automated evidence labels without claiming manual or external suite coverage", () => {
     // Arrange
     const route = routeFixture("/", '<img src="/brand.png" alt="Bright Builds preview">');
     const css = [
@@ -239,11 +239,11 @@ describe("release verifier accessibility and release evidence labels", () => {
       "theme route coverage",
       "static performance budgets",
       "external link policy",
-      "Cloudflare/static deployment",
-      "preview and deploy smoke checks",
     ]);
     const joinedLabels = labels.join(" ");
 
+    expect(joinedLabels).not.toContain("Cloudflare/static deployment");
+    expect(joinedLabels).not.toContain("preview and deploy smoke checks");
     expect(joinedLabels).not.toContain("external suite");
     expect(joinedLabels).not.toContain("hosted audit");
     expect(joinedLabels).not.toContain("network");

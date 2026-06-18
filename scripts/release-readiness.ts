@@ -343,7 +343,7 @@ export function releaseReadinessDocumentFindings(
   return findings;
 }
 
-export function releaseReadinessEvidenceLabels(): readonly string[] {
+export function automatedReleaseReadinessEvidenceLabels(): readonly string[] {
   return [
     "SEO/static metadata",
     "project detail route coverage",
@@ -351,9 +351,11 @@ export function releaseReadinessEvidenceLabels(): readonly string[] {
     "theme route coverage",
     "static performance budgets",
     "external link policy",
-    "Cloudflare/static deployment",
-    "preview and deploy smoke checks",
   ];
+}
+
+export function manualReleaseChecklistLabels(): readonly string[] {
+  return ["Cloudflare/static deployment", "preview and deploy smoke checks"];
 }
 
 function representativeProjectDetailRoute(): string {

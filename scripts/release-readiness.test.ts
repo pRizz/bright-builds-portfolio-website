@@ -6,9 +6,10 @@ import { describe, expect, it } from "vitest";
 import { themeDetailRoutes } from "../src/domain/themes";
 import { writingDetailRoutes } from "../src/domain/writing";
 import {
+  automatedReleaseReadinessEvidenceLabels,
   externalLinkFindingsForRoutes,
+  manualReleaseChecklistLabels,
   releaseReadinessDocumentFindings,
-  releaseReadinessEvidenceLabels,
 } from "./release-readiness";
 import type { StaticReleaseRoute } from "./verify-release";
 
@@ -441,7 +442,7 @@ describe("release-readiness document contract", () => {
     }
   });
 
-  it("names release-readiness evidence covered by the aggregate gate", () => {
+  it("names automated release-readiness evidence covered by the aggregate gate", () => {
     // Arrange
     const expectedLabels = [
       "SEO/static metadata",
@@ -450,12 +451,21 @@ describe("release-readiness document contract", () => {
       "theme route coverage",
       "static performance budgets",
       "external link policy",
-      "Cloudflare/static deployment",
-      "preview and deploy smoke checks",
     ];
 
     // Act
-    const labels = releaseReadinessEvidenceLabels();
+    const labels = automatedReleaseReadinessEvidenceLabels();
+
+    // Assert
+    expect(labels).toEqual(expectedLabels);
+  });
+
+  it("keeps manual release checklist labels separate from automated evidence", () => {
+    // Arrange
+    const expectedLabels = ["Cloudflare/static deployment", "preview and deploy smoke checks"];
+
+    // Act
+    const labels = manualReleaseChecklistLabels();
 
     // Assert
     expect(labels).toEqual(expectedLabels);

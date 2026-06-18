@@ -2,9 +2,9 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 
 import {
+  automatedReleaseReadinessEvidenceLabels,
   externalLinkFindingsForRoutes,
   releaseReadinessDocumentFindings,
-  releaseReadinessEvidenceLabels,
 } from "./release-readiness";
 
 export type ReleaseTextFile = {
@@ -383,7 +383,7 @@ export function releaseEvidenceLabels(): readonly string[] {
     "image alt",
     "interactive motion surfaces",
     "reduced-motion",
-    ...releaseReadinessEvidenceLabels(),
+    ...automatedReleaseReadinessEvidenceLabels(),
   ];
 }
 
