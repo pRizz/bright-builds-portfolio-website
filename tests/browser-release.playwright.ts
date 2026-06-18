@@ -1,11 +1,19 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Locator, type Page, test } from "@playwright/test";
-import { projectDetailPath, projectDetailRoutes } from "../src/domain/projects";
+import {
+  projectDetailPageProjects,
+  projectDetailPath,
+  projectDetailRoutes,
+} from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
 import {
+  collaborationActionsForTheme,
   publicThemeEntries,
+  publicThemeEntriesForProject,
+  publicThemeEntriesForWritingEntry,
   relatedProjectDetailPageProjectsForTheme,
   relatedWritingEntriesForTheme,
+  themeDetailPath,
   themeDetailRoutes,
 } from "../src/domain/themes";
 import {
@@ -97,12 +105,15 @@ test.describe("browser release checks", () => {
     );
 
     // Arrange
-    const detailRoute = representativeProjectDetailRoute();
-    const writingRoute = representativeWritingDetailRoute();
+    const detailRoute = representativeProjectDetailRouteWithRelatedThemes();
+    const writingRoute = representativeWritingDetailRouteWithRelatedThemes();
     const relatedProjectRoute = representativeWritingRelatedProjectRoute();
     const themeRoute = representativeThemeDetailRoute();
     const relatedThemeProjectRoute = representativeThemeRelatedProjectRoute();
     const relatedThemeWritingRoute = representativeThemeRelatedWritingRoute();
+    const themeExternalCollaborationHref = representativeThemeExternalCollaborationHref();
+    const projectRelatedThemeRoute = representativeProjectRelatedThemeRoute();
+    const writingRelatedThemeRoute = representativeWritingRelatedThemeRoute();
     await page.goto("/");
 
     // Act
@@ -152,6 +163,10 @@ test.describe("browser release checks", () => {
       hasFocusedProjectActionLink(detailFocusedTargets),
       "focus reaches at least one selected project action link",
     ).toBe(true);
+    expect(
+      hasFocusedInternalPath(detailFocusedTargets, projectRelatedThemeRoute),
+      "focus reaches related theme route from selected project detail route",
+    ).toBe(true);
 
     await page.goto("/writing");
     const writingFocusedTargets = await keyboardFocusTargets(page);
@@ -179,6 +194,10 @@ test.describe("browser release checks", () => {
     expect(
       hasFocusedInternalPath(writingDetailFocusedTargets, relatedProjectRoute),
       "focus reaches related project route from writing detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedInternalPath(writingDetailFocusedTargets, writingRelatedThemeRoute),
+      "focus reaches related theme route from writing detail route",
     ).toBe(true);
 
     await page.goto("/themes");
@@ -211,6 +230,10 @@ test.describe("browser release checks", () => {
     expect(
       hasFocusedInternalPath(themeDetailFocusedTargets, relatedThemeWritingRoute),
       "focus reaches related writing route from theme detail route",
+    ).toBe(true);
+    expect(
+      hasFocusedHref(themeDetailFocusedTargets, themeExternalCollaborationHref),
+      "focus reaches external collaboration action from theme detail route",
     ).toBe(true);
   });
 
@@ -248,6 +271,10 @@ function representativeProjectDetailRoute(): string {
   return maybeRoute;
 }
 
+function representativeProjectDetailRouteWithRelatedThemes(): string {
+  return projectDetailPath(representativeProjectWithRelatedThemes());
+}
+
 function representativeWritingDetailRoute(): string {
   const maybeRoute = writingDetailRoutes()[0];
 
@@ -256,6 +283,10 @@ function representativeWritingDetailRoute(): string {
   }
 
   return maybeRoute;
+}
+
+function representativeWritingDetailRouteWithRelatedThemes(): string {
+  return writingDetailPath(representativeWritingWithRelatedThemes());
 }
 
 function representativeWritingRelatedProjectRoute(): string {
@@ -269,6 +300,70 @@ function representativeWritingRelatedProjectRoute(): string {
 
   throw new Error(
     "Expected at least one public writing entry with a related project detail route for release coverage.",
+  );
+}
+
+function representativeThemeExternalCollaborationHref(): string {
+  for (const theme of publicThemeEntries()) {
+    const maybeAction = collaborationActionsForTheme(theme).find((action) => action.external);
+
+    if (maybeAction) {
+      return maybeAction.href;
+    }
+  }
+
+  throw new Error(
+    "Expected at least one public theme with an external collaboration action for browser coverage.",
+  );
+}
+
+function representativeProjectRelatedThemeRoute(): string {
+  const project = representativeProjectWithRelatedThemes();
+  const maybeTheme = publicThemeEntriesForProject(project)[0];
+
+  if (!maybeTheme) {
+    throw new Error(
+      "Expected at least one selected project with a related public theme route for browser coverage.",
+    );
+  }
+
+  return themeDetailPath(maybeTheme);
+}
+
+function representativeWritingRelatedThemeRoute(): string {
+  const entry = representativeWritingWithRelatedThemes();
+  const maybeTheme = publicThemeEntriesForWritingEntry(entry)[0];
+
+  if (!maybeTheme) {
+    throw new Error(
+      "Expected at least one public writing entry with a related public theme route for browser coverage.",
+    );
+  }
+
+  return themeDetailPath(maybeTheme);
+}
+
+function representativeProjectWithRelatedThemes() {
+  for (const project of projectDetailPageProjects()) {
+    if (publicThemeEntriesForProject(project).length > 0) {
+      return project;
+    }
+  }
+
+  throw new Error(
+    "Expected at least one selected project with related public themes for browser coverage.",
+  );
+}
+
+function representativeWritingWithRelatedThemes() {
+  for (const entry of publicWritingEntries()) {
+    if (publicThemeEntriesForWritingEntry(entry).length > 0) {
+      return entry;
+    }
+  }
+
+  throw new Error(
+    "Expected at least one public writing entry with related public themes for browser coverage.",
   );
 }
 
@@ -547,6 +642,10 @@ function hasFocusedInternalPath(
 
     return url.origin === "http://127.0.0.1:4173" && url.pathname === expectedPath;
   });
+}
+
+function hasFocusedHref(focusedTargets: readonly FocusSnapshot[], expectedHref: string): boolean {
+  return focusedTargets.some((target) => target.href === expectedHref);
 }
 
 function hasFocusedProjectAnchor(focusedTargets: readonly FocusSnapshot[]): boolean {
