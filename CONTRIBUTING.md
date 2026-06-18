@@ -61,4 +61,4 @@ Use `bun run sync:github-metadata` to refresh the checked-in snapshot when publi
 
 Docs must never include token values. The optional `GITHUB_METADATA_TOKEN` is non-public and belongs only in local or server-side command environments. Do not recommend `VITE_*`, `PUBLIC_*`, or `SOLID_PUBLIC_*` prefixes for GitHub tokens.
 
-Before release, run `bun run verify`; for post-build release verification only, run `bun run verify:release` after `bun run build`.
+Before release, run `bun run install:browser && bun run verify` on clean builders, or `bun run verify` after Playwright Chromium is already provisioned locally. The aggregate gate includes the release-readiness verifier.

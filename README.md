@@ -35,9 +35,9 @@ Use the aggregate release gate before shipping:
 bun run verify
 ```
 
-On clean machines or static builders, run `bun run install:browser` first so Playwright Chromium is available to the browser/accessibility suite.
+On clean machines or static builders, run `bun run install:browser && bun run verify` so Playwright Chromium is available before the browser/accessibility suite.
 
-The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the project helper surface, checks the visual system, builds the production static output, runs browser/accessibility checks, verifies static prerendered routes and metadata, and then runs the release-readiness verifier.
+The aggregate gate formats, checks, typechecks, tests, verifies curation, blocks visitor-runtime GitHub usage, checks the project helper surface, checks the visual system, builds the production static output, runs browser/accessibility checks, verifies static prerendered routes, metadata, and theme route coverage, and then runs the release-readiness verifier.
 
 Useful scripts:
 
