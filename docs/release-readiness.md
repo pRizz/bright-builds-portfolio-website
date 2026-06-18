@@ -16,7 +16,7 @@ On a clean local machine or static builder where Playwright Chromium is not alre
 bun run install:browser && bun run verify
 ```
 
-This primary release gate includes project detail route coverage for selected `/projects/{slug}` pages and writing route coverage for `/writing` plus public `/writing/{slug}` pages. The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage with project detail axe, layout, representative keyboard, and representative reduced-motion coverage. The writing route coverage contract combines writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage with writing axe, layout, representative keyboard, and representative reduced-motion coverage.
+This primary release gate includes project detail route coverage for selected `/projects/{slug}` pages, writing route coverage for `/writing` plus public `/writing/{slug}` pages, and theme route coverage for `/themes` plus public `/themes/{slug}` pages. The project detail route coverage contract combines project detail metadata, JSON-LD, and sitemap coverage with project detail axe, layout, representative keyboard, and representative reduced-motion coverage. The writing route coverage contract combines writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage with writing axe, layout, representative keyboard, and representative reduced-motion coverage. The theme route coverage contract combines theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage with theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage.
 
 The aggregate gate includes:
 
@@ -143,7 +143,7 @@ After the preview deployment is available:
 1. Confirm the project anchors on `/projects` work.
 1. Run the Manual external-link smoke check.
 
-Preview and production smoke checks include one selected project detail route, currently /projects/openlinks, and one public writing detail route, currently /writing/agentic-engineering-workflows.
+Preview and production smoke checks include one selected project detail route, currently /projects/openlinks, one public writing detail route, currently /writing/agentic-engineering-workflows, and one public theme detail route, currently /themes/agentic-engineering.
 
 ## Production Deployment Checklist
 

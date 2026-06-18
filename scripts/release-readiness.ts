@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 
 import { peterProfile } from "../src/domain/profile";
 import { projectDetailRoutes } from "../src/domain/projects";
+import { themeDetailRoutes } from "../src/domain/themes";
 import { writingDetailRoutes } from "../src/domain/writing";
 import type { ReleaseFinding, StaticReleaseRoute } from "./verify-release";
 
@@ -111,8 +112,18 @@ const requiredReleaseReadinessDocumentFacts = [
     label: "writing browser coverage",
     text: "writing axe, layout, representative keyboard, and representative reduced-motion coverage",
   },
+  { label: "theme route coverage", text: "theme route coverage" },
+  {
+    label: "theme static coverage",
+    text: "theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage",
+  },
+  {
+    label: "theme browser coverage",
+    text: "theme axe, desktop/mobile dark layout, representative keyboard, and representative reduced-motion coverage",
+  },
   { label: "selected project smoke route", text: representativeProjectDetailRoute() },
   { label: "selected writing smoke route", text: representativeWritingDetailRoute() },
+  { label: "representative theme smoke route", text: representativeThemeDetailRoute() },
   { label: "manual external-link smoke check", text: "Manual external-link smoke check" },
   { label: "preview deployment", text: "preview deployment" },
   { label: "post-deploy smoke check", text: "post-deploy smoke check" },
@@ -220,6 +231,7 @@ export function releaseReadinessEvidenceLabels(): readonly string[] {
     "SEO/static metadata",
     "project detail route coverage",
     "writing route coverage",
+    "theme route coverage",
     "static performance budgets",
     "external link policy",
     "Cloudflare/static deployment",
@@ -242,6 +254,16 @@ function representativeWritingDetailRoute(): string {
 
   if (!maybeRoute) {
     throw new Error("Expected at least one public writing detail route for release coverage.");
+  }
+
+  return maybeRoute;
+}
+
+function representativeThemeDetailRoute(): string {
+  const maybeRoute = themeDetailRoutes()[0];
+
+  if (!maybeRoute) {
+    throw new Error("Expected at least one public theme detail route for release coverage.");
   }
 
   return maybeRoute;
