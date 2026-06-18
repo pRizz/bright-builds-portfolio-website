@@ -76,7 +76,7 @@ Source for this entire section: `.planning/phases/23-theme-verification-and-rele
 
 Phase 23 should be planned as a release-contract alignment phase, not a new theme feature phase. [VERIFIED: 23-CONTEXT.md] The theme route static verifier already checks `/themes` and public `/themes/{slug}` routes through `prerenderRoutes`, `publicThemeEntries()`, `themeDetailRoutes()`, metadata helpers, JSON-LD helpers, sitemap helpers, fallback-source checks, social fallback asset checks, and forbidden output patterns. [VERIFIED: scripts/verify-static/expected-route-text.ts; VERIFIED: scripts/verify-static/metadata-jsonld-verifier.ts; VERIFIED: scripts/verify-static/sitemap-assets-verifier.ts; VERIFIED: src/domain/routes.ts; VERIFIED: src/domain/themes.ts; VERIFIED: src/domain/seo.ts]
 
-The largest concrete implementation gap is script truth: `README.md` and `docs/release-readiness.md` describe `verify:release` as part of the aggregate gate, while `package.json` currently leaves `verify:release` outside `bun run verify`. [VERIFIED: README.md; VERIFIED: docs/release-readiness.md; VERIFIED: package.json] The second gap is release-readiness naming: the checked-in document facts and evidence labels cover project and writing route coverage but not theme route coverage yet. [VERIFIED: scripts/release-readiness.ts; VERIFIED: scripts/release-readiness.test.ts; VERIFIED: scripts/verify-release.test.ts]
+The largest concrete implementation gap is script truth: `README.md`, `CONTRIBUTING.md`, and `docs/release-readiness.md` must describe `verify:release` as part of the aggregate gate, while `package.json` currently leaves `verify:release` outside `bun run verify`. [VERIFIED: README.md; VERIFIED: CONTRIBUTING.md; VERIFIED: docs/release-readiness.md; VERIFIED: package.json] The second gap is release-readiness naming: the checked-in document facts and evidence labels cover project and writing route coverage but not theme route coverage yet. [VERIFIED: scripts/release-readiness.ts; VERIFIED: scripts/release-readiness.test.ts; VERIFIED: scripts/verify-release.test.ts]
 
 Browser coverage already matches the intended shape: Playwright/axe scans all `prerenderRoutes`, desktop/mobile projects run dark layout overflow and overlap checks, and representative keyboard/reduced-motion flows include theme index, theme detail, related project, related writing, and an external collaboration action. [VERIFIED: tests/browser-release.playwright.ts; VERIFIED: playwright.config.ts] Because Playwright's own accessibility guidance says automated accessibility scans catch only some accessibility problems and should not replace manual assessment, release wording must avoid claims like full WCAG certification, hosted audit completion, or manual review as automated evidence. [CITED: https://playwright.dev/docs/accessibility-testing]
 
@@ -143,6 +143,7 @@ No new dependency installation is recommended for Phase 23. [VERIFIED: package.j
 ```text
 package.json                         # aggregate verify script ownership [VERIFIED: package.json]
 README.md                            # developer-facing release gate summary [VERIFIED: README.md]
+CONTRIBUTING.md                      # contributor-facing release gate summary [VERIFIED: CONTRIBUTING.md]
 docs/release-readiness.md            # release contract checked by code [VERIFIED: docs/release-readiness.md]
 scripts/
   release-readiness.ts               # code-owned document facts, external-link policy, evidence labels [VERIFIED: scripts/release-readiness.ts]
@@ -264,7 +265,7 @@ The example updates the existing script composition and does not add `generate:s
 **What goes wrong:** Docs say `bun run verify` runs release verification, but `package.json` does not. [VERIFIED: README.md; VERIFIED: docs/release-readiness.md; VERIFIED: package.json]
 **Why it happens:** `verify:release` is available as a narrow script, but the aggregate command stops after `verify:static`. [VERIFIED: package.json]
 **How to avoid:** Append `&& bun run verify:release` after `verify:static` and add a test or review check that guards the aggregate script string. [VERIFIED: 23-CONTEXT.md; VERIFIED: package.json]
-**Warning signs:** README/release-readiness prose names `verify:release` in the aggregate gate while `package.json` does not. [VERIFIED: rg output; VERIFIED: package.json]
+**Warning signs:** README, CONTRIBUTING, or release-readiness prose names `verify:release` in the aggregate gate while `package.json` does not, or contributor docs call `verify:release` post-build-only after the aggregate gate includes it. [VERIFIED: rg output; VERIFIED: CONTRIBUTING.md; VERIFIED: package.json]
 
 ### Pitfall 2: Evidence Labels Overclaim Manual or Hosted Work
 
@@ -298,7 +299,7 @@ The example updates the existing script composition and does not add `generate:s
 
 **What goes wrong:** Planner assumes local clean-builder evidence uses `bun@1.3.14`, but local `bun --version` reports `1.3.9`. [VERIFIED: package.json; VERIFIED: local command]
 **Why it happens:** `packageManager` and Cloudflare docs pin a target version, while the developer machine can have an older Bun binary. [VERIFIED: package.json; VERIFIED: docs/release-readiness.md; VERIFIED: local command]
-**How to avoid:** Document the mismatch and either upgrade local Bun before final proof or clearly report that proof ran with local Bun `1.3.9` while CI/Cloudflare should pin `1.3.14`. [VERIFIED: local command; VERIFIED: docs/release-readiness.md]
+**How to avoid:** Final evidence must state the local `bun --version` used. Do not require upgrading local Bun by default; upgrade only if verification fails due to a Bun version mismatch or if the user explicitly requests exact local parity with `packageManager: bun@1.3.14`. [VERIFIED: local command; VERIFIED: package.json]
 **Warning signs:** Final evidence says exact clean-builder command passed without stating the Bun version used. [VERIFIED: package.json; VERIFIED: local command]
 
 ## Code Examples
@@ -393,23 +394,21 @@ The release verifier should run last because it reads `.output/public` and the c
 
 All implementation recommendations in this research were verified from local repo files, tool output, npm registry checks, or cited official documentation; only the validity-window estimate is assumed. [VERIFIED: source review]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `CONTRIBUTING.md` release wording be updated too?** [VERIFIED: CONTRIBUTING.md]
    - What we know: `CONTRIBUTING.md` says to run `bun run verify` before release and `verify:release` for post-build release verification only. [VERIFIED: CONTRIBUTING.md]
-   - What's unclear: Phase 23 focus names `README.md` and `docs/release-readiness.md`, not `CONTRIBUTING.md`. [VERIFIED: user prompt]
-   - Recommendation: Treat `CONTRIBUTING.md` as optional cleanup only if the planner wants every docs surface to reflect `verify:release` inside aggregate `verify`; do not expand the phase if README and release-readiness docs satisfy VERIFY-03. [VERIFIED: .planning/REQUIREMENTS.md; VERIFIED: 23-CONTEXT.md]
+   - RESOLVED: Yes. Plan 01 must include `CONTRIBUTING.md` in `files_modified`, context/read-first files, task docs action, and acceptance criteria. Contributor release wording should direct clean release verification to `bun run install:browser && bun run verify` and should not describe `verify:release` as post-build-only outside the aggregate gate after Phase 23 moves it into `verify`. [VERIFIED: revision_context; VERIFIED: CONTRIBUTING.md; VERIFIED: 23-CONTEXT.md]
 
 2. **Should local Bun be upgraded before final proof?** [VERIFIED: local command; VERIFIED: package.json]
    - What we know: Local Bun is `1.3.9`, while `package.json`, README badges, and Cloudflare settings pin `1.3.14`. [VERIFIED: `bun --version`; VERIFIED: package.json; VERIFIED: README.md; VERIFIED: docs/release-readiness.md]
-   - What's unclear: The executor may be able to pass verification locally with `1.3.9`, but the clean-builder release contract names `1.3.14`. [VERIFIED: local command; VERIFIED: docs/release-readiness.md]
-   - Recommendation: Planner should require final evidence to state the Bun version used; upgrade local Bun only if verification fails or exact clean-builder parity is required by the user. [VERIFIED: package.json; VERIFIED: local command]
+   - RESOLVED: Do not require upgrading local Bun before final proof by default. Final evidence must state the local `bun --version` used. Upgrade Bun only if verification fails due to a version mismatch or if the user explicitly requests exact local parity with `packageManager: bun@1.3.14`. [VERIFIED: revision_context; VERIFIED: package.json; VERIFIED: local command]
 
 ## Environment Availability
 
 | Dependency | Required By | Available | Version | Fallback |
 |------------|-------------|-----------|---------|----------|
-| Bun | All package scripts and TypeScript script execution | Yes, wrong version versus repo pin [VERIFIED: `command -v bun`; VERIFIED: `bun --version`; VERIFIED: package.json] | Local `1.3.9`; repo pin `1.3.14` [VERIFIED: local command; VERIFIED: package.json] | Use local for planning/research; for final proof, report version or upgrade to repo pin. [VERIFIED: docs/release-readiness.md] |
+| Bun | All package scripts and TypeScript script execution | Yes, wrong version versus repo pin [VERIFIED: `command -v bun`; VERIFIED: `bun --version`; VERIFIED: package.json] | Local `1.3.9`; repo pin `1.3.14` [VERIFIED: local command; VERIFIED: package.json] | Use local for planning/research and final proof, and report the local `bun --version` used. Upgrade only if verification fails due to version mismatch or if the user explicitly requests exact local parity with the repo pin. [VERIFIED: revision_context; VERIFIED: package.json] |
 | Node | Tool compatibility and npm registry checks | Yes [VERIFIED: `command -v node`] | `v24.13.0` [VERIFIED: `node --version`] | None needed. [VERIFIED: local command] |
 | npm | Registry version verification | Yes [VERIFIED: `command -v npm`] | Available on PATH [VERIFIED: local command] | Use `npm view` only for research/version checks; implementation should use Bun scripts. [VERIFIED: standards/languages/typescript-javascript.md] |
 | node_modules | Local script/test execution | Yes [VERIFIED: filesystem test] | Repo lock installed [VERIFIED: node_modules existence; VERIFIED: bun.lock] | Run `bun install` if dependency resolution fails. [VERIFIED: package.json] |
@@ -423,7 +422,7 @@ All implementation recommendations in this research were verified from local rep
 
 **Missing dependencies with fallback:**
 
-- Local Bun does not match repo pin; fallback is to run with local Bun and report the version, or upgrade before final proof. [VERIFIED: local command; VERIFIED: package.json]
+- Local Bun does not match repo pin; fallback is to run with local Bun and report the version. Upgrade only if verification fails due to version mismatch or if the user explicitly requests exact local parity with the repo pin. [VERIFIED: revision_context; VERIFIED: local command; VERIFIED: package.json]
 
 ## Security Domain
 
