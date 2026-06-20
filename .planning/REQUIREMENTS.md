@@ -10,24 +10,24 @@ Requirements for the theme paths and collaboration milestone. Each requirement m
 
 ### Theme Model
 
-- [ ] **THEME-01**: Maintainer can define curated theme paths with slug, title, summary, audience, proof points, collaboration angle, related project slugs, and related writing slugs in typed checked-in data.
-- [ ] **THEME-02**: Maintainer can ask theme helpers for public theme entries, stable `/themes/{slug}` paths, and ordered theme lists without adding runtime APIs, CMS, MDX, parser pipelines, or external content dependencies.
-- [ ] **THEME-03**: Unit and curation tests fail for duplicate or invalid theme slugs, missing required fields, unsupported theme status, unknown project slugs, unknown writing slugs, hidden project references, or unpublished writing references.
-- [ ] **THEME-04**: Theme model decisions keep the existing project and writing registries authoritative instead of duplicating authored project or writing content inside theme records.
+- [x] **THEME-01**: Maintainer can define curated theme paths with slug, title, summary, audience, proof points, collaboration angle, related project slugs, and related writing slugs in typed checked-in data.
+- [x] **THEME-02**: Maintainer can ask theme helpers for public theme entries, stable `/themes/{slug}` paths, and ordered theme lists without adding runtime APIs, CMS, MDX, parser pipelines, or external content dependencies.
+- [x] **THEME-03**: Unit and curation tests fail for duplicate or invalid theme slugs, missing required fields, unsupported theme status, unknown project slugs, unknown writing slugs, hidden project references, or unpublished writing references.
+- [x] **THEME-04**: Theme model decisions keep the existing project and writing registries authoritative instead of duplicating authored project or writing content inside theme records.
 
 ### Theme Routes
 
-- [ ] **ROUTE-01**: Visitor can open a stable `/themes` index listing public theme paths as curated entry points into Peter's work.
-- [ ] **ROUTE-02**: Visitor can open stable `/themes/{slug}` static detail routes for every public theme path.
-- [ ] **ROUTE-03**: Clean static builds prerender `/themes` and every public theme detail route before hydration.
-- [ ] **ROUTE-04**: Hidden, unsupported, or invalid theme records do not create public detail pages or leak private content through fallback routes.
+- [x] **ROUTE-01**: Visitor can open a stable `/themes` index listing public theme paths as curated entry points into Peter's work.
+- [x] **ROUTE-02**: Visitor can open stable `/themes/{slug}` static detail routes for every public theme path.
+- [x] **ROUTE-03**: Clean static builds prerender `/themes` and every public theme detail route before hydration.
+- [x] **ROUTE-04**: Hidden, unsupported, or invalid theme records do not create public detail pages or leak private content through fallback routes.
 
 ### Synthesis Experience
 
-- [ ] **SYNTH-01**: Visitor can understand each theme's main idea, why it matters, representative proof points, and connection to Peter's projects and writing from the static theme detail page.
+- [x] **SYNTH-01**: Visitor can understand each theme's main idea, why it matters, representative proof points, and connection to Peter's projects and writing from the static theme detail page.
 - [x] **SYNTH-02**: Visitor can move from theme detail pages to related selected project stories and public writing entries using helper-derived relationships.
 - [x] **SYNTH-03**: Project and writing surfaces can show related theme links where those links clarify the existing content graph without overwhelming the primary project or writing narrative.
-- [ ] **SYNTH-04**: Theme index and detail pages preserve the dark-primary responsive interface, accessible headings, readable text hierarchy, keyboard reachability, and stable text wrapping on desktop and mobile.
+- [x] **SYNTH-04**: Theme index and detail pages preserve the dark-primary responsive interface, accessible headings, readable text hierarchy, keyboard reachability, and stable text wrapping on desktop and mobile.
 
 ### Collaboration Pathways
 
@@ -37,10 +37,10 @@ Requirements for the theme paths and collaboration milestone. Each requirement m
 
 ### Metadata and Discovery
 
-- [ ] **META-01**: `/themes` and each public theme detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from theme and profile data.
-- [ ] **META-02**: Theme index and detail routes render static structured data before hydration using helper-derived theme, project, writing, and profile relationships.
-- [ ] **META-03**: Generated sitemap output includes `/themes` and every public theme detail route while excluding hidden, unsupported, or invalid theme routes.
-- [ ] **META-04**: Theme routes use the checked-in static social preview fallback or deterministic static support without runtime image generation or server endpoints.
+- [x] **META-01**: `/themes` and each public theme detail route have route-specific title, description, canonical URL, Open Graph, and Twitter metadata derived from theme and profile data.
+- [x] **META-02**: Theme index and detail routes render static structured data before hydration using helper-derived theme, project, writing, and profile relationships.
+- [x] **META-03**: Generated sitemap output includes `/themes` and every public theme detail route while excluding hidden, unsupported, or invalid theme routes.
+- [x] **META-04**: Theme routes use the checked-in static social preview fallback or deterministic static support without runtime image generation or server endpoints.
 
 ### Verification
 
@@ -90,25 +90,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| THEME-01 | Phase 19 | Pending |
-| THEME-02 | Phase 19 | Pending |
-| THEME-03 | Phase 19 | Pending |
-| THEME-04 | Phase 19 | Pending |
-| ROUTE-01 | Phase 20 | Pending |
-| ROUTE-02 | Phase 20 | Pending |
-| ROUTE-03 | Phase 20 | Pending |
-| ROUTE-04 | Phase 20 | Pending |
-| SYNTH-01 | Phase 20 | Pending |
-| SYNTH-04 | Phase 20 | Pending |
+| THEME-01 | Phase 19 | Complete |
+| THEME-02 | Phase 19 | Complete |
+| THEME-03 | Phase 19 | Complete |
+| THEME-04 | Phase 19 | Complete |
+| ROUTE-01 | Phase 20 | Complete |
+| ROUTE-02 | Phase 20 | Complete |
+| ROUTE-03 | Phase 20 | Complete |
+| ROUTE-04 | Phase 20 | Complete |
+| SYNTH-01 | Phase 20 | Complete |
+| SYNTH-04 | Phase 20 | Complete |
 | SYNTH-02 | Phase 21 | Complete |
 | SYNTH-03 | Phase 21 | Complete |
 | COLLAB-01 | Phase 21 | Complete |
 | COLLAB-02 | Phase 21 | Complete |
 | COLLAB-03 | Phase 21 | Complete |
-| META-01 | Phase 22 | Pending |
-| META-02 | Phase 22 | Pending |
-| META-03 | Phase 22 | Pending |
-| META-04 | Phase 22 | Pending |
+| META-01 | Phase 22 | Complete |
+| META-02 | Phase 22 | Complete |
+| META-03 | Phase 22 | Complete |
+| META-04 | Phase 22 | Complete |
 | VERIFY-01 | Phase 23 | Complete |
 | VERIFY-02 | Phase 23 | Complete |
 | VERIFY-03 | Phase 23 | Complete |
@@ -123,4 +123,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-16*
-*Last updated: 2026-06-16 after v1.4 roadmap creation*
+*Last updated: 2026-06-20 after v1.4 milestone audit*

@@ -2,7 +2,7 @@
 
 ## Milestones
 
-- 🚧 **v1.4 Theme Paths & Collaboration Surface** — Phases 19-23 in progress. Goal: help visitors explore Peter's work by durable themes and move from those themes into relevant projects, writing, proof points, and collaboration paths.
+- 🚧 **v1.4 Theme Paths & Collaboration Surface** — Phases 19-23 complete and ready for milestone archive. Goal: help visitors explore Peter's work by durable themes and move from those themes into relevant projects, writing, proof points, and collaboration paths.
 
 ## Archived Milestones
 
@@ -128,10 +128,12 @@ Plans:
 1. Theme collaboration panels use existing curated project, writing, profile, GitHub, and OpenLinks data without introducing unreviewed external-link sources or live reachability claims.
 1. OpenLinks remains discoverable as a low-intrusion identity hub in footer, profile, contact, or metadata surfaces and does not become the primary theme CTA.
 
-**Plans**: 2 plans
+**Plans**: 4 plans
 Plans:
-- [x] 23-01-PLAN.md - Aggregate release-readiness contract, theme evidence labels, docs, and verify ordering
-- [x] 23-02-PLAN.md - Static verifier theme route coverage evidence wording
+- [x] 21-01-PLAN.md - Reciprocal theme helpers and collaboration action assembly
+- [x] 21-02-PLAN.md - Theme detail collaboration panel
+- [x] 21-03-PLAN.md - Project and writing related-theme cross-links
+- [x] 21-04-PLAN.md - Static and browser coverage for collaboration links
 **UI hint**: yes
 
 ### Phase 22: Theme Metadata and Structured Data
@@ -146,7 +148,9 @@ Plans:
 1. Generated sitemap output includes `/themes` and every public theme detail route while excluding hidden, unsupported, or invalid theme routes.
 1. Theme routes use the checked-in static social preview fallback or deterministic static support without runtime image generation or server endpoints.
 
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [x] 22-01-PLAN.md - Theme metadata, JSON-LD, sitemap, and social preview fallback
 **UI hint**: yes
 
 ### Phase 23: Theme Verification and Release Contract
@@ -161,7 +165,10 @@ Plans:
 1. Release-readiness docs and checks identify theme route coverage as part of `bun run install:browser && bun run verify`.
 1. The aggregate `bun run verify` gate passes with theme routes included, and release evidence labels name only automated theme coverage that actually runs.
 
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [x] 23-01-PLAN.md - Aggregate release-readiness contract, theme evidence labels, docs, and verify ordering
+- [x] 23-02-PLAN.md - Static verifier theme route coverage evidence wording
 **UI hint**: yes
 
 ## Progress
@@ -208,4 +215,4 @@ Plans:
 
 ## Next
 
-Run `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`.
+Run `/gsd-complete-milestone v1.4`.
