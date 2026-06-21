@@ -1,6 +1,3 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-
 import { peterProfile } from "../../src/domain/profile";
 import type { ProjectDetailPageProject } from "../../src/domain/projects";
 import { projectDetailPath, publicProjectIndexProjects } from "../../src/domain/projects";
@@ -19,6 +16,10 @@ import {
   writingBlogPostingJsonLd,
   writingItemListJsonLd,
 } from "../../src/domain/seo";
+import {
+  maybeSocialPreviewTargetForRoutePath,
+  SOCIAL_PREVIEW_FALLBACK_IMAGE,
+} from "../../src/domain/social-previews";
 import type { PublicThemeEntry } from "../../src/domain/themes";
 import { publicThemeEntries, themeDetailPath } from "../../src/domain/themes";
 import type { PublicWritingEntry } from "../../src/domain/writing";
@@ -38,6 +39,7 @@ import {
   escapeHtmlText,
   escapeRegExp,
 } from "./html-assertions";
+import { assertPngDimensions } from "./output";
 
 export function assertRouteMetadataAndJsonLd(
   outputRoot: string,
@@ -217,6 +219,11 @@ function assertMetadata(
   assertHtmlContains(html, `property="og:image" content="${image.url}"`, `${path} og:image`);
   assertHtmlContains(
     html,
+    `property="og:image:type" content="${image.mimeType}"`,
+    `${path} og:image:type`,
+  );
+  assertHtmlContains(
+    html,
     `property="og:image:width" content="${image.width.toString()}"`,
     `${path} og:image:width`,
   );
@@ -255,28 +262,36 @@ function assertMetadata(
     `name="twitter:image:alt" content="${escapeHtmlAttribute(metadata.twitter.image.alt)}"`,
     `${path} twitter:image:alt`,
   );
-  assertMetadataImageMapsToLocalAsset(outputRoot, image.url);
-  assertMetadataImageMapsToLocalAsset(outputRoot, metadata.twitter.image.url);
+  assertMetadataImageMapsToLocalAsset(outputRoot, path, image.url);
+  assertMetadataImageMapsToLocalAsset(outputRoot, path, metadata.twitter.image.url);
 }
 
-export function assertMetadataImageMapsToLocalAsset(outputRoot: string, imageUrl: string): void {
+export function assertMetadataImageMapsToLocalAsset(
+  outputRoot: string,
+  routePath: string,
+  imageUrl: string,
+): void {
   const url = new URL(imageUrl);
 
   if (url.origin !== peterProfile.canonicalOrigin) {
     throw new Error(`Metadata image URL is not canonical: ${imageUrl}`);
   }
 
-  const assetPath = url.pathname.replace(/^\//, "");
+  const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
+  const expectedImage = maybeTarget ?? SOCIAL_PREVIEW_FALLBACK_IMAGE;
 
-  if (assetPath !== "social/bright-builds-og.png") {
+  if (url.pathname !== expectedImage.assetPath) {
     throw new Error(
-      `Metadata image URL ${imageUrl} does not map to the project social preview fallback.`,
+      `Metadata image URL ${imageUrl} does not match the expected social preview for ${routePath}: ${expectedImage.assetPath}.`,
     );
   }
 
-  if (!existsSync(join(outputRoot, assetPath))) {
-    throw new Error(`Metadata image URL ${imageUrl} does not map to a checked-in output asset.`);
-  }
+  assertPngDimensions(
+    outputRoot,
+    expectedImage.assetPath.replace(/^\//, ""),
+    expectedImage.dimensions.width,
+    expectedImage.dimensions.height,
+  );
 }
 
 export function assertProjectJsonLd(project: ProjectDetailPageProject, html: string): void {
@@ -291,6 +306,7 @@ export function assertProjectJsonLd(project: ProjectDetailPageProject, html: str
     "SoftwareSourceCode",
     expectedJsonLd.name,
     expectedJsonLd.url,
+    expectedJsonLd.image,
     maybeProfileSameAsUrl,
   ]);
 }
@@ -308,6 +324,7 @@ export function assertWritingBlogPostingJsonLd(entry: PublicWritingEntry, html: 
     expectedJsonLd.headline,
     expectedJsonLd.description,
     expectedJsonLd.url,
+    expectedJsonLd.image,
     maybeProfileSameAsUrl,
     "https://openlinks.us/",
   ]);
@@ -327,6 +344,7 @@ export function assertThemeCollectionPageJsonLd(theme: PublicThemeEntry, html: s
     expectedJsonLd.description,
     expectedJsonLd.url,
     expectedJsonLd.mainEntityOfPage,
+    expectedJsonLd.image,
     maybeProfileSameAsUrl,
     "https://openlinks.us/",
     theme.collaborationAngle,

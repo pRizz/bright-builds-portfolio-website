@@ -41,12 +41,6 @@ import {
   assertWritingFallbackMetadataSource,
 } from "./verify-static/sitemap-assets-verifier";
 
-const assertRouteMetadataImageMapsToLocalAsset = assertMetadataImageMapsToLocalAsset as unknown as (
-  outputRoot: string,
-  routePath: string,
-  imageUrl: string,
-) => void;
-
 describe("static verifier import-safe helpers", () => {
   it("preserves writing and theme route coverage evidence wording", () => {
     // Arrange
@@ -120,7 +114,7 @@ describe("static verifier import-safe helpers", () => {
 
     // Act
     const assertGeneratedImage = () =>
-      assertRouteMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalGeneratedUrl);
+      assertMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalGeneratedUrl);
 
     // Assert
     try {
@@ -139,11 +133,11 @@ describe("static verifier import-safe helpers", () => {
 
     // Act
     const assertFallbackImage = () =>
-      assertRouteMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalFallbackUrl);
+      assertMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalFallbackUrl);
 
     // Assert
     try {
-      expect(assertFallbackImage).toThrow(/does not match|fallback|Invalid URL/);
+      expect(assertFallbackImage).toThrow(/does not match/);
     } finally {
       rmSync(tempRoot, { recursive: true, force: true });
     }
@@ -158,7 +152,7 @@ describe("static verifier import-safe helpers", () => {
 
     // Act
     const assertFallbackImage = () =>
-      assertRouteMetadataImageMapsToLocalAsset(tempRoot, genericRoutePath, canonicalFallbackUrl);
+      assertMetadataImageMapsToLocalAsset(tempRoot, genericRoutePath, canonicalFallbackUrl);
 
     // Assert
     try {
