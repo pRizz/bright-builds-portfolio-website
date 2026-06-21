@@ -69,7 +69,10 @@ Plans:
   2. Generated HTML exposes absolute canonical `og:image`, `og:image:type`, `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:image`, and `twitter:image:alt` values for every covered share route before hydration.
   3. Project, writing, and theme JSON-LD `image` values match the route-specific Open Graph and Twitter social image asset.
   4. Home, about, contact, and other generic routes continue to use the checked-in fallback image, and metadata remains helper-derived rather than hard-coded in route files.
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 26-01-PLAN.md — Add route-aware social image metadata resolver and JSON-LD parity tests.
+- [ ] 26-02-PLAN.md — Render MIME social image tags and verify static generated asset references.
 
 ### Phase 27: Freshness Reports and Reviewed Snapshot Policy
 **Goal**: Maintainers can review offline freshness evidence without mutating source data or weakening the static release contract.
