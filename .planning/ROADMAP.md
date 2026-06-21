@@ -72,7 +72,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 26-01-PLAN.md — Add route-aware social image metadata resolver and JSON-LD parity tests.
-- [ ] 26-02-PLAN.md — Render MIME social image tags and verify static generated asset references.
+- [x] 26-02-PLAN.md — Render MIME social image tags and verify static generated asset references.
 
 ### Phase 27: Freshness Reports and Reviewed Snapshot Policy
 **Goal**: Maintainers can review offline freshness evidence without mutating source data or weakening the static release contract.
@@ -107,7 +107,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
-| 26. Metadata Wiring and Static References | v1.5 | 1/2 | In Progress|  |
+| 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete   | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |
 
