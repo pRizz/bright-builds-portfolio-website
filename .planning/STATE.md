@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
 current_phase: 26
-current_phase_name: metadata wiring and static references
-current_plan: Not started
+current_phase_name: metadata-wiring-and-static-references
+current_plan: 1
 status: executing
 stopped_at: Phase 26 context gathered
-last_updated: "2026-06-21T22:02:08.917Z"
-last_activity: 2026-06-21 -- Phase 26 planning complete
+last_updated: "2026-06-21T22:02:48.292Z"
+last_activity: 2026-06-21 -- Phase 26 execution started
 progress:
   total_phases: 5
   completed_phases: 2
@@ -24,19 +24,19 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 26 — Metadata Wiring and Static References
+**Current focus:** Phase 26 — metadata-wiring-and-static-references
 
 ## Current Position
 
-Phase: 26 (Metadata Wiring and Static References) — READY TO PLAN
-Plan: Not started
+Phase: 26 (metadata-wiring-and-static-references) — EXECUTING
+Plan: 1 of 2
 Current Phase: 26
-Current Phase Name: metadata wiring and static references
-Current Plan: Not started
+Current Phase Name: metadata-wiring-and-static-references
+Current Plan: 1
 Total Phases: 5
 Total Plans in Phase: 2
-Status: Ready to execute
-Last activity: 2026-06-21 -- Phase 26 planning complete
+Status: Executing Phase 26
+Last activity: 2026-06-21 -- Phase 26 execution started
 
 Progress: [██████████] 100%
 
