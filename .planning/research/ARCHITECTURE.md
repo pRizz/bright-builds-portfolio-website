@@ -1,307 +1,330 @@
-# Architecture Research: v1.3 Writing & Notes Surface
+# Architecture Research: v1.5 Static Shareability & Freshness
 
-**Milestone:** v1.3 Writing & Notes Surface
-**Researched:** 2026-06-03
-**Scope:** Integration points and build order for a curated static writing/notes surface.
+**Milestone:** v1.5 Static Shareability & Freshness
+**Researched:** 2026-06-21
+**Scope:** How route-derived social preview generation, metadata wiring, freshness reports, and verification should integrate with the existing static portfolio architecture.
 **Overall confidence:** HIGH
 
-## Current Architecture to Preserve
+Local guidance and standards materially used: `AGENTS.md`, `AGENTS.bright-builds.md`, `standards/core/architecture.md`, `standards/core/verification.md`, `standards/languages/typescript-javascript.md`, and the OpenLinks identity-presence guidance. The key constraints are functional core / imperative shell, Bun-owned TypeScript automation, deterministic static output, truthful release evidence labels, and low-intrusion OpenLinks identity metadata.
 
-The existing portfolio already has the right shape for writing:
+## Current Architecture Fit
 
-- `src/domain/projects.ts` owns checked-in curated data plus pure selectors/path helpers.
-- `src/domain/routes.ts` owns top-level route metadata and `prerenderRoutes`.
-- `src/domain/seo.ts` owns route metadata, JSON-LD, sitemap, and robots helpers.
-- Solid route files are thin rendering shells over domain helpers.
-- `app.config.ts` already prerenders from `prerenderRoutes`, so new static routes should enter through that list rather than local config duplication.
-- `scripts/generate-static-metadata.ts`, `scripts/verify-static.ts`, `scripts/verify-release.ts`, and `tests/browser-release.playwright.ts` consume domain route/SEO helpers as the release contract.
+The existing architecture is already the right base for v1.5:
 
-The v1.3 writing surface should copy this pattern instead of adding a CMS, runtime content loader, Markdown/MDX pipeline, or route list maintained by hand.
+- Domain modules own curated, checked-in source data and pure selectors:
+  - `src/domain/projects.ts` for selected project stories and `/projects/{slug}` paths.
+  - `src/domain/writing.ts` for public writing entries and `/writing/{slug}` paths.
+  - `src/domain/themes.ts` for public theme records and `/themes/{slug}` paths.
+  - `src/domain/routes.ts` for top-level route definitions, `prerenderRoutes`, `sitemapRoutes`, and navigation routes.
+- `src/domain/seo.ts` owns pure metadata, JSON-LD, sitemap, and robots derivation. It currently uses one fallback image, `/social/bright-builds-og.png`, for every Open Graph, Twitter, BlogPosting, and CollectionPage image.
+- Solid route files are thin shells over helpers. They already render whatever `PageMetadata.openGraph.image` and `PageMetadata.twitter.image` provide, so most v1.5 metadata work belongs in domain helpers rather than route components.
+- Bun scripts are the imperative shell:
+  - `scripts/generate-static-metadata.ts` writes static sitemap and robots files from pure helpers.
+  - `scripts/sync-github-metadata.ts` fetches GitHub data into a checked-in snapshot, with no visitor-runtime dependency.
+  - `scripts/verify-static.ts` and its `scripts/verify-static/*` modules verify generated `.output/public` HTML, assets, metadata, JSON-LD, sitemap, and forbidden runtime residue.
+  - `scripts/verify-release.ts` scans emitted output generically for budgets, links, semantic structure, forbidden tokens/runtime GitHub residue, remote visual assets, and evidence label truthfulness.
 
-## Recommended Architecture
+v1.5 should extend these seams instead of adding a dynamic Open Graph endpoint, page screenshot service, visitor-runtime GitHub fetch, CMS, or hand-maintained route list.
 
-Add writing as a sibling domain surface, not as a subtype of projects. Projects and writing are different content types with different metadata, but they should share the same static route, SEO, and verification machinery.
+The main current mismatch is the singleton social image assumption. `src/domain/seo.ts`, `scripts/verify-static/metadata-jsonld-verifier.ts`, `scripts/verify-static/sitemap-assets-verifier.ts`, and `scripts/verify-release.ts` all know about `social/bright-builds-og.png`. v1.5 should replace that singleton assumption with a pure social preview manifest that is derived from the same route helpers as prerendering and sitemap generation.
 
-The source of truth for bidirectional project/note links should live once on writing entries as `relatedProjectSlugs`. Project pages can derive related notes by filtering writing entries by project slug. Writing pages can derive project links by resolving those slugs through the existing project helpers. Do not store duplicate note IDs on project records in v1.3; duplicated relationships will drift.
+Recommended architecture decision:
 
-### Component Boundaries
+Use a new route-derived social preview target layer. Metadata helpers, image generation, freshness reporting, and verification all consume that layer. Do not let the renderer, filesystem, or clock leak into the domain module.
 
-| Component | Status | Responsibility | Communicates With |
-| --- | --- | --- | --- |
-| `src/domain/writing.ts` | New | Typed checked-in writing registry, entry selectors, path helpers, related-project selectors | Type-only project slug/type surface; route, SEO, UI, tests, verifiers |
-| `src/domain/writing-validation.ts` | New if validation grows beyond a few assertions | Validate slug uniqueness, published-entry content, related project slugs, hidden/draft exclusions | `src/domain/writing.ts`, `src/domain/projects.ts`, `scripts/verify-curation.ts` |
-| `src/domain/routes.ts` | Modified | Add `/writing` top-level route and append `writingDetailRoutes()` to `prerenderRoutes` | `app.config.ts`, layout nav, static/release/browser verifiers |
-| `src/domain/seo.ts` | Modified | Add writing metadata, Article JSON-LD, writing index ItemList JSON-LD, and sitemap coverage through `prerenderRoutes` | writing routes, generator, static verifier, unit tests |
-| `src/routes/writing/index.tsx` | New | Static writing index shell rendered from published writing entries | `writing.ts`, `routes.ts`, `seo.ts`, shared styles/components |
-| `src/routes/writing/[slug].tsx` | New | Static note/detail shell rendered from one published entry | `writing.ts`, `projects.ts`, `seo.ts` |
-| `src/routes/projects/[slug].tsx` | Modified | Add related writing panel for selected project stories | `writingEntriesForProject()` |
-| `src/routes/index.tsx` | Modified only if discovery needs more than nav | Optional small writing teaser/latest note section | `publishedWritingEntries()` |
-| `src/components/SiteLayout.tsx` | No source change expected | Navigation should update automatically if `/writing` is a nav route | `navigationRoutes` |
-| `app.config.ts` | No source change expected | Already consumes `prerenderRoutes` | `src/domain/routes.ts` |
-| `scripts/generate-static-metadata.ts` | No source change expected | Sitemap/robots update automatically after `sitemapXml()` sees writing routes | `src/domain/seo.ts` |
+## Proposed Data Flow
 
-## Writing Domain Shape
+Recommended data flow:
 
-Use typed data first. A simple, dependency-light model is enough for v1.3:
+```text
+curated project/writing/theme data
++ top-level siteRoutes
++ GitHub metadata snapshot where already checked in
+        |
+        v
+src/domain/social-previews.ts
+  - derives shareable route targets
+  - derives preview titles, descriptions, labels, alt text
+  - derives deterministic public asset paths
+  - derives content digests for cache freshness
+        |
+        +---------------------------+
+        |                           |
+        v                           v
+src/domain/seo.ts              scripts/generate-social-previews.ts
+  - PageMetadata.image           - renders PNGs from pure targets
+  - JSON-LD image                - writes only managed public/social files
+  - canonical social URLs        - no network, clock, remote fonts, or randomness
+        |                           |
+        v                           v
+Solid route head tags          public/social/generated/*
+        |                           |
+        +-------------+-------------+
+                      |
+                      v
+vinxi/SolidStart build -> .output/public
+                      |
+                      v
+verify-static + verify-release
+  - route metadata references expected local assets
+  - assets exist, are PNG, 1200x630, non-empty, and budgeted
+  - no dynamic OG endpoint or visitor-runtime GitHub/API residue
+```
+
+Social preview targets should be pure records, not generated image files:
 
 ```ts
-export type WritingKind = "note" | "essay";
-export type WritingStatus = "published" | "hidden";
+export type SocialPreviewSurface = "site" | "project" | "writing" | "theme";
 
-export type WritingBlock =
-  | { kind: "paragraph"; text: string }
-  | { kind: "list"; items: readonly [string, ...string[]] };
-
-export type WritingSection = {
-  heading: string;
-  blocks: readonly [WritingBlock, ...WritingBlock[]];
-};
-
-export type WritingEntry = {
-  slug: string;
+export type SocialPreviewTarget = {
+  surface: SocialPreviewSurface;
+  routePath: string;
+  assetPath: string;
   title: string;
-  summary: string;
-  kind: WritingKind;
-  status: WritingStatus;
-  publishedOn: string;
-  maybeUpdatedOn?: string;
-  displayOrder: number;
-  themes: readonly string[];
-  tags: readonly string[];
-  relatedProjectSlugs: readonly string[];
-  sections: readonly [WritingSection, ...WritingSection[]];
+  description: string;
+  kicker: string;
+  labels: readonly string[];
+  imageAlt: string;
+  sourceDigest: string;
 };
 ```
 
-Prefer `sections` over Markdown/MDX for v1.3. The site needs curated static notes, not a content platform. This keeps rendering deterministic, testable, and typechecked with the rest of the Solid/Bun surface.
+The target list should include:
 
-Recommended helper exports:
+- `/projects`
+- every `projectDetailRoutes()` route
+- `/writing`
+- every `writingDetailRoutes()` route
+- `/themes`
+- every `themeDetailRoutes()` route
 
-- `curatedWritingEntries`
-- `publishedWritingEntries(entries = curatedWritingEntries)`
-- `maybePublishedWritingEntryBySlug(slug, entries = curatedWritingEntries)`
-- `writingDetailPath(entry)`
-- `writingDetailRoutes(entries = curatedWritingEntries)`
-- `writingEntriesForProject(project, entries = curatedWritingEntries)`
-- `relatedProjectsForWriting(entry, projects = publicProjectIndexProjects())`
-- `writingLinkDisplayLabel(entry)` only if route UI needs a stable label helper
+Home, about, and contact can keep the existing fallback image unless a later phase explicitly scopes route-specific images for all top-level routes. The v1.5 goal is strongest for project, writing, and theme share routes.
 
-If implementation can expose a literal project slug union cheaply, add this to `src/domain/projects.ts`:
+Use deterministic digest-backed asset paths for content routes, for example:
 
-```ts
-export type CuratedProjectSlug = (typeof curatedProjects)[number]["slug"];
+```text
+/social/generated/projects/index-{digest}.png
+/social/generated/projects/openlinks-{digest}.png
+/social/generated/writing/agentic-engineering-workflows-{digest}.png
+/social/generated/themes/agentic-engineering-{digest}.png
 ```
 
-Then `relatedProjectSlugs` can be typed as `readonly CuratedProjectSlug[]`. If that type becomes awkward, keep `string[]` and enforce the invariant in `writing-validation.ts` plus `verify:curation`.
+The digest should be computed from normalized preview source data, not from file bytes, current time, git commit, or environment. This gives social crawlers a new image URL when curated route copy changes while keeping output deterministic. The generator should clean only its managed `public/social/generated/` directory before writing the current manifest so stale images do not linger silently.
 
-## Route and Prerender Wiring
+Metadata wiring should flow through existing `PageMetadata`:
 
-Modify `src/domain/routes.ts` as the only prerender wiring point:
+- Keep `SocialImageMetadata` as the object passed to Open Graph and Twitter tags.
+- Add pure helpers such as `socialImageForRoutePath(routePath, profile)` or `socialPreviewImageForTarget(target, profile)`.
+- Update `metadataForRoute`, `metadataForProject`, `metadataForWritingEntry`, and `metadataForTheme` to select the expected target image.
+- Update `writingBlogPostingItemJsonLd` and `themeCollectionPageJsonLd` to use the same image URL as the route metadata, not a separate fallback helper.
+- Keep route components largely unchanged because they already render `metadata.openGraph.image` and `metadata.twitter.image`.
 
-```ts
-import { projectDetailRoutes } from "./projects";
-import { writingDetailRoutes } from "./writing";
+Freshness reports should follow the same architecture:
 
-export type RouteId = "home" | "about" | "projects" | "writing" | "contact";
-
-export const siteRoutes = [
-  // existing routes...
-  {
-    id: "writing",
-    path: "/writing",
-    label: "Writing",
-    title: "Writing and Notes | Peter Ryszkiewicz",
-    description: "Curated notes and essays from Peter Ryszkiewicz on AI, Bitcoin, open systems, developer tooling, and practical software.",
-    heading: "Writing and Notes",
-    staticCheckText: "Curated notes connect Peter's technical thinking to the projects behind it.",
-    nav: true,
-  },
-] as const satisfies readonly SiteRoute[];
-
-export const prerenderRoutes = [
-  ...siteRoutes.map((route) => route.path),
-  ...projectDetailRoutes(),
-  ...writingDetailRoutes(),
-];
+```text
+checked-in snapshot/data + generated social target manifest + injected asOf date
+        |
+        v
+src/domain/freshness.ts
+  - pure findings and report model
+        |
+        v
+scripts/generate-freshness-report.ts
+  - writes maintainer report
+  - optional strict exit code
+  - no visitor-runtime dependency
 ```
 
-Do not update `app.config.ts` with explicit writing paths. Its current `routes: [...prerenderRoutes]` contract is the correct integration point.
+The freshness report should be maintainer-facing, not public page copy. It can classify:
 
-## SEO, JSON-LD, and Sitemap Wiring
+- GitHub metadata snapshot age from `gitHubMetadataSnapshot.syncedAt`.
+- unavailable repository metadata records.
+- repositories with stale or missing `pushedAt`.
+- primary curated links that lack external-link policy coverage.
+- non-HTTPS primary links.
+- expected social preview targets without generated assets.
+- generated social assets whose digest no longer matches current route-derived preview data.
 
-Keep all metadata derivation in `src/domain/seo.ts`:
+Keep live external-link reachability out of the default aggregate release gate. If live checks are added, make them an explicit manual or scheduled command with honest labels such as `freshness:links:network`, not a default `bun run verify` dependency.
 
-- Reuse `metadataForRoute(route)` for `/writing`.
-- Add `metadataForWritingEntry(entry, profile)` for `/writing/{slug}`.
-- Widen `PageMetadata.openGraph.type` from only `"website"` to `"website" | "article"` if writing detail pages use OG article metadata.
-- Add `writingItemListJsonLd(entries, profile)` for `/writing`.
-- Add `writingEntryJsonLd(entry, relatedProjects, profile)` using schema.org `Article`.
-- Keep social image fallback on `/social/bright-builds-og.png` unless a later milestone explicitly adds per-note static OG images.
-- Let `sitemapXml()` continue to default to `prerenderRoutes`; do not add writing-specific sitemap branching.
+## New/Modified Files
 
-Writing Article JSON-LD should include:
-
-- canonical `url`
-- `headline`
-- `description`
-- `datePublished`
-- `dateModified` when `maybeUpdatedOn` exists, otherwise `publishedOn`
-- `author: personJsonLd(profile)`
-- `keywords` from themes/tags
-- `about` with related project names, themes, tags, and section headings
-
-## Cross-Link Strategy
-
-Relationship ownership:
-
-1. Writing entries own `relatedProjectSlugs`.
-2. Project detail pages call `writingEntriesForProject(selectedProject())`.
-3. Writing detail pages call `relatedProjectsForWriting(selectedEntry())`.
-4. Links to projects should use `projectStoryHref(project)`, so selected projects go to `/projects/{slug}` and unselected public projects go to `/projects#slug`.
-5. Hidden/excluded projects should not be linkable from public writing unless a future explicit exception is added.
-
-Recommended UI placements:
-
-- On `/writing`: show entry cards with title, kind, date, summary, tags/themes, and related project chips/links.
-- On `/writing/{slug}`: show note body first, then related projects as a supporting panel.
-- On `/projects/{slug}`: add a "Related writing" panel in the aside or after the main story. Render nothing if there are no related notes.
-- On `/`: rely on nav first. Add a compact writing teaser only after the index/detail routes and verification are stable.
-
-## Verification Integration
-
-### Unit Tests
-
-Add focused tests for pure writing behavior:
-
-- `src/domain/writing-routes.test.ts` or `src/domain/writing.test.ts`
-  - selects only published entries
-  - derives `/writing/{slug}` paths in display order
-  - includes writing detail routes in `prerenderRoutes`
-  - resolves `maybePublishedWritingEntryBySlug`
-  - derives project/note cross-links without duplicate relationship data
-  - excludes hidden/draft entries from routes and sitemap
-- Extend `src/domain/foundation.test.ts`
-  - expected top-level route set includes `/writing`
-  - expected `prerenderRoutes` includes `...writingDetailRoutes()`
-- Extend `src/domain/portfolio-surfaces.test.ts`
-  - sitemap covers writing index/detail routes
-  - writing metadata and JSON-LD use canonical origin and safe JSON serialization
-
-### Static Verification
-
-Modify `scripts/verify-static.ts`:
-
-- Import writing selectors, path helpers, and SEO helpers.
-- Add a `maybeWritingForDetailRoute(route)` branch parallel to `maybeProjectForDetailRoute(route)`.
-- Add expected static body text for `/writing` and `/writing/{slug}`.
-- Assert `metadataForWritingEntry()` for detail pages.
-- Assert `writingEntryJsonLd()` for detail pages and `writingItemListJsonLd()` for `/writing`.
-- Add sitemap checks for every `writingDetailRoutes()` entry and for excluding hidden/draft notes.
-- Assert related project links and related writing links appear in generated HTML before hydration.
-
-### Browser Release Checks
-
-Modify `tests/browser-release.playwright.ts`:
-
-- The axe/layout loop already covers every `prerenderRoutes` entry, so writing pages become covered once routes are wired.
-- Add a representative writing detail route helper from `writingDetailRoutes()`.
-- Update keyboard coverage to require focus reaches `/writing`, one writing detail route, and at least one project/writing cross-link.
-- Add `/writing` or a representative writing detail route to reduced-motion coverage if writing cards use `ReactiveSurface` or hover transforms.
-
-### Release Verification
-
-`scripts/verify-release.ts` should mostly work automatically because it scans emitted route HTML, internal links, external links, budgets, semantics, accessibility hooks, and forbidden built-output patterns.
-
-Modify adjacent release helpers only where the contract is explicit:
-
-- `scripts/release-readiness.ts`: add required facts/evidence labels for writing route coverage if release docs remain part of the gate.
-- `docs/release-readiness.md`: implementation phase should document writing static, browser, sitemap, metadata, and cross-link coverage if the verifier requires it.
-- External-link policy only needs changes if writing entries introduce new external origins.
-- Route HTML budget can stay per-route unless writing pages exceed the current 75 KB threshold; prefer trimming content or splitting long notes before raising budgets.
-
-### Curation Verification
-
-Extend `scripts/verify-curation.ts` only if project relationships cannot be made compile-time safe. The guard should fail on:
-
-- duplicate writing slugs
-- published entries without body sections
-- published entries missing title/summary/date
-- related project slugs that do not resolve to public project index records
-- hidden entries appearing in `writingDetailRoutes()`
-
-## File Plan
-
-### New Files
+New files:
 
 | File | Purpose |
 | --- | --- |
-| `src/domain/writing.ts` | Writing registry, types, selectors, path helpers, cross-link helpers |
-| `src/domain/writing-validation.ts` | Optional pure validation for writing curation and related project slugs |
-| `src/domain/writing.test.ts` or `src/domain/writing-routes.test.ts` | Unit coverage for route derivation, published filtering, and cross-links |
-| `src/routes/writing/index.tsx` | `/writing` static index route |
-| `src/routes/writing/[slug].tsx` | `/writing/{slug}` static note route |
+| `src/domain/social-previews.ts` | Pure target derivation for project, writing, and theme social images. Owns route path, title, description, labels, alt text, deterministic digest, and public asset path. |
+| `src/domain/social-previews.test.ts` | Unit tests for route coverage, public-only filtering, unique asset paths, deterministic digests, and no fallback image for shareable content routes. |
+| `scripts/social-previews/render-preview.ts` | Pure renderer input/template layer. Escapes text, clamps long titles, chooses colors/tags, and stays independent from filesystem and clocks. |
+| `scripts/generate-social-previews.ts` | Imperative Bun shell that renders 1200x630 PNGs into `public/social/generated/` from `socialPreviewTargets()`. Should support `--check` for drift detection. |
+| `scripts/social-previews.test.ts` | Script-level tests for import safety, deterministic render inputs, longest-title fixtures, and `--check` behavior where practical. |
+| `src/domain/freshness.ts` | Pure maintainer freshness report model and findings over GitHub snapshot, curated links, route targets, and generated media manifest. Accepts `asOf` as input. |
+| `src/domain/freshness.test.ts` | Unit tests for snapshot age, unavailable metadata, generated media drift, and non-HTTPS/policy findings without network access. |
+| `scripts/generate-freshness-report.ts` | Explicit maintainer command that writes a reviewed report from pure freshness findings. Optional `--strict` can fail on selected deterministic findings. |
+| `scripts/verify-static/social-preview-assets-verifier.ts` | Static output verifier for expected route social image assets, dimensions, local canonical metadata mapping, and managed generated directory behavior. |
 
-### Modified Files
+Modified files:
 
 | File | Change |
 | --- | --- |
-| `src/domain/projects.ts` | Optional `CuratedProjectSlug` type export; no duplicated note relationships |
-| `src/domain/routes.ts` | Add `/writing`; append `writingDetailRoutes()` to `prerenderRoutes` |
-| `src/domain/seo.ts` | Add writing metadata, Article JSON-LD, writing ItemList JSON-LD; maybe widen OG type |
-| `src/routes/projects/[slug].tsx` | Render related writing panel from writing helpers |
-| `src/routes/index.tsx` | Optional concise writing discovery section after route/verification foundation |
-| `src/domain/foundation.test.ts` | Update expected route/prerender set |
-| `src/domain/portfolio-surfaces.test.ts` | Add writing sitemap/metadata/JSON-LD assertions |
-| `scripts/verify-curation.ts` | Add writing validation if not fully type-enforced |
-| `scripts/verify-static.ts` | Add writing route, metadata, JSON-LD, sitemap, and cross-link checks |
-| `scripts/release-readiness.ts` | Add writing release facts/evidence labels if docs remain required by `verify:release` |
-| `scripts/release-readiness.test.ts` | Update required release-readiness fact tests if helper changes |
-| `tests/browser-release.playwright.ts` | Add writing keyboard/reduced-motion representative coverage |
-| `public/sitemap.xml` | Regenerated by `bun run generate:static-metadata` after route wiring |
+| `src/domain/seo.ts` | Replace the global fallback-only `socialImageForProfile` path with route-aware social preview lookup. Ensure PageMetadata and JSON-LD image fields use the same expected asset. |
+| `src/domain/routes.ts` | No required route list change if `social-previews.ts` imports existing helpers. Add a helper only if the route contract needs a named `shareableRoutes` export. |
+| `scripts/verify-static/metadata-jsonld-verifier.ts` | Replace `assetPath !== "social/bright-builds-og.png"` with expected social preview lookup by route. Assert metadata and JSON-LD images match the route target. |
+| `scripts/verify-static/sitemap-assets-verifier.ts` | Replace singleton PNG check with iteration over expected social preview assets. Keep fallback checks for `social/bright-builds-og.png` if non-content routes still use it. |
+| `scripts/verify-static/run-static-verification.ts` | Update summary wording to include static social preview assets. Keep route count derived from `expectedRoutes`. |
+| `scripts/verify-static.test.ts` | Update import-safe helper coverage and expected summary wording. Add route-derived social target checks. |
+| `scripts/verify-release.ts` | Budget all referenced social PNGs, not only `social/bright-builds-og.png`. Keep no remote visual assets and no dynamic endpoint assumptions. Add evidence labels only for checks actually performed. |
+| `scripts/verify-release.test.ts` | Update budget report and evidence label tests for multiple social preview assets. Assert labels do not claim live link or hosted social-card validation. |
+| `scripts/release-readiness.ts` | Add required documentation facts for static social preview generation, route metadata image references, generated media verification, and freshness report scope. |
+| `docs/release-readiness.md` | Document generated social preview assets, check/update commands, manual social-card preview checks, and freshness report boundaries. |
+| `package.json` | Add scripts such as `generate:social-previews`, `verify:social-previews`, and `freshness:report`. Wire deterministic social preview verification before build in `verify`. |
+| `src/domain/portfolio-surfaces.test.ts` | Update top-level route metadata expectations for project/writing/theme index images where route-specific images apply. |
+| `src/domain/project-detail-routes.test.ts` | Update project detail metadata tests to expect project-specific social images. |
+| `src/domain/writing-metadata.test.ts` | Update writing and theme metadata/JSON-LD tests to expect route-specific social images. |
+| `public/social/generated/*` | Managed generated PNG outputs. Commit these if the repo wants static builders to copy reviewed assets without requiring local regeneration first. |
 
-### No Source Change Expected
+No source change expected:
 
 | File | Reason |
 | --- | --- |
-| `app.config.ts` | Already prerenders `prerenderRoutes` |
-| `scripts/generate-static-metadata.ts` | Already writes `sitemapXml()` and `robotsTxt()` |
-| `src/components/SiteLayout.tsx` | Navigation consumes `navigationRoutes`; adding a nav route should surface Writing automatically |
-| `scripts/verify-release.ts` | Generic emitted-HTML scanner should cover writing unless new explicit release facts are needed |
+| `app.config.ts` | It already prerenders `prerenderRoutes`; social assets are static files copied from `public/`. |
+| `src/routes/*` | Existing routes render metadata image fields generically. Avoid touching route components unless adding a shared head component becomes necessary. |
+| `scripts/sync-github-metadata.ts` | Keep GitHub snapshot sync separate from freshness reporting. Do not mix network sync with local release verification. |
+| `src/components/SiteLayout.tsx` | Share assets and freshness reports should not affect layout or navigation. |
 
-## Suggested Build Order
+## Build Order
 
-1. Add `src/domain/writing.ts` with a small seed registry, selectors, path helpers, and unit tests.
-2. Add writing validation only for invariants TypeScript cannot enforce cleanly, then wire it into `verify:curation`.
-3. Wire `/writing` and `writingDetailRoutes()` into `src/domain/routes.ts`; update foundation route tests.
-4. Add SEO helpers for writing index/detail pages; update metadata, JSON-LD, and sitemap unit tests.
-5. Build `src/routes/writing/index.tsx` and `src/routes/writing/[slug].tsx` as thin static shells over domain data.
-6. Add related writing to `src/routes/projects/[slug].tsx`; use the writing registry as the single relationship source.
-7. Expand `scripts/verify-static.ts` to prove writing HTML, metadata, JSON-LD, sitemap, and cross-links before hydration.
-8. Expand Playwright keyboard/reduced-motion coverage and release-readiness facts for writing routes.
-9. Regenerate static metadata, run production build, then run the aggregate release gate.
+Recommended implementation order:
 
-## Anti-Patterns to Avoid
+1. Add `src/domain/social-previews.ts` with target derivation from existing route helpers.
+   - Start with public project detail routes, public writing detail routes, public theme detail routes, and the three index routes: `/projects`, `/writing`, `/themes`.
+   - Add unit tests that prove the target list is derived from helpers and excludes draft, hidden, archived, unsupported, and unselected records.
 
-- Do not introduce MDX, a CMS, filesystem content globbing, or runtime content loading for v1.3.
-- Do not duplicate relationships in both project records and writing records.
-- Do not add writing routes directly to `app.config.ts`; keep `prerenderRoutes` authoritative.
-- Do not let hidden/draft entries enter prerender routes, sitemap, JSON-LD ItemList, or release checks.
-- Do not add new external-link origins in note content without release policy coverage.
-- Do not make project pages import a large writing UI component; keep cross-link rendering local and data-driven.
+2. Update `src/domain/seo.ts` to use the social preview target layer.
+   - Keep `PageMetadata` shape stable if possible.
+   - Ensure Open Graph, Twitter, BlogPosting, and CollectionPage image fields all reference the same expected route asset.
+   - Update metadata unit tests before adding the renderer. This confirms the data contract independently of PNG generation.
 
-## Sources
+3. Add the social preview renderer and generator.
+   - Keep rendering input pure and testable.
+   - Use local bundled fonts or system-independent renderer defaults only; do not fetch fonts or images.
+   - Make `scripts/generate-social-previews.ts --check` compare expected generated assets against committed files or a temp render output.
+   - Clean only `public/social/generated/`, never the whole `public/social/` directory.
 
-- Local architecture and milestone context: `.planning/PROJECT.md`, `app.config.ts`, `src/domain/projects.ts`, `src/domain/routes.ts`, `src/domain/seo.ts`, `src/routes/projects/index.tsx`, `src/routes/projects/[slug].tsx`, `src/routes/index.tsx`, `scripts/verify-static.ts`, `scripts/verify-release.ts`, `tests/browser-release.playwright.ts`.
-- Additional local integration points inspected: `src/components/SiteLayout.tsx`, `scripts/generate-static-metadata.ts`, `scripts/release-readiness.ts`, `src/domain/foundation.test.ts`, `src/domain/project-detail-routes.test.ts`, `src/domain/portfolio-surfaces.test.ts`.
-- Bright Builds local guidance: `AGENTS.bright-builds.md`, `standards-overrides.md`.
-- Pinned canonical standards loaded from Bright Builds Rules commit `05f8d7a6c9c2e157ec4f922a05273e72dab97676`: `standards/index.md`, `standards/core/architecture.md`, `standards/core/verification.md`, `standards/core/testing.md`, `standards/languages/typescript-javascript.md`.
+4. Wire package scripts.
+   - Add `generate:social-previews` for updating files.
+   - Add `verify:social-previews` for deterministic drift checks.
+   - Put `verify:social-previews` before `bun run build` in the aggregate `verify` script so `.output/public` never copies stale preview assets.
 
-## Confidence and Gaps
+5. Extend static output verification.
+   - Update metadata verifier to assert each route's `og:image`, `twitter:image`, and JSON-LD `image` map to the expected generated asset.
+   - Update asset verifier to check every expected image exists in `.output/public`, is PNG, is 1200x630, and is not unexpectedly missing from the built output.
+   - Keep `social/bright-builds-og.png` as a fallback asset check only for routes that still use it.
 
-| Area | Confidence | Notes |
+6. Extend release verification and documentation.
+   - Budget generated social image assets individually and in aggregate if needed.
+   - Add release evidence labels for static social preview assets only after `verify:static` and `verify:release` prove them.
+   - Update release-readiness facts and docs so labels do not overclaim hosted, network, or social-crawler checks.
+
+7. Add freshness report helpers and command.
+   - Build `src/domain/freshness.ts` after social preview targets exist because media freshness should reuse the same target manifest.
+   - Add `scripts/generate-freshness-report.ts` as an explicit maintainer command, not visitor runtime.
+   - Keep network reachability checks optional and outside the default aggregate gate.
+
+8. Run the full release path.
+   - `bun run generate:social-previews`
+   - `bun run verify:social-previews`
+   - `bun run build`
+   - `bun run verify:static`
+   - `bun run verify:release`
+   - Then the full `bun run verify` aggregate once scripts are wired.
+
+Suggested script shape:
+
+```json
+{
+  "generate:social-previews": "bun run scripts/generate-social-previews.ts",
+  "verify:social-previews": "bun run scripts/generate-social-previews.ts --check",
+  "freshness:report": "bun run scripts/generate-freshness-report.ts"
+}
+```
+
+Do not add `freshness:report` to `verify` unless it is strictly deterministic and does not write files during check mode. Prefer an explicit release checklist step for reviewed freshness reports.
+
+## Verification Strategy
+
+Unit verification:
+
+- `src/domain/social-previews.test.ts`
+  - `socialPreviewTargets()` covers `/projects`, all selected project detail routes, `/writing`, all public writing routes, `/themes`, and all public theme routes.
+  - targets are sorted deterministically.
+  - asset paths are unique, local, under `social/generated/`, and derived from route plus digest.
+  - digest is stable for identical source data and changes when title, description, labels, or route path changes.
+  - hidden/draft/unselected project, writing, and theme records do not produce targets.
+  - preview alt text is non-empty and specific to the route.
+
+- Existing SEO tests
+  - `metadataForProject(project)` references that project's expected preview image.
+  - `metadataForWritingEntry(entry)` references that writing entry's expected preview image.
+  - `metadataForTheme(theme)` references that theme's expected preview image.
+  - `metadataForRoute(routeByPath("/projects" | "/writing" | "/themes"))` references index-specific preview images.
+  - `twitter.image` equals `openGraph.image`.
+  - JSON-LD image fields match the route metadata image URL.
+  - fallback image remains valid for non-content routes if retained.
+
+- `src/domain/freshness.test.ts`
+  - findings are pure and accept `asOf` explicitly.
+  - stale snapshot findings are deterministic.
+  - unavailable GitHub metadata is reported without throwing.
+  - missing social preview assets or digest drift is reported from target data.
+  - external-link findings reuse or mirror release-readiness policy rules without live network calls.
+
+Script verification:
+
+- `scripts/generate-social-previews.ts`
+  - import-safe when tested.
+  - `--check` exits non-zero on asset drift.
+  - no generated asset depends on current time, random values, remote fonts, remote images, network, or GitHub data beyond the checked-in snapshot.
+  - managed cleanup cannot delete `public/social/bright-builds-og.png`, icons, sitemap, or robots.
+
+- `scripts/verify-static/*`
+  - route metadata image URLs must be canonical and local.
+  - each metadata image URL must map to the expected route-derived asset.
+  - every expected asset must exist in `.output/public`.
+  - each expected PNG must be 1200x630.
+  - generated static output must not include dynamic OG endpoint URLs, remote visual asset URLs, GitHub API URLs, public GitHub token names, or maintainer-only freshness error copy.
+
+- `scripts/verify-release.ts`
+  - budget all generated social preview assets, not just the old fallback.
+  - keep route HTML, JS, and CSS budgets unchanged unless evidence shows a real need.
+  - evidence labels should include static social preview asset coverage only after the release verifier actually checks those assets.
+  - evidence labels must not include hosted social-card validation, live external-link checks, Cloudflare deployment, or network freshness checks unless those checks actually run in the command.
+
+Browser verification:
+
+- No browser route test is required just to prove Open Graph image tags; `.output/public` HTML checks are stronger and less flaky.
+- Keep existing desktop/mobile dark layout, axe, keyboard, and reduced-motion route coverage.
+- Add browser coverage only if visible UI changes are introduced while surfacing freshness status or social preview previews. The recommended v1.5 path keeps freshness reports out of visitor UI, so browser scope should stay mostly unchanged.
+
+Manual release checks:
+
+- Add a manual social-card smoke step to `docs/release-readiness.md` for at least one project, one writing route, and one theme route using the deployed or preview URL.
+- Label it manual. Do not make local release evidence claim that social platforms fetched the image.
+- Keep OpenLinks discoverable through existing footer/about/contact and JSON-LD `sameAs`; do not let generated social images make OpenLinks the primary brand for Bright Builds routes.
+
+## Risks
+
+| Risk | Why it matters | Mitigation |
 | --- | --- | --- |
-| Domain integration | HIGH | Existing project detail architecture is directly reusable for writing. |
-| Route/prerender wiring | HIGH | `app.config.ts` already delegates to `prerenderRoutes`; writing should only extend domain route helpers. |
-| SEO/sitemap wiring | HIGH | Sitemap and robots already derive from pure SEO helpers and generated static files. |
-| Browser/release verification | MEDIUM-HIGH | Existing loops cover `prerenderRoutes`, but keyboard/reduced-motion expectations need explicit writing representatives. |
-| Content model depth | MEDIUM | Typed sections are enough for v1.3; if notes become long-form editorial content, a later milestone can re-evaluate Markdown/MDX. |
+| Route/social target drift | Metadata, generated images, sitemap, and static verification can disagree if each keeps its own list. | Derive all social preview targets from `siteRoutes`, `projectDetailRoutes()`, `writingDetailRoutes()`, and `themeDetailRoutes()`. Ban hand-maintained social route arrays except as tests. |
+| Singleton fallback assumption | Existing verifiers assume every route uses `social/bright-builds-og.png`. | Introduce route-aware expected image lookup and update all singleton checks together. Keep the fallback only for non-content routes. |
+| Hidden or draft content leakage | Social previews are public files and metadata exposes them to crawlers. | Build targets only from public selectors. Unit-test draft/hidden/archived/unsupported/unselected exclusions. |
+| Renderer nondeterminism | PNG output can drift across OS, renderer versions, fonts, or anti-aliasing settings. | Pin renderer dependency, bundle fonts if used, avoid browser screenshots, and make `--check` run on the clean builder before build. |
+| Social crawler cache staleness | Stable image URLs can keep old previews alive after route copy changes. | Use route plus source digest in asset paths so metadata changes point crawlers at a new static URL. |
+| Asset bloat | Per-route PNGs can grow quickly as routes expand. | Enforce per-image and aggregate social image budgets in `verify:release`; keep 1200x630 PNGs compressed and template-heavy, not photo-heavy. |
+| Long title/label clipping | Project names like `Win3Bitco.in / Open Bitcoin Web Miner` can overflow preview cards. | Test longest known titles and clamp text in the pure renderer template. Prefer fewer labels over tiny unreadable text. |
+| Escaping bugs in generated SVG/HTML templates | Curated copy can contain characters that break XML/SVG or metadata. | Centralize text escaping in the renderer/template module and test angle brackets, ampersands, quotes, and slashes. |
+| Freshness checks becoming flaky gates | Live external links and GitHub API status can fail for reasons unrelated to the static site. | Keep network checks explicit/manual or scheduled. Default release gates should use checked-in snapshots, deterministic reports, and policy coverage. |
+| Overclaiming release evidence | Current release labels intentionally exclude manual hosted checks. v1.5 could accidentally imply live crawler validation. | Update `releaseEvidenceLabels()` and release-readiness facts only for checks that run locally. Keep manual social-card and external-link smoke checks separate. |
+| OpenLinks brand over-promotion | Generated route previews could accidentally center OpenLinks instead of Bright Builds route content. | Preserve OpenLinks as identity metadata and footer/about/contact discovery. Social previews should brand Bright Builds and the specific project, writing entry, or theme route. |
+| Public maintenance copy leakage | Freshness reports may mention stale GitHub data or unavailable links. | Keep reports out of route rendering and keep existing forbidden-output checks for maintainer-only copy such as GitHub refresh failures. |

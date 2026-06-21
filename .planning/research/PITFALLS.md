@@ -1,325 +1,388 @@
-# Domain Pitfalls: v1.3 Writing & Notes Surface
-
-**Project:** Bright Builds Portfolio Website
-**Domain:** Curated static writing and notes routes in an existing SolidStart static portfolio
-**Researched:** 2026-06-03
-**Overall confidence:** HIGH for repo integration risks; MEDIUM for exact phase names because the roadmap has not been written yet.
+# Domain Pitfalls: v1.5 Static Shareability & Freshness
 
 ## Context
 
-v1.3 is not a greenfield blog. It adds a curated writing surface to a portfolio that already has typed project data, deterministic project route helpers, static metadata helpers, sitemap generation, browser release checks, and a clean-builder gate of `bun run install:browser && bun run verify`.
+**Project:** Bright Builds Portfolio Website
+**Milestone focus:** Deterministic static social preview assets and non-runtime freshness evidence for project, writing, and theme routes
+**Researched:** 2026-06-21
+**Overall confidence:** HIGH for repo-specific implementation risks; MEDIUM for exact external crawler behavior because platform validators and docs can change independently.
 
-The safest roadmap shape is the same one that worked in v1.2: first build the typed domain and route helper surface, then render the UI, then wire metadata/link graph/structured data, then expand release verification and documentation. Most hazards come from adding writing as a parallel mini-system instead of extending the existing helper-driven static architecture.
+v1.5 is a follow-on to a mature static portfolio, not a greenfield SEO pass. The repo already has typed project, writing, and theme domain helpers; `prerenderRoutes` and `sitemapRoutes`; static metadata helpers in `src/domain/seo.ts`; checked-in `public/social/bright-builds-og.png`; modular generated-output verification under `scripts/verify-static/`; and a release gate of `bun run install:browser && bun run verify`.
+
+The current social-preview contract is intentionally simple: every route gets `https://www.brightbuilds.us/social/bright-builds-og.png`, the file is a checked-in 1200x630 PNG, `verify:static` asserts metadata fields and local asset presence, and `verify:release` enforces one hard-coded social image budget. v1.5 should replace that one-image contract with a route-derived static image contract, not add a parallel ad hoc list of image files.
+
+Freshness is already scoped carefully. GitHub metadata is advisory, checked in, and currently synced at `2026-05-27T12:48:17.905Z`; the project started v1.5 on 2026-06-21. The sync script may fetch GitHub, but the aggregate verifier does not run it. Existing release-readiness policy keeps third-party link reachability manual because live services can rate-limit, block automation, or be unavailable outside this repo.
+
+Source notes that materially informed this file:
+
+- Repo instructions: `AGENTS.md`, `AGENTS.bright-builds.md`, `standards/core/verification.md`, and `standards/languages/typescript-javascript.md`.
+- Project evidence: `.planning/PROJECT.md`, `.planning/RETROSPECTIVE.md`, `.planning/milestones/v1.4-REQUIREMENTS.md`, `src/domain/seo.ts`, `scripts/verify-static.ts`, and `scripts/verify-release.ts`.
+- Official Open Graph protocol: https://ogp.me/ confirms basic `og:title`, `og:type`, `og:image`, `og:url` tags and structured `og:image:width`, `og:image:height`, and `og:image:alt`.
+- GitHub REST API rate-limit docs: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api confirm unauthenticated request limits, 403/429 rate-limit behavior, and secondary rate limits. This supports keeping live GitHub checks out of deterministic local release gates.
+- Meta sharing docs were discoverable at https://developers.facebook.com/docs/sharing/webmasters/images/, but direct fetches returned live-service friction during research. Treat Meta/X/LinkedIn preview validators as manual release smoke checks, not local proof.
 
 ## Critical Pitfalls
 
-### Pitfall 1: Content Drift From Split Writing Sources
+### Pitfall 1: Dynamic OG or Server Creep
 
-**Recommended phase:** v1.3 Phase 1 - Writing Domain Foundation
+**Recommended phase:** Phase 25 - Deterministic Static Image Generation
 
-**What goes wrong:** Note titles, summaries, slugs, dates, body copy, related projects, route metadata, sitemap entries, and verifier expectations get stored in separate places. A note can render while its canonical URL, JSON-LD, sitemap entry, or related project links are stale.
-
-**Why it happens:** The implementation starts with route components or ad hoc Markdown pages before defining a typed checked-in writing registry and supported selectors.
-
-**Consequences:** Roadmap requirements become hard to verify, content maintenance becomes brittle, and release checks either miss drift or lock onto duplicated exact text.
+**What goes wrong:** The implementation adds a dynamic Open Graph image endpoint, server route, edge function, runtime image renderer, remote screenshot service, or visitor-runtime `fetch()` path because dynamic OG examples are common in other frameworks.
 
 **Warning signs:**
 
-- Manual `/writing/...` arrays appear in route files, SEO helpers, browser tests, release docs, or verifiers.
-- Route components define their own note title, description, or related project links.
-- Writing content can be edited without TypeScript seeing missing slugs, empty summaries, or invalid related projects.
-- Draft or placeholder notes can reach `prerenderRoutes`.
+- New files appear under `src/routes/api`, `src/routes/og`, or equivalent server-only routing surfaces.
+- Metadata points at `/api/og?...`, a third-party URL, or an image URL that does not exist in `.output/public`.
+- `verify` or route rendering imports `node:fs`, `@octokit/*`, image-generation services, or secret-backed clients from visitor-facing code.
+- Release docs start referring to server functions, edge rendering, or hosted image generation.
+
+**Consequences:**
+
+- The Cloudflare/static deployment contract is weakened; `.output/public` is no longer the whole product.
+- Crawlers depend on a server path that the local release gate does not prove.
+- Token, rate-limit, cold-start, cache, and hosted-function failures enter a site that is supposed to be deterministic and static.
 
 **Prevention:**
 
-- Add one typed checked-in writing registry, likely `src/domain/writing.ts`, with curated published entries only exposed through selectors.
-- Encode required fields in types: slug, title, summary, published date, note kind, body/sections, tags/themes, and related project slugs.
-- Keep draft or hidden states unrepresentable in public selectors, or explicitly filtered by a selector such as `publishedWritingEntries()`.
-- Derive `/writing` index content, `/writing/{slug}` route params, metadata, JSON-LD, sitemap coverage, and verifier expectations from the same helpers.
+- Generate raster images from a Bun/TypeScript build-time script that writes checked-in static files under `public/social/`.
+- Keep image data in pure domain helpers and keep the renderer as an imperative shell.
+- Do not add API routes, server functions, dynamic OG endpoints, remote image services, or visitor-runtime fetches for social previews.
+- Extend `verify:no-github-runtime`, generated-output forbidden scans, and release-readiness docs to reject dynamic OG/server residue.
 
 **Detection:**
 
-- Unit tests fail when a related project slug does not resolve or when a published note lacks required content.
-- Static verification fails when a generated writing route does not contain its registry title/summary before hydration.
-- Code review finds only one source of truth for each published writing entry.
+- `bun run build && bun run verify:static && bun run verify:release` proves every metadata image URL maps to a local file in `.output/public`.
+- `rg -n "api/og|server\\$|createServer|fetch\\(|@octokit|GITHUB_TOKEN" src scripts tests docs` has no visitor-runtime social-image hits.
+- Built output contains no remote `<img src>`, `srcset`, or CSS `url(https://...)` visual assets.
 
-### Pitfall 2: Route Duplication and Prerender Holes
+### Pitfall 2: Duplicated Route and Image Lists
 
-**Recommended phase:** v1.3 Phase 1 - Writing Domain Foundation
+**Recommended phase:** Phase 24 - Social Image Data Contract
 
-**What goes wrong:** `/writing` exists but individual note pages are not prerendered, or verifiers check a different set of routes than SolidStart emits. Internal links can point to pages that are absent from `.output/public`.
-
-**Why it happens:** The current route source of truth is `prerenderRoutes` in `src/domain/routes.ts`, backed by project helpers. Writing routes will drift if they are bolted on through local arrays in tests, route components, or release docs.
-
-**Consequences:** The static artifact can pass partial checks while missing note HTML, sitemap entries, or browser coverage for `/writing/{slug}`.
+**What goes wrong:** Project, writing, theme, generator, metadata, sitemap, browser tests, and release verifiers each maintain their own route-to-image arrays. A route can render and be shareable while its image, metadata, or verification entry silently drifts.
 
 **Warning signs:**
 
-- A helper such as `writingDetailRoutes()` does not exist before route components are added.
-- `routeByPath()` silently falls back to home for `/writing`.
-- `app.config.ts`, `scripts/verify-static.ts`, and `tests/browser-release.playwright.ts` each build their own writing route list.
-- The sitemap includes `/writing` but not each selected note route.
+- Hard-coded route arrays such as `["/projects/openlinks", "/writing/..."]` appear in the image generator or static verifier beyond representative smoke tests.
+- Image paths are hand-authored in route components instead of derived by helpers.
+- `metadataForProject`, `metadataForWritingEntry`, and `metadataForTheme` build social image paths differently.
+- Adding a public theme/writing/project route requires editing multiple social image lists.
+
+**Consequences:**
+
+- Some public routes keep the fallback image while others get route-specific assets.
+- Hidden or unsupported records can leak into generated image files.
+- Verification passes the copied list instead of the route family actually shipped in `prerenderRoutes`.
 
 **Prevention:**
 
-- Introduce route helpers such as `writingIndexPath`, `writingDetailPath(entry)`, `writingDetailRoutes()`, and `maybeWritingEntryBySlug()`.
-- Add the writing index and detail routes to `prerenderRoutes` through those helpers.
-- Make static verification read the same route helpers instead of enumerating notes manually.
-- Keep project links using `projectStoryHref()` and writing links using the new writing helper boundary.
+- Add one route-derived social image helper surface, for example `socialPreviewEntries()`, composed from `projectDetailRoutes()`, `writingDetailRoutes()`, `themeDetailRoutes()`, and top-level `siteRoutes` as needed.
+- Make each entry carry route path, stable asset path, title text, supporting text, kind, alt text, width, and height.
+- Use the same helper in the generator, `src/domain/seo.ts`, static verification, budget checks, and release docs.
+- Keep route helpers as source of truth; do not duplicate selected project, published writing, or public theme slug lists.
 
 **Detection:**
 
-- `bun run build && bun run verify:static` proves `.output/public/writing/index.html` and every selected note HTML file exists.
-- `bun run verify:release` internal-link checks fail on missing note routes or anchors.
-- Sitemap equality checks derive from `sitemapXml(prerenderRoutes)`.
+- Unit tests assert the social image entry route set equals the intended public project, writing, and theme route helpers.
+- Static verification asserts every public route metadata image is present in the social image entry set.
+- Code review finds only representative smoke routes hard-coded; the full coverage path is helper-derived.
 
-### Pitfall 3: SEO, JSON-LD, and Sitemap Mismatch
+### Pitfall 3: Metadata References Drift From Generated Assets
 
-**Recommended phase:** v1.3 Phase 3 - Writing Metadata and Structured Data
+**Recommended phase:** Phase 26 - Metadata Wiring and Static References
 
-**What goes wrong:** Writing routes render visible content but reuse generic route metadata, omit article structured data, use the wrong canonical URL, or diverge from sitemap coverage.
-
-**Why it happens:** `src/domain/seo.ts` already has separate pure helpers for top-level routes and project detail routes. Writing needs the same treatment rather than reusing `metadataForRoute()` or embedding metadata in route components.
-
-**Consequences:** Sharing previews and search metadata become weaker than the visible page, and release evidence can overstate static SEO coverage.
+**What goes wrong:** Static images are generated, but route metadata still points at the old fallback, a wrong slug path, a relative URL, a non-canonical origin, or an image that was not emitted to `.output/public`.
 
 **Warning signs:**
 
-- `/writing/{slug}` uses the same title or description as `/writing`.
-- JSON-LD checks only assert that some `application/ld+json` script exists.
-- Sitemap checks list writing routes separately from canonical metadata helpers.
-- Release docs claim writing metadata coverage before `verify:static` proves it.
+- `assertMetadataImageMapsToLocalAsset()` stays hard-coded to `social/bright-builds-og.png`.
+- Route components calculate `<Meta property="og:image">` independently from `src/domain/seo.ts`.
+- `twitter:image`, `og:image`, and JSON-LD `image` point to different files without a documented reason.
+- Metadata image URLs are relative paths or use a non-canonical origin.
+
+**Consequences:**
+
+- Social sharing is inconsistent across crawlers even though local route rendering works.
+- The release gate can claim route-specific social images while crawlers still receive the fallback.
+- Cache invalidation becomes guesswork because a route's image URL does not identify the intended asset.
 
 **Prevention:**
 
-- Add pure helpers such as `metadataForWritingEntry()`, `writingJsonLd()`, and, if useful, `writingItemListJsonLd()`.
-- Keep canonical URLs, Open Graph, Twitter metadata, JSON-LD URL fields, and sitemap paths derived from the same writing route helpers.
-- Prefer the existing static social preview fallback unless the milestone explicitly adds checked-in raster writing images; do not add dynamic OG/server rendering.
-- In static verification, assert helper-derived metadata and parse or compare JSON-LD content for each writing route.
+- Extend `SocialImageMetadata` and `socialImageForProfile` into route-aware helpers that return absolute canonical URLs and local asset paths.
+- Wire `metadataForProject`, `metadataForWritingEntry`, and `metadataForTheme` through the route-derived social image helper.
+- Keep `og:image`, `twitter:image`, and JSON-LD `image` aligned unless a specific crawler requirement is documented.
+- Use stable deterministic paths such as `social/projects/{slug}.png`, `social/writing/{slug}.png`, and `social/themes/{slug}.png`.
 
 **Detection:**
 
-- Unit tests cover writing metadata helper output for the index and at least one detail note.
-- `verify:static` fails if a writing route lacks route-specific title, description, canonical, OG/Twitter tags, JSON-LD, or sitemap coverage.
-- Release-readiness docs name only the exact automated coverage that exists.
+- `verify:static` checks `og:image`, width, height, alt, `twitter:image`, `twitter:image:alt`, and JSON-LD image for every public route.
+- Metadata URL origin equals `peterProfile.canonicalOrigin`.
+- Every metadata image URL maps to a checked-in output asset with expected dimensions.
 
-### Pitfall 4: Broken Project and Note Link Integrity
+### Pitfall 4: Generated Asset Churn and Non-Determinism
 
-**Recommended phase:** v1.3 Phase 1 for relationship invariants; v1.3 Phase 2 for rendered navigation
+**Recommended phase:** Phase 25 - Deterministic Static Image Generation
 
-**What goes wrong:** Notes point to hidden or nonexistent projects, project pages list notes that do not exist, or project-to-note and note-to-project links disagree.
-
-**Why it happens:** Bidirectional relationships are tempting to store on both sides. That makes drift likely unless one side is authoritative and the other is derived.
-
-**Consequences:** Visitors cannot move cleanly between thinking and work, internal link checks become noisy, and hidden/excluded project records can leak through writing content.
+**What goes wrong:** The generator rewrites PNG bytes on every run, produces different output across machines, embeds timestamps, uses random IDs, depends on host fonts, or captures browser screenshots whose antialiasing varies by OS.
 
 **Warning signs:**
 
-- Projects gain raw `relatedWritingSlugs` while notes also carry raw `relatedProjectSlugs` with no consistency test.
-- UI maps project slugs to `/projects#slug` manually instead of using `projectStoryHref()`.
-- Writing links use `ProjectLinkKind: "article"` for local notes even though note routes have their own registry.
-- Internal link verifier failures are fixed by weakening link checks.
+- Running the generator twice produces a git diff.
+- Image files include generated-at timestamps, build IDs, random seeds, or unsorted data.
+- The generator writes all images even when route data is unchanged.
+- CI fails on image diffs that cannot be reproduced locally.
+
+**Consequences:**
+
+- The repo gets noisy binary churn and hard-to-review diffs.
+- Release verification becomes unstable even when content has not changed.
+- Maintainers lose trust in generated assets and bypass the generator.
 
 **Prevention:**
 
-- Make one side authoritative, preferably note entries with `relatedProjectSlugs`, then derive project-to-note lists with a helper.
-- Validate every related project slug against `publicProjectIndexProjects()` unless there is an explicit reviewed reason to allow a hidden record.
-- Render project destinations with `projectStoryHref()` so selected project detail pages and project-index anchors keep the v1.2 behavior.
-- Add unit tests for note-to-project and project-to-note helper behavior, including a project with no notes.
+- Make image inputs deterministic: sorted routes, normalized text, checked-in fonts/assets, fixed viewport/dimensions, fixed color tokens, and no clock/randomness in image content.
+- Prefer a TS/Bun script aligned with repo standards; do not add Python automation for convenience.
+- Write files only when content changes.
+- Add a manifest or text-layer spec that can be reviewed without visually diffing every PNG.
+- Keep generated social images checked in if the release artifact must be inspectable without runtime generation.
 
 **Detection:**
 
-- Unit tests fail for unresolved, hidden, duplicate, or self-contradictory relationships.
-- `verify:release` fails on missing internal note/project routes or anchors.
-- Browser keyboard checks can reach `/writing`, at least one note, a related project, and back.
+- A deterministic check runs generator twice and expects no diff.
+- `verify:static` and `verify:release` assert dimensions and budgets for every generated social image.
+- PR review includes a generated contact sheet or manifest diff so binary changes are reviewable.
 
-### Pitfall 5: Accidental Runtime Dependencies or Server Assumptions
+### Pitfall 5: Social Image Accessibility and Readability Regressions
 
-**Recommended phase:** v1.3 Phase 1 for data shape; v1.3 Phase 3 for metadata; v1.3 Phase 4 for guards
+**Recommended phase:** Phase 25 for template design; Phase 28 for verification coverage
 
-**What goes wrong:** Writing introduces runtime `fetch`, filesystem reads in visitor paths, GitHub/API usage, public tokens, server-only SolidStart behavior, remote images, or dynamic OG endpoints.
-
-**Why it happens:** Blog-style implementations often reach for Markdown loaders, CMS clients, dynamic image generation, or runtime content APIs. This project explicitly targets static output with curated checked-in content and no visitor-runtime API calls.
-
-**Consequences:** Static deploy assumptions weaken, Cloudflare Pages output can depend on server behavior, release builds can leak token-like data, and the no-runtime-GitHub contract regresses.
+**What goes wrong:** The route-specific images look visually rich but have tiny text, low contrast, cramped safe areas, cropped titles, illegible project names, or generic alt text. The dark-primary site looks polished while shared cards feel inaccessible or off-brand.
 
 **Warning signs:**
 
-- Route components or domain modules import `node:fs`, `node:path`, `@octokit/*`, or remote content clients.
-- Writing pages call `fetch()` for note content, repo data, images, or social previews.
-- New API routes or server functions appear just to serve notes or OG images.
-- Public environment variable prefixes such as `VITE_`, `PUBLIC_`, or `SOLID_PUBLIC_` are used for content or GitHub data.
-- Built HTML contains remote `<img src>` or CSS `url(https://...)`.
+- Long writing titles or theme names are placed directly into a fixed-size template without clamping or fallback copy.
+- Image alt text repeats the site-wide fallback instead of describing the route-specific card.
+- The design relies on subtle dark-on-dark contrast, dense text, or small labels below social-card thumbnail scale.
+- Route titles with slashes, code names, or long words overflow the 1200x630 template.
+
+**Consequences:**
+
+- Shared links look unfinished or unreadable on high-density/mobile previews.
+- Assistive metadata is less useful than the visible route title and description.
+- The site violates its own dark-primary contrast/readability standard at the discovery edge.
 
 **Prevention:**
 
-- Keep published writing as checked-in TypeScript data or static assets consumed through pure domain helpers.
-- Keep filesystem work, if any, inside build/script-only paths and outside visitor-rendered domain modules.
-- Preserve `verify:no-github-runtime`, forbidden built-output scans, token redaction, and remote visual asset checks.
-- Do not add dynamic OG/server rendering in v1.3; reuse the checked-in social preview fallback unless static generated assets become a separate scoped phase.
+- Define social image text rules: title length budget, optional subtitle, route kind label, safe margins, minimum font sizes, and high-contrast foreground/background pairs.
+- Derive `og:image:alt` and `twitter:image:alt` from route-specific title and summary, not from the old global fallback.
+- Keep the image brand centered on Bright Builds / Peter / pRizz; avoid decorative density that competes with the route content.
+- Include stress fixtures: longest project name, longest writing title, longest theme title, and an OpenLinks-specific route.
 
 **Detection:**
 
-- `bun run verify:no-github-runtime` and `bun run verify:release` fail on visitor-runtime GitHub/API/token patterns.
-- Static output verification fails on remote runtime visual assets.
-- Build output can be served from `.output/public` without a backend.
+- Generate a review contact sheet covering every project, writing, and theme image.
+- Static verification checks non-empty route-specific alt text and width/height.
+- Browser or script-level checks confirm the contact sheet has no clipped/overflowing text if the chosen renderer exposes text boxes; otherwise require manual visual review as a named release checklist item.
 
-### Pitfall 6: Dark-Primary Readability and Text Layout Regressions
+### Pitfall 6: Flaky Live-Network Gates
 
-**Recommended phase:** v1.3 Phase 2 - Writing Routes and UI
+**Recommended phase:** Phase 27 - Freshness Reports and Reviewed Snapshot Policy; Phase 28 - Verification and Release Contract
 
-**What goes wrong:** Long titles, tags, code snippets, note excerpts, project names, or dense prose overflow on mobile, overlap other elements, or fall back to light-first styling.
-
-**Why it happens:** The existing browser release suite checks route accessibility and obvious dark-layout issues, but writing introduces article-specific surfaces that may include longer text than project cards.
-
-**Consequences:** The site stops feeling polished, dark-primary defaults regress, and accessibility checks can pass while real reading ergonomics are poor.
+**What goes wrong:** The aggregate release gate starts running live GitHub sync, link crawls, Meta/X/LinkedIn validators, or remote image fetches. The site then fails release because third-party services rate-limit, require login, return bot defenses, or temporarily disagree with local state.
 
 **Warning signs:**
 
-- Light-first classes such as `bg-white`, `bg-stone-50`, or `text-zinc-950` appear in writing UI without a clear reason.
-- Note cards use fixed heights with unconstrained titles or excerpts.
-- Article content includes `pre`, `code`, blockquotes, or long URLs that are not covered by layout checks.
-- The Playwright layout candidate list is not updated if new article elements need overlap/overflow coverage.
+- `bun run verify` starts calling `sync:github-metadata:strict`, a live link crawler, or a social-card validator.
+- `scripts/verify-release.ts` gains network `fetch()` calls.
+- Release evidence labels claim hosted crawler validation or live link reachability.
+- Failures mention HTTP 403, 429, DNS, TLS, regional blocking, or preview-deployment propagation.
+
+**Consequences:**
+
+- Deterministic local release evidence becomes flaky and environment-dependent.
+- Maintainers bypass release checks or add broad exception handling.
+- Automated labels overclaim what was actually proven.
 
 **Prevention:**
 
-- Use dark-first shell, surface, text, link, chip, and focus classes consistent with the existing site.
-- Set stable responsive constraints for note cards and article content: readable max width, wrapping for long words/links, scroll or wrap behavior for code-like content, and no nested cards.
-- Include a representative long-title/long-link note in test data or fixtures.
-- Ensure `/writing` and representative `/writing/{slug}` routes are in `prerenderRoutes` so axe, desktop layout, mobile layout, keyboard, and reduced-motion checks include them.
+- Keep live checks in an explicit report command, not the aggregate local gate.
+- Let `verify` validate report shape, route coverage, and truthfulness, but not re-fetch third-party services.
+- Keep external social debugger checks in manual preview/production smoke docs.
+- Make any freshness report degrade to warnings for live failures and never mutate curated visitor-facing copy automatically.
 
 **Detection:**
 
-- `bun run verify:browser` covers writing routes on desktop, mobile, and reduced-motion projects.
-- Layout checks fail on horizontal overflow or obvious overlap.
-- Manual review of generated dark pages confirms readable prose, visible focus states, and no text collisions.
+- `bun run verify` can run with network unavailable after dependencies and browser are installed.
+- `rg -n "fetch\\(|https://|sync:github-metadata:strict" scripts/verify-* package.json` finds no live release-gate network path except static policy strings.
+- `releaseEvidenceLabels()` names local static checks only.
 
-### Pitfall 7: Release Overclaiming
+### Pitfall 7: Stale Metadata Snapshots Masquerading as Freshness
 
-**Recommended phase:** v1.3 Phase 4 - Writing Release Coverage
+**Recommended phase:** Phase 27 - Freshness Reports and Reviewed Snapshot Policy
 
-**What goes wrong:** Release docs or evidence labels claim writing route coverage, live link checking, hosted audits, or exhaustive browser behavior that the automation does not actually prove.
-
-**Why it happens:** v1.2 added explicit project-detail release labels and exact release-readiness facts. Copying that language for writing before adding the matching checks would make the release contract less honest.
-
-**Consequences:** The roadmap may mark requirements complete without evidence, and future audits can pass prose that is disconnected from the actual gates.
+**What goes wrong:** The GitHub snapshot remains old, unavailable repositories stay unresolved, project homepage links drift, or generated images include stale public facts while the release docs claim metadata freshness.
 
 **Warning signs:**
 
-- `docs/release-readiness.md` says "writing route coverage" but `scripts/release-readiness.ts` does not require that fact.
-- Evidence labels mention writing while Playwright only checks project routes.
-- Preview or production smoke paths still name only `/projects/openlinks`.
-- Documentation implies local checks crawl live third-party writing links.
+- `src/domain/github-metadata.snapshot.json` `syncedAt` ages without a reviewed report.
+- Social images include stars, forks, pushed dates, or topic labels sourced from GitHub metadata.
+- `No GitHub metadata yet` or `GitHub metadata refresh failed` appears in generated output.
+- A freshness report exists but does not list `syncedAt`, unavailable records, direct repo targets, primary links, and review status.
+
+**Consequences:**
+
+- Visitors see out-of-date "Updated" facts or stale project signals.
+- The release gate can truthfully prove static output while public-facing facts decay.
+- Maintainers cannot tell whether stale data is intentional curation or forgotten automation.
 
 **Prevention:**
 
-- Update release evidence labels only after static, browser, and release checks actually cover writing.
-- Phrase evidence precisely: for example, "writing metadata, JSON-LD, and sitemap coverage" or "representative writing keyboard path" rather than broad hosted claims.
-- Keep external link checks policy-based and manual-release, matching the current contract.
-- Guard deploy-critical release-readiness facts with focused tests or `releaseReadinessDocumentFindings()`.
+- Treat GitHub metadata as advisory and separate from authored project, writing, and theme copy.
+- Add a checked-in freshness report that summarizes snapshot age, unavailable records, primary external origins, generated image coverage, and maintainer review status.
+- Do not use live GitHub facts in social images unless the image clearly remains valid when the snapshot is old.
+- Keep `sync:github-metadata` manual or scheduled; do not let it silently rewrite curated content.
 
 **Detection:**
 
-- `bun run verify:release` emits evidence labels that match implemented checks.
-- Release-readiness document verification fails if required writing coverage facts are missing after Phase 4.
-- Milestone audit can trace every writing release claim to an automated or explicitly manual check.
+- Report validation checks every direct repo target appears in the snapshot/report.
+- Static verification continues to block visitor-facing maintenance-error copy.
+- Release-readiness docs distinguish "reviewed static freshness report" from "live metadata verified today."
 
-### Pitfall 8: Verifier Bloat and Brittle Exact-Text Checks
+### Pitfall 8: OpenLinks Over-Promotion
 
-**Recommended phase:** v1.3 Phase 4 - Writing Release Coverage, with groundwork in earlier phases
+**Recommended phase:** Phase 24 for data rules; Phase 25/26 for image and metadata templates; Phase 28 for guards
 
-**What goes wrong:** Writing coverage gets appended to already-large verifier files until maintenance becomes slow and copy edits break unrelated release checks.
-
-**Why it happens:** `scripts/verify-static.ts` is already 870 lines and was flagged in the v1.2 audit as above the Bright Builds file-size refactor trigger. Adding route-specific writing assertions inline will worsen the problem.
-
-**Consequences:** Verification stays technically passing but becomes hard to reason about, and future phases will hesitate to improve checks because every addition touches a large script.
+**What goes wrong:** Route images, metadata, or freshness reports turn OpenLinks into the primary CTA for unrelated project, writing, or theme shares. This conflicts with the established repo decision that OpenLinks is low-intrusion identity context.
 
 **Warning signs:**
 
-- New writing expected text is added through more route-specific `if (route === ...)` blocks.
-- Static verifier copies note titles/summaries instead of reading the writing registry.
-- Release-readiness exact-text assertions fail on harmless Markdown formatting changes.
-- `verify-static` and `verify-release` both duplicate the same writing coverage logic.
+- Social image templates put OpenLinks branding, logo, or CTA copy on every route.
+- Metadata descriptions emphasize OpenLinks for non-OpenLinks routes.
+- Theme collaboration or share-card text adds a generic "OpenLinks profile" action.
+- JSON-LD or `sameAs` repeats OpenLinks beyond the existing profile identity placement.
+
+**Consequences:**
+
+- Bright Builds, Peter's work, projects, writing, and collaboration context become secondary to identity plumbing.
+- Existing theme-collaboration decisions regress.
+- Shared route previews feel like ads for OpenLinks instead of accurate previews of the page.
 
 **Prevention:**
 
-- Split verifier logic by concern when writing coverage expands the file: route HTML, metadata, JSON-LD, assets, writing routes, and project routes are natural boundaries.
-- Prefer data-derived assertions from domain helpers over hand-copied expected strings.
-- Keep exact-text checks for deploy-critical documentation facts only.
-- Add small pure helper tests for writing route/SEO/link behavior so static verification can remain focused on generated output.
+- Keep global identity placement in footer/about/contact/profile/metadata `sameAs`.
+- Use OpenLinks-specific social text only for the OpenLinks project, OpenLinks writing, or themes where OpenLinks is genuinely central.
+- Brand generic cards as Bright Builds / Peter Ryszkiewicz / pRizz.
+- Store image text layers in a reviewable spec so guards can inspect text without OCR.
 
 **Detection:**
 
-- File-length review stays visible during Phase 4 planning.
-- The final diff shows writing verifier additions grouped in named helpers or modules, not one long procedural block.
-- Copy-only note edits do not require editing release scripts unless metadata or route behavior changed.
+- Unit tests assert generic social image specs do not include OpenLinks CTA text except allowlisted OpenLinks routes.
+- Existing theme tests continue to block generic OpenLinks profile actions for unrelated themes.
+- Static verification keeps footer/profile OpenLinks discoverability but does not require OpenLinks dominance in every card.
 
-## Moderate Pitfalls
+### Pitfall 9: Freshness Reports Become Content Authority
 
-### Pitfall 9: Writing Becomes an Uncurated Content Dump
+**Recommended phase:** Phase 27 - Freshness Reports and Reviewed Snapshot Policy
 
-**Recommended phase:** v1.3 Phase 1 - Writing Domain Foundation
+**What goes wrong:** A report or sync script starts rewriting curated project records, route descriptions, social image copy, or public visibility based on live GitHub/link state.
 
-**What goes wrong:** The site mirrors every draft, repo README, old note, or generated artifact instead of presenting a small curated writing surface.
+**Warning signs:**
 
-**Warning signs:** Entries lack a curation reason, summary, publication status, or relation to the portfolio themes. The index sorts by whatever was imported rather than deliberate display order or published date.
+- Freshness tooling writes `src/domain/projects.ts`, `src/domain/writing.ts`, or `src/domain/themes.ts`.
+- Unavailable GitHub metadata removes a route or hides a project from generated images.
+- Report output is treated as a public content source instead of a maintenance artifact.
+- Live homepage URLs overwrite reviewed curated links without human review.
 
-**Prevention:** Keep v1.3 scoped to a small published set. Require each public note to have original copy, a clear summary, tags/themes, publication date, and optional related projects. Do not add CMS/admin tooling.
+**Consequences:**
 
-### Pitfall 10: Dates and Update Semantics Are Ambiguous
+- The portfolio becomes a raw external-data mirror, which earlier milestones explicitly rejected.
+- Temporary external failures can change visitor-facing content.
+- Authored copy and evidence drift apart.
 
-**Recommended phase:** v1.3 Phase 1 - Writing Domain Foundation; v1.3 Phase 3 - Metadata
+**Prevention:**
 
-**What goes wrong:** Published, updated, and reviewed dates drift or are rendered inconsistently between visible UI and JSON-LD.
+- Freshness tooling should read curated data and snapshots, then write only report artifacts or explicit snapshot files.
+- Keep curated visitor-facing data manual and reviewed.
+- If a report finds drift, create a follow-up task or manual diff, not automatic public content mutation.
+- Maintain protocol allowlists for any metadata-derived homepage link.
 
-**Warning signs:** Dates are free-form strings in components, omitted from metadata helpers, or formatted differently per route.
+**Detection:**
 
-**Prevention:** Store date fields in one typed shape, decide whether `updatedAt` is optional, and expose formatting helpers for UI and structured data.
+- Script tests assert freshness commands do not write curated content files.
+- Git diff after a report run changes only allowed report/snapshot outputs.
+- Code review rejects report data imported by route components.
 
-### Pitfall 11: OpenLinks Identity Becomes Too Prominent
+### Pitfall 10: Verification Bloat and Release Overclaiming
 
-**Recommended phase:** v1.3 Phase 2 - Writing Routes and UI; v1.3 Phase 3 - Metadata
+**Recommended phase:** Phase 28 - Verification and Release Contract
 
-**What goes wrong:** Writing pages repeat OpenLinks promotion in article chrome or note metadata in a way that competes with Bright Builds and the note content.
+**What goes wrong:** Static verification grows by copy-pasting route-specific social assertions into existing files, while release evidence labels say "social previews verified" without proving actual route-image references, image files, metadata fields, and report truthfulness.
 
-**Warning signs:** Every note has a prominent OpenLinks CTA, or writing JSON-LD duplicates identity metadata beyond what the existing profile helpers already provide.
+**Warning signs:**
 
-**Prevention:** Preserve the current low-intrusion footer/about/profile placement and reuse existing profile `sameAs` helpers where structured data needs creator identity.
+- `scripts/verify-static/metadata-jsonld-verifier.ts` and `scripts/verify-release.ts` get many route-family conditionals instead of focused social-image helpers.
+- Evidence labels claim Facebook/X/LinkedIn validation, live link checks, or hosted previews.
+- Static verification checks only one representative route or only the old fallback path.
+- Release-readiness docs mention freshness without a corresponding checked verifier.
 
-## Phase-Specific Warnings
+**Consequences:**
 
-| Recommended v1.3 phase | Likely pitfall | Mitigation |
+- The release gate becomes harder to maintain and easier to weaken.
+- Milestone audit can pass prose that is not backed by real local evidence.
+- Future route families inherit another drift-prone verification surface.
+
+**Prevention:**
+
+- Add focused modules such as `scripts/verify-static/social-images-verifier.ts` and, if needed, `scripts/social-preview-report.ts`.
+- Keep evidence labels narrow, for example "static social image asset references" and "freshness report structure", not "social platforms validated."
+- Reuse helper-derived route sets and image manifests.
+- Keep manual crawler checks in release docs, guarded as manual checklist facts rather than automated evidence.
+
+**Detection:**
+
+- `bun run verify:release` prints labels that match actual local checks.
+- Tests cover release-readiness required facts for v1.5 without claiming live crawler results.
+- File-size review catches verifier modules that cross the repo's readability triggers.
+
+## Cross-Cutting Checks
+
+Run or add checks that answer these questions before v1.5 is complete:
+
+- **Static contract:** Does `.output/public` contain every route-specific social image referenced by generated HTML?
+- **Route coverage:** Does the social image entry set equal the intended helper-derived project, writing, and theme route set?
+- **Metadata parity:** For each public route, do `og:image`, `twitter:image`, JSON-LD `image`, canonical URL, width, height, and alt come from the same route metadata source?
+- **No runtime creep:** Can `bun run verify` pass without visitor-runtime API calls, server endpoints, dynamic OG routes, or remote visual assets?
+- **Determinism:** Does running the image generator twice on the same checkout produce no git diff?
+- **Generated asset budget:** Are all generated PNGs 1200x630, under the chosen byte budget, and emitted through checked-in static assets?
+- **Readable images:** Has a contact sheet or equivalent review surface checked long project names, writing titles, theme names, contrast, safe margins, and clipping?
+- **Freshness truth:** Does the freshness report show snapshot age, unavailable records, primary link policy coverage, generated media coverage, and review status without claiming live verification?
+- **No flaky gates:** Does the aggregate release gate avoid live GitHub sync, live link crawling, and social-platform debugger calls?
+- **OpenLinks restraint:** Do generic social images and metadata keep Bright Builds/project/writing/theme content primary, with OpenLinks limited to established identity placements and genuinely relevant OpenLinks routes?
+- **Release labels:** Do automated evidence labels name only checks that actually run locally?
+
+Explicit quality-gate mapping:
+
+| Required concern | Primary pitfall coverage | Primary phase |
 | --- | --- | --- |
-| Phase 1 - Writing Domain Foundation | Content drift, route duplication, invalid relationships, uncurated entries | Create typed registry, route helpers, selectors, relationship validators, and unit tests before UI expansion. |
-| Phase 2 - Writing Routes and UI | Dark readability, mobile overflow, keyboard gaps, project/note navigation holes | Render `/writing` and `/writing/{slug}` from helpers; use dark-first responsive article/card patterns; include writing routes in browser coverage. |
-| Phase 3 - Writing Metadata and Structured Data | SEO/JSON-LD/canonical/sitemap mismatch; dynamic OG temptation | Add pure writing metadata and JSON-LD helpers; keep static social fallback; verify generated static HTML against helpers. |
-| Phase 4 - Writing Release Coverage | Release overclaiming, verifier bloat, accidental runtime dependencies | Extend static/browser/release checks and docs with exact, truthful coverage labels; split verifier concerns if writing additions make scripts harder to maintain. |
+| Dynamic OG/server creep | Pitfall 1 | Phase 25 |
+| Flaky live-network gates | Pitfall 6 | Phase 27 and Phase 28 |
+| Duplicated route/image lists | Pitfall 2 | Phase 24 |
+| Generated asset churn | Pitfall 4 | Phase 25 |
+| OpenLinks over-promotion | Pitfall 8 | Phase 24, Phase 25, Phase 26, Phase 28 |
+| Accessibility/readability of images | Pitfall 5 | Phase 25 and Phase 28 |
+| Stale metadata snapshots | Pitfall 7 | Phase 27 |
+| Metadata references | Pitfall 3 | Phase 26 |
+| Freshness reports | Pitfall 7 and Pitfall 9 | Phase 27 |
+| Verification truthfulness | Pitfall 10 | Phase 28 |
 
-## Roadmap Implications
+## Recommended Phase Ownership
 
-1. Build the writing domain and route helper surface first. It prevents most downstream drift and gives later phases a reliable source of truth.
-2. Add UI second, once link destinations and content selectors are stable. This keeps browser checks meaningful and avoids rewriting article links later.
-3. Add metadata and structured data after routes and content are stable. This keeps canonical URLs, JSON-LD, and sitemap entries aligned with the final helper names.
-4. Expand release coverage last, but plan its shape early. The release phase should prove writing coverage without turning the current verifier scripts into larger catch-all files.
+| Phase | Recommended name | Owns | Success signal |
+| --- | --- | --- | --- |
+| Phase 24 | Social Image Data Contract | Route-derived social preview entries, path conventions, text/alt rules, OpenLinks allowlist, tests against project/writing/theme helpers | One typed helper surface can answer "which social image belongs to this public route?" without copied slug lists. |
+| Phase 25 | Deterministic Static Image Generation | Bun/TypeScript generator, checked-in PNG assets, deterministic rendering, contact sheet/manifest, dimensions and budgets | Generated images exist for every target route, rerunning the generator is stable, and no server/dynamic OG path is introduced. |
+| Phase 26 | Metadata Wiring and Static References | `src/domain/seo.ts` route-aware image metadata, route components, JSON-LD image fields, static output assertions | Every public route references the correct canonical local image in Open Graph, Twitter, and structured data. |
+| Phase 27 | Freshness Reports and Reviewed Snapshot Policy | GitHub snapshot/report age, primary link policy report, generated-media freshness, manual review workflow, non-blocking live checks | Maintainers get actionable freshness evidence without adding live-network behavior to visitor routes or the aggregate release gate. |
+| Phase 28 | Verification and Release Contract | `verify:static`, `verify:release`, browser/manual image review evidence, release-readiness docs, evidence labels, regression guards | `bun run install:browser && bun run verify` proves local static shareability and truthful freshness evidence without overclaiming hosted or platform-crawler checks. |
 
-## Sources
-
-- `.planning/PROJECT.md` - v1.3 scope, constraints, active requirements, and release gate.
-- `.planning/RETROSPECTIVE.md` - v1.0-v1.2 patterns and lessons around helper-derived routes, static verification, release labels, and verifier growth.
-- `.planning/milestones/v1.2-MILESTONE-AUDIT.md` - passed v1.2 integration model and flagged `verify-static` file-size concern.
-- `src/domain/projects.ts` - curated project registry, project detail selectors, route helpers, and existing writing-project grouping.
-- `src/domain/routes.ts` - current `siteRoutes`, `prerenderRoutes`, navigation routes, and top-level route lookup behavior.
-- `src/domain/seo.ts` - current pure metadata, JSON-LD, sitemap, robots, and static social image helpers.
-- `scripts/verify-static.ts` - generated HTML, metadata, JSON-LD, sitemap, asset, dark-root, and forbidden residue checks.
-- `scripts/verify-release.ts` and `scripts/release-readiness.ts` - release budgets, internal/external link policy, runtime dependency guards, evidence labels, and release-readiness doc checks.
-- `tests/browser-release.playwright.ts` - axe, desktop/mobile layout, keyboard, and reduced-motion release coverage pattern.
-- `docs/release-readiness.md` - clean-builder release command, static output contract, manual external-link policy, and deploy smoke checklist.
-- `AGENTS.md`, `AGENTS.bright-builds.md`, and `standards-overrides.md` - repo-local dark-primary guidance and Bright Builds workflow requirements.
-- Bright Builds canonical standards at commit `05f8d7a6c9c2e157ec4f922a05273e72dab97676`: standards index, architecture, code shape, verification, testing, and TypeScript/JavaScript guidance.
-
-## Gaps and Follow-Up Research Flags
-
-- Confirm exact writing content shape during requirements: short notes, essays, external article references, or mixed note kinds may need different type fields.
-- Decide whether writing details should use separate routes only, anchors only, or both. The current target says `/writing/{slug}` routes, so roadmap should default to routes.
-- Decide whether code snippets are in scope for v1.3. If yes, UI and verifier work should explicitly cover `pre`/`code` overflow and dark styling.
-- If Phase 4 touches `scripts/verify-static.ts`, plan a maintenance split rather than treating verifier size as unrelated cleanup.
+**Ordering rationale:** Phase 24 must come first because route-image identity is the source of truth. Phase 25 can then generate files from that contract. Phase 26 wires metadata to generated files only after paths are stable. Phase 27 should run after the image and metadata surfaces exist so freshness reports can include generated media. Phase 28 closes the loop by making the release gate and docs truthful for the actual implemented surfaces.
