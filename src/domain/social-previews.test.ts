@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { projectDetailPath, projectDetailRoutes, type ProjectStory } from "./projects";
-import { themeDetailPath, themeDetailRoutes, type ThemeRecord } from "./themes";
-import { writingDetailPath, writingDetailRoutes, type WritingEntry } from "./writing";
+import { type ProjectStory, projectDetailPath, projectDetailRoutes } from "./projects";
 import {
+  maybeSocialPreviewTargetForRoutePath,
   SOCIAL_PREVIEW_DIMENSIONS,
   SOCIAL_PREVIEW_FALLBACK_IMAGE,
   SOCIAL_PREVIEW_TEXT_BUDGETS,
-  maybeSocialPreviewTargetForRoutePath,
   socialPreviewTargets,
   sourceFingerprintForSocialPreviewPayload,
   validateSocialPreviewTargets,
 } from "./social-previews";
+import { type ThemeRecord, themeDetailPath, themeDetailRoutes } from "./themes";
+import { type WritingEntry, writingDetailPath, writingDetailRoutes } from "./writing";
 
 describe("social preview target contract", () => {
   it("derives the default target route paths from existing public route helpers", () => {
@@ -131,9 +131,9 @@ describe("social preview target contract", () => {
 
   it("provides complete route-specific target data for every covered target", () => {
     // Arrange
-    const generatedAssetPathPattern = new RegExp(
-      "^/social/generated/(projects|writing|themes)/[a-z0-9-]+-[a-f0-9]{12}\\.png$",
-    );
+    // Mirrors the unescaped family contract: /social/generated/(projects|writing|themes).
+    const generatedAssetPathPattern =
+      /^\/social\/generated\/(projects|writing|themes)\/[a-z0-9-]+-[a-f0-9]{12}\.png$/;
     const sourceFingerprintPattern = /^[a-f0-9]{12}$/;
 
     // Act
@@ -307,7 +307,7 @@ describe("social preview target contract", () => {
       "text-too-long",
       "too-many-labels",
       "unbroken-token-too-long",
-    ];
+    ] as const;
 
     // Act
     const findings = validateSocialPreviewTargets(invalidTargets);
