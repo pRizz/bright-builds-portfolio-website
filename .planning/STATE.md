@@ -4,17 +4,17 @@ milestone: v1.5
 milestone_name: Static Shareability & Freshness
 current_phase: 25
 current_phase_name: Deterministic Static Image Generation
-current_plan: Not started
+current_plan: 2
 status: executing
-stopped_at: Phase 25 context gathered
-last_updated: "2026-06-21T16:46:27.701Z"
-last_activity: 2026-06-21 -- Phase 25 planning complete
+stopped_at: Completed 25-01-PLAN.md
+last_updated: "2026-06-21T16:57:27.097Z"
+last_activity: 2026-06-21
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 4
-  completed_plans: 1
-  percent: 25
+  completed_plans: 2
+  percent: 50
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: .planning/PROJECT.md (updated 2026-06-21)
 
 ## Current Position
 
-Phase: 25 (Deterministic Static Image Generation) — READY TO EXECUTE
-Plan: Not started
+Phase: 25 (Deterministic Static Image Generation) — EXECUTING
+Plan: 2 of 3
 Current Phase: 25
 Current Phase Name: Deterministic Static Image Generation
-Current Plan: Not started
+Current Plan: 2
 Total Phases: 5
 Total Plans in Phase: 3
 Status: Ready to execute
-Last activity: 2026-06-21 -- Phase 25 planning complete
+Last activity: 2026-06-21
 
-Progress: [##--------] 20%
+Progress: [█████░░░░░] 50%
 
 ## Recently Completed
 
@@ -76,6 +76,8 @@ Recent decisions affecting current work:
 - [Phase 24-social-image-data-contract]: Generated social asset paths use SHA-256 source fingerprints truncated to 12 lowercase hex characters.
 - [Phase 24-social-image-data-contract]: Generic routes stay on the fallback social image and are excluded from route-specific targets.
 - [Phase 24-social-image-data-contract]: Validation returns structured findings instead of throwing from normal target listing.
+- [Phase 25]: Use @resvg/resvg-js@2.6.2 with checked-in Inter font inputs and disabled system fonts for deterministic social preview PNG rendering. — This avoids runtime services, host-font drift, remote fonts, timestamps, and network inputs.
+- [Phase 25]: Keep social preview check helpers pure and pass filesystem metadata in from the CLI. — Pure finding helpers are unit-testable and keep write/process-exit behavior isolated to the generator command.
 
 ### Pending Todos
 
@@ -87,7 +89,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-21T16:06:22.605Z
-Stopped at: Phase 25 context gathered
-Resume file: .planning/phases/25-deterministic-static-image-generation/25-CONTEXT.md
+Last session: 2026-06-21T16:56:41.385Z
+Stopped at: Completed 25-01-PLAN.md
+Resume file: None
 Next action: /gsd-execute-phase 25
