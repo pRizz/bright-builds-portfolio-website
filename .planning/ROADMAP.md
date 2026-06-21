@@ -71,7 +71,7 @@ Plans:
   4. Home, about, contact, and other generic routes continue to use the checked-in fallback image, and metadata remains helper-derived rather than hard-coded in route files.
 **Plans**: 2 plans
 Plans:
-- [ ] 26-01-PLAN.md — Add route-aware social image metadata resolver and JSON-LD parity tests.
+- [x] 26-01-PLAN.md — Add route-aware social image metadata resolver and JSON-LD parity tests.
 - [ ] 26-02-PLAN.md — Render MIME social image tags and verify static generated asset references.
 
 ### Phase 27: Freshness Reports and Reviewed Snapshot Policy
@@ -107,7 +107,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
-| 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
+| 26. Metadata Wiring and Static References | v1.5 | 1/2 | In Progress|  |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |
 
