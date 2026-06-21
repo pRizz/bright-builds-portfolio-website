@@ -1,11 +1,16 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { peterProfile } from "../src/domain/profile";
 import { projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
+import {
+  maybeSocialPreviewTargetForRoutePath,
+  SOCIAL_PREVIEW_FALLBACK_IMAGE,
+} from "../src/domain/social-previews";
 import { publicThemeEntries, themeDetailRoutes } from "../src/domain/themes";
 import { publicWritingEntries, writingDetailRoutes } from "../src/domain/writing";
 import { generatedOutputForbiddenPatterns } from "./verify-static/config";
@@ -21,6 +26,7 @@ import {
   escapeHtmlText,
   preHydrationBody,
 } from "./verify-static/html-assertions";
+import { assertMetadataImageMapsToLocalAsset } from "./verify-static/metadata-jsonld-verifier";
 import { staticVerificationSummary } from "./verify-static/run-static-verification";
 import {
   assertNoPrerenderedThemeRoute,
@@ -34,6 +40,12 @@ import {
   assertThemeFallbackSource,
   assertWritingFallbackMetadataSource,
 } from "./verify-static/sitemap-assets-verifier";
+
+const assertRouteMetadataImageMapsToLocalAsset = assertMetadataImageMapsToLocalAsset as unknown as (
+  outputRoot: string,
+  routePath: string,
+  imageUrl: string,
+) => void;
 
 describe("static verifier import-safe helpers", () => {
   it("preserves writing and theme route coverage evidence wording", () => {
@@ -91,6 +103,69 @@ describe("static verifier import-safe helpers", () => {
     // Assert
     expect(escapedText).toBe("Bright &amp; &lt;builds&gt;");
     expect(escapedAttribute).toBe("&quot;Bright&quot; &amp; &lt;builds&gt;");
+  });
+
+  it("accepts the canonical generated image for a covered route", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-metadata-"));
+    const coveredRoutePath = "/projects";
+    const maybeTarget = maybeSocialPreviewTargetForRoutePath(coveredRoutePath);
+
+    if (!maybeTarget) {
+      throw new Error(`Expected ${coveredRoutePath} to have a social preview target.`);
+    }
+
+    const canonicalGeneratedUrl = `${peterProfile.canonicalOrigin}${maybeTarget.assetPath}`;
+    writeStaticPng(tempRoot, maybeTarget.assetPath);
+
+    // Act
+    const assertGeneratedImage = () =>
+      assertRouteMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalGeneratedUrl);
+
+    // Assert
+    try {
+      expect(assertGeneratedImage).not.toThrow();
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("rejects the fallback image for a covered route", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-metadata-"));
+    const coveredRoutePath = "/projects";
+    const canonicalFallbackUrl = `${peterProfile.canonicalOrigin}${SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath}`;
+    writeStaticPng(tempRoot, SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath);
+
+    // Act
+    const assertFallbackImage = () =>
+      assertRouteMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalFallbackUrl);
+
+    // Assert
+    try {
+      expect(assertFallbackImage).toThrow(/does not match|fallback|Invalid URL/);
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("accepts the fallback image for a generic route", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-metadata-"));
+    const genericRoutePath = "/about";
+    const canonicalFallbackUrl = `${peterProfile.canonicalOrigin}${SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath}`;
+    writeStaticPng(tempRoot, SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath);
+
+    // Act
+    const assertFallbackImage = () =>
+      assertRouteMetadataImageMapsToLocalAsset(tempRoot, genericRoutePath, canonicalFallbackUrl);
+
+    // Assert
+    try {
+      expect(assertFallbackImage).not.toThrow();
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
   });
 
   it("rejects unsafe generated href patterns", () => {
@@ -270,3 +345,17 @@ describe("static verifier import-safe helpers", () => {
     expect(exportTypes).toEqual(verifierExports.map(() => "function"));
   });
 });
+
+function writeStaticPng(outputRoot: string, assetPath: string): void {
+  const outputPath = join(outputRoot, assetPath.replace(/^\//, ""));
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, validPngBytes());
+}
+
+function validPngBytes(): Buffer {
+  const data = Buffer.alloc(24);
+  Buffer.from("89504e470d0a1a0a", "hex").copy(data, 0);
+  data.writeUInt32BE(1200, 16);
+  data.writeUInt32BE(630, 20);
+  return data;
+}
