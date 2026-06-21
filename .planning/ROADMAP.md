@@ -54,7 +54,9 @@ Plans:
   2. Generated images use checked-in templates, fonts, and local assets without network fetches, runtime services, host fonts, timestamps, randomness, secrets, or visitor-runtime code.
   3. Generated assets and the timestamp-free manifest stay confined to the managed static asset directory without deleting or overwriting the fallback social image or unrelated public assets.
   4. Image generation check mode fails for missing, stale, wrong-dimension, oversized, blank, orphaned, or non-deterministically regenerated social preview assets.
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 25-01-PLAN.md — Add deterministic social preview generation, checked-in PNG outputs, manifest/check mode, and aggregate verify wiring.
 
 ### Phase 26: Metadata Wiring and Static References
 **Goal**: Crawlers and social previews read route-specific static image metadata for covered routes while generic routes continue to use the fallback image.
@@ -99,7 +101,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
-| 25. Deterministic Static Image Generation | v1.5 | 0/TBD | Not started | - |
+| 25. Deterministic Static Image Generation | v1.5 | 0/1 | Not started | - |
 | 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |

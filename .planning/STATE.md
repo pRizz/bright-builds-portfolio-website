@@ -5,16 +5,16 @@ milestone_name: Static Shareability & Freshness
 current_phase: 25
 current_phase_name: Deterministic Static Image Generation
 current_plan: Not started
-status: planning
+status: executing
 stopped_at: Phase 25 context gathered
-last_updated: "2026-06-21T16:06:22.609Z"
-last_activity: 2026-06-21
+last_updated: "2026-06-21T16:25:17.798Z"
+last_activity: 2026-06-21 -- Phase 25 planning complete
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 1
+  total_plans: 2
   completed_plans: 1
-  percent: 100
+  percent: 50
 ---
 
 # Project State
@@ -28,15 +28,15 @@ See: .planning/PROJECT.md (updated 2026-06-21)
 
 ## Current Position
 
-Phase: 25 (Deterministic Static Image Generation) — READY TO PLAN
+Phase: 25 (Deterministic Static Image Generation) — READY TO EXECUTE
 Plan: Not started
 Current Phase: 25
 Current Phase Name: Deterministic Static Image Generation
 Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: TBD
-Status: Ready to plan
-Last activity: 2026-06-21
+Total Plans in Phase: 1
+Status: Ready to execute
+Last activity: 2026-06-21 -- Phase 25 planning complete
 
 Progress: [##--------] 20%
 
@@ -51,7 +51,7 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
 **Roadmap progress:** 1/5 phases complete.
-**Next action:** `/gsd-plan-phase 25`
+**Next action:** `/gsd-execute-phase 25`
 
 ## Performance Metrics
 
@@ -90,4 +90,4 @@ None.
 Last session: 2026-06-21T16:06:22.605Z
 Stopped at: Phase 25 context gathered
 Resume file: .planning/phases/25-deterministic-static-image-generation/25-CONTEXT.md
-Next action: /gsd-plan-phase 25
+Next action: /gsd-execute-phase 25
