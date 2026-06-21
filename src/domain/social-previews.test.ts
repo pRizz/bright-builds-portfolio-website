@@ -158,6 +158,17 @@ describe("social preview target contract", () => {
     }
   });
 
+  it("keeps default social preview targets valid", () => {
+    // Arrange
+    const targets = socialPreviewTargets();
+
+    // Act
+    const findings = validateSocialPreviewTargets(targets);
+
+    // Assert
+    expect(findings).toEqual([]);
+  });
+
   it("keeps generic routes on the fallback image contract", () => {
     // Arrange
     const genericRoutes = ["/", "/about", "/contact", "/unknown"];
@@ -192,11 +203,21 @@ describe("social preview target contract", () => {
       ...payload,
       labels: ["testing", "AI", "Bright Builds"],
     };
+    const reorderedDimensionsPayload = {
+      ...payload,
+      dimensions: {
+        height: SOCIAL_PREVIEW_DIMENSIONS.height,
+        width: SOCIAL_PREVIEW_DIMENSIONS.width,
+      },
+    };
 
     // Act
     const fingerprint = sourceFingerprintForSocialPreviewPayload(payload);
     const reorderedLabelsFingerprint =
       sourceFingerprintForSocialPreviewPayload(reorderedLabelsPayload);
+    const reorderedDimensionsFingerprint = sourceFingerprintForSocialPreviewPayload(
+      reorderedDimensionsPayload,
+    );
     const titleFingerprint = sourceFingerprintForSocialPreviewPayload({
       ...payload,
       title: "Changed project",
@@ -217,6 +238,7 @@ describe("social preview target contract", () => {
     // Assert
     expect(fingerprint).toMatch(/^[a-f0-9]{12}$/);
     expect(reorderedLabelsFingerprint).toBe(fingerprint);
+    expect(reorderedDimensionsFingerprint).toBe(fingerprint);
     expect(titleFingerprint).not.toBe(fingerprint);
     expect(descriptionFingerprint).not.toBe(fingerprint);
     expect(labelsFingerprint).not.toBe(fingerprint);
@@ -328,6 +350,50 @@ describe("social preview target contract", () => {
     for (const code of expectedCodes) {
       expect(codes.has(code)).toBe(true);
     }
+  });
+
+  it("rejects non-canonical generated asset slug shapes", () => {
+    // Arrange
+    const baseTarget = socialPreviewTargets()[0];
+
+    if (!baseTarget) {
+      throw new Error("Expected at least one social preview target for asset path fixtures.");
+    }
+
+    const targets = [
+      {
+        ...baseTarget,
+        routePath: "/leading-dash",
+        assetPath: "/social/generated/projects/-bad-slug-123456789abc.png",
+      },
+      {
+        ...baseTarget,
+        routePath: "/trailing-dash",
+        assetPath: "/social/generated/projects/bad-slug--123456789abc.png",
+      },
+      {
+        ...baseTarget,
+        routePath: "/consecutive-dash",
+        assetPath: "/social/generated/projects/bad--slug-123456789abc.png",
+      },
+    ];
+
+    // Act
+    const findings = validateSocialPreviewTargets(targets);
+
+    // Assert
+    expect(findings).toEqual(
+      expect.arrayContaining(
+        targets.map((target) =>
+          expect.objectContaining({
+            code: "unsafe-asset-path",
+            routePath: target.routePath,
+            assetPath: target.assetPath,
+            field: "assetPath",
+          }),
+        ),
+      ),
+    );
   });
 });
 

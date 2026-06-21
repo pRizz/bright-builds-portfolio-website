@@ -99,7 +99,7 @@ const socialPreviewRouteKinds = [
 ] as const satisfies readonly SocialPreviewRouteKind[];
 
 const generatedAssetPathPattern =
-  /^\/social\/generated\/(projects|writing|themes)\/[a-z0-9-]+-[a-f0-9]{12}\.png$/;
+  /^\/social\/generated\/(projects|writing|themes)\/(?:index|[a-z0-9]+(?:-[a-z0-9]+)*)-[a-f0-9]{12}\.png$/;
 
 export function socialPreviewTargets(
   sources: SocialPreviewTargetSources = {},
@@ -130,7 +130,10 @@ export function sourceFingerprintForSocialPreviewPayload(
   const stablePayload = {
     alt: payload.alt,
     description: payload.description,
-    dimensions: payload.dimensions,
+    dimensions: {
+      width: payload.dimensions.width,
+      height: payload.dimensions.height,
+    },
     kicker: payload.kicker,
     kind: payload.kind,
     labels: [...payload.labels].sort(),
@@ -177,7 +180,7 @@ function targetForProject(project: SocialPreviewProject): SocialPreviewTarget {
     kind: "project",
     kicker: "Project Story",
     labels: compactLabels([...project.themes, ...project.tags, project.status]),
-    alt: `Social preview for ${project.name}, a Bright Builds project story: ${project.oneLine}`,
+    alt: `Social preview for ${project.name}: ${project.oneLine}`,
     dimensions: SOCIAL_PREVIEW_DIMENSIONS,
   };
 
@@ -192,7 +195,7 @@ function targetForWriting(entry: PublicSocialPreviewWritingEntry): SocialPreview
     kind: "writing",
     kicker: entry.kind === "essay" ? "Essay" : "Note",
     labels: compactLabels([entry.kind, ...entry.topics, ...entry.tags]),
-    alt: `Social preview for ${entry.title}, a ${entry.kind} from Peter Ryszkiewicz: ${entry.summary}`,
+    alt: `Social preview for ${entry.title}: ${entry.summary}`,
     dimensions: SOCIAL_PREVIEW_DIMENSIONS,
   };
 
@@ -211,7 +214,7 @@ function targetForTheme(theme: PublicSocialPreviewThemeEntry): SocialPreviewTarg
       `${theme.relatedProjectSlugs.length} projects`,
       `${theme.relatedWritingSlugs.length} writing links`,
     ]),
-    alt: `Social preview for ${theme.title}, a Bright Builds theme: ${theme.summary}`,
+    alt: `Social preview for ${theme.title}: ${theme.summary}`,
     dimensions: SOCIAL_PREVIEW_DIMENSIONS,
   };
 
