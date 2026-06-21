@@ -408,17 +408,17 @@ function assertThemeCollectionPageJsonLd(theme: PublicThemeEntry, html: string):
 |---|-------|---------|---------------|
 | A1 | `Valid until: 2026-07-21 for local architecture decisions; package latest-version notes should be refreshed after 2026-06-28 if planning is delayed.` | Metadata | Planner may treat package freshness as stable for too long; refresh npm checks if planning is delayed. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should route head rendering be centralized in Phase 26?**
+1. **RESOLVED: Should route head rendering be centralized in Phase 26?**
    - What we know: Route files duplicate the same metadata block and need `og:image:type` added consistently. [VERIFIED: src/routes/index.tsx] [VERIFIED: src/routes/projects/index.tsx] [VERIFIED: src/routes/writing/[slug].tsx]
    - What's unclear: The phase context delegates centralization and says to prefer a focused helper only if it reduces real duplication without expanding scope. [VERIFIED: .planning/phases/26-metadata-wiring-and-static-references/26-CONTEXT.md]
-   - Recommendation: Plan domain behavior first; add a tiny metadata-head component only if the implementation task can keep it mechanical and covered by static verification. [VERIFIED: standards/core/architecture.md] [VERIFIED: .planning/phases/26-metadata-wiring-and-static-references/26-CONTEXT.md]
+   - Resolution: Plan 26-02 does not centralize route head rendering; it keeps the route edits mechanical by adding one helper-derived `og:image:type` tag beside each existing `og:image` tag, with grep acceptance criteria proving all nine route files use metadata fields and no route-level image literals. [VERIFIED: .planning/phases/26-metadata-wiring-and-static-references/26-02-PLAN.md] [VERIFIED: standards/core/architecture.md]
 
-2. **Should Phase 26 read the generated manifest during static verification?**
+2. **RESOLVED: Should Phase 26 read the generated manifest during static verification?**
    - What we know: `verify:social-previews` already checks manifest drift, fingerprints, dimensions, checksums, orphaned files, and deterministic rendering. [VERIFIED: scripts/social-previews/check.ts] [VERIFIED: package.json]
    - What's unclear: Phase 26 D-15 requires mapping generated image paths to checked-in output assets, while Phase 28 owns broader manifest consistency and release evidence expansion. [VERIFIED: .planning/phases/26-metadata-wiring-and-static-references/26-CONTEXT.md] [VERIFIED: .planning/ROADMAP.md]
-   - Recommendation: In Phase 26, static verification should assert exact helper-derived route path, canonical origin, file existence, and PNG dimensions; leave checksum/budget/evidence expansion to Phase 28 unless implementation finds a narrow manifest read is simpler. [VERIFIED: scripts/verify-static/output.ts] [VERIFIED: .planning/REQUIREMENTS.md]
+   - Resolution: Phase 26 static verification should not read the generated manifest. It should assert the exact helper-derived route path, canonical origin, copied output asset existence, PNG dimensions, and JSON-LD image parity; checksum, budget, manifest-consistency, and evidence-label expansion stay in Phase 28. [VERIFIED: scripts/verify-static/output.ts] [VERIFIED: .planning/REQUIREMENTS.md]
 
 ## Environment Availability
 
