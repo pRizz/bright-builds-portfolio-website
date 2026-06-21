@@ -41,7 +41,9 @@
   2. Hidden, draft, unsupported, archived, unselected, and otherwise non-public records do not produce public social preview targets.
   3. Each target exposes route path, local asset path, title, description, route kind or kicker, labels, route-specific alt text, dimensions, and stable source fingerprint.
   4. Social preview validation rejects duplicate routes or assets, missing text, unsafe or non-local paths, unsupported kinds, and text that cannot fit the template rules while generic routes keep the fallback social image.
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 24-01-PLAN.md — Add the pure social preview target contract, fallback value, fingerprints, validation findings, and focused domain tests.
 
 ### Phase 25: Deterministic Static Image Generation
 **Goal**: Maintainers can deterministically generate and verify static PNG social preview assets from the social preview contract.
@@ -96,7 +98,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 24. Social Image Data Contract | v1.5 | 0/TBD | Not started | - |
+| 24. Social Image Data Contract | v1.5 | 0/1 | Not started | - |
 | 25. Deterministic Static Image Generation | v1.5 | 0/TBD | Not started | - |
 | 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
