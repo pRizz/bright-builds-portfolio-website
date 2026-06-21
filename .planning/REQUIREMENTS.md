@@ -101,11 +101,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IMAGE-03 | Phase 25 | Complete |
 | IMAGE-04 | Phase 25 | Complete |
 | IMAGE-05 | Phase 25 | Complete |
-| META-01 | Phase 26 | Pending |
-| META-02 | Phase 26 | Pending |
-| META-03 | Phase 26 | Pending |
-| META-04 | Phase 26 | Pending |
-| META-05 | Phase 26 | Pending |
+| META-01 | Phase 26 | Complete |
+| META-02 | Phase 26 | Complete |
+| META-03 | Phase 26 | Complete |
+| META-04 | Phase 26 | Complete |
+| META-05 | Phase 26 | Complete |
 | FRESH-01 | Phase 27 | Pending |
 | FRESH-02 | Phase 27 | Pending |
 | FRESH-03 | Phase 27 | Pending |

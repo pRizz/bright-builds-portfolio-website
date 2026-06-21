@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 26
-current_phase_name: metadata-wiring-and-static-references
-current_plan: 1
+current_phase: 27
+current_phase_name: freshness reports and reviewed snapshot policy
+current_plan: Not started
 status: executing
-stopped_at: Phase 26 context gathered
-last_updated: "2026-06-21T22:02:48.292Z"
-last_activity: 2026-06-21 -- Phase 26 execution started
+stopped_at: Phase 26 verified and completed
+last_updated: "2026-06-21T22:56:03.037Z"
+last_activity: 2026-06-21
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 6
-  completed_plans: 4
-  percent: 67
+  completed_plans: 6
+  percent: 60
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 26 — metadata-wiring-and-static-references
+**Current focus:** Phase 27 — freshness reports and reviewed snapshot policy
 
 ## Current Position
 
-Phase: 26 (metadata-wiring-and-static-references) — EXECUTING
-Plan: 1 of 2
-Current Phase: 26
-Current Phase Name: metadata-wiring-and-static-references
-Current Plan: 1
+Phase: 27 (freshness reports and reviewed snapshot policy) — NOT STARTED
+Plan: Not started
+Current Phase: 27
+Current Phase Name: freshness reports and reviewed snapshot policy
+Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 2
-Status: Executing Phase 26
-Last activity: 2026-06-21 -- Phase 26 execution started
+Total Plans in Phase: TBD
+Status: Ready to discuss Phase 27
+Last activity: 2026-06-21
 
-Progress: [██████████] 100%
+Progress: [██████░░░░] 60%
 
 ## Recently Completed
 
@@ -50,14 +50,15 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 2/5 phases complete.
-**Next action:** `/gsd-discuss-phase 26`
+**Roadmap progress:** 3/5 phases complete.
+**Next action:** `/gsd-discuss-phase 27`
 
 ## Performance Metrics
 
 **Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12.
 **Recent trend:** The portfolio now has project, writing, and theme surfaces with shared static release gates and helper-derived route coverage.
 **Phase 24 Plan 01:** 11 min, 2 tasks, 2 files, completed 2026-06-21.
+**Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
 
 ## Accumulated Context
 
@@ -78,6 +79,7 @@ Recent decisions affecting current work:
 - [Phase 24-social-image-data-contract]: Validation returns structured findings instead of throwing from normal target listing.
 - [Phase 25]: Use @resvg/resvg-js@2.6.2 with checked-in Inter font inputs and disabled system fonts for deterministic social preview PNG rendering. — This avoids runtime services, host-font drift, remote fonts, timestamps, and network inputs.
 - [Phase 25]: Keep social preview check helpers pure and pass filesystem metadata in from the CLI. — Pure finding helpers are unit-testable and keep write/process-exit behavior isolated to the generator command.
+- [Phase 26]: Keep route social image selection helper-derived. Covered routes use generated social preview assets through `PageMetadata`, dynamic unknown-slug fallbacks use `metadataForFallbackPage()`, and static verification checks route-correct local PNG references.
 
 ### Pending Todos
 
@@ -89,7 +91,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-21T21:32:46.838Z
-Stopped at: Phase 26 context gathered
-Resume file: .planning/phases/26-metadata-wiring-and-static-references/26-CONTEXT.md
-Next action: /gsd-discuss-phase 26
+Last session: 2026-06-21T22:56:03.037Z
+Stopped at: Phase 26 verified and completed
+Resume file: .planning/phases/26-metadata-wiring-and-static-references/26-VERIFICATION.md
+Next action: /gsd-discuss-phase 27

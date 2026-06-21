@@ -26,7 +26,7 @@
 
 - [x] **Phase 24: Social Image Data Contract** - Define the route-derived social preview target contract, public filtering, validation rules, and fallback behavior. (completed 2026-06-21)
 - [x] **Phase 25: Deterministic Static Image Generation** - Generate and verify deterministic 1200x630 PNG social preview assets and manifests from the contract. (completed 2026-06-21)
-- [ ] **Phase 26: Metadata Wiring and Static References** - Wire project, writing, theme, and index metadata to the generated static preview assets.
+- [x] **Phase 26: Metadata Wiring and Static References** - Wire project, writing, theme, and index metadata to the generated static preview assets. (completed 2026-06-21)
 - [ ] **Phase 27: Freshness Reports and Reviewed Snapshot Policy** - Add offline freshness reporting and reviewed snapshot policy without runtime mutation or live release gates.
 - [ ] **Phase 28: Verification and Release Contract** - Expand aggregate verification, static output checks, release evidence, budgets, and release-readiness docs.
 
@@ -107,7 +107,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
-| 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete   | 2026-06-21 |
+| 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |
 
