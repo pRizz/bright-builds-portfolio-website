@@ -437,22 +437,19 @@ The implementation guidance is verified or cited; the STRIDE labels in the secur
 | A3 | Duplicate route or asset collisions are classified as Tampering / Denial of Service. [ASSUMED] | Security Domain | Low; mitigation still stands because SHARE-04 requires duplicate rejection. [VERIFIED: .planning/REQUIREMENTS.md] |
 | A4 | Reused route alt text is classified as Information Disclosure / Spoofing of content context. [ASSUMED] | Security Domain | Low; mitigation still stands because D-08 requires route-specific alt text. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md] |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should exact text budgets be relaxed or tightened after the Phase 25 visual template exists?** [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md delegates exact budget constants]
    - What we know: Phase 24 must define conservative budgets, and current source data fits the recommended budgets. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md and local Bun data probe]
-   - What's unclear: The final SVG/PNG template may require stricter limits. [VERIFIED: Phase 25 owns rendering in .planning/ROADMAP.md]
-   - Recommendation: Implement the recommended constants now, export them, and make Phase 25 update the same constants if visual generation proves a tighter bound. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md]
+   - RESOLVED: Use the Phase 24 plan constants now: title 72 chars, description 160 chars, max 4 labels, label 32 chars, unbroken token 28 chars, alt 180 chars, and fixed 1200x630 dimensions. Phase 25 may tighten these only with renderer/template evidence and updated tests. [VERIFIED: .planning/phases/24-social-image-data-contract/24-01-PLAN.md]
 
 2. **Should digest length be 10, 12, or 16 hex characters?** [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md delegates exact digest length]
    - What we know: The current route set has 13 covered targets. [VERIFIED: local Bun data probe]
-   - What's unclear: The user did not lock a specific digest length. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md]
-   - Recommendation: Use 12 hex characters for readable filenames and test that identical source payloads produce identical fingerprints. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md]
+   - RESOLVED: Use 12 lowercase hex characters for readable filenames and test that identical source payloads produce identical fingerprints. [VERIFIED: .planning/phases/24-social-image-data-contract/24-01-PLAN.md]
 
 3. **Should validation findings include severity now?** [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md requires structured findings but does not specify severity]
    - What we know: Phase 24 findings must support unit tests and future report/verifier consumption. [VERIFIED: .planning/phases/24-social-image-data-contract/24-CONTEXT.md]
-   - What's unclear: Later verifier/report phases may want severity fields. [VERIFIED: .planning/ROADMAP.md]
-   - Recommendation: Keep Phase 24 findings minimal with `code`, `routePath`, `message`, and maybe `assetPath`; add severity later only when report/release consumers need it. [VERIFIED: standards/core/code-shape.md and .planning/ROADMAP.md]
+   - RESOLVED: Keep Phase 24 findings minimal with `code`, `routePath`, `message`, and optional `assetPath`, `field`, and `value`; do not add a severity field until Phase 27 or Phase 28 introduces report/release severity consumers. [VERIFIED: .planning/phases/24-social-image-data-contract/24-01-PLAN.md]
 
 ## Environment Availability
 
