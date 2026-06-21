@@ -25,7 +25,7 @@
 - Decimal phases (2.1, 2.2): Urgent insertions after planning
 
 - [x] **Phase 24: Social Image Data Contract** - Define the route-derived social preview target contract, public filtering, validation rules, and fallback behavior. (completed 2026-06-21)
-- [ ] **Phase 25: Deterministic Static Image Generation** - Generate and verify deterministic 1200x630 PNG social preview assets and manifests from the contract.
+- [x] **Phase 25: Deterministic Static Image Generation** - Generate and verify deterministic 1200x630 PNG social preview assets and manifests from the contract. (completed 2026-06-21)
 - [ ] **Phase 26: Metadata Wiring and Static References** - Wire project, writing, theme, and index metadata to the generated static preview assets.
 - [ ] **Phase 27: Freshness Reports and Reviewed Snapshot Policy** - Add offline freshness reporting and reviewed snapshot policy without runtime mutation or live release gates.
 - [ ] **Phase 28: Verification and Release Contract** - Expand aggregate verification, static output checks, release evidence, budgets, and release-readiness docs.
@@ -58,7 +58,7 @@ Plans:
 Plans:
 - [x] 25-01-PLAN.md — Add renderer dependency, checked-in font inputs, pure helper core, and focused helper tests.
 - [x] 25-02-PLAN.md — Add generator/check CLI, package scripts, and aggregate verify ordering.
-- [ ] 25-03-PLAN.md — Generate and verify checked-in social preview PNG and manifest outputs.
+- [x] 25-03-PLAN.md — Generate and verify checked-in social preview PNG and manifest outputs.
 
 ### Phase 26: Metadata Wiring and Static References
 **Goal**: Crawlers and social previews read route-specific static image metadata for covered routes while generic routes continue to use the fallback image.
@@ -103,7 +103,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
-| 25. Deterministic Static Image Generation | v1.5 | 2/3 | In Progress|  |
+| 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
 | 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |

@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 25
-current_phase_name: Deterministic Static Image Generation
-current_plan: 3
-status: executing
-stopped_at: Completed 25-02-PLAN.md
-last_updated: "2026-06-21T17:01:55.739Z"
+current_phase: 26
+current_phase_name: Metadata Wiring and Static References
+current_plan: Not started
+status: ready_to_plan
+stopped_at: Completed 25-03-PLAN.md
+last_updated: "2026-06-21T17:07:39.293Z"
 last_activity: 2026-06-21
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
-  percent: 75
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 25 — Deterministic Static Image Generation
+**Current focus:** Phase 26 — Metadata Wiring and Static References
 
 ## Current Position
 
-Phase: 25 (Deterministic Static Image Generation) — EXECUTING
-Plan: 3 of 3
-Current Phase: 25
-Current Phase Name: Deterministic Static Image Generation
-Current Plan: 3
+Phase: 26 (Metadata Wiring and Static References) — READY TO PLAN
+Plan: Not started
+Current Phase: 26
+Current Phase Name: metadata wiring and static references
+Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 3
-Status: Ready to execute
+Total Plans in Phase: TBD
+Status: Ready to discuss and plan Phase 26
 Last activity: 2026-06-21
 
-Progress: [████████░░] 75%
+Progress: [██████████] 100%
 
 ## Recently Completed
 
@@ -50,8 +50,8 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 1/5 phases complete.
-**Next action:** `/gsd-execute-phase 25`
+**Roadmap progress:** 2/5 phases complete.
+**Next action:** `/gsd-discuss-phase 26`
 
 ## Performance Metrics
 
@@ -89,7 +89,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-21T17:01:55.736Z
-Stopped at: Completed 25-02-PLAN.md
+Last session: 2026-06-21T17:06:33.820Z
+Stopped at: Completed 25-03-PLAN.md
 Resume file: None
-Next action: /gsd-execute-phase 25
+Next action: /gsd-discuss-phase 26

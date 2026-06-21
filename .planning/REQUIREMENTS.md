@@ -18,11 +18,11 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Image Generation
 
-- [ ] **IMAGE-01**: Maintainer can run a Bun/TypeScript command that deterministically generates 1200x630 PNG social preview images for every social preview target.
-- [ ] **IMAGE-02**: Generated images use checked-in template inputs, fonts, and local assets without network fetches, runtime services, host-font dependence, timestamps, randomness, secrets, or visitor-runtime code.
-- [ ] **IMAGE-03**: Generated image output is confined to a managed static asset directory and does not delete or overwrite unrelated public assets such as the fallback social image.
-- [ ] **IMAGE-04**: The generator writes a timestamp-free manifest with route path, asset path, dimensions, byte size, source fingerprint, and file checksum for every generated preview.
-- [ ] **IMAGE-05**: Image generation check mode fails for missing, stale, wrong-dimension, oversized, blank, orphaned, or non-deterministically regenerated social preview assets.
+- [x] **IMAGE-01**: Maintainer can run a Bun/TypeScript command that deterministically generates 1200x630 PNG social preview images for every social preview target.
+- [x] **IMAGE-02**: Generated images use checked-in template inputs, fonts, and local assets without network fetches, runtime services, host-font dependence, timestamps, randomness, secrets, or visitor-runtime code.
+- [x] **IMAGE-03**: Generated image output is confined to a managed static asset directory and does not delete or overwrite unrelated public assets such as the fallback social image.
+- [x] **IMAGE-04**: The generator writes a timestamp-free manifest with route path, asset path, dimensions, byte size, source fingerprint, and file checksum for every generated preview.
+- [x] **IMAGE-05**: Image generation check mode fails for missing, stale, wrong-dimension, oversized, blank, orphaned, or non-deterministically regenerated social preview assets.
 
 ### Metadata and Structured Data
 
@@ -96,11 +96,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SHARE-03 | Phase 24 | Complete |
 | SHARE-04 | Phase 24 | Complete |
 | SHARE-05 | Phase 24 | Complete |
-| IMAGE-01 | Phase 25 | Pending |
-| IMAGE-02 | Phase 25 | Pending |
-| IMAGE-03 | Phase 25 | Pending |
-| IMAGE-04 | Phase 25 | Pending |
-| IMAGE-05 | Phase 25 | Pending |
+| IMAGE-01 | Phase 25 | Complete |
+| IMAGE-02 | Phase 25 | Complete |
+| IMAGE-03 | Phase 25 | Complete |
+| IMAGE-04 | Phase 25 | Complete |
+| IMAGE-05 | Phase 25 | Complete |
 | META-01 | Phase 26 | Pending |
 | META-02 | Phase 26 | Pending |
 | META-03 | Phase 26 | Pending |
