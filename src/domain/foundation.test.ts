@@ -9,7 +9,7 @@ import {
   sitemapRoutes,
   siteRoutes,
 } from "./routes";
-import { metadataForRoute, personJsonLd } from "./seo";
+import { metadataForFallbackPage, metadataForRoute, personJsonLd } from "./seo";
 import { SOCIAL_PREVIEW_FALLBACK_IMAGE } from "./social-previews";
 import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
@@ -178,6 +178,60 @@ describe("SEO derivation", () => {
         mimeType: "image/png",
       });
       expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
+  });
+
+  it("keeps dynamic fallback metadata on the generic social preview", () => {
+    // Arrange
+    const fallbackPages = [
+      {
+        title: "No reviewed project story here | Projects | Bright Builds",
+        description: "Return to the curated project index to browse reviewed work.",
+        canonicalPath: "/projects",
+      },
+      {
+        title: "No public writing here | Writing | Bright Builds",
+        description: "Return to the writing index to browse published notes.",
+        canonicalPath: "/writing",
+      },
+      {
+        title: "No public theme here | Themes | Bright Builds",
+        description: "Browse public theme paths to find a route through Peter's work.",
+        canonicalPath: "/themes",
+      },
+    ];
+
+    // Act
+    const metadataRecords = fallbackPages.map((page) => ({
+      page,
+      metadata: metadataForFallbackPage({ ...page, maybeProfile: peterProfile }),
+    }));
+
+    // Assert
+    for (const { page, metadata } of metadataRecords) {
+      expect(metadata.title).toBe(page.title);
+      expect(metadata.description).toBe(page.description);
+      expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}${page.canonicalPath}`);
+      expect(metadata.openGraph).toMatchObject({
+        title: page.title,
+        description: page.description,
+        url: metadata.canonical,
+        type: "website",
+      });
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath}`,
+        width: SOCIAL_PREVIEW_FALLBACK_IMAGE.dimensions.width,
+        height: SOCIAL_PREVIEW_FALLBACK_IMAGE.dimensions.height,
+        alt: SOCIAL_PREVIEW_FALLBACK_IMAGE.alt,
+        mimeType: "image/png",
+      });
+      expect(metadata.openGraph.image.mimeType).toBe("image/png");
+      expect(metadata.twitter).toMatchObject({
+        card: "summary_large_image",
+        title: page.title,
+        description: page.description,
+        image: metadata.openGraph.image,
+      });
     }
   });
 

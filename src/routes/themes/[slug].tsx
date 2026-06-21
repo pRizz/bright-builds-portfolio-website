@@ -2,10 +2,9 @@ import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
-import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
-  metadataForRoute,
+  metadataForFallbackPage,
   metadataForTheme,
   type PageMetadata,
   siteAssetLinks,
@@ -22,7 +21,11 @@ import {
 import { type PublicWritingEntry, writingDetailPath } from "../../domain/writing";
 
 type RelatedProjectEntry = ReturnType<typeof relatedProjectDetailPageProjectsForTheme>[number];
-const fallbackMetadata = themeFallbackMetadata();
+const fallbackMetadata = metadataForFallbackPage({
+  title: "No public theme here | Themes | Bright Builds",
+  description: "Browse public theme paths to find a route through Peter's work.",
+  canonicalPath: "/themes",
+});
 
 export default function ThemeDetail() {
   const params = useParams();
@@ -270,26 +273,4 @@ function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Es
 
 function writingActionLabel(entry: Pick<PublicWritingEntry, "kind">): "Read note" | "Read essay" {
   return entry.kind === "note" ? "Read note" : "Read essay";
-}
-
-function themeFallbackMetadata(): PageMetadata {
-  const fallbackTitle = "No public theme here | Themes | Bright Builds";
-  const fallbackDescription = "Browse public theme paths to find a route through Peter's work.";
-  const routeMetadata = metadataForRoute(routeByPath("/themes"));
-
-  return {
-    ...routeMetadata,
-    title: fallbackTitle,
-    description: fallbackDescription,
-    openGraph: {
-      ...routeMetadata.openGraph,
-      title: fallbackTitle,
-      description: fallbackDescription,
-    },
-    twitter: {
-      ...routeMetadata.twitter,
-      title: fallbackTitle,
-      description: fallbackDescription,
-    },
-  };
 }

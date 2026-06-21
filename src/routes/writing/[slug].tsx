@@ -4,7 +4,9 @@ import { For, Show } from "solid-js";
 import { projectDetailPath } from "../../domain/projects";
 import {
   jsonLdScriptContent,
+  metadataForFallbackPage,
   metadataForWritingEntry,
+  type PageMetadata,
   siteAssetLinks,
   writingBlogPostingJsonLd,
 } from "../../domain/seo";
@@ -26,34 +28,36 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
   year: "numeric",
 });
+const writingFallbackMetadata = metadataForFallbackPage({
+  title: "No public writing here | Writing | Bright Builds",
+  description: "Return to the writing index to browse published notes.",
+  canonicalPath: "/writing",
+});
 
 export default function WritingDetail() {
   const params = useParams();
   const entry = () => maybePublicWritingEntryBySlug(params.slug ?? "");
 
   return (
-    <Show
-      when={entry()}
-      fallback={
-        <>
-          <Title>No public writing here | Writing | Bright Builds</Title>
-          <Meta
-            name="description"
-            content="Return to the writing index to browse published notes."
-          />
-          <section class="page-intro">
-            <p class="eyebrow">Writing</p>
-            <h1 class="page-title">No public writing here</h1>
-            <p class="lead">Return to the writing index to browse published notes.</p>
-            <a class="primary-action interactive-surface" href="/writing">
-              Browse writing
-            </a>
-          </section>
-        </>
-      }
-    >
+    <Show when={entry()} fallback={<WritingFallback />}>
       {(selectedEntry) => <WritingArticle entry={selectedEntry()} />}
     </Show>
+  );
+}
+
+function WritingFallback() {
+  return (
+    <>
+      <WritingHead metadata={writingFallbackMetadata} />
+      <section class="page-intro">
+        <p class="eyebrow">Writing</p>
+        <h1 class="page-title">No public writing here</h1>
+        <p class="lead">Return to the writing index to browse published notes.</p>
+        <a class="primary-action interactive-surface" href="/writing">
+          Browse writing
+        </a>
+      </section>
+    </>
   );
 }
 
@@ -68,38 +72,7 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
 
   return (
     <article class="writing-article">
-      <Title>{metadata.title}</Title>
-      <Meta name="description" content={metadata.description} />
-      <HeadLink rel="canonical" href={metadata.canonical} />
-      <For each={siteAssetLinks}>
-        {(asset) => {
-          if (asset.rel === "apple-touch-icon") {
-            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
-          }
-
-          if ("sizes" in asset) {
-            return (
-              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
-            );
-          }
-
-          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
-        }}
-      </For>
-      <Meta property="og:title" content={metadata.openGraph.title} />
-      <Meta property="og:description" content={metadata.openGraph.description} />
-      <Meta property="og:url" content={metadata.openGraph.url} />
-      <Meta property="og:type" content={metadata.openGraph.type} />
-      <Meta property="og:image" content={metadata.openGraph.image.url} />
-      <Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />
-      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
-      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
-      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
-      <Meta name="twitter:card" content={metadata.twitter.card} />
-      <Meta name="twitter:title" content={metadata.twitter.title} />
-      <Meta name="twitter:description" content={metadata.twitter.description} />
-      <Meta name="twitter:image" content={metadata.twitter.image.url} />
-      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <WritingHead metadata={metadata} />
       <Show when={articleMetadata?.maybePublishedTime}>
         {(publishedTime) => <Meta property="article:published_time" content={publishedTime()} />}
       </Show>
@@ -186,6 +159,47 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
         </section>
       </Show>
     </article>
+  );
+}
+
+function WritingHead(props: { metadata: PageMetadata }) {
+  const metadata = props.metadata;
+
+  return (
+    <>
+      <Title>{metadata.title}</Title>
+      <Meta name="description" content={metadata.description} />
+      <HeadLink rel="canonical" href={metadata.canonical} />
+      <For each={siteAssetLinks}>
+        {(asset) => {
+          if (asset.rel === "apple-touch-icon") {
+            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
+          }
+
+          if ("sizes" in asset) {
+            return (
+              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
+            );
+          }
+
+          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
+        }}
+      </For>
+      <Meta property="og:title" content={metadata.openGraph.title} />
+      <Meta property="og:description" content={metadata.openGraph.description} />
+      <Meta property="og:url" content={metadata.openGraph.url} />
+      <Meta property="og:type" content={metadata.openGraph.type} />
+      <Meta property="og:image" content={metadata.openGraph.image.url} />
+      <Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />
+      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
+      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
+      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
+      <Meta name="twitter:card" content={metadata.twitter.card} />
+      <Meta name="twitter:title" content={metadata.twitter.title} />
+      <Meta name="twitter:description" content={metadata.twitter.description} />
+      <Meta name="twitter:image" content={metadata.twitter.image.url} />
+      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+    </>
   );
 }
 

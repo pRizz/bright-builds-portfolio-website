@@ -156,6 +156,12 @@ type ThemeProjectPartJsonLd = {
   sameAs: string[];
 };
 
+type SocialImageAsset = {
+  assetPath: string;
+  alt: string;
+  dimensions: typeof SOCIAL_PREVIEW_FALLBACK_IMAGE.dimensions;
+};
+
 export type ThemeCollectionPageJsonLd = {
   "@context": "https://schema.org";
   "@type": "CollectionPage";
@@ -210,6 +216,37 @@ export function metadataForRoute(route: SiteRoute, profile: Profile = peterProfi
       card: "summary_large_image",
       title: route.title,
       description: route.description,
+      image: socialImage,
+    },
+  };
+}
+
+export function metadataForFallbackPage(input: {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  maybeProfile?: Profile;
+}): PageMetadata {
+  const profile = input.maybeProfile ?? peterProfile;
+  const canonicalPath = input.canonicalPath === "/" ? "" : input.canonicalPath;
+  const canonical = `${profile.canonicalOrigin}${canonicalPath}`;
+  const socialImage = socialImageForFallback(profile);
+
+  return {
+    title: input.title,
+    description: input.description,
+    canonical,
+    openGraph: {
+      title: input.title,
+      description: input.description,
+      url: canonical,
+      type: "website",
+      image: socialImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: input.title,
+      description: input.description,
       image: socialImage,
     },
   };
@@ -491,6 +528,17 @@ function socialImageForRoutePath(routePath: string, profile: Profile): SocialIma
   const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
   const image = maybeTarget ?? SOCIAL_PREVIEW_FALLBACK_IMAGE;
 
+  return socialImageMetadataForAsset(image, profile);
+}
+
+function socialImageForFallback(profile: Profile): SocialImageMetadata {
+  return socialImageMetadataForAsset(SOCIAL_PREVIEW_FALLBACK_IMAGE, profile);
+}
+
+function socialImageMetadataForAsset(
+  image: SocialImageAsset,
+  profile: Profile,
+): SocialImageMetadata {
   return {
     url: `${profile.canonicalOrigin}${image.assetPath}`,
     width: image.dimensions.width,
