@@ -5,9 +5,9 @@ milestone_name: Static Shareability & Freshness
 current_phase: 25
 current_phase_name: Deterministic Static Image Generation
 current_plan: Not started
-status: Ready to plan
-stopped_at: Phase 24 complete; Phase 25 ready to plan
-last_updated: "2026-06-21T15:04:31.676Z"
+status: planning
+stopped_at: Phase 25 context gathered
+last_updated: "2026-06-21T16:06:22.609Z"
 last_activity: 2026-06-21
 progress:
   total_phases: 5
@@ -87,7 +87,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-21T14:47:07.503Z
-Stopped at: Phase 24 complete; Phase 25 ready to plan
-Resume file: None
+Last session: 2026-06-21T16:06:22.605Z
+Stopped at: Phase 25 context gathered
+Resume file: .planning/phases/25-deterministic-static-image-generation/25-CONTEXT.md
 Next action: /gsd-plan-phase 25
