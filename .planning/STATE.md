@@ -8,13 +8,13 @@ current_plan: Not started
 status: executing
 stopped_at: Phase 25 context gathered
 last_updated: "2026-06-21T16:25:17.798Z"
-last_activity: 2026-06-21 -- Phase 25 planning complete
+last_activity: 2026-06-21 -- Phase 25 planning revised into three scoped plans
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 2
+  total_plans: 4
   completed_plans: 1
-  percent: 50
+  percent: 25
 ---
 
 # Project State
@@ -34,9 +34,9 @@ Current Phase: 25
 Current Phase Name: Deterministic Static Image Generation
 Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 1
+Total Plans in Phase: 3
 Status: Ready to execute
-Last activity: 2026-06-21 -- Phase 25 planning complete
+Last activity: 2026-06-21 -- Phase 25 planning revised into three scoped plans
 
 Progress: [##--------] 20%
 
