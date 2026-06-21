@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: none
-current_phase_name: Defining requirements
+current_phase: 24
+current_phase_name: Social Image Data Contract
 current_plan: Not started
-status: defining_requirements
-stopped_at: Milestone v1.5 started
-last_updated: "2026-06-21T00:00:00-05:00"
+status: ready_to_plan
+stopped_at: Roadmap created; Phase 24 ready to plan
+last_updated: "2026-06-21T08:14:55-05:00"
 last_activity: 2026-06-21
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -24,27 +24,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** v1.5 Static Shareability & Freshness requirements.
+**Current focus:** Phase 24 - Social Image Data Contract.
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: -
-Status: Defining requirements
-Last activity: 2026-06-21 - Milestone v1.5 started
+Current Phase: 24
+Current Phase Name: Social Image Data Contract
+Current Plan: Not started
+Total Phases: 5
+Total Plans in Phase: TBD
+Status: Ready to plan
+Last activity: 2026-06-21 - v1.5 roadmap created with 5 active phases and 25/25 requirements mapped
 
 Progress: [----------] 0%
 
 ## Recently Completed
 
-v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20.
-
-- Phases completed: 5/5
-- Plans completed: 12/12
-- Requirements satisfied: 23/23
-- Audit status: passed
-- Archive files: `.planning/milestones/v1.4-ROADMAP.md`, `.planning/milestones/v1.4-REQUIREMENTS.md`, `.planning/milestones/v1.4-MILESTONE-AUDIT.md`
-- Phase artifacts: `.planning/milestones/v1.4-phases/`
+v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20 with 5/5 phases, 12/12 plans, 23/23 requirements, and a passed audit. Archives live under `.planning/milestones/`.
 
 ## Current Milestone
 
@@ -52,28 +48,13 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Target features:**
-
-- Route-derived social image data for project, writing, and theme surfaces.
-- Deterministic static raster social preview generation with no server endpoints or runtime image generation.
-- Metadata wiring so each public route references the correct static preview asset.
-- Non-flaky freshness/report automation for reviewed GitHub metadata, primary links, and generated media.
-- Release verification that proves generated images, route metadata, static output, and evidence labels are truthful.
+**Roadmap progress:** 0/5 phases complete.
+**Next action:** `/gsd-plan-phase 24`
 
 ## Performance Metrics
 
-**Velocity:**
-
-- v1.0 plans completed: 14
-- v1.1 plans completed: 4
-- v1.2 plans completed: 4
-- v1.3 plans completed: 10
-- v1.4 plans completed: 12
-
-**Recent Trend:**
-
-- Last completed work: v1.4 completed theme data, static theme routes, collaboration pathways, crawler/social metadata, browser/static/release coverage, and clean-builder verification.
-- Trend: The portfolio now has project, writing, and theme surfaces with shared static release gates and helper-derived route coverage.
+**Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12.
+**Recent trend:** The portfolio now has project, writing, and theme surfaces with shared static release gates and helper-derived route coverage.
 
 ## Accumulated Context
 
@@ -87,6 +68,7 @@ Recent decisions affecting current work:
 - Theme route coverage is now part of static, browser, release-readiness, evidence-label, and aggregate verification.
 - Manual external-link, preview, post-deploy, hosted Lighthouse, and Cloudflare checks remain release checklist obligations rather than automated local evidence.
 - v1.5 should prefer deterministic static social preview assets over dynamic OG endpoints or server runtime image generation.
+- v1.5 uses the research-recommended five-phase shape: social image data contract, deterministic static generation, metadata wiring, freshness reports, and verification/release contract.
 
 ### Pending Todos
 
@@ -99,6 +81,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-21T00:00:00-05:00
-Stopped at: v1.5 requirements definition started
+Stopped at: v1.5 roadmap created; Phase 24 is ready to plan
 Resume file: None
-Next action: define v1.5 requirements
+Next action: /gsd-plan-phase 24
