@@ -486,17 +486,18 @@ export function socialPreviewCheckFindings(inputs: SocialPreviewCheckInputs): re
 | A2 | STRIDE labels in the Security Domain are threat-model classifications rather than repo facts. [ASSUMED] | Security Domain | Low; the mitigations are still required by IMAGE-02, IMAGE-03, and IMAGE-05. [VERIFIED: .planning/REQUIREMENTS.md] |
 | A3 | A 250 KiB per-generated-PNG threshold is the right initial "oversized" budget for Phase 25 because the existing release verifier uses `250 * 1024` for the fallback social image. [ASSUMED] | Common Pitfalls and Validation | Medium; if visual output needs more bytes, the planner should make the budget explicit and update tests. [VERIFIED: scripts/verify-release.ts] |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Exact committed font file path and checksum**
-   - What we know: The generator must use checked-in local fonts and the site CSS already names Inter. [VERIFIED: 25-CONTEXT.md and src/styles/app.css]
-   - What's unclear: The repo does not currently contain font files. [VERIFIED: `rg --files public src scripts | rg 'woff|ttf|otf'` via file inventory]
-   - Recommendation: Commit one Inter TTF or OTF plus its OFL license under `scripts/social-previews/assets/fonts/` or an equivalent repo-owned asset folder, then reference that exact path from the renderer config. [VERIFIED: Inter official sources and @resvg/resvg-js README]
+   - RESOLVED: Use `scripts/social-previews/assets/fonts/InterVariable.ttf` for the renderer font input and `scripts/social-previews/assets/fonts/OFL.txt` for the checked-in license.
+   - RESOLVED: The planned SHA-256 for `InterVariable.ttf` is `4989b125924991b90d05b2d16e0e388c48f7d5bb8b30539bbf9c755278d0ccaf`.
+   - RESOLVED: The planned SHA-256 for `OFL.txt` is `262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a`.
+   - Verification path: implementation must run `shasum -a 256` against both files and keep the renderer config pointed at `scripts/social-previews/assets/fonts/InterVariable.ttf` with `loadSystemFonts: false`.
 
 2. **Native renderer clean-builder behavior**
-   - What we know: `@resvg/resvg-js@2.6.2` is locked, current latest, and declares platform optional native packages. [VERIFIED: npm registry]
-   - What's unclear: This checkout has not installed or executed `@resvg/resvg-js` yet. [VERIFIED: `rg @resvg package.json bun.lock` returned no matches]
-   - Recommendation: Make the first implementation task add the dependency and a minimal render smoke path so native loading fails early if it is going to fail. [VERIFIED: @resvg/resvg-js README and standards/core/verification.md]
+   - RESOLVED: Add `@resvg/resvg-js@2.6.2` in the first implementation slice and include a renderer smoke test before full asset generation.
+   - RESOLVED: The smoke test should call `renderSocialPreviewTarget(socialPreviewTargets()[0])`, assert `1200x630`, assert a non-empty PNG, assert a 64-character SHA-256, and assert the rendered pixels are nonblank.
+   - Verification path: `bun run test scripts/social-previews/social-previews.test.ts`, `bun run verify:social-previews`, and the final aggregate `bun run verify` prove native loading in this checkout; clean-builder confidence is covered by the aggregate gate after lockfile update and by the committed generated assets.
 
 ## Environment Availability
 
