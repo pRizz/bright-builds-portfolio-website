@@ -90,6 +90,7 @@ export default function ProjectDetail() {
                 <Meta property="og:url" content={pageMetadata().openGraph.url} />
                 <Meta property="og:type" content={pageMetadata().openGraph.type} />
                 <Meta property="og:image" content={pageMetadata().openGraph.image.url} />
+                <Meta property="og:image:type" content={pageMetadata().openGraph.image.mimeType} />
                 <Meta
                   property="og:image:width"
                   content={pageMetadata().openGraph.image.width.toString()}

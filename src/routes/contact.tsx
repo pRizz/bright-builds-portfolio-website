@@ -36,6 +36,7 @@ export default function Contact() {
       <Meta property="og:url" content={metadata.openGraph.url} />
       <Meta property="og:type" content={metadata.openGraph.type} />
       <Meta property="og:image" content={metadata.openGraph.image.url} />
+      <Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />
       <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
       <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
       <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
