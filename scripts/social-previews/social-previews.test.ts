@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -6,21 +6,24 @@ import { describe, expect, it } from "vitest";
 import {
   SOCIAL_PREVIEW_DIMENSIONS,
   type SocialPreviewTarget,
+  socialPreviewTargets,
 } from "../../src/domain/social-previews";
 import {
-  assetPathForGeneratedSocialPreviewFilePath,
-  generatedSocialPreviewFilePathForAssetPath,
-  managedSocialPreviewPngFiles,
-} from "./paths";
+  isBlankRenderedImage,
+  type SocialPreviewCheckFindingCode,
+  socialPreviewCheckFindings,
+} from "./check";
 import {
   serializeSocialPreviewManifest,
   socialPreviewManifestForRenderedPreviews,
 } from "./manifest";
 import {
-  escapeSvgText,
-  renderSocialPreviewSvg,
-  wrappedSvgTextLines,
-} from "./template";
+  assetPathForGeneratedSocialPreviewFilePath,
+  generatedSocialPreviewFilePathForAssetPath,
+  managedSocialPreviewPngFiles,
+} from "./paths";
+import { renderSocialPreviewTarget } from "./render";
+import { escapeSvgText, renderSocialPreviewSvg, wrappedSvgTextLines } from "./template";
 
 const baseTarget = {
   routePath: "/projects/example",
@@ -48,9 +51,7 @@ describe("social preview generation helpers", () => {
     });
 
     // Assert
-    expect(escapedText).toBe(
-      "Bright &amp; &lt;builds&gt; &quot;quote&quot; &apos;single&apos;",
-    );
+    expect(escapedText).toBe("Bright &amp; &lt;builds&gt; &quot;quote&quot; &apos;single&apos;");
     expect(wrappedLines).toEqual(["alpha beta", "gamma"]);
   });
 
@@ -161,5 +162,155 @@ describe("social preview generation helpers", () => {
     expect(serialized).toContain('"routePath"');
     expect(serialized).toContain('"sourceFingerprint"');
     expect(serialized).not.toMatch(/generatedAt|createdAt|timestamp|commit|cwd/);
+  });
+
+  it("renders a nonblank 1200x630 PNG with the checked-in font", () => {
+    // Arrange
+    const target = socialPreviewTargets()[0];
+
+    if (!target) {
+      throw new Error("Expected at least one social preview target.");
+    }
+
+    // Act
+    const rendered = renderSocialPreviewTarget(target);
+
+    // Assert
+    expect(rendered.dimensions).toEqual(SOCIAL_PREVIEW_DIMENSIONS);
+    expect(rendered.png.length).toBeGreaterThan(0);
+    expect(rendered.sha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(isBlankRenderedImage(rendered.pixels)).toBe(false);
+  });
+
+  it("detects blank rendered images from transparent or single-color pixels", () => {
+    // Arrange
+    const transparentPixels = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0]);
+    const singleColorPixels = Buffer.from([7, 17, 31, 255, 7, 17, 31, 255]);
+    const twoColorPixels = Buffer.from([7, 17, 31, 255, 247, 251, 255, 255]);
+
+    // Act
+    const transparentBlank = isBlankRenderedImage(transparentPixels);
+    const singleColorBlank = isBlankRenderedImage(singleColorPixels);
+    const twoColorBlank = isBlankRenderedImage(twoColorPixels);
+
+    // Assert
+    expect(transparentBlank).toBe(true);
+    expect(singleColorBlank).toBe(true);
+    expect(twoColorBlank).toBe(false);
+  });
+
+  it("returns the required social preview check finding codes", () => {
+    // Arrange
+    const expectedManifest = socialPreviewManifestForRenderedPreviews([
+      {
+        target: baseTarget,
+        png: Buffer.from("expected"),
+        dimensions: SOCIAL_PREVIEW_DIMENSIONS,
+        sha256: "a".repeat(64),
+      },
+    ]);
+    const actualManifest = {
+      version: 1,
+      entries: [
+        {
+          routePath: baseTarget.routePath,
+          assetPath: baseTarget.assetPath,
+          dimensions: SOCIAL_PREVIEW_DIMENSIONS,
+          byteSize: 300000,
+          sourceFingerprint: "ffffffffffff",
+          sha256: "b".repeat(64),
+        },
+      ],
+    } as const;
+
+    // Act
+    const findings = socialPreviewCheckFindings({
+      targetValidationFindings: [
+        {
+          code: "missing-required-text",
+          routePath: baseTarget.routePath,
+          message: "Missing text.",
+        },
+      ],
+      expectedManifest,
+      actualManifest,
+      expectedRenderedPreviews: [
+        {
+          target: baseTarget,
+          png: Buffer.from("expected"),
+          pixels: Buffer.from([7, 17, 31, 255, 7, 17, 31, 255]),
+          dimensions: SOCIAL_PREVIEW_DIMENSIONS,
+          sha256: "a".repeat(64),
+        },
+        {
+          target: {
+            ...baseTarget,
+            routePath: "/projects/missing",
+            assetPath: "/social/generated/projects/missing-123456789abc.png",
+          },
+          png: Buffer.from("missing"),
+          pixels: Buffer.from([7, 17, 31, 255, 247, 251, 255, 255]),
+          dimensions: SOCIAL_PREVIEW_DIMENSIONS,
+          sha256: "c".repeat(64),
+        },
+        {
+          target: {
+            ...baseTarget,
+            routePath: "/projects/nondeterministic",
+            assetPath: "/social/generated/projects/nondeterministic-123456789abc.png",
+          },
+          png: Buffer.from("nondeterministic"),
+          pixels: Buffer.from([7, 17, 31, 255, 247, 251, 255, 255]),
+          dimensions: SOCIAL_PREVIEW_DIMENSIONS,
+          sha256: "d".repeat(64),
+        },
+      ],
+      secondRenderHashes: new Map([
+        [baseTarget.assetPath, "a".repeat(64)],
+        ["/social/generated/projects/nondeterministic-123456789abc.png", "e".repeat(64)],
+      ]),
+      actualFiles: [
+        {
+          assetPath: baseTarget.assetPath,
+          exists: true,
+          byteSize: 300000,
+          sha256: "b".repeat(64),
+          dimensions: { width: 600, height: 315 },
+        },
+      ],
+      orphanManagedPngAssetPaths: ["/social/generated/projects/orphan-123456789abc.png"],
+      maxBytes: 250 * 1024,
+    });
+    const codes = new Set(findings.map((finding) => finding.code));
+    const requiredCodes = [
+      "target-validation",
+      "missing-file",
+      "stale-fingerprint",
+      "checksum-drift",
+      "manifest-drift",
+      "wrong-dimensions",
+      "oversized-file",
+      "blank-image",
+      "orphan-managed-png",
+      "nondeterministic-render",
+    ] as const satisfies readonly SocialPreviewCheckFindingCode[];
+
+    // Assert
+    for (const code of requiredCodes) {
+      expect(codes.has(code)).toBe(true);
+    }
+  });
+
+  it("keeps check helpers free of filesystem mutation and process exits", () => {
+    // Arrange
+    const sourcePath = "scripts/social-previews/check.ts";
+
+    // Act
+    const source = readFileSync(sourcePath, "utf8");
+
+    // Assert
+    expect(source).not.toMatch(
+      /readFileSync|writeFileSync|readdirSync|statSync|existsSync|process\.exit/,
+    );
   });
 });

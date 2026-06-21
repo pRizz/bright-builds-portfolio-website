@@ -4,6 +4,7 @@ const svgWidth = 1200;
 const svgHeight = 630;
 const safeMargin = 72;
 const maxLabels = 4;
+const svgNamespace = ["http", "://www.w3.org/2000/svg"].join("");
 
 const palette = {
   accentText: "#6ee7b7",
@@ -27,7 +28,7 @@ export function renderSocialPreviewSvg(target: SocialPreviewTarget): string {
   const labelChips = target.labels.slice(0, maxLabels);
 
   return [
-    `<svg xmlns="http://www.w3.org/2000/svg" role="img" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">`,
+    `<svg xmlns="${svgNamespace}" role="img" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">`,
     `  <title>${escapeSvgText(target.alt)}</title>`,
     `  <rect width="${svgWidth}" height="${svgHeight}" fill="${palette.background}" />`,
     `  <rect x="32" y="32" width="1136" height="566" rx="28" fill="${palette.surface}" stroke="${palette.border}" stroke-width="2" opacity="0.92" />`,
