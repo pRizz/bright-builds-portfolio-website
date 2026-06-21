@@ -8,6 +8,10 @@ import {
 } from "./projects";
 import type { SiteRoute } from "./routes";
 import { sitemapRoutes } from "./routes";
+import {
+  maybeSocialPreviewTargetForRoutePath,
+  SOCIAL_PREVIEW_FALLBACK_IMAGE,
+} from "./social-previews";
 import type { PublicThemeEntry } from "./themes";
 import {
   publicThemeEntries,
@@ -23,6 +27,7 @@ export type SocialImageMetadata = {
   width: number;
   height: number;
   alt: string;
+  mimeType: "image/png";
 };
 
 export type SiteAssetLink = {
@@ -91,6 +96,7 @@ export type ProjectJsonLd = {
   name: string;
   description: string;
   url: string;
+  image: string;
   sameAs: string[];
   keywords: string;
   creator: PersonJsonLd;
@@ -165,13 +171,6 @@ export type ThemeCollectionPageJsonLd = {
   hasPart: Array<ThemeProjectPartJsonLd | WritingBlogPostingItemJsonLd>;
 };
 
-const socialImagePath = "/social/bright-builds-og.png";
-const socialImageSize = {
-  width: 1200,
-  height: 630,
-  alt: "Peter Ryszkiewicz / pRizz and Bright Builds portfolio focus on AI, Bitcoin, open systems, and developer tooling.",
-} as const;
-
 export const siteAssetLinks = [
   {
     rel: "icon",
@@ -192,8 +191,9 @@ export const siteAssetLinks = [
 ] as const satisfies readonly SiteAssetLink[];
 
 export function metadataForRoute(route: SiteRoute, profile: Profile = peterProfile): PageMetadata {
-  const canonical = `${profile.canonicalOrigin}${route.path === "/" ? "" : route.path}`;
-  const socialImage = socialImageForProfile(profile);
+  const routePath = route.path;
+  const canonical = `${profile.canonicalOrigin}${routePath === "/" ? "" : routePath}`;
+  const socialImage = socialImageForRoutePath(routePath, profile);
 
   return {
     title: route.title,
@@ -219,10 +219,11 @@ export function metadataForProject(
   project: ProjectStory,
   profile: Profile = peterProfile,
 ): PageMetadata {
-  const canonical = `${profile.canonicalOrigin}${projectDetailPath(project)}`;
+  const routePath = projectDetailPath(project);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
   const title = `${project.name} | Project Story | Bright Builds`;
   const description = project.oneLine;
-  const socialImage = socialImageForProfile(profile);
+  const socialImage = socialImageForRoutePath(routePath, profile);
 
   return {
     title,
@@ -248,10 +249,11 @@ export function metadataForWritingEntry(
   entry: PublicWritingEntry,
   profile: Profile = peterProfile,
 ): PageMetadata {
-  const canonical = `${profile.canonicalOrigin}${writingDetailPath(entry)}`;
+  const routePath = writingDetailPath(entry);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
   const title = `${entry.title} | Writing | Bright Builds`;
   const description = entry.summary;
-  const socialImage = socialImageForProfile(profile);
+  const socialImage = socialImageForRoutePath(routePath, profile);
 
   return {
     title,
@@ -282,10 +284,11 @@ export function metadataForTheme(
   theme: PublicThemeEntry,
   profile: Profile = peterProfile,
 ): PageMetadata {
-  const canonical = `${profile.canonicalOrigin}${themeDetailPath(theme)}`;
+  const routePath = themeDetailPath(theme);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
   const title = `${theme.title} | Themes | Bright Builds`;
   const description = theme.summary;
-  const socialImage = socialImageForProfile(profile);
+  const socialImage = socialImageForRoutePath(routePath, profile);
 
   return {
     title,
@@ -355,12 +358,16 @@ export function projectJsonLd(
   project: ProjectDetailPageProject,
   profile: Profile = peterProfile,
 ): ProjectJsonLd {
+  const routePath = projectDetailPath(project);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
+
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
     name: project.name,
     description: project.oneLine,
-    url: `${profile.canonicalOrigin}${projectDetailPath(project)}`,
+    url: canonical,
+    image: socialImageForRoutePath(routePath, profile).url,
     sameAs: project.links.map((link) => link.href),
     keywords: [...project.themes, ...project.tags].join(", "),
     creator: personJsonLd(profile),
@@ -427,7 +434,8 @@ export function themeCollectionPageJsonLd(
   theme: PublicThemeEntry,
   profile: Profile = peterProfile,
 ): ThemeCollectionPageJsonLd {
-  const canonical = `${profile.canonicalOrigin}${themeDetailPath(theme)}`;
+  const routePath = themeDetailPath(theme);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
   const relatedProjects = relatedProjectDetailPageProjectsForTheme(theme);
   const relatedWriting = relatedWritingEntriesForTheme(theme);
   const labels = [theme.title, theme.audience, ...theme.proofPoints];
@@ -439,7 +447,7 @@ export function themeCollectionPageJsonLd(
     description: theme.summary,
     url: canonical,
     mainEntityOfPage: canonical,
-    image: socialImageForProfile(profile).url,
+    image: socialImageForRoutePath(routePath, profile).url,
     creator: personJsonLd(profile),
     keywords: labels,
     about: [theme.summary, theme.audience, theme.collaborationAngle, ...theme.proofPoints],
@@ -479,10 +487,16 @@ export function jsonLdScriptContent(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
-function socialImageForProfile(profile: Profile): SocialImageMetadata {
+function socialImageForRoutePath(routePath: string, profile: Profile): SocialImageMetadata {
+  const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
+  const image = maybeTarget ?? SOCIAL_PREVIEW_FALLBACK_IMAGE;
+
   return {
-    url: `${profile.canonicalOrigin}${socialImagePath}`,
-    ...socialImageSize,
+    url: `${profile.canonicalOrigin}${image.assetPath}`,
+    width: image.dimensions.width,
+    height: image.dimensions.height,
+    alt: image.alt,
+    mimeType: "image/png",
   };
 }
 
@@ -490,7 +504,8 @@ function writingBlogPostingItemJsonLd(
   entry: PublicWritingEntry,
   profile: Profile,
 ): WritingBlogPostingItemJsonLd {
-  const canonical = `${profile.canonicalOrigin}${writingDetailPath(entry)}`;
+  const routePath = writingDetailPath(entry);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
   const identity = personJsonLd(profile);
   const labels = [...entry.topics, ...entry.tags];
 
@@ -501,7 +516,7 @@ function writingBlogPostingItemJsonLd(
     description: entry.summary,
     url: canonical,
     mainEntityOfPage: canonical,
-    image: socialImageForProfile(profile).url,
+    image: socialImageForRoutePath(routePath, profile).url,
     author: identity,
     creator: identity,
     ...(entry.maybePublishedOn ? { datePublished: entry.maybePublishedOn } : {}),

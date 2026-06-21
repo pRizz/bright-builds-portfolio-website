@@ -26,8 +26,8 @@ import {
   sitemapXml,
 } from "./seo";
 import {
-  SOCIAL_PREVIEW_FALLBACK_IMAGE,
   maybeSocialPreviewTargetForRoutePath,
+  SOCIAL_PREVIEW_FALLBACK_IMAGE,
 } from "./social-previews";
 import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
