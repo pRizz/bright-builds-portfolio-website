@@ -2,6 +2,7 @@ import { escapeRegExp } from "./html-assertions";
 import type { ForbiddenTextPattern } from "./types";
 
 export const staticOutputRoot = ".output/public";
+export const projectDetailRouteSourcePath = "src/routes/projects/[slug].tsx";
 export const writingDetailRouteSourcePath = "src/routes/writing/[slug].tsx";
 export const themeDetailRouteSourcePath = "src/routes/themes/[slug].tsx";
 

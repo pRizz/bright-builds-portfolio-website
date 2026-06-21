@@ -9,6 +9,7 @@ import type { WritingEntry } from "../../src/domain/writing";
 import { curatedWriting, writingDetailPath, writingDetailRoutes } from "../../src/domain/writing";
 import {
   generatedOutputForbiddenPatterns,
+  projectDetailRouteSourcePath,
   themeDetailRouteSourcePath,
   writingDetailRouteSourcePath,
 } from "./config";
@@ -61,6 +62,7 @@ export function assertSitemapAssetsAndRobots(
 
   assertNoPrerenderedWritingRoute(outputRoot, "/writing/unknown-writing-slug");
   assertNoPrerenderedThemeRoute(outputRoot, "/themes/unknown-theme-slug");
+  assertProjectFallbackMetadataSource();
   assertWritingFallbackMetadataSource();
   assertThemeFallbackSource();
   assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
@@ -194,23 +196,54 @@ export function assertNoPrerenderedThemeRoute(root: string, route: string): void
   );
 }
 
+export function assertProjectFallbackMetadataSource(): void {
+  const source = readFileSync(projectDetailRouteSourcePath, "utf8");
+  const context = "Project detail unknown-slug fallback source";
+
+  assertHtmlContains(source, "const projectFallbackMetadata = metadataForFallbackPage({", context);
+  assertHtmlContains(
+    source,
+    'title: "No reviewed project story here | Projects | Bright Builds"',
+    context,
+  );
+  assertHtmlContains(
+    source,
+    'description: "Return to the curated project index to browse reviewed work."',
+    context,
+  );
+  assertHtmlContains(source, 'canonicalPath: "/projects"', context);
+  assertHtmlContains(source, "<ProjectHead metadata={metadata()} />", context);
+  assertHtmlContains(
+    source,
+    '<Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />',
+    context,
+  );
+  assertHtmlContains(source, "No reviewed project story here", context);
+  assertHtmlContains(source, "Browse projects", context);
+  assertHtmlContains(source, 'href="/projects"', context);
+}
+
 export function assertWritingFallbackMetadataSource(): void {
   const source = readFileSync(writingDetailRouteSourcePath, "utf8");
   const context = "Writing detail unknown-slug fallback source";
 
+  assertHtmlContains(source, "const writingFallbackMetadata = metadataForFallbackPage({", context);
+  assertHtmlContains(source, 'title: "No public writing here | Writing | Bright Builds"', context);
   assertHtmlContains(
     source,
-    "<Title>No public writing here | Writing | Bright Builds</Title>",
+    'description: "Return to the writing index to browse published notes."',
     context,
   );
-  assertHtmlContains(source, 'name="description"', context);
+  assertHtmlContains(source, 'canonicalPath: "/writing"', context);
+  assertHtmlContains(source, "<WritingHead metadata={writingFallbackMetadata} />", context);
   assertHtmlContains(
     source,
-    'content="Return to the writing index to browse published notes."',
+    '<Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />',
     context,
   );
   assertHtmlContains(source, "No public writing here", context);
   assertHtmlContains(source, "Browse writing", context);
+  assertHtmlContains(source, 'href="/writing"', context);
 }
 
 export function assertThemeFallbackSource(): void {
@@ -218,9 +251,20 @@ export function assertThemeFallbackSource(): void {
   const context = "Theme detail unknown-slug fallback source";
 
   assertHtmlContains(source, 'maybePublicThemeEntryBySlug(params.slug ?? "")', context);
+  assertHtmlContains(source, "const fallbackMetadata = metadataForFallbackPage({", context);
   assertHtmlContains(source, "<Title>{metadata.title}</Title>", context);
-  assertHtmlContains(source, "No public theme here | Themes | Bright Builds", context);
-  assertHtmlContains(source, 'name="description"', context);
+  assertHtmlContains(source, 'title: "No public theme here | Themes | Bright Builds"', context);
+  assertHtmlContains(
+    source,
+    'description: "Browse public theme paths to find a route through Peter\'s work."',
+    context,
+  );
+  assertHtmlContains(source, 'canonicalPath: "/themes"', context);
+  assertHtmlContains(
+    source,
+    '<Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />',
+    context,
+  );
   assertHtmlContains(source, "No public theme here", context);
   assertHtmlContains(source, "Browse theme paths", context);
   assertHtmlContains(source, 'href="/themes"', context);
