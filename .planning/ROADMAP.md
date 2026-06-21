@@ -43,7 +43,7 @@
   4. Social preview validation rejects duplicate routes or assets, missing text, unsafe or non-local paths, unsupported kinds, and text that cannot fit the template rules while generic routes keep the fallback social image.
 **Plans**: 1 plan
 Plans:
-- [ ] 24-01-PLAN.md — Add the pure social preview target contract, fallback value, fingerprints, validation findings, and focused domain tests.
+- [x] 24-01-PLAN.md — Add the pure social preview target contract, fallback value, fingerprints, validation findings, and focused domain tests.
 
 ### Phase 25: Deterministic Static Image Generation
 **Goal**: Maintainers can deterministically generate and verify static PNG social preview assets from the social preview contract.
@@ -98,7 +98,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 24. Social Image Data Contract | v1.5 | 0/1 | Not started | - |
+| 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
 | 25. Deterministic Static Image Generation | v1.5 | 0/TBD | Not started | - |
 | 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |

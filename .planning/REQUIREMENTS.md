@@ -10,11 +10,11 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Share Data
 
-- [ ] **SHARE-01**: Maintainer can ask a pure social preview helper for all public share targets covering `/projects`, selected project detail routes, `/writing`, public writing detail routes, `/themes`, and public theme detail routes.
-- [ ] **SHARE-02**: Hidden, draft, unsupported, archived, unselected, or otherwise non-public project, writing, and theme records do not create public social preview targets.
-- [ ] **SHARE-03**: Each social preview target includes route path, local asset path, title, description, route kind or kicker, labels, route-specific alt text, dimensions, and a stable source fingerprint.
-- [ ] **SHARE-04**: Social preview validation fails for duplicate routes or asset paths, missing required text, non-local asset paths, unsafe path characters, unsupported route kinds, and text that cannot fit the template rules.
-- [ ] **SHARE-05**: Generic routes outside the v1.5 share target set keep the checked-in fallback social image instead of requiring route-specific generated images.
+- [x] **SHARE-01**: Maintainer can ask a pure social preview helper for all public share targets covering `/projects`, selected project detail routes, `/writing`, public writing detail routes, `/themes`, and public theme detail routes.
+- [x] **SHARE-02**: Hidden, draft, unsupported, archived, unselected, or otherwise non-public project, writing, and theme records do not create public social preview targets.
+- [x] **SHARE-03**: Each social preview target includes route path, local asset path, title, description, route kind or kicker, labels, route-specific alt text, dimensions, and a stable source fingerprint.
+- [x] **SHARE-04**: Social preview validation fails for duplicate routes or asset paths, missing required text, non-local asset paths, unsafe path characters, unsupported route kinds, and text that cannot fit the template rules.
+- [x] **SHARE-05**: Generic routes outside the v1.5 share target set keep the checked-in fallback social image instead of requiring route-specific generated images.
 
 ### Image Generation
 
@@ -91,11 +91,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| SHARE-01 | Phase 24 | Pending |
-| SHARE-02 | Phase 24 | Pending |
-| SHARE-03 | Phase 24 | Pending |
-| SHARE-04 | Phase 24 | Pending |
-| SHARE-05 | Phase 24 | Pending |
+| SHARE-01 | Phase 24 | Complete |
+| SHARE-02 | Phase 24 | Complete |
+| SHARE-03 | Phase 24 | Complete |
+| SHARE-04 | Phase 24 | Complete |
+| SHARE-05 | Phase 24 | Complete |
 | IMAGE-01 | Phase 25 | Pending |
 | IMAGE-02 | Phase 25 | Pending |
 | IMAGE-03 | Phase 25 | Pending |
