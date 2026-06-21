@@ -1,5 +1,28 @@
 # Milestones
 
+## v1.4 Theme Paths & Collaboration Surface (Shipped: 2026-06-20)
+
+**Phases completed:** 5 phases, 12 plans, 24 tasks
+**Audit:** passed — 23/23 requirements satisfied, 0 blockers
+**Archives:** `milestones/v1.4-ROADMAP.md`, `milestones/v1.4-REQUIREMENTS.md`, `milestones/v1.4-MILESTONE-AUDIT.md`, `milestones/v1.4-phases/`
+
+**Key accomplishments:**
+
+- Typed theme registry and curation validation for public theme paths backed by selected projects and public writing
+- Helper-derived theme prerender routes with a separate Phase 20 sitemap route boundary
+- Dark-primary public theme index and gated theme detail routes over the Phase 19 theme helpers
+- Theme route render coverage plus helper-derived static verification for public theme HTML and unknown-route absence
+- Helper-derived Playwright coverage for theme keyboard focus and reduced-motion route checks
+- Pure theme relationship and collaboration action helpers for downstream route surfaces
+- Helper-derived theme collaboration panel with SSR coverage and browser-check-compatible metadata loading
+- Helper-derived related theme links on project and writing detail routes with SSR coverage
+- Static and browser verification for helper-derived collaboration panels and reciprocal theme links
+- Theme routes now expose static crawler metadata, structured data, sitemap entries, and social-preview fallback verification.
+- Theme route coverage is now enforced in release-readiness checks, automated evidence labels, docs, and the aggregate verify gate.
+- Static verification now prints and tests explicit theme route coverage evidence while preserving helper-derived generated-output checks.
+
+---
+
 ## v1.3 Writing & Notes Surface (Shipped: 2026-06-16)
 
 **Phases completed:** 5 phases, 10 plans, 18 tasks

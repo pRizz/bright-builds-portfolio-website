@@ -146,6 +146,101 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+## Milestone: v1.3 — Writing & Notes Surface
+
+**Shipped:** 2026-06-16
+
+**Phases:** 5 | **Plans:** 10 | **Recorded Tasks:** 18
+
+### What Was Built
+
+- Typed checked-in writing registry with public selectors, route helpers, related selected-project relationships, and curation-gate validation.
+- Static `/writing` and `/writing/{slug}` routes with dark-primary reading UI, non-leaking fallback behavior, and selected-project cross-links.
+- Writing metadata, BlogPosting and ItemList JSON-LD, sitemap coverage, and checked-in social-preview fallback verification.
+- Writing route release coverage across static verification, browser checks, release-readiness docs, evidence labels, and the aggregate verify gate.
+- Modular static verification helpers that split generated-output checks out of one oversized script while preserving CLI behavior.
+
+### What Worked
+
+- Deriving writing route rendering, sitemap output, static verification, and browser coverage from helper contracts reduced route-list drift.
+- The milestone audit exposed a real maintainability gap in the static verifier, and Phase 18 closed it before archive.
+- Keeping writing content typed and checked in avoided CMS/parser/runtime content complexity while still adding a useful public surface.
+
+### What Was Inefficient
+
+- The large static verifier debt was discovered at milestone audit time instead of during earlier phase planning.
+- The active roadmap and state files still needed manual cleanup during milestone completion.
+- Retrospective updates were skipped during v1.3 completion and had to be caught up at the v1.4 boundary.
+
+### Patterns Established
+
+- Public writing selectors and `/writing/{slug}` helpers are the supported boundary for writing route generation and verification.
+- Generated-output verification should live in focused import-safe modules organized by concern.
+- Release evidence labels must name only checks that run locally and keep hosted/manual checks in release checklist prose.
+
+### Key Lessons
+
+1. Watch static verifier file size during feature phases, not only during milestone audit.
+1. Helper-derived route coverage scales better than copied route fixtures once project and writing surfaces both exist.
+1. Retrospective updates should be part of the milestone-close checklist, not an optional cleanup step.
+
+### Cost Observations
+
+- Model mix: GSD agents handled discussion, planning, implementation, review, gap closure, and audit; main-thread work handled archival.
+- Sessions: One writing-surface cycle with audit-driven gap closure.
+- Notable: Closing verifier maintainability debt before archive made v1.4 theme verification easier to extend.
+
+______________________________________________________________________
+
+## Milestone: v1.4 — Theme Paths & Collaboration Surface
+
+**Shipped:** 2026-06-20
+
+**Phases:** 5 | **Plans:** 12 | **Recorded Tasks:** 24
+
+### What Was Built
+
+- Typed checked-in theme registry with public selectors, `/themes/{slug}` helpers, related project/writing resolution, and curation validation.
+- Static dark-primary `/themes` and `/themes/{slug}` routes with proof points, related projects, related writing, keyboard coverage, reduced-motion checks, and non-leaking fallback behavior.
+- Helper-derived collaboration actions for reviewed source links, live surfaces, writing context, GitHub, and low-intrusion OpenLinks identity paths.
+- Reciprocal related-theme links on selected project and writing detail surfaces where they clarify the content graph.
+- Theme route metadata, structured data, sitemap coverage, social-preview fallback verification, browser checks, release-readiness guards, and aggregate verify evidence.
+
+### What Worked
+
+- Separating theme domain foundation, routes, collaboration, metadata, and verification kept a broad synthesis feature reviewable.
+- Existing project and writing helpers gave theme paths strong inputs without duplicating authored content.
+- The audit passed after cross-checking requirements, summaries, and verification evidence; no blocker or follow-up gap phase was needed.
+- Theme release coverage reused the modular static verifier and release evidence patterns established in v1.3.
+
+### What Was Inefficient
+
+- The milestone archive helper generated a UTC archive date while the repo/session date was still 2026-06-20 locally, requiring manual normalization.
+- `STATE.md` and `ROADMAP.md` prose still needed manual post-archive cleanup to stop pointing at completed phase work.
+- The living retrospective had fallen behind and needed both v1.3 and v1.4 entries during this completion.
+
+### Patterns Established
+
+- Theme route rendering, sitemap inclusion, browser coverage, and release verification derive from public theme helpers.
+- Theme collaboration actions are assembled from existing curated project, writing, profile, GitHub, and OpenLinks data; no unreviewed external-link source was added.
+- Reciprocal content-graph links belong on project and writing detail pages only when they add context without competing with the primary narrative.
+- Automated release evidence labels should remain narrow and truthful while manual preview, deploy, and external-link checks stay checklist items.
+
+### Key Lessons
+
+1. Milestone-close tooling needs local-date review when it writes archive headers from UTC timestamps.
+1. Cross-surface synthesis works best when it composes existing domain helpers instead of adding another source of authored truth.
+1. Theme collaboration surfaces should treat OpenLinks as identity context, not the main conversion path.
+1. The release gate can grow safely when new route families reuse helper-derived route contracts and modular verification.
+
+### Cost Observations
+
+- Model mix: GSD agents handled phase discussion, planning, execution, code review, validation, and audit; main-thread work handled final archival and docs cleanup.
+- Sessions: One theme-surface cycle with five phases and no blocker gap phase after audit.
+- Notable: v1.4 added a new synthesis layer without changing the static deployment model or weakening release-evidence truthfulness.
+
+______________________________________________________________________
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -155,6 +250,8 @@ ______________________________________________________________________
 | v1.0 | 1 cycle | 6 | Established GSD phase flow, strict release verification, and milestone archival. |
 | v1.1 | 1 cycle | 4 | Converted release confidence debt into repeatable browser/deploy/helper-surface gates. |
 | v1.2 | 1 cycle | 4 | Turned curated cards into static project story pages with metadata and release coverage. |
+| v1.3 | 1 cycle | 5 | Added static writing routes and split generated-output verification into focused modules. |
+| v1.4 | 1 cycle | 5 | Added theme synthesis and collaboration paths over existing project/writing surfaces. |
 
 ### Cumulative Quality
 
@@ -163,6 +260,8 @@ ______________________________________________________________________
 | v1.0 | 63 Vitest tests | Requirements 38/38 | Static, curation, no-runtime-GitHub, visual-system, and release verification scripts. |
 | v1.1 | 77 Vitest tests + 23 Playwright checks passing | Requirements 15/15 | Browser/a11y release tests, project helper-surface import guard, and clean-builder release-readiness checks. |
 | v1.2 | 95 Vitest tests + 53 Playwright checks passing | Requirements 19/19 | Project detail route helpers, project JSON-LD/static verification, and project detail release-readiness guards. |
+| v1.3 | Aggregate verify passing | Requirements 23/23 | Writing route helpers, writing JSON-LD/static verification, writing browser coverage, and modular static verifier helpers. |
+| v1.4 | Aggregate verify passing | Requirements 23/23 | Theme route helpers, theme collaboration helpers, theme JSON-LD/static verification, and theme release-readiness guards. |
 
 ### Top Lessons (Verified Across Milestones)
 
@@ -170,3 +269,4 @@ ______________________________________________________________________
 1. Curated content and generated metadata should remain separate so automation cannot override editorial judgment.
 1. Requirement ownership metadata is part of milestone truth and needs the same cleanup attention as roadmap prose.
 1. Domain route helpers should drive route rendering, sitemap output, browser coverage, and release checks whenever a selected content set exists.
+1. Milestone completion needs human review of generated archive dates, active state prose, and retrospective continuity before tagging.
