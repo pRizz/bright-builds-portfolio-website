@@ -147,6 +147,6 @@ Ready for Plan 26-02 to render the new `mimeType` field in route heads and updat
 - Found task commit: `77ab1a6`
 - Found refactor commit: `2f150ad`
 
----
+***
 *Phase: 26-metadata-wiring-and-static-references*
 *Completed: 2026-06-21*
