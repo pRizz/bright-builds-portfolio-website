@@ -57,7 +57,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 - [x] 25-01-PLAN.md — Add renderer dependency, checked-in font inputs, pure helper core, and focused helper tests.
-- [ ] 25-02-PLAN.md — Add generator/check CLI, package scripts, and aggregate verify ordering.
+- [x] 25-02-PLAN.md — Add generator/check CLI, package scripts, and aggregate verify ordering.
 - [ ] 25-03-PLAN.md — Generate and verify checked-in social preview PNG and manifest outputs.
 
 ### Phase 26: Metadata Wiring and Static References
@@ -103,7 +103,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
-| 25. Deterministic Static Image Generation | v1.5 | 1/3 | In Progress|  |
+| 25. Deterministic Static Image Generation | v1.5 | 2/3 | In Progress|  |
 | 26. Metadata Wiring and Static References | v1.5 | 0/TBD | Not started | - |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |
