@@ -476,7 +476,7 @@ describe("aggregate release script contract", () => {
   it("runs release verification last without hidden mutation or browser install steps", () => {
     // Arrange
     const expectedVerifyScript =
-      "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
+      "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run verify:social-previews && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
     const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
       scripts: { verify: string };
     };
@@ -487,6 +487,7 @@ describe("aggregate release script contract", () => {
     // Assert
     expect(verifyScript).toBe(expectedVerifyScript);
     expect(verifyScript).not.toContain("bun run generate:static-metadata");
+    expect(verifyScript).not.toContain("bun run generate:social-previews");
     expect(verifyScript).not.toContain("bun run install:browser");
   });
 });
