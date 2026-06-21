@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 24
-current_phase_name: Social Image Data Contract
-current_plan: 1
-status: verifying
-stopped_at: Completed 24-social-image-data-contract-01-PLAN.md
-last_updated: "2026-06-21T14:47:07.506Z"
+current_phase: 25
+current_phase_name: Deterministic Static Image Generation
+current_plan: Not started
+status: Ready to plan
+stopped_at: Phase 24 complete; Phase 25 ready to plan
+last_updated: "2026-06-21T15:04:31.676Z"
 last_activity: 2026-06-21
 progress:
   total_phases: 5
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 24 — Social Image Data Contract
+**Current focus:** Phase 25 — Deterministic Static Image Generation
 
 ## Current Position
 
-Phase: 24 (Social Image Data Contract) — READY FOR VERIFICATION
-Plan: 1 of 1
-Current Phase: 24
-Current Phase Name: Social Image Data Contract
-Current Plan: 1
+Phase: 25 (Deterministic Static Image Generation) — READY TO PLAN
+Plan: Not started
+Current Phase: 25
+Current Phase Name: Deterministic Static Image Generation
+Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 1
-Status: Phase complete — ready for verification
+Total Plans in Phase: TBD
+Status: Ready to plan
 Last activity: 2026-06-21
 
-Progress: [##########] 100%
+Progress: [##--------] 20%
 
 ## Recently Completed
 
@@ -51,7 +51,7 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
 **Roadmap progress:** 1/5 phases complete.
-**Next action:** `/gsd-verify-work 24`, then `/gsd-plan-phase 25`
+**Next action:** `/gsd-plan-phase 25`
 
 ## Performance Metrics
 
@@ -88,6 +88,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-21T14:47:07.503Z
-Stopped at: Completed 24-social-image-data-contract-01-PLAN.md
+Stopped at: Phase 24 complete; Phase 25 ready to plan
 Resume file: None
-Next action: /gsd-verify-work 24, then /gsd-plan-phase 25
+Next action: /gsd-plan-phase 25

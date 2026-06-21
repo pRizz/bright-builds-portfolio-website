@@ -24,7 +24,7 @@
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions after planning
 
-- [ ] **Phase 24: Social Image Data Contract** - Define the route-derived social preview target contract, public filtering, validation rules, and fallback behavior.
+- [x] **Phase 24: Social Image Data Contract** - Define the route-derived social preview target contract, public filtering, validation rules, and fallback behavior. (completed 2026-06-21)
 - [ ] **Phase 25: Deterministic Static Image Generation** - Generate and verify deterministic 1200x630 PNG social preview assets and manifests from the contract.
 - [ ] **Phase 26: Metadata Wiring and Static References** - Wire project, writing, theme, and index metadata to the generated static preview assets.
 - [ ] **Phase 27: Freshness Reports and Reviewed Snapshot Policy** - Add offline freshness reporting and reviewed snapshot policy without runtime mutation or live release gates.
