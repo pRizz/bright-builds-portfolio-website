@@ -10,6 +10,7 @@ import {
   siteRoutes,
 } from "./routes";
 import { metadataForRoute, personJsonLd } from "./seo";
+import { SOCIAL_PREVIEW_FALLBACK_IMAGE } from "./social-previews";
 import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
 
@@ -158,6 +159,26 @@ describe("SEO derivation", () => {
     expect(metadata.title).toBe("Curated Projects | Peter Ryszkiewicz");
     expect(metadata.canonical).toBe("https://www.brightbuilds.us/projects");
     expect(metadata.openGraph.url).toBe(metadata.canonical);
+  });
+
+  it("keeps generic route metadata on the fallback social preview", () => {
+    // Arrange
+    const genericRoutes = [routeByPath("/"), routeByPath("/about"), routeByPath("/contact")];
+
+    // Act
+    const metadataRecords = genericRoutes.map((route) => metadataForRoute(route, peterProfile));
+
+    // Assert
+    for (const metadata of metadataRecords) {
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${SOCIAL_PREVIEW_FALLBACK_IMAGE.assetPath}`,
+        width: SOCIAL_PREVIEW_FALLBACK_IMAGE.dimensions.width,
+        height: SOCIAL_PREVIEW_FALLBACK_IMAGE.dimensions.height,
+        alt: SOCIAL_PREVIEW_FALLBACK_IMAGE.alt,
+        mimeType: "image/png",
+      });
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
   });
 
   it("creates person JSON-LD from profile identity links", () => {

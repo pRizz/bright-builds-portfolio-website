@@ -13,6 +13,7 @@ import {
   writingBlogPostingJsonLd,
   writingItemListJsonLd,
 } from "./seo";
+import { maybeSocialPreviewTargetForRoutePath } from "./social-previews";
 import {
   type PublicThemeEntry,
   publicThemeEntries,
@@ -53,22 +54,27 @@ describe("writing metadata", () => {
     });
   });
 
-  it("reuses the checked-in social fallback for writing detail sharing", () => {
+  it("derives route-aware share metadata for public writing entries", () => {
     // Arrange
-    const entry = publicWritingEntries()[0];
-    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
+    const entries = publicWritingEntries();
 
     // Act
-    const metadata = metadataForWritingEntry(entry, peterProfile);
+    const records = entries.map((entry) => ({
+      metadata: metadataForWritingEntry(entry, peterProfile),
+      target: socialPreviewTargetForRoutePath(writingDetailPath(entry)),
+    }));
 
     // Assert
-    expect(metadata.openGraph.image).toMatchObject({
-      url: expectedSocialImageUrl,
-      width: 1200,
-      height: 630,
-    });
-    expect(metadata.openGraph.image.alt).not.toHaveLength(0);
-    expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    for (const { metadata, target } of records) {
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${target.assetPath}`,
+        width: target.dimensions.width,
+        height: target.dimensions.height,
+        alt: target.alt,
+        mimeType: "image/png",
+      });
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
   });
 
   it("adds article dates and tags only when writing data provides them", () => {
@@ -104,6 +110,7 @@ describe("writing metadata", () => {
   it("keeps the writing index metadata as route-level website metadata", () => {
     // Arrange
     const route = routeByPath("/writing");
+    const target = socialPreviewTargetForRoutePath(route.path);
 
     // Act
     const metadata = metadataForRoute(route, peterProfile);
@@ -112,10 +119,12 @@ describe("writing metadata", () => {
     expect(metadata.title).toBe("Writing | Peter Ryszkiewicz");
     expect(metadata.canonical).toBe(`${peterProfile.canonicalOrigin}/writing`);
     expect(metadata.openGraph.type).toBe("website");
-    expect(metadata.openGraph.image).toMatchObject({
-      url: `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`,
-      width: 1200,
-      height: 630,
+    expect(metadata.openGraph.image).toEqual({
+      url: `${peterProfile.canonicalOrigin}${target.assetPath}`,
+      width: target.dimensions.width,
+      height: target.dimensions.height,
+      alt: target.alt,
+      mimeType: "image/png",
     });
     expect(metadata.twitter.card).toBe("summary_large_image");
   });
@@ -146,22 +155,27 @@ describe("theme metadata", () => {
     });
   });
 
-  it("reuses the checked-in social fallback for theme detail sharing", () => {
+  it("derives route-aware share metadata for public theme entries", () => {
     // Arrange
-    const theme = publicThemeEntries()[0];
-    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
+    const themes = publicThemeEntries();
 
     // Act
-    const metadata = metadataForTheme(theme, peterProfile);
+    const records = themes.map((theme) => ({
+      metadata: metadataForTheme(theme, peterProfile),
+      target: socialPreviewTargetForRoutePath(themeDetailPath(theme)),
+    }));
 
     // Assert
-    expect(metadata.openGraph.image).toMatchObject({
-      url: expectedSocialImageUrl,
-      width: 1200,
-      height: 630,
-    });
-    expect(metadata.openGraph.image.alt).not.toHaveLength(0);
-    expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    for (const { metadata, target } of records) {
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${target.assetPath}`,
+        width: target.dimensions.width,
+        height: target.dimensions.height,
+        alt: target.alt,
+        mimeType: "image/png",
+      });
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
   });
 
   it("creates ordered theme ItemList JSON-LD for public entries only", () => {
@@ -201,6 +215,7 @@ describe("theme metadata", () => {
     // Arrange
     const theme = publicThemeEntries()[0];
     const canonical = `${peterProfile.canonicalOrigin}${themeDetailPath(theme)}`;
+    const metadata = metadataForTheme(theme, peterProfile);
 
     // Act
     const jsonLd = themeCollectionPageJsonLd(theme, peterProfile);
@@ -213,7 +228,7 @@ describe("theme metadata", () => {
       description: theme.summary,
       url: canonical,
       mainEntityOfPage: canonical,
-      image: `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`,
+      image: metadata.openGraph.image.url,
       creator: personJsonLd(peterProfile),
     });
     expect(jsonLd.keywords).toContain(theme.title);
@@ -307,6 +322,7 @@ describe("writing structured data", () => {
     });
     const canonical = `${peterProfile.canonicalOrigin}${writingDetailPath(entry)}`;
     const expectedLabels = ["Agentic engineering", "ai", "developer-tools"];
+    const metadata = metadataForWritingEntry(entry, peterProfile);
 
     // Act
     const jsonLd = writingBlogPostingJsonLd(entry, peterProfile);
@@ -322,7 +338,7 @@ describe("writing structured data", () => {
       mainEntityOfPage: canonical,
       datePublished: "2026-06-03",
       dateModified: "2026-06-10",
-      image: `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`,
+      image: metadata.openGraph.image.url,
       keywords: expectedLabels,
       about: expectedLabels,
     });
@@ -409,6 +425,31 @@ describe("writing structured data", () => {
         url: `${peterProfile.canonicalOrigin}/writing/published-later`,
       }),
     ]);
+  });
+
+  it("keeps public writing JSON-LD images in parity with share metadata", () => {
+    // Arrange
+    const entries = publicWritingEntries();
+
+    // Act
+    const itemListJsonLd = writingItemListJsonLd(entries, peterProfile);
+    const blogPostingRecords = entries.map((entry) => ({
+      entry,
+      jsonLd: writingBlogPostingJsonLd(entry, peterProfile),
+      metadata: metadataForWritingEntry(entry, peterProfile),
+    }));
+
+    // Assert
+    for (const { entry, jsonLd, metadata } of blogPostingRecords) {
+      expect(jsonLd.image).toBe(metadata.openGraph.image.url);
+
+      const maybeItem = itemListJsonLd.itemListElement.find(
+        (element) =>
+          element.item.url === `${peterProfile.canonicalOrigin}${writingDetailPath(entry)}`,
+      );
+
+      expect(maybeItem?.item.image).toBe(metadata.openGraph.image.url);
+    }
   });
 
   it("derives sitemap writing coverage from public writing routes only", () => {
@@ -505,4 +546,16 @@ function makeWritingEntry(overrides: Partial<WritingEntry>): WritingEntry {
     ],
     ...overrides,
   };
+}
+
+function socialPreviewTargetForRoutePath(routePath: string) {
+  const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
+
+  expect(maybeTarget).not.toBeNull();
+
+  if (!maybeTarget) {
+    throw new Error(`Expected social preview target for ${routePath}`);
+  }
+
+  return maybeTarget;
 }

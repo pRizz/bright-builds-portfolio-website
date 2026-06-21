@@ -14,7 +14,7 @@ import {
   projectsByPlacement,
   visibleProjects,
 } from "./projects";
-import { prerenderRoutes, sitemapRoutes, siteRoutes } from "./routes";
+import { prerenderRoutes, routeByPath, sitemapRoutes, siteRoutes } from "./routes";
 import {
   jsonLdScriptContent,
   metadataForProject,
@@ -25,6 +25,10 @@ import {
   robotsTxt,
   sitemapXml,
 } from "./seo";
+import {
+  SOCIAL_PREVIEW_FALLBACK_IMAGE,
+  maybeSocialPreviewTargetForRoutePath,
+} from "./social-previews";
 import { themeDetailRoutes } from "./themes";
 import { writingDetailRoutes } from "./writing";
 
@@ -177,13 +181,16 @@ describe("portfolio SEO surfaces", () => {
   it("derives complete route metadata with canonical social preview fields", () => {
     // Arrange
     const routes = siteRoutes;
-    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
 
     // Act
-    const metadataRecords = routes.map((route) => metadataForRoute(route, peterProfile));
+    const metadataRecords = routes.map((route) => ({
+      metadata: metadataForRoute(route, peterProfile),
+      expectedImage:
+        maybeSocialPreviewTargetForRoutePath(route.path) ?? SOCIAL_PREVIEW_FALLBACK_IMAGE,
+    }));
 
     // Assert
-    for (const metadata of metadataRecords) {
+    for (const { metadata, expectedImage } of metadataRecords) {
       expect(metadata.title).not.toHaveLength(0);
       expect(metadata.description).not.toHaveLength(0);
       expect(metadata.canonical.startsWith("https://www.brightbuilds.us")).toBe(true);
@@ -191,16 +198,36 @@ describe("portfolio SEO surfaces", () => {
       expect(metadata.openGraph.description).toBe(metadata.description);
       expect(metadata.openGraph.url).toBe(metadata.canonical);
       expect(metadata.openGraph.type).toBe("website");
-      expect(metadata.openGraph.image).toMatchObject({
-        url: expectedSocialImageUrl,
-        width: 1200,
-        height: 630,
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${expectedImage.assetPath}`,
+        width: expectedImage.dimensions.width,
+        height: expectedImage.dimensions.height,
+        alt: expectedImage.alt,
+        mimeType: "image/png",
       });
-      expect(metadata.openGraph.image.alt).not.toHaveLength(0);
       expect(metadata.twitter.card).toBe("summary_large_image");
       expect(metadata.twitter.title).toBe(metadata.title);
       expect(metadata.twitter.description).toBe(metadata.description);
-      expect(metadata.twitter.image.url).toBe(expectedSocialImageUrl);
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
+    }
+  });
+
+  it("uses generated social previews for covered route-family indexes", () => {
+    // Arrange
+    const coveredRoutePaths = ["/projects", "/writing", "/themes"];
+
+    // Act
+    const records = coveredRoutePaths.map((routePath) => ({
+      metadata: metadataForRoute(routeByPath(routePath), peterProfile),
+      target: socialPreviewTargetForRoutePath(routePath),
+    }));
+
+    // Assert
+    for (const { metadata, target } of records) {
+      expect(metadata.openGraph.image.url).toBe(
+        `${peterProfile.canonicalOrigin}${target.assetPath}`,
+      );
+      expect(metadata.openGraph.image.mimeType).toBe("image/png");
       expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
     }
   });
@@ -352,4 +379,16 @@ function makeProjectFixture(
     ...baseProject,
     ...overrides,
   };
+}
+
+function socialPreviewTargetForRoutePath(routePath: string) {
+  const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
+
+  expect(maybeTarget).not.toBeNull();
+
+  if (!maybeTarget) {
+    throw new Error(`Expected social preview target for ${routePath}`);
+  }
+
+  return maybeTarget;
 }

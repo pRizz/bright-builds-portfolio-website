@@ -11,6 +11,7 @@ import {
 } from "./projects";
 import { prerenderRoutes } from "./routes";
 import { jsonLdScriptContent, metadataForProject, projectJsonLd, sitemapXml } from "./seo";
+import { maybeSocialPreviewTargetForRoutePath } from "./social-previews";
 
 describe("project detail route derivation", () => {
   it("selects curated flagship projects with authored detail stories", () => {
@@ -127,19 +128,19 @@ describe("project detail route derivation", () => {
     expect(metadata.description).toBe(project.oneLine);
   });
 
-  it("derives complete share metadata with the local social preview for every detail project", () => {
+  it("derives route-aware share metadata for every detail project", () => {
     // Arrange
     const projects = projectDetailPageProjects();
-    const expectedSocialImageUrl = `${peterProfile.canonicalOrigin}/social/bright-builds-og.png`;
 
     // Act
     const metadataRecords = projects.map((project) => ({
       project,
       metadata: metadataForProject(project, peterProfile),
+      target: socialPreviewTargetForRoutePath(projectDetailPath(project)),
     }));
 
     // Assert
-    for (const { project, metadata } of metadataRecords) {
+    for (const { project, metadata, target } of metadataRecords) {
       expect(metadata.title).toBe(`${project.name} | Project Story | Bright Builds`);
       expect(metadata.description).toBe(project.oneLine);
       expect(metadata.canonical).toBe(
@@ -151,18 +152,36 @@ describe("project detail route derivation", () => {
         url: metadata.canonical,
         type: "website",
       });
-      expect(metadata.openGraph.image).toMatchObject({
-        url: expectedSocialImageUrl,
-        width: 1200,
-        height: 630,
+      expect(metadata.openGraph.image).toEqual({
+        url: `${peterProfile.canonicalOrigin}${target.assetPath}`,
+        width: target.dimensions.width,
+        height: target.dimensions.height,
+        alt: target.alt,
+        mimeType: "image/png",
       });
-      expect(metadata.openGraph.image.alt).not.toHaveLength(0);
       expect(metadata.twitter).toMatchObject({
         card: "summary_large_image",
         title: metadata.title,
         description: metadata.description,
         image: metadata.openGraph.image,
       });
+    }
+  });
+
+  it("keeps project JSON-LD image values in parity with share metadata", () => {
+    // Arrange
+    const projects = projectDetailPageProjects();
+
+    // Act
+    const records = projects.map((project) => ({
+      jsonLd: projectJsonLd(project, peterProfile),
+      metadata: metadataForProject(project, peterProfile),
+    }));
+
+    // Assert
+    for (const { jsonLd, metadata } of records) {
+      expect(jsonLd.image).toBe(metadata.openGraph.image.url);
+      expect(metadata.twitter.image).toEqual(metadata.openGraph.image);
     }
   });
 
@@ -203,4 +222,16 @@ function makeProject(baseProject: ProjectStory, overrides: Partial<ProjectStory>
     ...baseProject,
     ...overrides,
   };
+}
+
+function socialPreviewTargetForRoutePath(routePath: string) {
+  const maybeTarget = maybeSocialPreviewTargetForRoutePath(routePath);
+
+  expect(maybeTarget).not.toBeNull();
+
+  if (!maybeTarget) {
+    throw new Error(`Expected social preview target for ${routePath}`);
+  }
+
+  return maybeTarget;
 }
