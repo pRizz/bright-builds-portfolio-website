@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: Not started
+milestone: v1.5
+milestone_name: Static Shareability & Freshness
 current_phase: none
-current_phase_name: Not started
+current_phase_name: Defining requirements
 current_plan: Not started
-status: planning
-stopped_at: v1.4 milestone completed
-last_updated: "2026-06-20T19:16:00-05:00"
-last_activity: 2026-06-20
+status: defining_requirements
+stopped_at: Milestone v1.5 started
+last_updated: "2026-06-21T00:00:00-05:00"
+last_activity: 2026-06-21
 progress:
   total_phases: 0
   completed_phases: 0
@@ -21,18 +21,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-20)
+See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Planning the next milestone after v1.4.
+**Current focus:** v1.5 Static Shareability & Freshness requirements.
 
 ## Current Position
 
-Current Milestone: None
-Current Phase: None
-Current Plan: Not started
-Status: v1.4 shipped and archived
-Last activity: 2026-06-20
+Phase: Not started (defining requirements)
+Plan: -
+Status: Defining requirements
+Last activity: 2026-06-21 - Milestone v1.5 started
 
 Progress: [----------] 0%
 
@@ -47,6 +46,20 @@ v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20.
 - Archive files: `.planning/milestones/v1.4-ROADMAP.md`, `.planning/milestones/v1.4-REQUIREMENTS.md`, `.planning/milestones/v1.4-MILESTONE-AUDIT.md`
 - Phase artifacts: `.planning/milestones/v1.4-phases/`
 
+## Current Milestone
+
+v1.5 Static Shareability & Freshness starts from deferred roadmap guidance around static social images, reviewed freshness reports, and metadata/link verification.
+
+**Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
+
+**Target features:**
+
+- Route-derived social image data for project, writing, and theme surfaces.
+- Deterministic static raster social preview generation with no server endpoints or runtime image generation.
+- Metadata wiring so each public route references the correct static preview asset.
+- Non-flaky freshness/report automation for reviewed GitHub metadata, primary links, and generated media.
+- Release verification that proves generated images, route metadata, static output, and evidence labels are truthful.
+
 ## Performance Metrics
 
 **Velocity:**
@@ -56,14 +69,6 @@ v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20.
 - v1.2 plans completed: 4
 - v1.3 plans completed: 10
 - v1.4 plans completed: 12
-
-**By Recent Phase:**
-
-- Phase 19: Theme Domain Foundation - Complete
-- Phase 20: Theme Routes and Dark UI - Complete
-- Phase 21: Collaboration Pathways and Cross-Links - Complete
-- Phase 22: Theme Metadata and Structured Data - Complete
-- Phase 23: Theme Verification and Release Contract - Complete
 
 **Recent Trend:**
 
@@ -75,12 +80,13 @@ v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20.
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting next work:
+Recent decisions affecting current work:
 
 - Theme paths synthesize existing project and writing surfaces before CMS/admin, analytics, comments/newsletter, dynamic Open Graph endpoints, or runtime content fetches.
-- OpenLinks remains a subtle identity hub in footer/profile/contact/metadata surfaces; theme collaboration panels should not turn OpenLinks into the primary CTA.
+- OpenLinks remains a subtle identity hub in footer/profile/contact/metadata surfaces; social preview work should not make OpenLinks the primary route CTA or visual brand.
 - Theme route coverage is now part of static, browser, release-readiness, evidence-label, and aggregate verification.
 - Manual external-link, preview, post-deploy, hosted Lighthouse, and Cloudflare checks remain release checklist obligations rather than automated local evidence.
+- v1.5 should prefer deterministic static social preview assets over dynamic OG endpoints or server runtime image generation.
 
 ### Pending Todos
 
@@ -92,7 +98,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-20T19:16:00-05:00
-Stopped at: v1.4 milestone archived locally
+Last session: 2026-06-21T00:00:00-05:00
+Stopped at: v1.5 requirements definition started
 Resume file: None
-Next action: run /gsd-new-milestone
+Next action: define v1.5 requirements

@@ -24,9 +24,17 @@ v1.4 shipped on 2026-06-20 as the Theme Paths & Collaboration Surface milestone.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
-## Current Planning
+## Current Milestone: v1.5 Static Shareability & Freshness
 
-No active milestone is defined. Run `/gsd-new-milestone` to start the next milestone.
+**Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
+
+**Target features:**
+
+- Route-derived social image data for project, writing, and theme surfaces.
+- Deterministic static raster social preview generation with no server endpoints or runtime image generation.
+- Metadata wiring so each public route references the correct static preview asset.
+- Non-flaky freshness/report automation for reviewed GitHub metadata, primary links, and generated media where it can run without weakening the static deployment contract.
+- Release verification that proves generated images, route metadata, static output, and evidence labels are truthful.
 
 ## Requirements
 
@@ -44,7 +52,10 @@ No active milestone is defined. Run `/gsd-new-milestone` to start the next miles
 
 ### Active
 
-None. The next active requirements should be defined by `/gsd-new-milestone`.
+- [ ] [v1.5] Public project, writing, and theme routes can use deterministic static social preview images derived from curated route data.
+- [ ] [v1.5] Crawlers and social previews can read route-specific metadata that points to the correct static preview image without dynamic Open Graph endpoints.
+- [ ] [v1.5] Maintainers can run freshness checks or reviewed reports for selected metadata, primary links, and generated media without introducing visitor-runtime fetches or flaky release gates.
+- [ ] [v1.5] Release verification proves social image assets, metadata references, generated static output, and evidence labels without overclaiming hosted or manual checks.
 
 ### Out of Scope
 
@@ -92,6 +103,8 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Theme paths synthesize existing surfaces | Projects and writing are strong individually; visitors need a durable path into the work by theme and collaboration angle. | v1.4 shipped static theme paths over existing project and writing registries while deferring CMS/admin, analytics, dynamic OG, and runtime content fetches. |
 | Theme collaboration actions stay helper-derived | Collaboration CTAs must not introduce unreviewed external-link sources or live reachability claims. | Theme panels derive reviewed source, live, writing, GitHub, and OpenLinks actions from existing curated data. |
 | Release evidence labels stay truthful | Automated labels should name only local checks that actually run. | Theme route coverage is named in static/browser/release evidence; preview, deployed, external-link, and hosted checks remain manual release checklist items. |
+| Static social previews over dynamic OG endpoints | Project, writing, and theme routes now have stable helper-derived content; share assets can be generated deterministically without adding server behavior. | v1.5 scopes static raster social previews and metadata wiring while keeping the static deployment model intact. |
+| Freshness reports before live release gates | Broken-link and metadata freshness automation is useful, but live external checks can be flaky and network-dependent. | v1.5 may add reviewed reports or scheduled/manual checks, but local release evidence must not claim hosted or live-network verification unless it actually runs reliably. |
 
 ## Evolution
 
@@ -114,4 +127,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-20 after v1.4 milestone completion*
+*Last updated: 2026-06-21 after starting v1.5 milestone*
