@@ -1,3 +1,6 @@
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import { peterProfile } from "../../src/domain/profile";
 import type { ProjectDetailPageProject } from "../../src/domain/projects";
 import { projectDetailPath, publicProjectIndexProjects } from "../../src/domain/projects";
@@ -19,11 +22,16 @@ import {
 import {
   maybeSocialPreviewTargetForRoutePath,
   SOCIAL_PREVIEW_FALLBACK_IMAGE,
+  type SocialPreviewTarget,
 } from "../../src/domain/social-previews";
 import type { PublicThemeEntry } from "../../src/domain/themes";
 import { publicThemeEntries, themeDetailPath } from "../../src/domain/themes";
 import type { PublicWritingEntry } from "../../src/domain/writing";
 import { publicWritingEntries, writingDetailPath } from "../../src/domain/writing";
+import type {
+  SocialPreviewManifest,
+  SocialPreviewManifestEntry,
+} from "../social-previews/manifest";
 import {
   maybeProjectForDetailRoute,
   maybeThemeForDetailRoute,
@@ -40,6 +48,8 @@ import {
   escapeRegExp,
 } from "./html-assertions";
 import { assertPngDimensions } from "./output";
+
+const socialPreviewManifestOutputPath = "social/generated/manifest.json";
 
 export function assertRouteMetadataAndJsonLd(
   outputRoot: string,
@@ -292,6 +302,112 @@ export function assertMetadataImageMapsToLocalAsset(
     expectedImage.dimensions.width,
     expectedImage.dimensions.height,
   );
+
+  if (maybeTarget) {
+    assertSocialPreviewManifestMatchesTarget(outputRoot, maybeTarget);
+  }
+}
+
+function assertSocialPreviewManifestMatchesTarget(
+  outputRoot: string,
+  target: SocialPreviewTarget,
+): void {
+  const manifest = readSocialPreviewManifest(outputRoot, target.routePath);
+  const maybeEntry = manifest.entries.find((entry) => entry.routePath === target.routePath);
+
+  if (!maybeEntry) {
+    throw new Error(
+      `Social preview manifest entry for ${target.routePath} does not match routePath: expected entry with routePath ${target.routePath}.`,
+    );
+  }
+
+  assertManifestFieldMatchesTarget(target, "assetPath", maybeEntry.assetPath);
+  assertManifestFieldMatchesTarget(target, "dimensions.width", maybeEntry.dimensions.width);
+  assertManifestFieldMatchesTarget(target, "dimensions.height", maybeEntry.dimensions.height);
+  assertManifestFieldMatchesTarget(target, "sourceFingerprint", maybeEntry.sourceFingerprint);
+}
+
+function readSocialPreviewManifest(outputRoot: string, routePath: string): SocialPreviewManifest {
+  const outputPath = join(outputRoot, socialPreviewManifestOutputPath);
+
+  if (!existsSync(outputPath)) {
+    throw new Error(
+      `Missing social preview manifest in static output for ${routePath}: ${socialPreviewManifestOutputPath}`,
+    );
+  }
+
+  const parsedManifest: unknown = JSON.parse(readFileSync(outputPath, "utf8"));
+
+  if (isSocialPreviewManifest(parsedManifest)) {
+    return parsedManifest;
+  }
+
+  throw new Error(
+    `Social preview manifest in static output for ${routePath} is invalid: expected version 1 with entries.`,
+  );
+}
+
+function assertManifestFieldMatchesTarget(
+  target: SocialPreviewTarget,
+  field: "assetPath" | "dimensions.width" | "dimensions.height" | "sourceFingerprint",
+  actual: string | number,
+): void {
+  const expected = manifestTargetValue(target, field);
+
+  if (actual === expected) {
+    return;
+  }
+
+  throw new Error(
+    `Social preview manifest entry for ${target.routePath} does not match ${field}: expected ${expected}, received ${actual}.`,
+  );
+}
+
+function manifestTargetValue(
+  target: SocialPreviewTarget,
+  field: "assetPath" | "dimensions.width" | "dimensions.height" | "sourceFingerprint",
+): string | number {
+  if (field === "assetPath") {
+    return target.assetPath;
+  }
+
+  if (field === "dimensions.width") {
+    return target.dimensions.width;
+  }
+
+  if (field === "dimensions.height") {
+    return target.dimensions.height;
+  }
+
+  return target.sourceFingerprint;
+}
+
+function isSocialPreviewManifest(value: unknown): value is SocialPreviewManifest {
+  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.entries)) {
+    return false;
+  }
+
+  return value.entries.every(isSocialPreviewManifestEntry);
+}
+
+function isSocialPreviewManifestEntry(value: unknown): value is SocialPreviewManifestEntry {
+  if (!isRecord(value) || !isRecord(value.dimensions)) {
+    return false;
+  }
+
+  return (
+    typeof value.routePath === "string" &&
+    typeof value.assetPath === "string" &&
+    typeof value.dimensions.width === "number" &&
+    typeof value.dimensions.height === "number" &&
+    typeof value.byteSize === "number" &&
+    typeof value.sourceFingerprint === "string" &&
+    typeof value.sha256 === "string"
+  );
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
 export function assertProjectJsonLd(project: ProjectDetailPageProject, html: string): void {
