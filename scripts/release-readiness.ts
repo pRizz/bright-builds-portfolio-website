@@ -173,6 +173,50 @@ const requiredReleaseReadinessDocumentFacts = [
     expectedDescription: "bun run verify:social-previews",
   },
   {
+    label: "social preview generation command",
+    pattern: /## Social Preview Assets[\s\S]*```bash\s*bun run generate:social-previews\s*```/m,
+    expectedDescription: "bun run generate:social-previews",
+  },
+  {
+    label: "social preview read-only check command",
+    pattern: /## Social Preview Assets[\s\S]*```bash\s*bun run verify:social-previews\s*```/m,
+    expectedDescription: "bun run verify:social-previews",
+  },
+  {
+    label: "generated preview manifest",
+    pattern:
+      /## Social Preview Assets[\s\S]*`generate:social-previews` writes reviewed checked-in PNGs[\s\S]*`public\/social\/generated\/manifest\.json`/,
+    expectedDescription: "public/social/generated/manifest.json",
+  },
+  {
+    label: "social preview check before build",
+    pattern:
+      /`verify:social-previews` is read-only check mode and runs before `bun run build` inside `bun run verify`\./,
+    expectedDescription: "verify:social-previews before bun run build",
+  },
+  {
+    label: "static output generated preview manifest",
+    pattern:
+      /`bun run verify:static` checks generated HTML social image metadata, Twitter image parity, JSON-LD image parity, local PNG existence, image dimensions, and `\.output\/public\/social\/generated\/manifest\.json` consistency/,
+    expectedDescription: ".output/public/social/generated/manifest.json",
+  },
+  {
+    label: "generated social preview total budget",
+    pattern: /## Social Preview Assets[\s\S]*generated social preview PNG total/,
+    expectedDescription: "generated social preview PNG total",
+  },
+  {
+    label: "manual social-card smoke check",
+    pattern: /### Manual social-card smoke check/,
+    expectedDescription: "Manual social-card smoke check",
+  },
+  {
+    label: "manual social-card verification boundary",
+    pattern:
+      /hosted social-card validation, current live GitHub state, live external-link reachability, and preview\/production smoke checks are not part of `bun run verify`/,
+    expectedDescription: "not part of `bun run verify`",
+  },
+  {
     label: "static metadata gate",
     pattern: /### SEO and Static Metadata[\s\S]*`bun run verify:static` checks/,
     expectedDescription: "bun run verify:static",
@@ -266,6 +310,18 @@ const requiredReleaseReadinessDocumentFacts = [
     label: "manual external-link smoke check",
     pattern: /Manual external-link smoke check before release:/,
     expectedDescription: "Manual external-link smoke check",
+  },
+  {
+    label: "freshness severity boundary",
+    pattern:
+      /## Freshness Reports[\s\S]*`release blocker`[\s\S]*`needs review`[\s\S]*`manual smoke`[\s\S]*only deterministic local blockers fail local release gates[\s\S]*## Automated Gates/m,
+    expectedDescription: "release blocker, needs review, manual smoke",
+  },
+  {
+    label: "OpenLinks low-intrusion posture",
+    pattern:
+      /OpenLinks remains identity\/external-link policy context and is not a primary route CTA or brand replacement\./,
+    expectedDescription: "not a primary route CTA or brand replacement",
   },
   {
     label: "preview deployment",

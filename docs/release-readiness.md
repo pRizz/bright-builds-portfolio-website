@@ -45,6 +45,32 @@ bun run build
 The static host must serve `.output/public` as the site root. That directory contains prerendered route HTML, `_build/` assets, local icons, the social preview image, `robots.txt`, and `sitemap.xml`.
 Selected project detail routes, public writing routes, `/themes`, and public theme detail routes are part of the static artifact. Project detail routes are covered by project detail metadata, JSON-LD, and sitemap coverage. Writing routes are covered by writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage. Theme routes are covered by theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage.
 
+## Social Preview Assets
+
+Generate route-specific static social preview PNGs after curated project, writing, or theme route data changes:
+
+```bash
+bun run generate:social-previews
+```
+
+`generate:social-previews` writes reviewed checked-in PNGs under `public/social/generated/` and `public/social/generated/manifest.json`. The generated manifest records each covered project, writing, and theme route image so route metadata and JSON-LD can stay helper-derived.
+
+Verify generated images and the checked-in manifest without writing files:
+
+```bash
+bun run verify:social-previews
+```
+
+`verify:social-previews` is read-only check mode and runs before `bun run build` inside `bun run verify`. This keeps stale generated PNGs or manifest drift from producing fresh static HTML.
+
+`bun run verify:static` checks generated HTML social image metadata, Twitter image parity, JSON-LD image parity, local PNG existence, image dimensions, and `.output/public/social/generated/manifest.json` consistency against the copied static artifact.
+
+`bun run verify:release` enforces the 250 KiB per-image social preview budget and the 1 MiB generated social preview PNG total budget. The release budget output includes the exact label `generated social preview PNG total`.
+
+### Manual social-card smoke check
+
+After preview or production deployment, maintainers manually inspect social cards for representative project, writing, and theme URLs. These checks are explicit manual release work: hosted social-card validation, current live GitHub state, live external-link reachability, and preview/production smoke checks are not part of `bun run verify`.
+
 ## Freshness Reports
 
 After creating `.output/public`, run the offline freshness report when reviewing generated evidence:
@@ -55,9 +81,9 @@ bun run report:freshness
 
 The freshness report is reviewed static evidence for generated media drift, GitHub snapshot age and unavailable records, external-link policy findings, and release smoke prompts. It reads checked-in curated data, `src/domain/github-metadata.snapshot.json`, generated social preview files and `public/social/generated/manifest.json`, and built `.output/public` HTML. If `.output/public` is missing, run `bun run build` first.
 
-The report does not prove current live GitHub state, does not crawl live external links, and does not run hosted social crawler validation. Those checks remain manual smoke work or explicit maintainer review outside the offline report. Current live GitHub state belongs to manual smoke or an explicit maintainer sync/review outside the report. `needs review` and `manual smoke` findings are review prompts, not hidden hard release gates.
+The report does not prove current live GitHub state, does not crawl live external links, and does not run hosted social crawler validation. Those checks remain manual smoke work or explicit maintainer review outside the offline report. Current live GitHub state belongs to manual smoke or an explicit maintainer sync/review outside the report. The report keeps findings grouped as `release blocker`, `needs review`, and `manual smoke`; only deterministic local blockers fail local release gates. `needs review` and `manual smoke` findings are review prompts, not hidden hard release gates.
 
-OpenLinks appears in this policy only as an external-link policy/manual smoke origin. It should remain a low-intrusion identity link rather than becoming a new primary release CTA.
+OpenLinks remains identity/external-link policy context and is not a primary route CTA or brand replacement.
 
 ## Automated Gates
 
