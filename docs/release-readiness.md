@@ -44,6 +44,20 @@ bun run build
 The static host must serve `.output/public` as the site root. That directory contains prerendered route HTML, `_build/` assets, local icons, the social preview image, `robots.txt`, and `sitemap.xml`.
 Selected project detail routes, public writing routes, `/themes`, and public theme detail routes are part of the static artifact. Project detail routes are covered by project detail metadata, JSON-LD, and sitemap coverage. Writing routes are covered by writing metadata, JSON-LD, sitemap, related-project link, and forbidden runtime residue coverage. Theme routes are covered by theme metadata, JSON-LD, sitemap, related project links, related writing links, collaboration links, and forbidden runtime residue coverage.
 
+## Freshness Reports
+
+After creating `.output/public`, run the offline freshness report when reviewing generated evidence:
+
+```bash
+bun run report:freshness
+```
+
+The freshness report is reviewed static evidence for generated media drift, GitHub snapshot age and unavailable records, external-link policy findings, and release smoke prompts. It reads checked-in curated data, `src/domain/github-metadata.snapshot.json`, generated social preview files and `public/social/generated/manifest.json`, and built `.output/public` HTML. If `.output/public` is missing, run `bun run build` first.
+
+The report does not prove current live GitHub state, does not crawl live external links, and does not run hosted social crawler validation. Those checks remain manual smoke work or explicit maintainer review outside the offline report. Current live GitHub state belongs to manual smoke or an explicit maintainer sync/review outside the report. `needs review` and `manual smoke` findings are review prompts, not hidden hard release gates.
+
+OpenLinks appears in this policy only as an external-link policy/manual smoke origin. It should remain a low-intrusion identity link rather than becoming a new primary release CTA.
+
 ## Automated Gates
 
 ### SEO and Static Metadata

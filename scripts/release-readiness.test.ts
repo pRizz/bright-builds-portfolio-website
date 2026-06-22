@@ -156,6 +156,82 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing offline freshness report guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("bun run report:freshness");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing offline freshness report command: bun run report:freshness.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing reviewed static evidence guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("reviewed static evidence");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing reviewed static evidence boundary: reviewed static evidence.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing freshness report live and manual smoke boundaries", () => {
+    // Arrange
+    const removals = [
+      [
+        "does not prove current live GitHub state",
+        "Release-readiness document is missing live GitHub boundary: does not prove current live GitHub state.",
+      ],
+      [
+        "does not crawl live external links",
+        "Release-readiness document is missing live external-link boundary: does not crawl live external links.",
+      ],
+      [
+        "does not run hosted social crawler validation",
+        "Release-readiness document is missing social crawler boundary: does not run hosted social crawler validation.",
+      ],
+      [
+        "manual smoke",
+        "Release-readiness document is missing manual smoke severity: manual smoke.",
+      ],
+    ] as const;
+
+    for (const [textToRemove, expectedMessage] of removals) {
+      const fixture = releaseDocumentFixtureWithout(textToRemove);
+
+      try {
+        // Act
+        const findings = releaseReadinessDocumentFindings(fixture.path);
+        const messages = findings.map((finding) => finding.message).join("\n");
+
+        // Assert
+        expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+        expect(messages).toContain(expectedMessage);
+      } finally {
+        fixture.cleanup();
+      }
+    }
+  });
+
   it("rejects negated release facts even when the required command names appear", () => {
     // Arrange
     const fixture = releaseDocumentFixtureWithReplacements([
@@ -478,7 +554,7 @@ describe("aggregate release script contract", () => {
     const expectedVerifyScript =
       "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run verify:social-previews && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
     const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
-      scripts: { verify: string };
+      scripts: Record<string, string>;
     };
 
     // Act
@@ -486,9 +562,20 @@ describe("aggregate release script contract", () => {
 
     // Assert
     expect(verifyScript).toBe(expectedVerifyScript);
+    expect(packageJson.scripts["report:freshness"]).toBe(
+      "bun run scripts/generate-freshness-report.ts",
+    );
     expect(verifyScript).not.toContain("bun run generate:static-metadata");
     expect(verifyScript).not.toContain("bun run generate:social-previews");
     expect(verifyScript).not.toContain("bun run install:browser");
+    expect(verifyScript).not.toContain("report:freshness");
+    expect(verifyScript).not.toContain("freshness:live");
+    expect(verifyScript).not.toContain("smoke:hosted");
+    expect(verifyScript).not.toContain("sync:github-metadata");
+    expect(verifyScript).not.toContain("scripts/sync-github-metadata.ts");
+    expect(verifyScript).not.toContain("https://");
+    expect(verifyScript).not.toContain("api.github.com");
+    expect(verifyScript).not.toContain("github.com/graphql");
   });
 });
 

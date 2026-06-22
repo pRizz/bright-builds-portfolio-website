@@ -96,6 +96,39 @@ const requiredReleaseReadinessDocumentFacts = [
     expectedDescription: ".output/public",
   },
   {
+    label: "offline freshness report command",
+    pattern: /## Freshness Reports[\s\S]*```bash\s*bun run report:freshness\s*```/m,
+    expectedDescription: "bun run report:freshness",
+  },
+  {
+    label: "reviewed static evidence boundary",
+    pattern: /## Freshness Reports[\s\S]*reviewed static evidence[\s\S]*## Automated Gates/m,
+    expectedDescription: "reviewed static evidence",
+  },
+  {
+    label: "live GitHub boundary",
+    pattern:
+      /## Freshness Reports[\s\S]*does not prove current live GitHub state[\s\S]*## Automated Gates/m,
+    expectedDescription: "does not prove current live GitHub state",
+  },
+  {
+    label: "live external-link boundary",
+    pattern:
+      /## Freshness Reports[\s\S]*does not crawl live external links[\s\S]*## Automated Gates/m,
+    expectedDescription: "does not crawl live external links",
+  },
+  {
+    label: "social crawler boundary",
+    pattern:
+      /## Freshness Reports[\s\S]*does not run hosted social crawler validation[\s\S]*## Automated Gates/m,
+    expectedDescription: "does not run hosted social crawler validation",
+  },
+  {
+    label: "manual smoke severity",
+    pattern: /## Freshness Reports[\s\S]*manual smoke[\s\S]*## Automated Gates/m,
+    expectedDescription: "manual smoke",
+  },
+  {
     label: "Cloudflare Pages",
     pattern:
       /## Cloudflare Pages[\s\S]*Cloudflare Pages should serve the generated static artifact directly\./,
