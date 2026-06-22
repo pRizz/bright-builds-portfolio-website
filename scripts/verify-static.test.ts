@@ -11,6 +11,7 @@ import {
   maybeSocialPreviewTargetForRoutePath,
   SOCIAL_PREVIEW_FALLBACK_IMAGE,
   type SocialPreviewTarget,
+  socialPreviewTargets,
 } from "../src/domain/social-previews";
 import { publicThemeEntries, themeDetailRoutes } from "../src/domain/themes";
 import { publicWritingEntries, writingDetailRoutes } from "../src/domain/writing";
@@ -53,7 +54,7 @@ describe("static verifier import-safe helpers", () => {
 
     // Assert
     expect(summary).toBe(
-      "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, assets, sitemap, and robots in .output/public.",
+      "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, social preview manifest, assets, sitemap, and robots in .output/public.",
     );
   });
 
@@ -308,13 +309,18 @@ describe("static verifier import-safe helpers", () => {
     const projectRoutes = projectDetailRoutes();
     const writingRoutes = writingDetailRoutes();
     const themeRoutes = themeDetailRoutes();
+    const socialPreviewRoutes = socialPreviewTargets().map((target) => target.routePath);
 
     // Assert
     expect(routes).toEqual(prerenderRoutes);
     expect(projectRoutes.length).toBeGreaterThan(0);
     expect(writingRoutes.length).toBeGreaterThan(0);
     expect(themeRoutes.length).toBeGreaterThan(0);
+    expect(socialPreviewRoutes.length).toBeGreaterThan(0);
     for (const route of [...projectRoutes, ...writingRoutes, ...themeRoutes]) {
+      expect(routes).toContain(route);
+    }
+    for (const route of socialPreviewRoutes) {
       expect(routes).toContain(route);
     }
   });
