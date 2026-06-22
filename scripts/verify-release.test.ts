@@ -302,16 +302,28 @@ describe("release verifier accessibility and release evidence labels", () => {
       "writing route coverage",
       "theme route coverage",
       "static performance budgets",
+      "generated social preview asset budgets",
       "external link policy",
     ]);
     const joinedLabels = labels.join(" ");
+    const forbiddenManualOrLiveClaimTerms = [
+      "Cloudflare",
+      "deploy",
+      "hosted",
+      "network",
+      "live link",
+      "live external",
+      "current live GitHub",
+      "social-card validator",
+    ];
 
-    expect(joinedLabels).not.toContain("Cloudflare/static deployment");
-    expect(joinedLabels).not.toContain("preview and deploy smoke checks");
-    expect(joinedLabels).not.toContain("external suite");
-    expect(joinedLabels).not.toContain("hosted audit");
-    expect(joinedLabels).not.toContain("network");
-    expect(joinedLabels).not.toContain("live link");
+    for (const forbiddenTerm of forbiddenManualOrLiveClaimTerms) {
+      expect(joinedLabels).not.toContain(forbiddenTerm);
+    }
+    // "preview" is allowed only for the local generated social preview budget label.
+    expect(labels.filter((label) => label.includes("preview"))).toEqual([
+      "generated social preview asset budgets",
+    ]);
   });
 });
 
