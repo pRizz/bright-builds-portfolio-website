@@ -99,7 +99,11 @@ Plans:
   3. Static output verification checks every covered route's generated HTML, social image metadata, JSON-LD image field, local asset existence, dimensions, manifest consistency, and forbidden runtime residue.
   4. Release verification enforces per-image and total social preview asset budgets and reports only automated evidence labels that actually run locally.
   5. Release-readiness docs explain the generation, verification, freshness report, and manual social-card smoke-check flow while preserving the clean-builder release command `bun run install:browser && bun run verify`.
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 28-01-PLAN.md — Make static output verification manifest-aware for generated social preview routes.
+- [ ] 28-02-PLAN.md — Enforce generated social preview release budgets and truthful automated evidence labels.
+- [ ] 28-03-PLAN.md — Document and guard the release contract, aggregate order, and manual social-card smoke boundaries.
 
 ## Progress
 
