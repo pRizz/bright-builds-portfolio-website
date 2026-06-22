@@ -129,6 +129,39 @@ describe("freshness report severity mapping", () => {
     });
   });
 
+  it("reports curated GitHub repository links missing from the snapshot as needs review", () => {
+    // Arrange
+    const snapshot = maybeParseGitHubMetadataSnapshot({
+      schemaVersion: 1,
+      syncedAt: "2026-06-01T00:00:00.000Z",
+      repositories: [availableRepositoryFixture("openlinks")],
+    });
+
+    if (!snapshot) {
+      throw new Error("Expected snapshot fixture to parse.");
+    }
+
+    // Act
+    const result = githubSnapshotFreshness({
+      snapshot,
+      expectedRepositoryUrls: [
+        "https://github.com/pRizz/openlinks",
+        "https://github.com/pRizz/missing-curated-repo",
+      ],
+      now: new Date("2026-06-02T00:00:00.000Z"),
+    });
+    const missingFinding = result.findings.find(
+      (finding) => finding.code === "github-snapshot-missing-record",
+    );
+
+    // Assert
+    expect(missingFinding).toMatchObject({
+      severity: "needs review",
+      area: "GitHub snapshot",
+      repositoryUrl: "https://github.com/pRizz/missing-curated-repo",
+    });
+  });
+
   it("reports malformed snapshots as blockers and live GitHub state as manual smoke", () => {
     // Arrange
     const snapshot = maybeParseGitHubMetadataSnapshot({ schemaVersion: 1, repositories: [] });

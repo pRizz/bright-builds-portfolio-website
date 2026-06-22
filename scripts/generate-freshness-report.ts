@@ -1,5 +1,7 @@
 import { readFileSync } from "node:fs";
 
+import { parseGitHubRepositoryUrl } from "../src/domain/github-metadata";
+import { curatedProjects } from "../src/domain/projects";
 import { socialPreviewTargets, validateSocialPreviewTargets } from "../src/domain/social-previews";
 import {
   githubSnapshotFreshness,
@@ -28,6 +30,7 @@ const currentLiveGitHubStateLabel = "current live GitHub state";
 const maybeSnapshot = maybeReadGitHubMetadataSnapshot();
 const gitHubFreshness = githubSnapshotFreshness({
   snapshot: maybeSnapshot,
+  expectedRepositoryUrls: expectedGitHubRepositoryUrlsForFreshness(),
   sourcePath: gitHubSnapshotPath,
   currentLiveStateLabel: currentLiveGitHubStateLabel,
 });
@@ -65,6 +68,19 @@ function maybeReadGitHubMetadataSnapshot() {
   } catch {
     return null;
   }
+}
+
+function expectedGitHubRepositoryUrlsForFreshness(): readonly string[] {
+  return [
+    ...new Set(
+      curatedProjects.flatMap((project) =>
+        project.links
+          .filter((link) => link.kind === "repo")
+          .map((link) => parseGitHubRepositoryUrl(link.href)?.repositoryUrl)
+          .filter((maybeUrl): maybeUrl is string => typeof maybeUrl === "string"),
+      ),
+    ),
+  ].sort((left, right) => left.localeCompare(right));
 }
 
 function manualSmokeFindings(): readonly FreshnessFinding[] {

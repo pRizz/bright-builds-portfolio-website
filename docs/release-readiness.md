@@ -28,6 +28,7 @@ The aggregate gate includes:
 - `bun run verify:no-github-runtime`
 - `bun run verify:project-helper-surface`
 - `bun run verify:visual-system`
+- `bun run verify:social-previews`
 - `bun run build`
 - `bun run verify:browser`
 - `bun run verify:static`

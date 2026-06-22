@@ -168,6 +168,11 @@ const requiredReleaseReadinessDocumentFacts = [
     expectedDescription: "bun run verify:project-helper-surface",
   },
   {
+    label: "social preview verification gate",
+    pattern: /## Primary Release Gate[\s\S]*- `bun run verify:social-previews`/,
+    expectedDescription: "bun run verify:social-previews",
+  },
+  {
     label: "static metadata gate",
     pattern: /### SEO and Static Metadata[\s\S]*`bun run verify:static` checks/,
     expectedDescription: "bun run verify:static",

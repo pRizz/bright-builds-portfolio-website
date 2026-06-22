@@ -19,6 +19,7 @@ type UnavailableReason = UnavailableGitHubRepositoryMetadata["reason"];
 
 type GitHubSnapshotFreshnessInput = {
   snapshot: GitHubMetadataSnapshot | null;
+  expectedRepositoryUrls?: readonly string[];
   now?: Date;
   sourcePath?: string;
   currentLiveStateLabel?: string;
@@ -123,6 +124,9 @@ export function githubSnapshotFreshness(
     0,
     Math.floor((now.getTime() - syncedAtDate.getTime()) / millisecondsPerDay),
   );
+  const snapshotRepositoryUrls = new Set(
+    input.snapshot.repositories.map((repository) => repository.repositoryUrl),
+  );
   const unavailable = unavailableRepositories(input.snapshot);
   const findings: FreshnessFinding[] = [];
 
@@ -149,6 +153,21 @@ export function githubSnapshotFreshness(
       httpStatus: repository.httpStatus,
       syncedAt: repository.syncedAt,
       message: `${repository.slug} was unavailable during snapshot sync: ${repository.message}`,
+    });
+  }
+
+  for (const repositoryUrl of input.expectedRepositoryUrls ?? []) {
+    if (snapshotRepositoryUrls.has(repositoryUrl)) {
+      continue;
+    }
+
+    findings.push({
+      severity: "needs review",
+      area: "GitHub snapshot",
+      code: "github-snapshot-missing-record",
+      path: sourcePath,
+      repositoryUrl,
+      message: `GitHub snapshot is missing current curated repository ${repositoryUrl}.`,
     });
   }
 

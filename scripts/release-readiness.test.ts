@@ -278,6 +278,25 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing social preview verification gate guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("bun run verify:social-previews");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing social preview verification gate: bun run verify:social-previews.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("reports missing project detail route coverage guidance", () => {
     // Arrange
     const fixture = releaseDocumentFixtureWithout("project detail route coverage");
