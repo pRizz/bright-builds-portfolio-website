@@ -26,11 +26,11 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Metadata and Structured Data
 
-- [ ] **META-01**: Project, writing, theme, and route-family index metadata select route-specific social preview images from the same social preview helper used by the generator.
-- [ ] **META-02**: Generated HTML exposes absolute canonical `og:image`, `og:image:type`, `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:image`, and `twitter:image:alt` values for every covered share route before hydration.
-- [ ] **META-03**: Project, writing, and theme JSON-LD `image` values use the same route-specific social preview asset as the corresponding Open Graph and Twitter metadata.
-- [ ] **META-04**: Home, about, contact, and other generic routes continue to use the checked-in fallback social image until a future milestone deliberately scopes route-specific images for them.
-- [ ] **META-05**: Route components do not hard-code social image metadata; metadata and structured data continue to derive from domain helpers.
+- [x] **META-01**: Project, writing, theme, and route-family index metadata select route-specific social preview images from the same social preview helper used by the generator.
+- [x] **META-02**: Generated HTML exposes absolute canonical `og:image`, `og:image:type`, `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:image`, and `twitter:image:alt` values for every covered share route before hydration.
+- [x] **META-03**: Project, writing, and theme JSON-LD `image` values use the same route-specific social preview asset as the corresponding Open Graph and Twitter metadata.
+- [x] **META-04**: Home, about, contact, and other generic routes continue to use the checked-in fallback social image until a future milestone deliberately scopes route-specific images for them.
+- [x] **META-05**: Route components do not hard-code social image metadata; metadata and structured data continue to derive from domain helpers.
 
 ### Freshness Reports
 
@@ -126,4 +126,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-21*
-*Last updated: 2026-06-22 after Phase 28 verification and release contract completion*
+*Last updated: 2026-06-22 after v1.5 milestone audit tracking cleanup*
