@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -325,6 +326,7 @@ function assertSocialPreviewManifestMatchesTarget(
   assertManifestFieldMatchesTarget(target, "dimensions.width", maybeEntry.dimensions.width);
   assertManifestFieldMatchesTarget(target, "dimensions.height", maybeEntry.dimensions.height);
   assertManifestFieldMatchesTarget(target, "sourceFingerprint", maybeEntry.sourceFingerprint);
+  assertManifestEntryMatchesCopiedPng(outputRoot, target, maybeEntry);
 }
 
 function readSocialPreviewManifest(outputRoot: string, routePath: string): SocialPreviewManifest {
@@ -380,6 +382,27 @@ function manifestTargetValue(
   }
 
   return target.sourceFingerprint;
+}
+
+function assertManifestEntryMatchesCopiedPng(
+  outputRoot: string,
+  target: SocialPreviewTarget,
+  entry: SocialPreviewManifestEntry,
+): void {
+  const pngBytes = readFileSync(join(outputRoot, entry.assetPath.replace(/^\//, "")));
+  const copiedPngSha256 = createHash("sha256").update(pngBytes).digest("hex");
+
+  if (entry.byteSize !== pngBytes.length) {
+    throw new Error(
+      `Social preview manifest entry for ${target.routePath} does not match byteSize: expected copied PNG byteSize ${pngBytes.length}, received ${entry.byteSize}.`,
+    );
+  }
+
+  if (entry.sha256 !== copiedPngSha256) {
+    throw new Error(
+      `Social preview manifest entry for ${target.routePath} does not match sha256: expected copied PNG sha256 ${copiedPngSha256}, received ${entry.sha256}.`,
+    );
+  }
 }
 
 function isSocialPreviewManifest(value: unknown): value is SocialPreviewManifest {

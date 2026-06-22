@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -29,7 +30,10 @@ import {
   preHydrationBody,
 } from "./verify-static/html-assertions";
 import { assertMetadataImageMapsToLocalAsset } from "./verify-static/metadata-jsonld-verifier";
-import { staticVerificationSummary } from "./verify-static/run-static-verification";
+import {
+  assertNoUnexpectedHtmlRoutes,
+  staticVerificationSummary,
+} from "./verify-static/run-static-verification";
 import {
   assertNoPrerenderedThemeRoute,
   assertNoPrerenderedWritingRoute,
@@ -56,6 +60,27 @@ describe("static verifier import-safe helpers", () => {
     expect(summary).toBe(
       "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, social preview manifest, assets, sitemap, and robots in .output/public.",
     );
+  });
+
+  it("rejects unexpected prerendered HTML routes", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-routes-"));
+    const expectedHtmlPath = join(tempRoot, "index.html");
+    const staleHtmlPath = join(tempRoot, "stale", "index.html");
+    mkdirSync(dirname(staleHtmlPath), { recursive: true });
+    writeFileSync(expectedHtmlPath, "");
+    writeFileSync(staleHtmlPath, "");
+
+    // Act
+    const assertRoutes = () =>
+      assertNoUnexpectedHtmlRoutes(tempRoot, [expectedHtmlPath, staleHtmlPath]);
+
+    // Assert
+    try {
+      expect(assertRoutes).toThrow(/Unexpected prerendered HTML route in static output: \/stale/);
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
   });
 
   it("imports the CLI without running generated output verification", async () => {
@@ -179,6 +204,18 @@ describe("static verifier import-safe helpers", () => {
         name: "sourceFingerprint",
         entry: socialPreviewManifestEntryForTarget(maybeTarget, {
           sourceFingerprint: "deadbeefdead",
+        }),
+      },
+      {
+        name: "byteSize",
+        entry: socialPreviewManifestEntryForTarget(maybeTarget, {
+          byteSize: validPngBytes().length + 1,
+        }),
+      },
+      {
+        name: "sha256",
+        entry: socialPreviewManifestEntryForTarget(maybeTarget, {
+          sha256: "0".repeat(64),
         }),
       },
     ];
@@ -448,17 +485,23 @@ function socialPreviewManifestEntryForTarget(
   overrides: Partial<{
     assetPath: string;
     dimensions: { width: number; height: number };
+    byteSize: number;
     sourceFingerprint: string;
+    sha256: string;
   }> = {},
 ) {
   return {
     routePath: target.routePath,
     assetPath: overrides.assetPath ?? target.assetPath,
     dimensions: overrides.dimensions ?? target.dimensions,
-    byteSize: validPngBytes().length,
+    byteSize: overrides.byteSize ?? validPngBytes().length,
     sourceFingerprint: overrides.sourceFingerprint ?? target.sourceFingerprint,
-    sha256: "fixture-sha256",
+    sha256: overrides.sha256 ?? validPngSha256(),
   };
+}
+
+function validPngSha256(): string {
+  return createHash("sha256").update(validPngBytes()).digest("hex");
 }
 
 function validPngBytes(): Buffer {

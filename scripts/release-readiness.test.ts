@@ -62,6 +62,32 @@ describe("release-readiness external link policy", () => {
     ]);
   });
 
+  it("rejects protocol-relative external links", () => {
+    // Arrange
+    const routes = [
+      routeFixture(
+        "/",
+        [
+          '<a href="https://github.com/pRizz">GitHub</a>',
+          '<a href="https://openlinks.us/">OpenLinks</a>',
+          '<a href="//docs.example.com/openlinks">Docs</a>',
+        ].join(""),
+      ),
+    ];
+
+    // Act
+    const findings = externalLinkFindingsForRoutes(routes);
+
+    // Assert
+    expect(findings.map((finding) => finding.label)).toEqual([
+      "external link protocol",
+      "external link policy coverage",
+    ]);
+    expect(findings.map((finding) => finding.message).join("\n")).toContain(
+      "https://docs.example.com/openlinks",
+    );
+  });
+
   it("requires primary GitHub profile presence, not only project repository links", () => {
     // Arrange
     const routes = [

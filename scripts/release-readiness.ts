@@ -369,11 +369,11 @@ export function externalLinkFindingsForRoutes(
       continue;
     }
 
-    if (maybeUrl.protocol !== "https:") {
+    if (href.startsWith("//") || maybeUrl.protocol !== "https:") {
       findings.push({
         path: ".output/public",
         label: "external link protocol",
-        message: `External link ${redactedExternalTarget(maybeUrl)} must use HTTPS.`,
+        message: `External link ${redactedExternalTarget(maybeUrl)} must use explicit HTTPS.`,
       });
     }
 
@@ -494,15 +494,20 @@ function uniqueExternalAnchorHrefsForRoutes(
       routes.flatMap((route) =>
         [...route.html.matchAll(/<a\b[^>]*\bhref\s*=\s*["']([^"']+)["'][^>]*>/gi)]
           .map((match) => match[1])
-          .filter((href) => /^[a-z][a-z0-9+.-]*:/i.test(href)),
+          .filter((href) => isExternalHref(href)),
       ),
     ),
   ].sort();
 }
 
+function isExternalHref(href: string): boolean {
+  return /^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith("//");
+}
+
 function maybeExternalHttpUrl(href: string): URL | null {
   try {
-    const url = new URL(href);
+    const normalizedHref = href.startsWith("//") ? `https:${href}` : href;
+    const url = new URL(normalizedHref);
 
     if (url.protocol === "http:" || url.protocol === "https:") {
       return url;
