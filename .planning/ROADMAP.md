@@ -116,7 +116,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
 | 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 2/2 | Complete    | 2026-06-22 |
-| 28. Verification and Release Contract | v1.5 | 3/3 | Complete   | 2026-06-22 |
+| 28. Verification and Release Contract | v1.5 | 3/3 | Complete    | 2026-06-22 |
 
 ## Archived Milestones
 

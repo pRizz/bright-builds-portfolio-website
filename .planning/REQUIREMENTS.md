@@ -42,11 +42,11 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Verification and Release Contract
 
-- [ ] **VERIFY-01**: Unit tests cover social preview target derivation, public-only filtering, path uniqueness, fingerprint stability, manifest freshness checks, metadata image selection, JSON-LD image parity, and offline freshness finding classification.
-- [ ] **VERIFY-02**: The aggregate `bun run verify` gate includes deterministic social preview verification before production build and still avoids dynamic OG endpoints, server functions, visitor-runtime GitHub fetches, and live external-link release gates.
-- [ ] **VERIFY-03**: Static output verification checks every covered route's generated HTML, social image metadata, JSON-LD image field, local asset existence, dimensions, manifest consistency, and forbidden runtime residue.
-- [ ] **VERIFY-04**: Release verification enforces per-image and total social preview asset budgets and reports only automated evidence labels that actually run locally.
-- [ ] **VERIFY-05**: Release-readiness docs explain the generation, verification, freshness report, and manual social-card smoke-check flow while preserving the clean-builder release command `bun run install:browser && bun run verify`.
+- [x] **VERIFY-01**: Unit tests cover social preview target derivation, public-only filtering, path uniqueness, fingerprint stability, manifest freshness checks, metadata image selection, JSON-LD image parity, and offline freshness finding classification.
+- [x] **VERIFY-02**: The aggregate `bun run verify` gate includes deterministic social preview verification before production build and still avoids dynamic OG endpoints, server functions, visitor-runtime GitHub fetches, and live external-link release gates.
+- [x] **VERIFY-03**: Static output verification checks every covered route's generated HTML, social image metadata, JSON-LD image field, local asset existence, dimensions, manifest consistency, and forbidden runtime residue.
+- [x] **VERIFY-04**: Release verification enforces per-image and total social preview asset budgets and reports only automated evidence labels that actually run locally.
+- [x] **VERIFY-05**: Release-readiness docs explain the generation, verification, freshness report, and manual social-card smoke-check flow while preserving the clean-builder release command `bun run install:browser && bun run verify`.
 
 ## Future Requirements
 
@@ -111,11 +111,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FRESH-03 | Phase 27 | Complete |
 | FRESH-04 | Phase 27 | Complete |
 | FRESH-05 | Phase 27 | Complete |
-| VERIFY-01 | Phase 28 | Pending |
-| VERIFY-02 | Phase 28 | Pending |
-| VERIFY-03 | Phase 28 | Pending |
-| VERIFY-04 | Phase 28 | Pending |
-| VERIFY-05 | Phase 28 | Pending |
+| VERIFY-01 | Phase 28 | Complete |
+| VERIFY-02 | Phase 28 | Complete |
+| VERIFY-03 | Phase 28 | Complete |
+| VERIFY-04 | Phase 28 | Complete |
+| VERIFY-05 | Phase 28 | Complete |
 
 **Coverage:**
 
@@ -126,4 +126,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-21*
-*Last updated: 2026-06-21 after roadmap creation*
+*Last updated: 2026-06-22 after Phase 28 verification and release contract completion*

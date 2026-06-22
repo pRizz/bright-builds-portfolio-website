@@ -4,41 +4,41 @@ milestone: v1.5
 milestone_name: Static Shareability & Freshness
 current_phase: 28
 current_phase_name: verification and release contract
-current_plan: Not started
-status: executing
-stopped_at: Phase 28 context gathered
-last_updated: "2026-06-22T16:17:03.367Z"
-last_activity: 2026-06-22 -- Phase 28 planning complete
+current_plan: Complete
+status: complete
+stopped_at: Phase 28 completed and verified
+last_updated: "2026-06-22T16:57:39.736Z"
+last_activity: 2026-06-22 -- Phase 28 completed and verified
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 11
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-21)
+See: .planning/PROJECT.md (updated 2026-06-22)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 28 — verification and release contract
+**Current focus:** v1.5 milestone completion and archival
 
 ## Current Position
 
-Phase: 28 (verification and release contract) — NOT STARTED
-Plan: Not started
+Phase: 28 (verification and release contract) — COMPLETE
+Plan: Complete
 Current Phase: 28
 Current Phase Name: verification and release contract
-Current Plan: Not started
+Current Plan: Complete
 Total Phases: 5
 Total Plans in Phase: 3
-Status: Ready to execute
-Last activity: 2026-06-22 -- Phase 28 planning complete
+Status: Phase complete and verified
+Last activity: 2026-06-22 -- Phase 28 completed and verified
 
-Progress: [████████░░] 80%
+Progress: [██████████] 100%
 
 ## Recently Completed
 
@@ -50,8 +50,8 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 4/5 phases complete.
-**Next action:** `/gsd-discuss-phase 28`
+**Roadmap progress:** 5/5 phases complete.
+**Next action:** `/gsd-complete-milestone`
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 **Phase 24 Plan 01:** 11 min, 2 tasks, 2 files, completed 2026-06-21.
 **Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
 **Phase 27:** 2/2 plans completed 2026-06-22. Maintainers can run `bun run report:freshness` for offline reviewed static evidence without mutating source data or adding live checks to `bun run verify`.
+**Phase 28:** 3/3 plans completed 2026-06-22. The local release gate now proves generated social previews, metadata references, static output, release budgets, and truthful evidence labels without overclaiming hosted or manual checks.
 
 ## Accumulated Context
 
@@ -94,6 +95,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-22T15:47:41.455Z
-Stopped at: Phase 28 context gathered
-Resume file: .planning/phases/28-verification-and-release-contract/28-CONTEXT.md
-Next action: /gsd-discuss-phase 28
+Stopped at: Phase 28 completed and verified
+Resume file: .planning/phases/28-verification-and-release-contract/28-VERIFICATION.md
+Next action: /gsd-complete-milestone
