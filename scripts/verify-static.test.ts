@@ -10,6 +10,7 @@ import { prerenderRoutes } from "../src/domain/routes";
 import {
   maybeSocialPreviewTargetForRoutePath,
   SOCIAL_PREVIEW_FALLBACK_IMAGE,
+  type SocialPreviewTarget,
 } from "../src/domain/social-previews";
 import { publicThemeEntries, themeDetailRoutes } from "../src/domain/themes";
 import { publicWritingEntries, writingDetailRoutes } from "../src/domain/writing";
@@ -112,6 +113,7 @@ describe("static verifier import-safe helpers", () => {
 
     const canonicalGeneratedUrl = `${peterProfile.canonicalOrigin}${maybeTarget.assetPath}`;
     writeStaticPng(tempRoot, maybeTarget.assetPath);
+    writeSocialPreviewManifest(tempRoot, [socialPreviewManifestEntryForTarget(maybeTarget)]);
 
     // Act
     const assertGeneratedImage = () =>
@@ -122,6 +124,84 @@ describe("static verifier import-safe helpers", () => {
       expect(assertGeneratedImage).not.toThrow();
     } finally {
       rmSync(tempRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("rejects missing social preview manifest for a covered route", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-metadata-"));
+    const coveredRoutePath = "/projects";
+    const maybeTarget = maybeSocialPreviewTargetForRoutePath(coveredRoutePath);
+
+    if (!maybeTarget) {
+      throw new Error(`Expected ${coveredRoutePath} to have a social preview target.`);
+    }
+
+    const canonicalGeneratedUrl = `${peterProfile.canonicalOrigin}${maybeTarget.assetPath}`;
+    writeStaticPng(tempRoot, maybeTarget.assetPath);
+
+    // Act
+    const assertGeneratedImage = () =>
+      assertMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalGeneratedUrl);
+
+    // Assert
+    try {
+      expect(assertGeneratedImage).toThrow(/Missing social preview manifest in static output/);
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("rejects mismatched social preview manifest entries for covered routes", () => {
+    // Arrange
+    const coveredRoutePath = "/projects";
+    const maybeTarget = maybeSocialPreviewTargetForRoutePath(coveredRoutePath);
+
+    if (!maybeTarget) {
+      throw new Error(`Expected ${coveredRoutePath} to have a social preview target.`);
+    }
+
+    const mismatchEntries = [
+      {
+        name: "assetPath",
+        entry: socialPreviewManifestEntryForTarget(maybeTarget, {
+          assetPath: `${maybeTarget.assetPath}.drifted`,
+        }),
+      },
+      {
+        name: "dimensions.width",
+        entry: socialPreviewManifestEntryForTarget(maybeTarget, {
+          dimensions: { width: 1199, height: 630 },
+        }),
+      },
+      {
+        name: "sourceFingerprint",
+        entry: socialPreviewManifestEntryForTarget(maybeTarget, {
+          sourceFingerprint: "deadbeefdead",
+        }),
+      },
+    ];
+
+    for (const mismatch of mismatchEntries) {
+      const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-metadata-"));
+      const canonicalGeneratedUrl = `${peterProfile.canonicalOrigin}${maybeTarget.assetPath}`;
+      writeStaticPng(tempRoot, maybeTarget.assetPath);
+      writeSocialPreviewManifest(tempRoot, [mismatch.entry]);
+
+      // Act
+      const assertGeneratedImage = () =>
+        assertMetadataImageMapsToLocalAsset(tempRoot, coveredRoutePath, canonicalGeneratedUrl);
+
+      // Assert
+      try {
+        expect(assertGeneratedImage).toThrow(
+          new RegExp(
+            `Social preview manifest entry for /projects does not match.*${mismatch.name}`,
+          ),
+        );
+      } finally {
+        rmSync(tempRoot, { recursive: true, force: true });
+      }
     }
   });
 
@@ -346,6 +426,33 @@ function writeStaticPng(outputRoot: string, assetPath: string): void {
   const outputPath = join(outputRoot, assetPath.replace(/^\//, ""));
   mkdirSync(dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, validPngBytes());
+}
+
+function writeSocialPreviewManifest(
+  outputRoot: string,
+  entries: readonly ReturnType<typeof socialPreviewManifestEntryForTarget>[],
+): void {
+  const outputPath = join(outputRoot, "social/generated/manifest.json");
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, `${JSON.stringify({ version: 1, entries }, null, 2)}\n`);
+}
+
+function socialPreviewManifestEntryForTarget(
+  target: SocialPreviewTarget,
+  overrides: Partial<{
+    assetPath: string;
+    dimensions: { width: number; height: number };
+    sourceFingerprint: string;
+  }> = {},
+) {
+  return {
+    routePath: target.routePath,
+    assetPath: overrides.assetPath ?? target.assetPath,
+    dimensions: overrides.dimensions ?? target.dimensions,
+    byteSize: validPngBytes().length,
+    sourceFingerprint: overrides.sourceFingerprint ?? target.sourceFingerprint,
+    sha256: "fixture-sha256",
+  };
 }
 
 function validPngBytes(): Buffer {
