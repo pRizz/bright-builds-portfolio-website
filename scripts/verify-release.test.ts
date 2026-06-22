@@ -131,6 +131,70 @@ describe("release verifier static budgets", () => {
       "social/bright-builds-og.png budget",
     ]);
   });
+
+  it("reports generated social preview PNG sizes and total separately from fallback assets", () => {
+    // Arrange
+    const files = [
+      binaryFile("social/bright-builds-og.png", 80 * 1024),
+      binaryFile("social/generated/projects/example-a.png", 12 * 1024),
+      binaryFile("social/generated/writing/example-b.png", 18 * 1024),
+    ];
+
+    // Act
+    const report = budgetReportForFiles(files);
+
+    // Assert
+    expect(report.assetBytes.get("social/bright-builds-og.png")).toBe(80 * 1024);
+    expect(report.generatedSocialPreviewPngBytes).toEqual(
+      new Map([
+        ["social/generated/projects/example-a.png", 12 * 1024],
+        ["social/generated/writing/example-b.png", 18 * 1024],
+      ]),
+    );
+    expect(report.totalGeneratedSocialPreviewPngBytes).toBe(30 * 1024);
+  });
+
+  it("flags generated social preview PNGs over the per-image budget", () => {
+    // Arrange
+    const files = [
+      binaryFile("social/bright-builds-og.png", 80 * 1024),
+      binaryFile("social/generated/projects/large.png", 251 * 1024),
+    ];
+
+    // Act
+    const report = budgetReportForFiles(files);
+    const violations = budgetViolationsForReport(report, releaseBudgetThresholds);
+
+    // Assert
+    expect(violations).toContainEqual({
+      path: "social/generated/projects/large.png",
+      label: "generated social preview image budget",
+      message: "social/generated/projects/large.png is 251.0 KB; limit is 250.0 KB.",
+    });
+  });
+
+  it("flags generated social preview PNG totals over the aggregate budget", () => {
+    // Arrange
+    const files = [
+      binaryFile("social/bright-builds-og.png", 80 * 1024),
+      ...Array.from({ length: 5 }, (_, index) =>
+        binaryFile(`social/generated/projects/example-${index}.png`, 220 * 1024),
+      ),
+    ];
+
+    // Act
+    const report = budgetReportForFiles(files);
+    const violations = budgetViolationsForReport(report, releaseBudgetThresholds);
+
+    // Assert
+    expect(violations.map((violation) => violation.label)).toEqual([
+      "generated social preview total budget",
+    ]);
+    expect(violations[0]).toMatchObject({
+      path: "social/generated",
+      message: "Generated social preview PNG total is 1100.0 KB; limit is 1024.0 KB.",
+    });
+  });
 });
 
 describe("release verifier semantic checker", () => {
