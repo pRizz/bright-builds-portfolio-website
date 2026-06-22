@@ -84,7 +84,10 @@ Plans:
   3. Freshness reports do not mutate curated project, writing, theme, profile, GitHub metadata, or generated social preview source data.
   4. Optional live freshness checks, if present, run only through explicit maintainer commands outside `bun run verify`.
   5. Freshness documentation distinguishes reviewed static evidence from hosted crawler validation, live external-link reachability, and current live GitHub state.
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 27-01-PLAN.md — Add the read-only offline freshness report core, CLI, package script, and verify exclusion guards.
+- [ ] 27-02-PLAN.md — Document the reviewed static evidence policy and guard release-readiness freshness boundaries.
 
 ### Phase 28: Verification and Release Contract
 **Goal**: The local release gate proves the static social preview, metadata, freshness, and evidence contracts without overclaiming manual or live-network checks.
