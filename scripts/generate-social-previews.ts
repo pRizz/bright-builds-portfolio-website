@@ -1,5 +1,4 @@
-import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
 import {
@@ -10,12 +9,11 @@ import {
 } from "../src/domain/social-previews";
 import {
   type SocialPreviewCheckFinding,
-  type SocialPreviewFileMetadata,
   socialPreviewCheckFindings,
 } from "./social-previews/check";
-import { maxSocialPreviewPngBytes, socialPreviewManifestPath } from "./social-previews/config";
+import { socialPreviewCheckInput } from "./social-previews/check-input";
+import { socialPreviewManifestPath } from "./social-previews/config";
 import {
-  type SocialPreviewManifest,
   serializeSocialPreviewManifest,
   socialPreviewManifestForRenderedPreviews,
 } from "./social-previews/manifest";
@@ -27,7 +25,6 @@ import {
 import { renderSocialPreviewTarget } from "./social-previews/render";
 
 const usage = "Usage: bun run scripts/generate-social-previews.ts [--check]";
-const pngSignature = "89504e470d0a1a0a";
 
 type Mode = "generate" | "check";
 
@@ -105,27 +102,11 @@ function generateSocialPreviews(targets: readonly SocialPreviewTarget[]): void {
 }
 
 function checkSocialPreviews(targets: readonly SocialPreviewTarget[]): boolean {
-  const firstRenderedPreviews = targets.map(renderSocialPreviewTarget);
-  const secondRenderHashes = new Map(
-    targets.map((target) => [target.assetPath, renderSocialPreviewTarget(target).sha256]),
-  );
-  const expectedManifest = socialPreviewManifestForRenderedPreviews(firstRenderedPreviews);
-  const actualManifest = readActualManifest();
-  const actualFiles = firstRenderedPreviews.map((preview) => fileMetadataForTarget(preview.target));
-  const expectedAssetPaths = new Set(targets.map((target) => target.assetPath));
-  const orphanManagedPngAssetPaths = managedSocialPreviewPngFiles()
-    .map(assetPathForGeneratedSocialPreviewFilePath)
-    .filter((assetPath) => !expectedAssetPaths.has(assetPath));
-  const findings = socialPreviewCheckFindings({
+  const checkInput = socialPreviewCheckInput({
+    targets,
     targetValidationFindings: [],
-    expectedManifest,
-    actualManifest,
-    expectedRenderedPreviews: firstRenderedPreviews,
-    secondRenderHashes,
-    actualFiles,
-    orphanManagedPngAssetPaths,
-    maxBytes: maxSocialPreviewPngBytes,
   });
+  const findings = socialPreviewCheckFindings(checkInput);
 
   if (findings.length > 0) {
     printCheckFindings(findings);
@@ -133,88 +114,9 @@ function checkSocialPreviews(targets: readonly SocialPreviewTarget[]): boolean {
   }
 
   console.log(
-    `Verified ${firstRenderedPreviews.length} deterministic social preview PNGs and manifest entries.`,
+    `Verified ${checkInput.expectedRenderedPreviews.length} deterministic social preview PNGs and manifest entries.`,
   );
   return true;
-}
-
-function fileMetadataForTarget(target: SocialPreviewTarget): SocialPreviewFileMetadata {
-  const filePath = generatedSocialPreviewFilePathForAssetPath(target.assetPath);
-
-  if (!existsSync(filePath)) {
-    return {
-      assetPath: target.assetPath,
-      exists: false,
-    };
-  }
-
-  const data = readFileSync(filePath);
-  const stats = statSync(filePath);
-
-  return {
-    assetPath: target.assetPath,
-    exists: true,
-    byteSize: stats.size,
-    sha256: createHash("sha256").update(data).digest("hex"),
-    dimensions: pngDimensions(data) ?? { width: 0, height: 0 },
-  };
-}
-
-function readActualManifest(): SocialPreviewManifest | null {
-  if (!existsSync(socialPreviewManifestPath)) {
-    return null;
-  }
-
-  try {
-    const parsedManifest: unknown = JSON.parse(readFileSync(socialPreviewManifestPath, "utf8"));
-
-    if (isSocialPreviewManifest(parsedManifest)) {
-      return parsedManifest;
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
-}
-
-function isSocialPreviewManifest(value: unknown): value is SocialPreviewManifest {
-  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.entries)) {
-    return false;
-  }
-
-  return value.entries.every(isSocialPreviewManifestEntry);
-}
-
-function isSocialPreviewManifestEntry(value: unknown): boolean {
-  if (!isRecord(value) || !isRecord(value.dimensions)) {
-    return false;
-  }
-
-  return (
-    typeof value.routePath === "string" &&
-    typeof value.assetPath === "string" &&
-    value.dimensions.width === 1200 &&
-    value.dimensions.height === 630 &&
-    typeof value.byteSize === "number" &&
-    typeof value.sourceFingerprint === "string" &&
-    typeof value.sha256 === "string"
-  );
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
-
-function pngDimensions(data: Buffer): { width: number; height: number } | null {
-  if (data.length < 24 || data.subarray(0, 8).toString("hex") !== pngSignature) {
-    return null;
-  }
-
-  return {
-    width: data.readUInt32BE(16),
-    height: data.readUInt32BE(20),
-  };
 }
 
 function printValidationFindings(

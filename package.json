@@ -16,6 +16,7 @@
     "test": "vitest run",
     "generate:static-metadata": "bun run scripts/generate-static-metadata.ts",
     "generate:social-previews": "bun run scripts/generate-social-previews.ts",
+    "report:freshness": "bun run scripts/generate-freshness-report.ts",
     "sync:github-metadata": "bun run scripts/sync-github-metadata.ts",
     "sync:github-metadata:strict": "bun run scripts/sync-github-metadata.ts --strict",
     "verify:curation": "bun run scripts/verify-curation.ts",
