@@ -359,17 +359,15 @@ expect(packageJson.scripts.verify).toBe(
 
 All claims in this research are sourced from local repository files, local command output, the npm registry version checks, or the loaded OpenLinks skill guidance; no `[ASSUMED]` claims are intentionally used. [VERIFIED: sources listed below]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Exact total generated social preview budget threshold**
    - What we know: 13 generated PNGs total 753,663 bytes and every current generated PNG is below 250 KiB. [VERIFIED: public/social/generated/manifest.json; local `find ... stat` output 2026-06-22]
-   - What's unclear: The phase context requires a total budget but does not lock an exact total threshold. [VERIFIED: .planning/phases/28-verification-and-release-contract/28-CONTEXT.md]
-   - Recommendation: Add an explicit `maxTotalSocialPreviewPngBytes` constant near `maxSocialPreviewPngBytes`, set it with documented headroom above the current 753,663-byte baseline, and test both per-image and total violations. [VERIFIED: scripts/social-previews/config.ts; scripts/verify-release.ts]
+   - RESOLVED: Plan `28-02` sets the exact total budget at `maxTotalSocialPreviewPngBytes = 1024 * 1024`, giving a clear 1 MiB cap above the current 753,663-byte baseline while still making generated social preview growth visible in release verification. [VERIFIED: .planning/phases/28-verification-and-release-contract/28-02-PLAN.md]
 
 2. **Where to house manifest static checks**
    - What we know: `metadata-jsonld-verifier.ts` already owns route metadata/image local asset assertions, while `manifest.ts` owns stable manifest shape. [VERIFIED: scripts/verify-static/metadata-jsonld-verifier.ts; scripts/social-previews/manifest.ts]
-   - What's unclear: The exact helper name/module split is delegated to implementation. [VERIFIED: .planning/phases/28-verification-and-release-contract/28-CONTEXT.md]
-   - Recommendation: Keep manifest assertions adjacent to `assertMetadataImageMapsToLocalAsset()` unless the helper grows enough to justify a small `social-preview-manifest-verifier.ts`. [VERIFIED: scripts/verify-static/metadata-jsonld-verifier.ts; standards/core/code-shape.md]
+   - RESOLVED: Plan `28-01` houses manifest static checks adjacent to `assertMetadataImageMapsToLocalAsset()` in `scripts/verify-static/metadata-jsonld-verifier.ts`, with tests in `scripts/verify-static.test.ts`. [VERIFIED: .planning/phases/28-verification-and-release-contract/28-01-PLAN.md]
 
 ## Environment Availability
 
