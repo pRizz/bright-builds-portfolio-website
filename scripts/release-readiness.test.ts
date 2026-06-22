@@ -297,6 +297,108 @@ describe("release-readiness document contract", () => {
     }
   });
 
+  it("reports missing social preview generation guidance", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("bun run generate:social-previews");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing social preview generation command: bun run generate:social-previews.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
+  it("reports missing generated social preview manifest and budget guidance", () => {
+    // Arrange
+    const removals = [
+      [
+        "public/social/generated/manifest.json",
+        "Release-readiness document is missing generated preview manifest: public/social/generated/manifest.json.",
+      ],
+      [
+        ".output/public/social/generated/manifest.json",
+        "Release-readiness document is missing static output generated preview manifest: .output/public/social/generated/manifest.json.",
+      ],
+      [
+        "generated social preview PNG total",
+        "Release-readiness document is missing generated social preview total budget: generated social preview PNG total.",
+      ],
+    ] as const;
+
+    for (const [textToRemove, expectedMessage] of removals) {
+      const fixture = releaseDocumentFixtureWithout(textToRemove);
+
+      try {
+        // Act
+        const findings = releaseReadinessDocumentFindings(fixture.path);
+        const messages = findings.map((finding) => finding.message).join("\n");
+
+        // Assert
+        expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+        expect(messages).toContain(expectedMessage);
+      } finally {
+        fixture.cleanup();
+      }
+    }
+  });
+
+  it("reports missing manual social-card smoke guidance", () => {
+    // Arrange
+    const removals = [
+      [
+        "Manual social-card smoke check",
+        "Release-readiness document is missing manual social-card smoke check: Manual social-card smoke check.",
+      ],
+      [
+        "hosted social-card validation, current live GitHub state, live external-link reachability, and preview/production smoke checks are not part of `bun run verify`",
+        "Release-readiness document is missing manual social-card verification boundary: not part of `bun run verify`.",
+      ],
+    ] as const;
+
+    for (const [textToRemove, expectedMessage] of removals) {
+      const fixture = releaseDocumentFixtureWithout(textToRemove);
+
+      try {
+        // Act
+        const findings = releaseReadinessDocumentFindings(fixture.path);
+        const messages = findings.map((finding) => finding.message).join("\n");
+
+        // Assert
+        expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+        expect(messages).toContain(expectedMessage);
+      } finally {
+        fixture.cleanup();
+      }
+    }
+  });
+
+  it("reports missing low-intrusion OpenLinks posture", () => {
+    // Arrange
+    const fixture = releaseDocumentFixtureWithout("not a primary route CTA or brand replacement");
+
+    try {
+      // Act
+      const findings = releaseReadinessDocumentFindings(fixture.path);
+      const messages = findings.map((finding) => finding.message).join("\n");
+
+      // Assert
+      expect(findings.map((finding) => finding.label)).toContain("release-readiness document");
+      expect(messages).toContain(
+        "Release-readiness document is missing OpenLinks low-intrusion posture: not a primary route CTA or brand replacement.",
+      );
+    } finally {
+      fixture.cleanup();
+    }
+  });
+
   it("reports missing project detail route coverage guidance", () => {
     // Arrange
     const fixture = releaseDocumentFixtureWithout("project detail route coverage");
