@@ -3,6 +3,10 @@ phase: 28-verification-and-release-contract
 plan: 02
 subsystem: verification
 tags: [bun, typescript, vitest, release-verification, social-previews]
+generated_by: gsd-execute-plan
+lifecycle_mode: yolo
+phase_lifecycle_id: 28-2026-06-22T15-45-43
+generated_at: 2026-06-22T16:24:20Z
 
 requires:
   - phase: 25-deterministic-static-image-generation
@@ -38,10 +42,6 @@ patterns-established:
   - "Evidence-label tests distinguish local social-preview budget evidence from manual or live preview/deploy claims."
 
 requirements-completed: [VERIFY-01, VERIFY-02, VERIFY-04]
-generated_by: gsd-execute-plan
-lifecycle_mode: yolo
-phase_lifecycle_id: 28-2026-06-22T15-45-43
-generated_at: 2026-06-22T16:24:20Z
 
 duration: 5 min
 completed: 2026-06-22
@@ -103,7 +103,7 @@ Each task was committed atomically:
 - **Verification:** `bun run test scripts/verify-release.test.ts && bun run build && bun run verify:release`
 - **Committed in:** `c419a56`, `79e9f63`
 
----
+***
 
 **Total deviations:** 1 auto-fixed (1 bug)
 **Impact on plan:** Preserved the intended local-only evidence boundary while making the required social preview budget label testable.
@@ -137,6 +137,6 @@ Plan 28-02 is complete and ready for the orchestrator to aggregate wave results.
 - Found `.planning/phases/28-verification-and-release-contract/28-02-SUMMARY.md`.
 - Found task commits `314c1da`, `23145ee`, `c419a56`, and `79e9f63` in git history.
 
----
+***
 *Phase: 28-verification-and-release-contract*
 *Completed: 2026-06-22*
