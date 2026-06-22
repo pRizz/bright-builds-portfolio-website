@@ -6,6 +6,10 @@ import {
   externalLinkFindingsForRoutes,
   releaseReadinessDocumentFindings,
 } from "./release-readiness";
+import {
+  maxSocialPreviewPngBytes,
+  maxTotalSocialPreviewPngBytes,
+} from "./social-previews/config";
 
 export type ReleaseTextFile = {
   kind: "text";
@@ -40,6 +44,8 @@ export type ReleaseBudgetThresholds = {
   totalJsBytes: number;
   totalCssBytes: number;
   socialOgImageBytes: number;
+  generatedSocialPreviewImageBytes: number;
+  totalGeneratedSocialPreviewBytes: number;
 };
 
 export type ReleaseBudgetReport = {
@@ -47,6 +53,8 @@ export type ReleaseBudgetReport = {
   totalJsBytes: number;
   totalCssBytes: number;
   assetBytes: Map<string, number>;
+  generatedSocialPreviewPngBytes: Map<string, number>;
+  totalGeneratedSocialPreviewPngBytes: number;
 };
 
 type ForbiddenOutputPattern = {
@@ -62,6 +70,8 @@ export const releaseBudgetThresholds = {
   totalJsBytes: 150 * 1024,
   totalCssBytes: 100 * 1024,
   socialOgImageBytes: 250 * 1024,
+  generatedSocialPreviewImageBytes: maxSocialPreviewPngBytes,
+  totalGeneratedSocialPreviewBytes: maxTotalSocialPreviewPngBytes,
 } as const satisfies ReleaseBudgetThresholds;
 
 const forbiddenOutputPatterns: readonly ForbiddenOutputPattern[] = [
@@ -171,8 +181,10 @@ export function internalLinkFindings(
 export function budgetReportForFiles(files: readonly ReleaseFile[]): ReleaseBudgetReport {
   const routeHtmlBytes = new Map<string, number>();
   const assetBytes = new Map<string, number>();
+  const generatedSocialPreviewPngBytes = new Map<string, number>();
   let totalJsBytes = 0;
   let totalCssBytes = 0;
+  let totalGeneratedSocialPreviewPngBytes = 0;
 
   for (const file of files) {
     if (file.path.endsWith(".html")) {
@@ -190,6 +202,11 @@ export function budgetReportForFiles(files: readonly ReleaseFile[]): ReleaseBudg
     if (file.path === "social/bright-builds-og.png") {
       assetBytes.set(file.path, file.byteLength);
     }
+
+    if (isGeneratedSocialPreviewPngPath(file.path)) {
+      generatedSocialPreviewPngBytes.set(file.path, file.byteLength);
+      totalGeneratedSocialPreviewPngBytes += file.byteLength;
+    }
   }
 
   return {
@@ -197,6 +214,8 @@ export function budgetReportForFiles(files: readonly ReleaseFile[]): ReleaseBudg
     totalJsBytes,
     totalCssBytes,
     assetBytes,
+    generatedSocialPreviewPngBytes,
+    totalGeneratedSocialPreviewPngBytes,
   };
 }
 
@@ -256,6 +275,30 @@ export function budgetViolationsForReport(
       message: `social/bright-builds-og.png is ${formatBytes(
         socialOgImageBytes,
       )}; limit is ${formatBytes(thresholds.socialOgImageBytes)}.`,
+    });
+  }
+
+  for (const [path, byteLength] of [...report.generatedSocialPreviewPngBytes].sort()) {
+    if (byteLength <= thresholds.generatedSocialPreviewImageBytes) {
+      continue;
+    }
+
+    findings.push({
+      path,
+      label: "generated social preview image budget",
+      message: `${path} is ${formatBytes(byteLength)}; limit is ${formatBytes(
+        thresholds.generatedSocialPreviewImageBytes,
+      )}.`,
+    });
+  }
+
+  if (report.totalGeneratedSocialPreviewPngBytes > thresholds.totalGeneratedSocialPreviewBytes) {
+    findings.push({
+      path: "social/generated",
+      label: "generated social preview total budget",
+      message: `Generated social preview PNG total is ${formatBytes(
+        report.totalGeneratedSocialPreviewPngBytes,
+      )}; limit is ${formatBytes(thresholds.totalGeneratedSocialPreviewBytes)}.`,
     });
   }
 
@@ -490,6 +533,10 @@ function isClientAssetPath(path: string): boolean {
   return path.startsWith("_build/");
 }
 
+function isGeneratedSocialPreviewPngPath(path: string): boolean {
+  return path.startsWith("social/generated/") && path.endsWith(".png");
+}
+
 function routeForHtmlPath(path: string): string {
   if (path === "index.html") {
     return "/";
@@ -605,6 +652,16 @@ function printBudgetReport(report: ReleaseBudgetReport): void {
     socialOgImageBytes === undefined ? "missing" : formatBytes(socialOgImageBytes);
 
   console.log(`- social/bright-builds-og.png: ${socialOgImageLabel}`);
+
+  for (const [path, byteLength] of [...report.generatedSocialPreviewPngBytes].sort()) {
+    console.log(`- ${path}: ${formatBytes(byteLength)}`);
+  }
+
+  console.log(
+    `- generated social preview PNG total: ${formatBytes(
+      report.totalGeneratedSocialPreviewPngBytes,
+    )}`,
+  );
 }
 
 function formatBytes(byteLength: number): string {
