@@ -86,8 +86,8 @@ Plans:
   5. Freshness documentation distinguishes reviewed static evidence from hosted crawler validation, live external-link reachability, and current live GitHub state.
 **Plans**: 2 plans
 Plans:
-- [ ] 27-01-PLAN.md — Add the read-only offline freshness report core, CLI, package script, and verify exclusion guards.
-- [ ] 27-02-PLAN.md — Document the reviewed static evidence policy and guard release-readiness freshness boundaries.
+- [x] 27-01-PLAN.md — Add the read-only offline freshness report core, CLI, package script, and verify exclusion guards.
+- [x] 27-02-PLAN.md — Document the reviewed static evidence policy and guard release-readiness freshness boundaries.
 
 ### Phase 28: Verification and Release Contract
 **Goal**: The local release gate proves the static social preview, metadata, freshness, and evidence contracts without overclaiming manual or live-network checks.
@@ -111,7 +111,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | 24. Social Image Data Contract | v1.5 | 1/1 | Complete   | 2026-06-21 |
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
 | 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
-| 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 0/TBD | Not started | - |
+| 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 2/2 | Complete    | 2026-06-22 |
 | 28. Verification and Release Contract | v1.5 | 0/TBD | Not started | - |
 
 ## Archived Milestones

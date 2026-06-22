@@ -34,11 +34,11 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Freshness Reports
 
-- [ ] **FRESH-01**: Maintainer can run an offline freshness report that summarizes generated media drift, GitHub metadata snapshot age and unavailable records, primary link policy coverage, HTTPS issues, and manual smoke targets.
-- [ ] **FRESH-02**: Freshness findings are grouped into `release blocker`, `needs review`, and `manual smoke` severities so deterministic blockers are separated from report-only maintenance reminders.
-- [ ] **FRESH-03**: Freshness reports do not mutate curated project, writing, theme, profile, GitHub metadata, or generated social preview source data.
-- [ ] **FRESH-04**: Optional live freshness checks, if added, run only through explicit maintainer commands and are not part of `bun run verify`.
-- [ ] **FRESH-05**: Freshness documentation distinguishes reviewed static evidence from hosted crawler validation, live external-link reachability, and current live GitHub state.
+- [x] **FRESH-01**: Maintainer can run an offline freshness report that summarizes generated media drift, GitHub metadata snapshot age and unavailable records, primary link policy coverage, HTTPS issues, and manual smoke targets.
+- [x] **FRESH-02**: Freshness findings are grouped into `release blocker`, `needs review`, and `manual smoke` severities so deterministic blockers are separated from report-only maintenance reminders.
+- [x] **FRESH-03**: Freshness reports do not mutate curated project, writing, theme, profile, GitHub metadata, or generated social preview source data.
+- [x] **FRESH-04**: Optional live freshness checks, if added, run only through explicit maintainer commands and are not part of `bun run verify`.
+- [x] **FRESH-05**: Freshness documentation distinguishes reviewed static evidence from hosted crawler validation, live external-link reachability, and current live GitHub state.
 
 ### Verification and Release Contract
 
@@ -106,11 +106,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | META-03 | Phase 26 | Complete |
 | META-04 | Phase 26 | Complete |
 | META-05 | Phase 26 | Complete |
-| FRESH-01 | Phase 27 | Pending |
-| FRESH-02 | Phase 27 | Pending |
-| FRESH-03 | Phase 27 | Pending |
-| FRESH-04 | Phase 27 | Pending |
-| FRESH-05 | Phase 27 | Pending |
+| FRESH-01 | Phase 27 | Complete |
+| FRESH-02 | Phase 27 | Complete |
+| FRESH-03 | Phase 27 | Complete |
+| FRESH-04 | Phase 27 | Complete |
+| FRESH-05 | Phase 27 | Complete |
 | VERIFY-01 | Phase 28 | Pending |
 | VERIFY-02 | Phase 28 | Pending |
 | VERIFY-03 | Phase 28 | Pending |

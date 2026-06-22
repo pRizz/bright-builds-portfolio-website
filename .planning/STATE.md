@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 27
-current_phase_name: freshness reports and reviewed snapshot policy
+current_phase: 28
+current_phase_name: verification and release contract
 current_plan: Not started
 status: executing
 stopped_at: Phase 27 context gathered
-last_updated: "2026-06-22T12:36:25.993Z"
-last_activity: 2026-06-22 -- Phase 27 planning complete
+last_updated: "2026-06-22T13:08:43.710Z"
+last_activity: 2026-06-22 -- Phase 27 complete; ready to discuss Phase 28
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
-  completed_plans: 6
-  percent: 75
+  completed_plans: 8
+  percent: 100
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-21)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 27 — freshness reports and reviewed snapshot policy
+**Current focus:** Phase 28 — verification and release contract
 
 ## Current Position
 
-Phase: 27 (freshness reports and reviewed snapshot policy) — NOT STARTED
+Phase: 28 (verification and release contract) — NOT STARTED
 Plan: Not started
-Current Phase: 27
-Current Phase Name: freshness reports and reviewed snapshot policy
+Current Phase: 28
+Current Phase Name: verification and release contract
 Current Plan: Not started
 Total Phases: 5
-Total Plans in Phase: 2
-Status: Ready to execute
-Last activity: 2026-06-22 -- Phase 27 planning complete
+Total Plans in Phase: TBD
+Status: Ready to discuss
+Last activity: 2026-06-22 -- Phase 27 complete; ready to discuss Phase 28
 
-Progress: [██████░░░░] 60%
+Progress: [████████░░] 80%
 
 ## Recently Completed
 
@@ -50,8 +50,8 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 3/5 phases complete.
-**Next action:** `/gsd-discuss-phase 27`
+**Roadmap progress:** 4/5 phases complete.
+**Next action:** `/gsd-discuss-phase 28`
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 **Recent trend:** The portfolio now has project, writing, and theme surfaces with shared static release gates and helper-derived route coverage.
 **Phase 24 Plan 01:** 11 min, 2 tasks, 2 files, completed 2026-06-21.
 **Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
+**Phase 27:** 2/2 plans completed 2026-06-22. Maintainers can run `bun run report:freshness` for offline reviewed static evidence without mutating source data or adding live checks to `bun run verify`.
 
 ## Accumulated Context
 
@@ -80,6 +81,7 @@ Recent decisions affecting current work:
 - [Phase 25]: Use @resvg/resvg-js@2.6.2 with checked-in Inter font inputs and disabled system fonts for deterministic social preview PNG rendering. — This avoids runtime services, host-font drift, remote fonts, timestamps, and network inputs.
 - [Phase 25]: Keep social preview check helpers pure and pass filesystem metadata in from the CLI. — Pure finding helpers are unit-testable and keep write/process-exit behavior isolated to the generator command.
 - [Phase 26]: Keep route social image selection helper-derived. Covered routes use generated social preview assets through `PageMetadata`, dynamic unknown-slug fallbacks use `metadataForFallbackPage()`, and static verification checks route-correct local PNG references.
+- [Phase 27]: Keep freshness reporting read-only and offline. `report:freshness` groups findings into `release blocker`, `needs review`, and `manual smoke`, while live GitHub state, hosted crawler validation, and external-link reachability stay explicit manual smoke work outside `bun run verify`.
 
 ### Pending Todos
 
@@ -91,7 +93,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-22T12:05:33.478Z
-Stopped at: Phase 27 context gathered
-Resume file: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-CONTEXT.md
-Next action: /gsd-discuss-phase 27
+Last session: 2026-06-22T13:08:43.710Z
+Stopped at: Phase 27 complete
+Resume file: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-VERIFICATION.md
+Next action: /gsd-discuss-phase 28
