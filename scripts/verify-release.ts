@@ -6,10 +6,7 @@ import {
   externalLinkFindingsForRoutes,
   releaseReadinessDocumentFindings,
 } from "./release-readiness";
-import {
-  maxSocialPreviewPngBytes,
-  maxTotalSocialPreviewPngBytes,
-} from "./social-previews/config";
+import { maxSocialPreviewPngBytes, maxTotalSocialPreviewPngBytes } from "./social-previews/config";
 
 export type ReleaseTextFile = {
   kind: "text";
@@ -419,6 +416,8 @@ export function accessibilityFindingsForRoute(
 }
 
 export function releaseEvidenceLabels(): readonly string[] {
+  const readinessLabels = automatedReleaseReadinessEvidenceLabels();
+
   return [
     "contrast/readability",
     "focus-visible",
@@ -426,7 +425,11 @@ export function releaseEvidenceLabels(): readonly string[] {
     "image alt",
     "interactive motion surfaces",
     "reduced-motion",
-    ...automatedReleaseReadinessEvidenceLabels(),
+    ...readinessLabels.flatMap((label) =>
+      label === "external link policy"
+        ? ["generated social preview asset budgets", label]
+        : [label],
+    ),
   ];
 }
 
