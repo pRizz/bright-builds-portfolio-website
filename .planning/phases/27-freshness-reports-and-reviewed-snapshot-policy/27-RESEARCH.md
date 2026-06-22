@@ -383,22 +383,19 @@ expect(packageJson.scripts.verify).not.toContain("sync:github-metadata");
 | A3 | Use a 30-day default `needs review` threshold for readable GitHub snapshot age. | Don't Hand-Roll / Open Questions | Medium risk; threshold affects maintainer noise but not release blocking. |
 | A4 | Keep the standalone freshness report out of `bun run verify` in Phase 27. | Common Pitfalls | Medium risk; Phase 28 may choose to consume deterministic parts, but Phase 27 decisions say report-only advisory findings must not become hidden hard gates. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **What snapshot age threshold should produce `needs review`?**  
+1. **What snapshot age threshold should produce `needs review`? — RESOLVED**
    What we know: The current snapshot `syncedAt` is `2026-05-27T12:48:17.905Z`, which is about 25.7 days old as of `2026-06-22T00:00:00-05:00`. [VERIFIED: src/domain/github-metadata.snapshot.json]  
-   What's unclear: The user delegated threshold constants to planning/implementation. [VERIFIED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-CONTEXT.md]  
-   Recommendation: Start with 30 days as a named constant and classify it as `needs review`, never `release blocker`. [ASSUMED]
+   Resolution: Use 30 days as the named snapshot-age threshold and classify stale-but-readable snapshot age as `needs review`, never `release blocker`. This is captured in Plan 27-01 as `snapshotStaleAfterDays = 30`. [RESOLVED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-01-PLAN.md]
 
-2. **Should static output route reading be extracted from `verify-release.ts`?**  
+2. **Should static output route reading be extracted from `verify-release.ts`? — RESOLVED**
    What we know: `verify-release.ts` already has private `releaseFiles()` and `staticReleaseRoutes()` helpers, and `externalLinkFindingsForRoutes()` accepts parsed route HTML. [VERIFIED: scripts/verify-release.ts] [VERIFIED: scripts/release-readiness.ts]  
-   What's unclear: Whether the planner wants to edit `verify-release.ts` now or duplicate a small read adapter. [ASSUMED]  
-   Recommendation: Extract a small reusable read-only static-output helper if the diff stays narrow; otherwise keep duplication limited to route loading, not policy rules. [ASSUMED]
+   Resolution: Add a narrow read-only helper at `scripts/freshness/static-output.ts` for the freshness report. It reads `.output/public` route HTML and feeds existing release-readiness policy helpers; it does not mutate output and does not edit `verify-release.ts` in Phase 27. [RESOLVED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-01-PLAN.md]
 
-3. **Should optional live commands be added now?**  
+3. **Should optional live commands be added now? — RESOLVED**
    What we know: Phase 27 allows optional live commands only if explicit, advisory, and outside `bun run verify`. [VERIFIED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-CONTEXT.md]  
-   What's unclear: There is no concrete live-check requirement beyond boundary enforcement. [VERIFIED: .planning/REQUIREMENTS.md]  
-   Recommendation: Do not add live commands in Phase 27; emit manual smoke targets and document the boundary. [ASSUMED]
+   Resolution: Do not add `freshness:live`, `smoke:hosted`, or other optional live commands in Phase 27. Emit manual smoke targets and document the boundary; keep all live/network/current-state work outside `bun run verify`. [RESOLVED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-01-PLAN.md] [RESOLVED: .planning/phases/27-freshness-reports-and-reviewed-snapshot-policy/27-02-PLAN.md]
 
 ## Environment Availability
 
