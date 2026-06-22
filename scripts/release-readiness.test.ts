@@ -674,29 +674,49 @@ describe("aggregate release script contract", () => {
     // Arrange
     const expectedVerifyScript =
       "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run verify:social-previews && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
+    const forbiddenVerifySteps = [
+      "bun run generate:static-metadata",
+      "bun run generate:social-previews",
+      "bun run install:browser",
+      "report:freshness",
+      "freshness:live",
+      "smoke:hosted",
+      "sync:github-metadata",
+      "scripts/sync-github-metadata.ts",
+      "https://",
+      "http://",
+      "api.github.com",
+      "github.com/graphql",
+      "curl",
+      "wget",
+      "fetch",
+    ];
     const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
       scripts: Record<string, string>;
     };
 
     // Act
     const verifyScript = packageJson.scripts.verify;
+    const socialPreviewCheckIndex = verifyScript.indexOf("bun run verify:social-previews");
+    const buildIndex = verifyScript.indexOf("bun run build");
+    const browserIndex = verifyScript.indexOf("bun run verify:browser");
+    const staticIndex = verifyScript.indexOf("bun run verify:static");
+    const releaseIndex = verifyScript.indexOf("bun run verify:release");
+    const verifySegments = verifyScript.split(" && ");
 
     // Assert
     expect(verifyScript).toBe(expectedVerifyScript);
+    expect(socialPreviewCheckIndex).toBeLessThan(buildIndex);
+    expect(buildIndex).toBeLessThan(browserIndex);
+    expect(staticIndex).toBeLessThan(releaseIndex);
+    expect(verifySegments.at(-1)).toBe("bun run verify:release");
+    expect(verifyScript).toContain("bun run verify:no-github-runtime");
     expect(packageJson.scripts["report:freshness"]).toBe(
       "bun run scripts/generate-freshness-report.ts",
     );
-    expect(verifyScript).not.toContain("bun run generate:static-metadata");
-    expect(verifyScript).not.toContain("bun run generate:social-previews");
-    expect(verifyScript).not.toContain("bun run install:browser");
-    expect(verifyScript).not.toContain("report:freshness");
-    expect(verifyScript).not.toContain("freshness:live");
-    expect(verifyScript).not.toContain("smoke:hosted");
-    expect(verifyScript).not.toContain("sync:github-metadata");
-    expect(verifyScript).not.toContain("scripts/sync-github-metadata.ts");
-    expect(verifyScript).not.toContain("https://");
-    expect(verifyScript).not.toContain("api.github.com");
-    expect(verifyScript).not.toContain("github.com/graphql");
+    for (const forbiddenStep of forbiddenVerifySteps) {
+      expect(verifyScript).not.toContain(forbiddenStep);
+    }
   });
 });
 
