@@ -103,7 +103,7 @@ Plans:
 Plans:
 - [x] 28-01-PLAN.md — Make static output verification manifest-aware for generated social preview routes.
 - [x] 28-02-PLAN.md — Enforce generated social preview release budgets and truthful automated evidence labels.
-- [ ] 28-03-PLAN.md — Document and guard the release contract, aggregate order, and manual social-card smoke boundaries.
+- [x] 28-03-PLAN.md — Document and guard the release contract, aggregate order, and manual social-card smoke boundaries.
 
 ## Progress
 
@@ -116,7 +116,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28
 | 25. Deterministic Static Image Generation | v1.5 | 3/3 | Complete    | 2026-06-21 |
 | 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 2/2 | Complete    | 2026-06-22 |
-| 28. Verification and Release Contract | v1.5 | 2/3 | In Progress|  |
+| 28. Verification and Release Contract | v1.5 | 3/3 | Complete   | 2026-06-22 |
 
 ## Archived Milestones
 
