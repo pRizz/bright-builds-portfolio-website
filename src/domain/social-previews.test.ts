@@ -56,6 +56,16 @@ describe("social preview target contract", () => {
       tier: "supporting",
       displayOrder: 50,
     });
+    const archivedStatusProject = makeProjectStory({
+      slug: "archived-status-detail",
+      status: "archived",
+      displayOrder: 60,
+    });
+    const archivedMaturityProject = makeProjectStory({
+      slug: "archived-maturity-detail",
+      maturity: "archived",
+      displayOrder: 70,
+    });
     const publicWriting = makeWritingEntry({ slug: "public-note", displayOrder: 10 });
     const draftWriting = makeWritingEntry({
       slug: "draft-note",
@@ -102,6 +112,8 @@ describe("social preview target contract", () => {
         excludedProject,
         noDetailProject,
         unselectedProject,
+        archivedStatusProject,
+        archivedMaturityProject,
       ],
       writingEntries: [publicWriting, draftWriting, hiddenWriting, archivedWriting],
       themes: [publicTheme, draftTheme, hiddenTheme, unsupportedTheme, archivedTheme],
@@ -120,6 +132,8 @@ describe("social preview target contract", () => {
     expect(routePaths).not.toContain(projectDetailPath(excludedProject));
     expect(routePaths).not.toContain(projectDetailPath(noDetailProject));
     expect(routePaths).not.toContain(projectDetailPath(unselectedProject));
+    expect(routePaths).not.toContain(projectDetailPath(archivedStatusProject));
+    expect(routePaths).not.toContain(projectDetailPath(archivedMaturityProject));
     expect(routePaths).not.toContain(writingDetailPath(draftWriting));
     expect(routePaths).not.toContain(writingDetailPath(hiddenWriting));
     expect(routePaths).not.toContain(writingDetailPath(archivedWriting));
