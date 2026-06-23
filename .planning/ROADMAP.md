@@ -116,9 +116,9 @@ Plans:
   2. Project public/detail selectors reject archived `status` or `maturity` while preserving existing selected public projects.
   3. Project detail and social preview tests cover archived project filtering.
   4. Targeted verification proves the public-only filter guard and social preview/release contracts still pass.
-**Plans**: Pending
+**Plans**: 1 plan
 Plans:
-- [ ] Plan pending — run `/gsd-plan-phase 29`
+- [ ] 29-01-PLAN.md — Tighten the shared public project selector and add archived-project route/social preview regression coverage.
 
 ## Progress
 
@@ -132,7 +132,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28 -> 29
 | 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 2/2 | Complete    | 2026-06-22 |
 | 28. Verification and Release Contract | v1.5 | 3/3 | Complete    | 2026-06-22 |
-| 29. Archived Project Public Filter Guard | v1.5 | 0/0 | Pending     | - |
+| 29. Archived Project Public Filter Guard | v1.5 | 0/1 | Planned     | - |
 
 ## Archived Milestones
 
@@ -210,4 +210,4 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28 -> 29
 
 ## Next
 
-Run `/gsd-plan-phase 24` to plan the Social Image Data Contract phase.
+Run `/gsd-execute-phase 29` to close the archived project public filter guard gap.

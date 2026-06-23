@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 28
-current_phase_name: verification and release contract
-current_plan: Complete
-status: verifying
-stopped_at: Phase 29 context gathered
-last_updated: "2026-06-23T02:42:43.567Z"
-last_activity: 2026-06-22 -- Phase 28 completed and verified
+current_phase: 29
+current_phase_name: archived project public filter guard
+current_plan: 29-01
+status: ready_to_execute
+stopped_at: Phase 29 planned
+last_updated: "2026-06-23T02:50:48.891Z"
+last_activity: 2026-06-23 -- Phase 29 planning complete
 progress:
   total_phases: 6
   completed_phases: 5
-  total_plans: 11
+  total_plans: 12
   completed_plans: 11
-  percent: 100
+  percent: 92
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: .planning/PROJECT.md (updated 2026-06-22)
 
 ## Current Position
 
-Phase: 28 (verification and release contract) — COMPLETE
-Plan: Complete
-Current Phase: 28
-Current Phase Name: verification and release contract
-Current Plan: Complete
-Total Phases: 5
-Total Plans in Phase: 3
-Status: Phase complete and verified
-Last activity: 2026-06-22 -- Phase 28 completed and verified
+Phase: 29 (archived project public filter guard) — PLANNED
+Plan: 29-01 ready to execute
+Current Phase: 29
+Current Phase Name: archived project public filter guard
+Current Plan: 29-01
+Total Phases: 6
+Total Plans in Phase: 1
+Status: Ready to execute
+Last activity: 2026-06-23 -- Phase 29 planning complete
 
-Progress: [██████████] 100%
+Progress: [█████████░] 92%
 
 ## Recently Completed
 
@@ -50,8 +50,8 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 5/5 phases complete.
-**Next action:** `/gsd-complete-milestone`
+**Roadmap progress:** 5/6 phases complete.
+**Next action:** `/gsd-execute-phase 29`
 
 ## Performance Metrics
 
