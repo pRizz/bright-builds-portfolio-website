@@ -80,7 +80,7 @@ describe("project detail route derivation", () => {
     expect(unselectedHref).toBe("/projects#open-bitcoin");
   });
 
-  it("keeps hidden, excluded, and unselected projects out of detail routes", () => {
+  it("keeps hidden, archived, excluded, and unselected projects out of detail routes", () => {
     // Arrange
     const baseProject = curatedProjects[0];
     const visibleDetailProject = makeProject(baseProject, {
@@ -98,21 +98,46 @@ describe("project detail route derivation", () => {
       displayOrder: 2,
       detail: baseProject.detail,
     });
+    const archivedStatusDetailProject = makeProject(baseProject, {
+      slug: "archived-status-detail",
+      status: "archived",
+      displayOrder: 3,
+      detail: baseProject.detail,
+    });
+    const archivedMaturityDetailProject = makeProject(baseProject, {
+      slug: "archived-maturity-detail",
+      maturity: "archived",
+      displayOrder: 4,
+      detail: baseProject.detail,
+    });
     const noDetailProject = makeProject(baseProject, {
       slug: "no-detail",
-      displayOrder: 3,
+      displayOrder: 5,
       detail: undefined,
     });
-
-    // Act
-    const routes = projectDetailRoutes([
+    const fixtureProjects = [
       visibleDetailProject,
       hiddenDetailProject,
+      archivedStatusDetailProject,
+      archivedMaturityDetailProject,
       noDetailProject,
-    ]);
+    ];
+
+    // Act
+    const routes = projectDetailRoutes(fixtureProjects);
+    const maybeArchivedStatusProject = maybeProjectDetailPageProjectBySlug(
+      "archived-status-detail",
+      fixtureProjects,
+    );
+    const maybeArchivedMaturityProject = maybeProjectDetailPageProjectBySlug(
+      "archived-maturity-detail",
+      fixtureProjects,
+    );
 
     // Assert
     expect(routes).toEqual(["/projects/visible-detail"]);
+    expect(maybeArchivedStatusProject).toBeNull();
+    expect(maybeArchivedMaturityProject).toBeNull();
   });
 
   it("derives canonical project metadata from detail path", () => {

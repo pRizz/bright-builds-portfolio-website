@@ -89,7 +89,7 @@ describe("portfolio project surfaces", () => {
     );
   });
 
-  it("keeps hidden or excluded records out of public project surfaces", () => {
+  it("keeps hidden, archived, or excluded records out of public project surfaces", () => {
     // Arrange
     const baseProject: ProjectStory = homeProjects()[0];
     const publicProject = makeProjectFixture(baseProject, {
@@ -128,7 +128,33 @@ describe("portfolio project surfaces", () => {
       includeInProjectIndex: true,
       displayOrder: 40,
     });
-    const projects = [publicProject, draftProject, excludedTierProject, hiddenStatusProject];
+    const archivedStatusProject = makeProjectFixture(baseProject, {
+      slug: "archived-status-public-placement",
+      placement: "supporting",
+      tier: "supporting",
+      status: "archived",
+      includeOnHome: false,
+      includeInProjectIndex: true,
+      displayOrder: 50,
+    });
+    const archivedMaturityProject = makeProjectFixture(baseProject, {
+      slug: "archived-maturity-public-placement",
+      placement: "supporting",
+      tier: "supporting",
+      maturity: "archived",
+      status: "maintained",
+      includeOnHome: false,
+      includeInProjectIndex: true,
+      displayOrder: 60,
+    });
+    const projects = [
+      publicProject,
+      draftProject,
+      excludedTierProject,
+      hiddenStatusProject,
+      archivedStatusProject,
+      archivedMaturityProject,
+    ];
 
     // Act
     const visibleProjectList = visibleProjects(projects);
@@ -142,6 +168,8 @@ describe("portfolio project surfaces", () => {
       "private-draft",
       "excluded-public-placement",
       "hidden-public-placement",
+      "archived-status-public-placement",
+      "archived-maturity-public-placement",
     ]);
   });
 

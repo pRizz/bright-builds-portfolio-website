@@ -626,7 +626,9 @@ function isPublicProjectIndexProject(project: ProjectStory): boolean {
     project.includeInProjectIndex &&
     project.placement !== "hidden" &&
     project.tier !== "excluded" &&
-    project.status !== "hidden"
+    project.status !== "hidden" &&
+    project.status !== "archived" &&
+    project.maturity !== "archived"
   );
 }
 
