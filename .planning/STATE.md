@@ -4,41 +4,41 @@ milestone: v1.5
 milestone_name: Static Shareability & Freshness
 current_phase: 29
 current_phase_name: Archived Project Public Filter Guard
-current_plan: 1
-status: executing
-stopped_at: Phase 29 context gathered
-last_updated: "2026-06-23T02:55:39.462Z"
-last_activity: 2026-06-23 -- Phase 29 execution started
+current_plan: Complete
+status: ready_for_milestone_completion
+stopped_at: Phase 29 complete; ready for milestone completion
+last_updated: "2026-06-23T03:12:46.000Z"
+last_activity: 2026-06-23
 progress:
   total_phases: 6
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 12
-  completed_plans: 11
-  percent: 92
+  completed_plans: 12
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-22)
+See: .planning/PROJECT.md (updated 2026-06-23)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 29 — Archived Project Public Filter Guard
+**Current focus:** v1.5 phase work complete — milestone completion
 
 ## Current Position
 
-Phase: 29 (Archived Project Public Filter Guard) — EXECUTING
-Plan: 1 of 1
+Phase: 29 (Archived Project Public Filter Guard) — COMPLETE
+Plan: 1 of 1 complete
 Current Phase: 29
 Current Phase Name: Archived Project Public Filter Guard
-Current Plan: 1
+Current Plan: Complete
 Total Phases: 6
 Total Plans in Phase: 1
-Status: Executing Phase 29
-Last activity: 2026-06-23 -- Phase 29 execution started
+Status: Phase 29 complete; ready for milestone completion
+Last activity: 2026-06-23
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Recently Completed
 
@@ -50,8 +50,8 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 
 **Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
 
-**Roadmap progress:** 5/6 phases complete.
-**Next action:** `/gsd-execute-phase 29`
+**Roadmap progress:** 6/6 phases complete.
+**Next action:** `/gsd-complete-milestone`
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ v1.5 Static Shareability & Freshness starts from deferred roadmap guidance aroun
 **Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
 **Phase 27:** 2/2 plans completed 2026-06-22. Maintainers can run `bun run report:freshness` for offline reviewed static evidence without mutating source data or adding live checks to `bun run verify`.
 **Phase 28:** 3/3 plans completed 2026-06-22. The local release gate now proves generated social previews, metadata references, static output, release budgets, and truthful evidence labels without overclaiming hosted or manual checks.
+**Phase 29:** 1/1 plan completed 2026-06-23. Archived project status and maturity records are excluded from public project/detail/social-preview selectors through the shared project predicate, with targeted and aggregate verification passing.
 
 ## Accumulated Context
 
@@ -95,6 +96,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-23T02:42:43.561Z
-Stopped at: Phase 29 context gathered
+Stopped at: Phase 29 complete; ready for milestone completion
 Resume file: .planning/phases/29-archived-project-public-filter-guard/29-CONTEXT.md
 Next action: /gsd-complete-milestone

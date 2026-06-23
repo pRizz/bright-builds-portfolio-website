@@ -22,7 +22,7 @@ v1.3 shipped the Writing & Notes Surface: typed checked-in writing data, public 
 
 v1.4 shipped on 2026-06-20 as the Theme Paths & Collaboration Surface milestone. The site now has typed checked-in theme domain data, public `/themes` and `/themes/{slug}` static routes, theme proof points, related project and writing links, helper-derived collaboration actions, reciprocal theme links on project and writing detail pages, route metadata, structured data, sitemap inclusion/exclusion, static social-preview fallback checks, browser coverage, and explicit theme route release evidence.
 
-v1.5 has shipped the static shareability and freshness milestone. Covered project, writing, theme, and route-family pages now expose helper-derived generated social image metadata, JSON-LD image parity, MIME metadata, static verifier coverage, offline freshness reporting, generated social preview release budgets, and a truthful release contract that separates local automated evidence from hosted or manual smoke checks.
+v1.5 has shipped the static shareability and freshness milestone. Covered project, writing, theme, and route-family pages now expose helper-derived generated social image metadata, JSON-LD image parity, MIME metadata, static verifier coverage, offline freshness reporting, generated social preview release budgets, and a truthful release contract that separates local automated evidence from hosted or manual smoke checks. Phase 29 closed the audit gap that allowed selected-looking archived project records to pass public project/detail/social-preview selection.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
@@ -55,10 +55,11 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phases 24-26] v1.5 public project, writing, and theme routes can use deterministic static social preview images derived from curated route data.
 - [x] [Phase 27] v1.5 maintainers can run freshness checks and reviewed reports for selected metadata, primary links, and generated media without introducing visitor-runtime fetches or flaky release gates.
 - [x] [Phase 28] v1.5 release verification proves social image assets, metadata references, generated static output, and evidence labels without overclaiming hosted or manual checks.
+- [x] [Phase 29] v1.5 archived project records are rejected from public project index, detail route, slug lookup, and social preview target selection through the shared public project predicate, with regression coverage for archived status and maturity fixtures.
 
 ### Active
 
-No active v1.5 requirements remain after Phase 28. Milestone completion and archival are the next planning lifecycle steps.
+No active v1.5 requirements remain after Phase 29 gap closure. Milestone completion and archival are the next planning lifecycle steps.
 
 ### Out of Scope
 
@@ -109,6 +110,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Static social previews over dynamic OG endpoints | Project, writing, and theme routes now have stable helper-derived content; share assets can be generated deterministically without adding server behavior. | v1.5 scopes static raster social previews and metadata wiring while keeping the static deployment model intact. |
 | Route metadata image selection stays helper-derived | Route files should not hard-code generated social image paths or fallback social image paths; metadata, JSON-LD, and static verification must share the social preview helper contract. | Covered routes now use generated social preview assets through `PageMetadata`, dynamic unknown-slug fallbacks use `metadataForFallbackPage()`, and static verification checks route-correct local PNG references. |
 | Freshness reports before live release gates | Broken-link and metadata freshness automation is useful, but live external checks can be flaky and network-dependent. | v1.5 shipped reviewed offline freshness reports and local release evidence that does not claim hosted or live-network verification. |
+| Public project eligibility stays centralized | Archived-project filtering must not be reimplemented independently by detail routes, hidden/excluded project views, or social preview targets. | `isPublicProjectIndexProject()` owns the archived status/maturity guard, and downstream selectors derive from that shared predicate. |
 
 ## Evolution
 
@@ -131,4 +133,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-22 after Phase 28 verification and release contract completion*
+*Last updated: 2026-06-23 after Phase 29 archived project public filter guard completion*

@@ -11,7 +11,7 @@ Requirements for the static shareability and freshness milestone. Each requireme
 ### Share Data
 
 - [x] **SHARE-01**: Maintainer can ask a pure social preview helper for all public share targets covering `/projects`, selected project detail routes, `/writing`, public writing detail routes, `/themes`, and public theme detail routes.
-- [ ] **SHARE-02**: Hidden, draft, unsupported, archived, unselected, or otherwise non-public project, writing, and theme records do not create public social preview targets.
+- [x] **SHARE-02**: Hidden, draft, unsupported, archived, unselected, or otherwise non-public project, writing, and theme records do not create public social preview targets.
 - [x] **SHARE-03**: Each social preview target includes route path, local asset path, title, description, route kind or kicker, labels, route-specific alt text, dimensions, and a stable source fingerprint.
 - [x] **SHARE-04**: Social preview validation fails for duplicate routes or asset paths, missing required text, non-local asset paths, unsafe path characters, unsupported route kinds, and text that cannot fit the template rules.
 - [x] **SHARE-05**: Generic routes outside the v1.5 share target set keep the checked-in fallback social image instead of requiring route-specific generated images.
@@ -42,7 +42,7 @@ Requirements for the static shareability and freshness milestone. Each requireme
 
 ### Verification and Release Contract
 
-- [ ] **VERIFY-01**: Unit tests cover social preview target derivation, public-only filtering, path uniqueness, fingerprint stability, manifest freshness checks, metadata image selection, JSON-LD image parity, and offline freshness finding classification.
+- [x] **VERIFY-01**: Unit tests cover social preview target derivation, public-only filtering, path uniqueness, fingerprint stability, manifest freshness checks, metadata image selection, JSON-LD image parity, and offline freshness finding classification.
 - [x] **VERIFY-02**: The aggregate `bun run verify` gate includes deterministic social preview verification before production build and still avoids dynamic OG endpoints, server functions, visitor-runtime GitHub fetches, and live external-link release gates.
 - [x] **VERIFY-03**: Static output verification checks every covered route's generated HTML, social image metadata, JSON-LD image field, local asset existence, dimensions, manifest consistency, and forbidden runtime residue.
 - [x] **VERIFY-04**: Release verification enforces per-image and total social preview asset budgets and reports only automated evidence labels that actually run locally.
@@ -92,7 +92,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 | --- | --- | --- |
 | SHARE-01 | Phase 24 | Complete |
-| SHARE-02 | Phase 29 | Pending |
+| SHARE-02 | Phase 29 | Complete |
 | SHARE-03 | Phase 24 | Complete |
 | SHARE-04 | Phase 24 | Complete |
 | SHARE-05 | Phase 24 | Complete |
@@ -111,7 +111,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FRESH-03 | Phase 27 | Complete |
 | FRESH-04 | Phase 27 | Complete |
 | FRESH-05 | Phase 27 | Complete |
-| VERIFY-01 | Phase 29 | Pending |
+| VERIFY-01 | Phase 29 | Complete |
 | VERIFY-02 | Phase 28 | Complete |
 | VERIFY-03 | Phase 28 | Complete |
 | VERIFY-04 | Phase 28 | Complete |
@@ -126,4 +126,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ______________________________________________________________________
 
 *Requirements defined: 2026-06-21*
-*Last updated: 2026-06-22 after adding Phase 29 gap closure planning*
+*Last updated: 2026-06-23 after Phase 29 archived project public filter guard completion*

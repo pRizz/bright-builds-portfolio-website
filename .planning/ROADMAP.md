@@ -2,7 +2,7 @@
 
 ## Milestones
 
-- [ ] **v1.5 Static Shareability & Freshness** - Phases 24-29 active. Deterministic static social preview assets, metadata wiring, freshness reports, truthful release verification, and audit gap closure.
+- [ ] **v1.5 Static Shareability & Freshness** - Phases 24-29 complete. Deterministic static social preview assets, metadata wiring, freshness reports, truthful release verification, and audit gap closure are ready for milestone completion.
 - [x] **v1.4 Theme Paths & Collaboration Surface** - Phases 19-23 shipped 2026-06-20. Archive: [v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md). Audit: [v1.4-MILESTONE-AUDIT.md](milestones/v1.4-MILESTONE-AUDIT.md).
 - [x] **v1.3 Writing & Notes Surface** - Phases 14-18 shipped 2026-06-16. Archive: [v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md). Audit: [v1.3-MILESTONE-AUDIT.md](milestones/v1.3-MILESTONE-AUDIT.md).
 - [x] **v1.2 Project Story Pages** - Phases 10-13 shipped 2026-06-03. Archive: [v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md). Audit: [v1.2-MILESTONE-AUDIT.md](milestones/v1.2-MILESTONE-AUDIT.md).
@@ -29,7 +29,7 @@
 - [x] **Phase 26: Metadata Wiring and Static References** - Wire project, writing, theme, and index metadata to the generated static preview assets. (completed 2026-06-21)
 - [x] **Phase 27: Freshness Reports and Reviewed Snapshot Policy** - Add offline freshness reporting and reviewed snapshot policy without runtime mutation or live release gates. (completed 2026-06-22)
 - [x] **Phase 28: Verification and Release Contract** - Expand aggregate verification, static output checks, release evidence, budgets, and release-readiness docs. (completed 2026-06-22)
-- [ ] **Phase 29: Archived Project Public Filter Guard** - Close v1.5 audit gaps by excluding archived project records from public project detail/social preview targets and adding regression coverage.
+- [x] **Phase 29: Archived Project Public Filter Guard** - Close v1.5 audit gaps by excluding archived project records from public project detail/social preview targets and adding regression coverage. (completed 2026-06-23)
 
 ## Phase Details
 
@@ -118,7 +118,7 @@ Plans:
   4. Targeted verification proves the public-only filter guard and social preview/release contracts still pass.
 **Plans**: 1 plan
 Plans:
-- [ ] 29-01-PLAN.md — Tighten the shared public project selector and add archived-project route/social preview regression coverage.
+- [x] 29-01-PLAN.md — Tighten the shared public project selector and add archived-project route/social preview regression coverage.
 
 ## Progress
 
@@ -132,7 +132,7 @@ Phases execute in numeric order: 24 -> 25 -> 26 -> 27 -> 28 -> 29
 | 26. Metadata Wiring and Static References | v1.5 | 2/2 | Complete    | 2026-06-21 |
 | 27. Freshness Reports and Reviewed Snapshot Policy | v1.5 | 2/2 | Complete    | 2026-06-22 |
 | 28. Verification and Release Contract | v1.5 | 3/3 | Complete    | 2026-06-22 |
-| 29. Archived Project Public Filter Guard | v1.5 | 0/1 | Planned     | - |
+| 29. Archived Project Public Filter Guard | v1.5 | 1/1 | Complete    | 2026-06-23 |
 
 ## Archived Milestones
 
