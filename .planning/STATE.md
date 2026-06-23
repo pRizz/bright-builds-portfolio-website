@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Static Shareability & Freshness
-current_phase: 29
-current_phase_name: Archived Project Public Filter Guard
-current_plan: Complete
-status: ready_for_milestone_completion
-stopped_at: Phase 29 complete; ready for milestone completion
-last_updated: "2026-06-23T03:12:46.000Z"
+current_phase: null
+current_phase_name: Not started
+current_plan: Not started
+status: milestone_complete
+stopped_at: v1.5 archived; ready for next milestone planning
+last_updated: "2026-06-23T19:51:09.645Z"
 last_activity: 2026-06-23
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 12
-  completed_plans: 12
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -24,39 +24,39 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-23)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** v1.5 phase work complete — milestone completion
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 29 (Archived Project Public Filter Guard) — COMPLETE
-Plan: 1 of 1 complete
-Current Phase: 29
-Current Phase Name: Archived Project Public Filter Guard
-Current Plan: Complete
-Total Phases: 6
-Total Plans in Phase: 1
-Status: Phase 29 complete; ready for milestone completion
+Phase: None
+Plan: None
+Current Phase: Not started
+Current Phase Name: Not started
+Current Plan: Not started
+Total Phases: 0
+Total Plans in Phase: 0
+Status: v1.5 milestone complete; ready for next milestone planning
 Last activity: 2026-06-23
 
-Progress: [██████████] 100%
+Progress: No active milestone
 
 ## Recently Completed
 
-v1.4 Theme Paths & Collaboration Surface shipped on 2026-06-20 with 5/5 phases, 12/12 plans, 23/23 requirements, and a passed audit. Archives live under `.planning/milestones/`.
+v1.5 Static Shareability & Freshness shipped on 2026-06-23 with 6/6 phases, 12/12 plans, 25/25 requirements, and a passed audit. Archives live under `.planning/milestones/`.
 
 ## Current Milestone
 
-v1.5 Static Shareability & Freshness starts from deferred roadmap guidance around static social images, reviewed freshness reports, and metadata/link verification.
+No active milestone is defined.
 
-**Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
+**Goal:** Define the next milestone through `/gsd-new-milestone`.
 
-**Roadmap progress:** 6/6 phases complete.
-**Next action:** `/gsd-complete-milestone`
+**Roadmap progress:** No active phases.
+**Next action:** `/gsd-new-milestone`
 
 ## Performance Metrics
 
-**Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12.
-**Recent trend:** The portfolio now has project, writing, and theme surfaces with shared static release gates and helper-derived route coverage.
+**Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12, v1.5 12.
+**Recent trend:** The portfolio now has project, writing, theme, static social preview, freshness, and release-evidence surfaces with shared static release gates and helper-derived route coverage.
 **Phase 24 Plan 01:** 11 min, 2 tasks, 2 files, completed 2026-06-21.
 **Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
 **Phase 27:** 2/2 plans completed 2026-06-22. Maintainers can run `bun run report:freshness` for offline reviewed static evidence without mutating source data or adding live checks to `bun run verify`.
@@ -96,6 +96,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-23T02:42:43.561Z
-Stopped at: Phase 29 complete; ready for milestone completion
-Resume file: .planning/phases/29-archived-project-public-filter-guard/29-CONTEXT.md
-Next action: /gsd-complete-milestone
+Stopped at: v1.5 archived; ready for next milestone planning
+Resume file: .planning/PROJECT.md
+Next action: /gsd-new-milestone

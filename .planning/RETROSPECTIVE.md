@@ -241,6 +241,56 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+## Milestone: v1.5 — Static Shareability & Freshness
+
+**Shipped:** 2026-06-23
+
+**Phases:** 6 | **Plans:** 12 | **Recorded Tasks:** 26
+
+### What Was Built
+
+- Route-derived social preview target contract for public project, writing, and theme surfaces, with fallback image handling and stable source fingerprints.
+- Deterministic local PNG generation using checked-in templates/fonts, managed generated assets, and timestamp-free manifests.
+- Helper-derived metadata and JSON-LD image wiring so covered routes reference generated social previews while generic/fallback pages keep the checked-in fallback image.
+- Offline read-only freshness reports for generated media, GitHub snapshot review, static output policy, and manual smoke prompts.
+- Release verification for generated social preview budgets, static metadata references, aggregate verify ordering, and truthful automated evidence labels.
+- Archived-project filtering gap closure through the shared public project predicate, with detail-route and social-preview regression coverage.
+
+### What Worked
+
+- Keeping social preview target discovery in pure domain helpers made generation, metadata, static verification, and release checks share one route contract.
+- Deterministic local rendering avoided dynamic Open Graph endpoints, remote fonts, screenshots, timestamps, randomness, and visitor-runtime image work.
+- Phase 29 showed the audit-gap loop working: the milestone audit found a subtle archived-project path, a focused gap phase closed it, and the re-audit passed 25/25 requirements.
+- The release contract stayed honest by separating local automated evidence from hosted social-card, deployed preview, live external-link, and current live GitHub checks.
+
+### What Was Inefficient
+
+- The initial v1.5 audit happened before archived project fixtures covered every project public selector path, requiring an extra Phase 29 gap-closure phase.
+- Milestone completion still needed manual cleanup after tooling archived files but left living ROADMAP, PROJECT, STATE, and retrospective prose stale.
+- Social preview one-liner extraction produced too many accomplishment bullets for MILESTONES.md, requiring human grouping during archival.
+
+### Patterns Established
+
+- Social preview generation should remain deterministic, local, helper-derived, and checked in as static assets.
+- Route metadata, JSON-LD, static output checks, release budgets, and docs should consume the same social preview helper contract.
+- Freshness reports are reviewed static evidence; live network validation remains explicit maintainer work outside `bun run verify`.
+- Public project eligibility belongs in the shared public project predicate so downstream detail/social surfaces cannot drift.
+
+### Key Lessons
+
+1. Public-only selectors need negative fixtures for every disqualifying status and maturity path, not only hidden/excluded flags.
+1. Milestone audits should inspect downstream generated-surface flows even when all phase verification reports pass.
+1. Generated asset manifests are strongest when static verification checks the copied deployment artifact, not just source output.
+1. Release evidence labels should continue naming only checks that actually run locally.
+
+### Cost Observations
+
+- Model mix: GSD agents handled research, planning, execution, code review, verification, audit integration checking, and gap closure; main-thread work handled orchestration and archival.
+- Sessions: One static-shareability cycle with six phases, including one audit-driven gap phase.
+- Notable: The deterministic asset approach added a visible sharing feature without adding server runtime or live network release gates.
+
+______________________________________________________________________
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -252,6 +302,7 @@ ______________________________________________________________________
 | v1.2 | 1 cycle | 4 | Turned curated cards into static project story pages with metadata and release coverage. |
 | v1.3 | 1 cycle | 5 | Added static writing routes and split generated-output verification into focused modules. |
 | v1.4 | 1 cycle | 5 | Added theme synthesis and collaboration paths over existing project/writing surfaces. |
+| v1.5 | 1 cycle | 6 | Added deterministic static social previews, freshness reports, truthful release checks, and audit-gap closure. |
 
 ### Cumulative Quality
 
@@ -262,6 +313,7 @@ ______________________________________________________________________
 | v1.2 | 95 Vitest tests + 53 Playwright checks passing | Requirements 19/19 | Project detail route helpers, project JSON-LD/static verification, and project detail release-readiness guards. |
 | v1.3 | Aggregate verify passing | Requirements 23/23 | Writing route helpers, writing JSON-LD/static verification, writing browser coverage, and modular static verifier helpers. |
 | v1.4 | Aggregate verify passing | Requirements 23/23 | Theme route helpers, theme collaboration helpers, theme JSON-LD/static verification, and theme release-readiness guards. |
+| v1.5 | 249 Vitest tests + 83 Playwright checks passing | Requirements 25/25 | Social preview target helpers, deterministic PNG generation, metadata/static/release verification, and freshness reporting. |
 
 ### Top Lessons (Verified Across Milestones)
 
@@ -270,3 +322,4 @@ ______________________________________________________________________
 1. Requirement ownership metadata is part of milestone truth and needs the same cleanup attention as roadmap prose.
 1. Domain route helpers should drive route rendering, sitemap output, browser coverage, and release checks whenever a selected content set exists.
 1. Milestone completion needs human review of generated archive dates, active state prose, and retrospective continuity before tagging.
+1. Audit gap phases are worth keeping narrow: one shared selector fix plus focused regression coverage can close a cross-phase generated-output risk cleanly.

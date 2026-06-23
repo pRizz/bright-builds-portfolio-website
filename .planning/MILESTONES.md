@@ -1,5 +1,35 @@
 # Milestones
 
+## v1.5 Static Shareability & Freshness (Shipped: 2026-06-23)
+
+**Phases completed:** 6 phases, 12 plans, 26 tasks
+**Audit:** passed — 25/25 requirements satisfied, 0 blockers
+**Archives:** `milestones/v1.5-ROADMAP.md`, `milestones/v1.5-REQUIREMENTS.md`, `milestones/v1.5-MILESTONE-AUDIT.md`, `milestones/v1.5-phases/`
+
+**Stats:**
+
+- 125 files changed
+- 17,091 insertions and 1,295 deletions from `v1.4..65c7942`
+- Git range: `eacc1ca` (`docs: start milestone v1.5 Static Shareability & Freshness`) -> `65c7942` (`docs(v1.5): update milestone audit`)
+- Timeline: 2026-06-21 to 2026-06-23
+
+**Key accomplishments:**
+
+- Route-derived social preview contract with fallback data, 12-character SHA-256 fingerprints, and structured validation findings
+- Deterministic local social preview renderer core with checked-in font inputs, stable manifest helpers, and pure freshness checks
+- Bun social preview generator CLI with read-only freshness checks and aggregate verify wiring
+- Checked-in deterministic social preview PNGs and manifest with full repo verification passing
+- Route-aware SEO image metadata with generated social previews, fallback preservation, and JSON-LD parity
+- Helper-derived social image MIME tags with route-aware static asset and JSON-LD parity verification
+- Read-only freshness report for generated media, GitHub snapshot review, static output policy, and manual smoke prompts
+- Release-readiness freshness guidance with tested reviewed-static and live/manual smoke boundaries
+- Static verification now proves helper-covered social preview metadata agrees with copied generated manifest entries.
+- Release verification now measures generated social preview PNG budgets from static output and reports truthful local evidence labels.
+- Release-readiness docs and tests now guard static social preview generation, deterministic local verification, manual social-card boundaries, and aggregate verify ordering.
+- Archived project records are now rejected by the shared public project selector before they can become detail routes or social preview targets.
+
+---
+
 ## v1.4 Theme Paths & Collaboration Surface (Shipped: 2026-06-20)
 
 **Phases completed:** 5 phases, 12 plans, 24 tasks

@@ -22,21 +22,19 @@ v1.3 shipped the Writing & Notes Surface: typed checked-in writing data, public 
 
 v1.4 shipped on 2026-06-20 as the Theme Paths & Collaboration Surface milestone. The site now has typed checked-in theme domain data, public `/themes` and `/themes/{slug}` static routes, theme proof points, related project and writing links, helper-derived collaboration actions, reciprocal theme links on project and writing detail pages, route metadata, structured data, sitemap inclusion/exclusion, static social-preview fallback checks, browser coverage, and explicit theme route release evidence.
 
-v1.5 has shipped the static shareability and freshness milestone. Covered project, writing, theme, and route-family pages now expose helper-derived generated social image metadata, JSON-LD image parity, MIME metadata, static verifier coverage, offline freshness reporting, generated social preview release budgets, and a truthful release contract that separates local automated evidence from hosted or manual smoke checks. Phase 29 closed the audit gap that allowed selected-looking archived project records to pass public project/detail/social-preview selection.
+v1.5 shipped on 2026-06-23 as the Static Shareability & Freshness milestone. Covered project, writing, theme, and route-family pages now expose helper-derived generated social image metadata, JSON-LD image parity, MIME metadata, static verifier coverage, offline freshness reporting, generated social preview release budgets, and a truthful release contract that separates local automated evidence from hosted or manual smoke checks. Phase 29 closed the audit gap that allowed selected-looking archived project records to pass public project/detail/social-preview selection. Archives live under `.planning/milestones/`.
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
-## Current Milestone: v1.5 Static Shareability & Freshness
+## Next Milestone Goals
 
-**Goal:** Make every project, writing, and theme route share cleanly with deterministic static social preview assets and keep public-facing metadata fresh without runtime services.
+No active milestone is currently defined. Start the next cycle with `/gsd-new-milestone` so fresh requirements are discussed, researched, and mapped before implementation resumes.
 
-**Target features:**
+Possible future directions already parked in the v1.5 archives:
 
-- Route-derived social image data for project, writing, and theme surfaces.
-- Deterministic static raster social preview generation with no server endpoints or runtime image generation.
-- Metadata wiring so each public route references the correct static preview asset.
-- Non-flaky freshness/report automation for reviewed GitHub metadata, primary links, and generated media where it can run without weakening the static deployment contract.
-- Release verification that proves generated images, route metadata, static output, and evidence labels are truthful.
+- Route-specific social previews for home, about, contact, and future generic routes when those pages need differentiated cards.
+- Scheduled or explicit reviewed GitHub metadata refreshes and live external-link reports, if the release process accepts that network surface.
+- Content operations such as CMS/admin/editor workflows, RSS/newsletter surfaces, search, filters, pagination, or tag archives once checked-in curated data becomes painful.
 
 ## Requirements
 
@@ -59,7 +57,7 @@ The current release is verified by `bun run install:browser && bun run verify` o
 
 ### Active
 
-No active v1.5 requirements remain after Phase 29 gap closure. Milestone completion and archival are the next planning lifecycle steps.
+No active milestone requirements are currently defined. The next milestone must create a fresh `.planning/REQUIREMENTS.md`.
 
 ### Out of Scope
 
@@ -133,4 +131,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-23 after Phase 29 archived project public filter guard completion*
+*Last updated: 2026-06-23 after v1.5 milestone completion*
