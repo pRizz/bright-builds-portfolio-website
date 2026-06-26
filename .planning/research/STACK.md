@@ -1,435 +1,228 @@
-# Stack Research: v1.5 Static Shareability & Freshness
+# Technology Stack
 
 **Project:** Bright Builds Portfolio Website
-**Milestone:** v1.5 Static Shareability & Freshness
-**Researched:** 2026-06-21
-**Scope:** Stack additions or changes for deterministic static social preview generation, route metadata wiring, reviewed freshness reports, and truthful release verification.
-**Overall confidence:** HIGH for metadata/report architecture, MEDIUM-HIGH for the recommended renderer dependency.
+**Milestone:** v1.6 Content Discovery & Feeds
+**Researched:** 2026-06-26
+**Scope:** Stack additions or changes for static topic/tag discovery, checked-in-content search/filtering, static feed output, related-work navigation, generic-route social preview polish, and verification.
+**Overall confidence:** HIGH
 
 ## Recommendation
 
-Add one focused dev dependency for raster generation:
+No new npm/Bun dependency is needed for v1.6.
 
-```bash
-bun add -d @resvg/resvg-js@2.6.2
-```
+Use the existing SolidStart, SolidJS, Bun, TypeScript, Tailwind, Mystic UI, `@solidjs/meta`, `@resvg/resvg-js`, Vitest, Playwright, and axe stack already pinned in `package.json`. The v1.6 work should add repo-owned TypeScript domain helpers and extend existing static generation and verification scripts.
 
-Keep everything else in repo-owned Bun/TypeScript scripts and pure domain helpers. Do not add a dynamic OG endpoint, serverless function, CMS, link-checking crawler, Python script, Puppeteer stack, or general image-processing pipeline.
+The main stack change is structural, not dependency-based:
 
-Recommended approach:
+- Add pure domain projections for discovery labels, lightweight search documents, related-work records, and feed items.
+- Add static discovery routes to the existing `prerenderRoutes` and `sitemapRoutes` registry.
+- Generate a static Atom feed from checked-in writing data through the existing static metadata generation path.
+- Extend the existing social preview target model to cover generic public routes where differentiated cards are useful.
+- Extend the current Vitest, Playwright, static-output, release, and no-runtime-network verification surfaces.
 
-| Area | Recommendation | Dependency Change | Confidence | Why |
-| --- | --- | --- | --- | --- |
-| Social image source data | Add a route-derived `src/domain/social-images.ts` helper | None | HIGH | Project, writing, theme, and top-level route helpers already exist; social image metadata should be another pure projection over those registries. |
-| Raster image generation | Generate SVG templates in TypeScript and rasterize them with `@resvg/resvg-js@2.6.2` | Add dev dependency | MEDIUM-HIGH | `resvg-js` is purpose-built for SVG to PNG, supports custom fonts, can run directly in Bun, and avoids browser screenshot nondeterminism. |
-| Font determinism | Commit one licensed TTF/OTF/WOFF font asset plus its license; use `loadSystemFonts: false` | Add checked-in asset, not npm dep | HIGH | Do not rely on host fonts or remote font fetches. Inter is a good default if the project wants a neutral UI face, but pin by checked-in file and license, not by Google Fonts at generation time. |
-| Metadata wiring | Extend existing `SocialImageMetadata` and `metadataForRoute` / `metadataForProject` / `metadataForWritingEntry` / `metadataForTheme` | None | HIGH | Current `src/domain/seo.ts` already owns canonical OG/Twitter fields; v1.5 should replace the fallback-only image helper with route-specific image helpers. |
-| Static image output | Write generated PNGs under `public/social/` using stable route-derived paths | None | HIGH | The SolidStart build already copies `public/` into `.output/public`; checked-in generated assets preserve the static deployment contract. |
-| Generation manifest | Write a deterministic manifest with route, asset path, dimensions, source hash, byte length, and SHA-256 | None | HIGH | Lets verification prove images match current route data without timestamps or visitor-runtime work. |
-| Freshness reports | Add Bun/TypeScript report scripts using `node:fs`, `node:crypto`, and native `fetch` only | None | HIGH | Existing repo rules prefer Bun/TS scripts; reports can be deterministic offline by default and optional-network when explicitly requested. |
-| GitHub metadata refresh | Keep native `fetch`; add conditional-request support if the sync/report script is touched | None | MEDIUM-HIGH | GitHub documents ETag/Last-Modified conditional requests and the current repo already has a native REST sync script. Octokit is unnecessary for this narrow refresh/report surface. |
-| Link freshness | Keep live external checks manual or explicit optional report mode | None | HIGH | Existing release policy intentionally avoids live external-link checks in the aggregate gate. Do not make `bun run verify` depend on third-party availability. |
-| Release verification | Extend existing static and release verifiers; do not add a new test runner | None | HIGH | `scripts/verify-static/*` and `scripts/verify-release.ts` already scan generated HTML, metadata, assets, budgets, and truthful evidence labels. |
+## Recommended Stack
 
-The most important stack decision is to treat generated social previews as static build artifacts, not as runtime behavior. The generator may use a dev dependency, but visitor routes should only reference checked-in files already present in `.output/public`.
+### Core Framework
 
-## Stack Options
+| Technology | Version | Purpose | Why |
+|------------|---------|---------|-----|
+| SolidStart | `@solidjs/start@1.3.2` from `package.json` | Static prerendered route shell | Existing `app.config.ts` already uses `server.preset: "static"` and a domain-derived prerender route list. Discovery routes should join that same list instead of introducing a second static generation mechanism. |
+| SolidJS | `solid-js@1.9.13` from `package.json` | Interactive search/filter UI | Solid signals, `createMemo`, and URL-bound state are enough for a small checked-in content corpus. No search UI package is justified. |
+| Solid Router | `@solidjs/router@0.16.1` from `package.json` | Route params for discovery detail pages | Existing project, writing, and theme detail routes already use the SolidStart route model. Use the same pattern for `/topics/[slug]`, `/tags/[slug]`, or a single `/discover/[slug]` family. |
+| Solid Meta | `@solidjs/meta@0.29.4` from `package.json` | Metadata and feed autodiscovery links | Existing routes already render canonical, Open Graph, Twitter, and asset links. Add `<link rel="alternate" type="application/atom+xml" href="/feed.xml">` through the same head path. |
+| TypeScript domain modules | `typescript@6.0.3` from `package.json` | Discovery, search, feed, and related-work projections | The existing app keeps content rules as pure data-in/data-out helpers. v1.6 should continue that pattern for testability and to avoid framework-heavy content logic. |
+| Bun scripts | `packageManager: "bun@1.3.14"` from `package.json` | Static file generation and verification entrypoints | Existing scripts already generate metadata, social previews, freshness reports, and verification output. Extend them rather than adding another runner. |
 
-### Recommended: TypeScript SVG Template + `@resvg/resvg-js`
+### Database
 
-Use a repo-owned SVG template and render it to PNG with `@resvg/resvg-js@2.6.2`.
+| Technology | Version | Purpose | Why |
+|------------|---------|---------|-----|
+| Checked-in typed registries | No package required | Source of truth for projects, writing, themes, labels, feed items, and search documents | The project explicitly rejects runtime content fetches and CMS/admin scope for v1.6. Keep `src/domain/projects.ts`, `src/domain/writing.ts`, and `src/domain/themes.ts` authoritative. |
+| Browser storage | No package required | Not recommended for v1.6 | Search/filter state should be shareable through URL query params. Local storage would add stale state and privacy noise without improving discovery. |
 
-Why this is the right fit:
+### Infrastructure
 
-- It adds one narrow dev dependency for the only hard part: producing PNG files.
-- It keeps the template inspectable and diffable as TypeScript/SVG, not hidden in a browser route.
-- It supports custom font files and can disable system fonts, which is important for reproducible text layout.
-- It avoids a dynamic OG endpoint and does not require a server during deployment.
-- It works with Bun according to the `resvg-js` README.
+| Technology | Version | Purpose | Why |
+|------------|---------|---------|-----|
+| Static route registry | No package required | Add discovery pages to prerender and sitemap outputs | `src/domain/routes.ts` already feeds SolidStart prerendering, sitemap generation, static verification, and browser coverage. Discovery route helpers should be derived there. |
+| Static XML generation | No package required | Write `public/feed.xml` | Feed XML is small enough to generate with a repo-owned escape helper and deterministic tests. Add it to `scripts/generate-static-metadata.ts` or a tiny sibling script called by that entrypoint. |
+| Static social preview generation | Existing `@resvg/resvg-js@2.6.2` from `package.json` | Generate generic-route preview PNGs | The dependency is already present for v1.5 social previews. Extend `src/domain/social-previews.ts`; do not add a dynamic OG endpoint or a new image pipeline. |
+| Static output verification | Existing repo scripts | Prove discovery routes, feed output, metadata, generated assets, and no hidden content leaks | Extend `scripts/verify-static/*` and `scripts/verify-release.ts` instead of adding validators that duplicate route knowledge. |
+| Browser/a11y verification | Existing `@playwright/test@1.60.0` and `@axe-core/playwright@4.11.3` from `package.json` | Verify filter controls, mobile/dark layout, keyboard focus, axe, and no unwanted network behavior | The milestone adds interactive controls and more routes. Existing browser coverage is the right verification surface. |
 
-Recommended scripts:
+### Supporting Libraries
 
-```json
-{
-  "scripts": {
-    "generate:social-previews": "bun run scripts/generate-social-previews.ts",
-    "verify:social-previews": "bun run scripts/verify-social-previews.ts",
-    "report:freshness": "bun run scripts/report-freshness.ts",
-    "report:freshness:live": "bun run scripts/report-freshness.ts --live"
-  }
-}
-```
+| Library | Version | Purpose | When to Use |
+|---------|---------|---------|-------------|
+| Mystic UI | `github:pRizz/mystic-ui#d36017757708ed01ef2b3b47beb14f294726411c` from `package.json` | Existing Solid/Tailwind component primitives | Reuse only where existing route UI patterns already do. Do not add another component library for search chips, tabs, or cards. |
+| Tailwind CSS | `tailwindcss@3.4.19` from `package.json` | Dark-primary discovery, filter, and related-work UI | Existing repo guidance requires dark-first surfaces. Keep controls in local classes and Tailwind utilities already covered by visual-system checks. |
+| Vitest | `vitest@4.1.7` from `package.json` | Pure helper tests | Use for discovery normalization, slug uniqueness, search scoring/filtering, feed XML escaping, related-work resolution, and social preview target selection. |
+| Playwright | `@playwright/test@1.60.0` from `package.json` | Real browser checks | Use for search/filter interactions, URL query state, keyboard focus, mobile/desktop layout, feed parse smoke checks via browser `DOMParser`, and no runtime content/network fetch assertions. |
+| Biome | `@biomejs/biome@2.4.15` from `package.json` | Formatting and linting | Existing `bun run verify` already includes formatting and Biome checks. No ESLint or formatter change is needed. |
 
-Recommended output paths:
+## Recommended Repo Additions
+
+### Discovery Domain
+
+Add `src/domain/discovery.ts`.
+
+Responsibilities:
+
+- Normalize labels from `ProjectStory.themes`, `ProjectStory.tags`, `WritingEntry.topics`, `WritingEntry.tags`, and public `ThemeRecord` titles.
+- Produce canonical slugs with duplicate detection.
+- Produce discovery page records with counts and related public projects, writing, and themes.
+- Keep hidden, draft, archived, unsupported, and excluded records out by using existing public selectors.
+- Export route helpers such as `discoveryIndexPath()`, `discoveryDetailPath(record)`, and `discoveryDetailRoutes()`.
+
+Recommended route shape:
 
 ```text
-public/social/bright-builds-og.png
-public/social/projects/index.png
-public/social/projects/{slug}.png
-public/social/writing/index.png
-public/social/writing/{slug}.png
-public/social/themes/index.png
-public/social/themes/{slug}.png
-src/domain/social-images.generated.json
+/discover
+/discover/{slug}
 ```
 
-Keep the current fallback `bright-builds-og.png` for home/about/contact and for defensive fallback behavior. Generate route-specific images for `/projects`, selected project detail routes, `/writing`, public writing detail routes, `/themes`, and public theme detail routes.
+Use one route family unless the product really needs separate `/topics` and `/tags` URLs. A single route avoids taxonomy bikeshedding and lets labels from projects, writing, and themes converge cleanly.
 
-### Viable Fallback: Existing Playwright Screenshot Generation
+### Search and Filtering
 
-Playwright can produce screenshots with a fixed viewport and disabled animations, and the repo already depends on `@playwright/test@1.60.0`. Use this only if the team decides that zero new dependencies matters more than pixel determinism.
+Add `src/domain/search.ts`.
 
-Tradeoffs:
+Responsibilities:
 
-- Pros: no new npm package; can render real browser HTML/CSS.
-- Cons: screenshots can vary by browser version, operating system, font stack, antialiasing, and viewport defaults unless the environment is tightly pinned.
-- Role in v1.5: keep Playwright for browser/release verification, not as the primary image generator.
+- Build a small in-memory search document list from public projects, public writing, and public themes.
+- Normalize query strings with lowercasing, whitespace compaction, punctuation stripping, and simple token matching.
+- Weight title/name, one-line/summary, topics/themes/tags, and related-work labels.
+- Return typed result records that link to existing routes or anchors.
+- Keep URL query state as the persistence layer using `URLSearchParams`.
 
-### Not Recommended First: Satori + `@resvg/resvg-js`
+No Fuse, Lunr, Pagefind, Algolia, Meilisearch, or generated search-index dependency is justified for this corpus. Add one only after the checked-in content grows large enough that simple deterministic matching creates measurable UX or bundle-size problems.
 
-`satori@0.26.0` is useful for JSX-like HTML/CSS to SVG. It is not the first choice here.
+### Feed Generation
 
-Why not:
+Add `src/domain/feeds.ts`.
 
-- It adds another layout engine and another dependency to a Solid repo.
-- It accepts React-like object trees or its own JSX runtime, not Solid components.
-- Its CSS support is intentionally limited and its README says it does not guarantee a 100 percent browser match.
-- It requires explicit font data and currently does not support WOFF2.
+Recommendation:
 
-Use Satori later only if the handwritten SVG template becomes genuinely brittle.
+- Generate Atom 1.0 at `/feed.xml` for public writing entries first.
+- Use writing entries only in v1.6 because they already have `maybePublishedOn` and `maybeUpdatedOn`.
+- Do not include projects or themes in the feed until those records gain an explicit public updated/published date field.
+- Use canonical IDs based on route URLs, not random IDs.
+- Escape XML through a tested local helper.
+- Add feed autodiscovery metadata on public pages.
 
-### Not Recommended: `@vercel/og`
+Atom is the better first feed format here because it has a clear `id` and `updated` model for static authored entries. If roadmap or user language requires an RSS-labeled endpoint, derive `/rss.xml` from the same `FeedItem` projection later. That still should not require a package.
 
-`@vercel/og@0.11.1` is optimized for dynamic image generation through Vercel functions and `ImageResponse`. That conflicts with this milestone's explicit static-only constraint.
+### Related Work
 
-Why not:
+Add or centralize `src/domain/related-work.ts` if the implementation starts duplicating relationship logic across routes.
 
-- It points the architecture toward API routes/functions.
-- It is more aligned with Vercel/Next dynamic OG workflows than SolidStart static output.
-- It would weaken the no-server-endpoint decision even if run locally at build time.
+Responsibilities:
 
-### Not Recommended: Sharp
+- Resolve public project, writing, theme, and discovery-label relationships from existing registries.
+- Deduplicate related links by route/href.
+- Preserve public eligibility gates from existing selectors.
+- Prefer authored relationships from `ThemeRecord.relatedProjectSlugs`, `ThemeRecord.relatedWritingSlugs`, and `WritingEntry.relatedProjectSlugs` over fuzzy tag matches.
+- Use tag/topic/theme overlap as a secondary fallback only when it produces useful, explainable navigation.
 
-`sharp@0.35.2` supports Bun through Node-API and can process SVG/PNG, but it is broader than this project needs.
+### Generic Route Social Previews
 
-Why not:
+Extend `src/domain/social-previews.ts`.
 
-- It is a general image processing stack around libvips.
-- The v1.5 need is narrow SVG to PNG generation from controlled templates.
-- `resvg-js` has a smaller conceptual surface for this exact job.
+Recommended changes:
 
-### Not Recommended for Release Gates: Linkinator or Similar Crawlers
+- Add route kinds for selected generic routes, likely `home`, `about`, and `contact`.
+- Add a `generic` asset family or equivalent stable path family under `public/social/generated/`.
+- Keep `SOCIAL_PREVIEW_FALLBACK_IMAGE` for unknown-slug and defensive fallback metadata.
+- Let `metadataForRoute()` keep using `maybeSocialPreviewTargetForRoutePath()` so route metadata updates through the existing helper contract.
 
-`linkinator@7.6.1` and similar tools can crawl built HTML, but they should not enter `bun run verify` for v1.5.
+No new image dependency is needed. The current `@resvg/resvg-js` pipeline is already the stack surface for generated previews.
 
-Why not:
+## Alternatives Considered
 
-- Live external checks are network-dependent and will create false release blockers.
-- The repo already separates external-link policy coverage from manual live checks.
-- Native `fetch` is enough for an explicit optional freshness report mode.
+| Category | Recommended | Alternative | Why Not |
+|----------|-------------|-------------|---------|
+| Discovery routes | Repo-owned domain helper plus SolidStart prerender routes | Separate static site generator or plugin | Existing SolidStart prerendering already works and is verified. A second generator would duplicate route knowledge. |
+| Search | Pure TypeScript search documents and Solid state | Fuse, Lunr, Pagefind, hosted search | The corpus is small, checked in, and public. A dependency adds weight and verification surface before it solves a real problem. |
+| Filter state | URL query params with `URLSearchParams` | Local storage or session storage | Query params are shareable, testable, and do not create stale hidden UI state. |
+| Feed format | Atom 1.0 `/feed.xml` | RSS 2.0 first | RSS is familiar, but Atom's required `id` and `updated` fields fit deterministic static writing entries better. RSS can be generated later from the same model if needed. |
+| Feed generator | Local XML builder | `feed`, RSS, or XML builder package | Feed XML is small and stable. A local builder plus tests is simpler than adding a package for a handful of elements. |
+| Feed validation | Static assertions plus Playwright `DOMParser` smoke check | New XML parser dependency | Existing Playwright can parse XML in a browser context, and static assertions can verify required Atom fields. No parser dependency is justified yet. |
+| Related work | Typed resolver over existing registries | Fuzzy recommendation engine | Related navigation must stay explainable and curated. Fuzzy matching can be a fallback, not the core stack. |
+| Generic social previews | Extend current `@resvg/resvg-js` generator | Dynamic OG endpoint | The project is static-only. Dynamic OG endpoints add server behavior and deployment complexity. |
+| Content management | Existing TypeScript registries | CMS, MDX pipeline, Contentlayer | v1.6 is discovery over existing checked-in content, not an authoring workflow milestone. |
+| UI controls | Local Solid/Tailwind/Mystic-compatible controls | New component library or icon package | Search inputs, chips, segmented filters, and cards are straightforward in the existing design system. |
 
-## Integration Points
+## Installation
 
-### Domain Helpers
+No package installation is required.
 
-Add a pure route-derived helper, likely `src/domain/social-images.ts`.
+```bash
+# No dependency changes for v1.6 stack work.
+# Do not run bun add for search, feeds, XML, routing, or UI controls unless implementation proves a concrete gap.
 
-Recommended types:
-
-```typescript
-export type SocialImageKind = "fallback" | "project" | "writing" | "theme" | "collection";
-
-export type SocialImageDefinition = {
-  id: string;
-  kind: SocialImageKind;
-  route: string;
-  assetPath: string;
-  title: string;
-  summary: string;
-  eyebrow: string;
-  tags: readonly string[];
-  alt: string;
-};
+bun run generate:static-metadata
+bun run generate:social-previews
+bun run verify
 ```
 
-This helper should derive definitions from existing sources:
+If implementation adds only TypeScript helpers, routes, styles, tests, and generated static files, `package.json` and `bun.lock` should remain unchanged.
 
-- `siteRoutes` for `/projects`, `/writing`, and `/themes`
-- `projectDetailPageProjects()` and `projectDetailPath(project)`
-- `publicWritingEntries()` and `writingDetailPath(entry)`
-- `publicThemeEntries()` and `themeDetailPath(theme)`
+## Verification Commands to Plan
 
-Do not duplicate project, writing, or theme copy in the image registry. It should project from authoritative registries.
+Use the existing aggregate gate:
 
-### SEO Metadata
-
-Change `src/domain/seo.ts` from one fallback-only `socialImageForProfile()` helper to route-specific image selection.
-
-Recommended behavior:
-
-- `metadataForProject(project)` references `/social/projects/{slug}.png`.
-- `metadataForWritingEntry(entry)` references `/social/writing/{slug}.png`.
-- `metadataForTheme(theme)` references `/social/themes/{slug}.png`.
-- `metadataForRoute(route)` uses `/social/projects/index.png`, `/social/writing/index.png`, or `/social/themes/index.png` for those index routes and keeps the fallback for home/about/contact.
-- JSON-LD `image` values use the same social image URL as page metadata.
-
-Extend `SocialImageMetadata` if useful:
-
-```typescript
-export type SocialImageMetadata = {
-  url: string;
-  width: number;
-  height: number;
-  alt: string;
-  type: "image/png";
-};
+```bash
+bun run verify
 ```
 
-Then render `og:image:type` along with existing width, height, and alt fields. Open Graph supports image type, width, height, and alt; the current metadata already handles all but type.
+Extend the gate coverage rather than adding a new test runner.
 
-### Generator Script
+Required v1.6 verification additions:
 
-Add `scripts/generate-social-previews.ts`.
+- Discovery helper tests for label normalization, slug uniqueness, public eligibility, route generation, and sitemap inclusion.
+- Search helper tests for query normalization, filter combinations, result ordering, empty states, and no hidden/draft/archived content leaks.
+- Related-work tests for reciprocal project-writing-theme navigation and deduplication.
+- Feed tests for XML escaping, required Atom fields, stable ordering, dates, canonical links, and exclusion of undated projects/themes.
+- Static verification that `.output/public/feed.xml` exists and equals the domain-generated feed.
+- Static verification that discovery routes are prerendered, included in `sitemap.xml`, and absent for unsupported labels.
+- Social preview tests and static verification for generic route generated PNG references.
+- Browser checks for desktop and mobile dark rendering, filter/search keyboard use, URL query state, no text overlap, axe, and no visitor-runtime content fetches.
+- Release verification that budgets still pass after any added search/discovery client code.
 
-Recommended behavior:
+## Sources
 
-- Read social image definitions from the domain helper.
-- Build deterministic SVG strings with escaped text, fixed 1200 x 630 dimensions, fixed colors, no dates, no randomness, no remote assets, and no external CSS.
-- Use checked-in fonts via `font.fontFiles` and set `loadSystemFonts: false`.
-- Render PNGs with `@resvg/resvg-js`.
-- Write all generated images to `public/social/`.
-- Write `src/domain/social-images.generated.json` with sorted entries and no timestamp.
-- Include SHA-256 and source hash values so check mode can detect stale assets.
-
-Do not fetch fonts, logos, screenshots, avatars, repository images, or live pages during generation. If a visual mark is needed, use existing checked-in local assets or SVG primitives.
-
-### Freshness Reports
-
-Add `scripts/report-freshness.ts` with an offline default.
-
-Offline report should check:
-
-- GitHub metadata snapshot age from `src/domain/github-metadata.snapshot.json`.
-- Whether selected repository links still have snapshot entries.
-- Whether unavailable GitHub metadata records need review.
-- Whether generated social preview definitions match generated assets and manifest hashes.
-- Whether route metadata points to existing generated images.
-- Whether primary external links are covered by existing external-link policies.
-- Whether release-readiness docs claim only checks that actually run.
-
-Optional `--live` mode may check:
-
-- Primary external links with native `fetch`, short timeout, low concurrency, and HEAD-to-GET fallback.
-- GitHub repository metadata through the existing REST API path.
-- Redirect targets for curated primary links.
-
-Keep `--live` out of `bun run verify`. If live mode writes a report, label it as a manual/review report rather than automated release evidence.
-
-### GitHub Metadata Sync
-
-Do not add Octokit for v1.5. The current `scripts/sync-github-metadata.ts` already uses native `fetch` and typed snapshot data.
-
-If the sync script is touched, improve it with:
-
-- Explicit `User-Agent`.
-- Conditional `If-None-Match` / `If-Modified-Since` support.
-- Captured `ETag` / `Last-Modified` in a script-owned cache or report artifact.
-- Current `X-GitHub-Api-Version: 2026-03-10`, which GitHub documents as available.
-
-Do not expose GitHub tokens through `VITE_`, `PUBLIC_`, or `SOLID_PUBLIC_` prefixes. Preserve the current visitor-runtime GitHub ban.
-
-### Static Verification
-
-Update the existing verifier instead of adding a second static verifier.
-
-Expected changes:
-
-- `scripts/verify-static/metadata-jsonld-verifier.ts`: replace the hardcoded `social/bright-builds-og.png` assertion with route-derived expected image paths.
-- `scripts/verify-static/sitemap-assets-verifier.ts`: iterate all expected social PNGs, assert file existence, assert 1200 x 630 PNG dimensions, and detect stale extra generated assets if they are not intentionally kept.
-- `scripts/verify-static/run-static-verification.ts`: update summary text to mention route-specific social images.
-- Tests: update existing metadata tests that currently assert fallback reuse for project, writing, and theme detail routes.
-
-### Release Verification
-
-Update `scripts/verify-release.ts`.
-
-Expected changes:
-
-- Replace the single `socialOgImageBytes` budget with per-image and total social image budgets.
-- Scan all `social/**/*.png` files that are referenced by route metadata.
-- Verify no generated HTML points to missing social images.
-- Add evidence label `static social previews` only if the verifier checks generated assets and route metadata references.
-- Keep live social crawler/debugger validation out of automated labels.
-
-Suggested budgets:
-
-| Budget | Suggested Limit | Reason |
-| --- | --- | --- |
-| One social PNG | 250 KB | Matches the current fallback budget and keeps cards crawler-friendly. |
-| Total generated social images | 4 MB | Enough for a curated portfolio route set without hiding runaway assets. |
-| Route HTML | Keep current 75 KB | Social image metadata should not materially inflate HTML. |
-
-### Release Docs
-
-Update `docs/release-readiness.md` and `scripts/release-readiness.ts` facts after implementation.
-
-The documentation should say:
-
-- `bun run verify:static` checks route-specific social metadata and local generated images.
-- `bun run verify:release` checks social preview budgets and metadata references.
-- Optional live freshness reports are manual/review evidence, not aggregate release gates.
-- Meta Sharing Debugger and other hosted preview tools remain manual post-deploy checks if needed.
-
-## Risks
-
-### Native Renderer Compatibility
-
-`@resvg/resvg-js` uses native prebuilt packages. Its README says it runs directly in Bun, but this still needs clean-builder verification after adoption.
-
-Mitigation:
-
-- Pin `@resvg/resvg-js@2.6.2`.
-- Run `bun install` on a clean checkout.
-- Add `bun run verify:social-previews` to the aggregate gate.
-- Keep generated PNGs checked in so static deploys do not require runtime rasterization.
-
-### Font Drift
-
-Host fonts will make generated images non-deterministic.
-
-Mitigation:
-
-- Commit the font file and license.
-- Load only checked-in font files.
-- Disable system font loading.
-- Do not fetch Google Fonts or any remote font source during generation.
-
-### SVG Text Layout Bugs
-
-Handwritten SVG means the project owns wrapping, clamping, and escaping.
-
-Mitigation:
-
-- Keep social card copy short and derive it from existing route summaries.
-- Unit test line splitting and escaping as pure functions.
-- Clamp title and summary lines with explicit fallback text.
-- Add browser/static visual spot checks for at least one project, writing, and theme image after generation.
-
-### Social Crawler Cache Staleness
-
-Local verification can prove metadata and assets, but it cannot prove Facebook, X, Slack, Discord, or LinkedIn have refreshed their scraper caches.
-
-Mitigation:
-
-- Do not claim crawler validation in automated evidence labels.
-- Use manual debugger/scrape-again tools only in release checklists.
-- If cache busting becomes a real problem, move from stable route-derived filenames to content-hashed filenames backed by the generated manifest.
-
-### Live Link Flakiness
-
-External links can fail because of rate limits, bot defenses, transient outages, redirects, or local network state.
-
-Mitigation:
-
-- Keep live link checks out of `bun run verify`.
-- Make live checks explicit with `report:freshness:live`.
-- Keep the default freshness report offline and deterministic.
-
-### Stale Generated Assets
-
-Route data can change without regenerating images.
-
-Mitigation:
-
-- Store source hashes in `social-images.generated.json`.
-- Make `verify:social-previews` fail when source hashes or file hashes differ.
-- Keep generation output sorted and timestamp-free to avoid noisy churn.
-
-### Overclaiming Release Evidence
-
-The repo already has a policy of truthful evidence labels. v1.5 can easily overclaim "freshness" or "social preview validation" if network/manual checks are blurred into local checks.
-
-Mitigation:
-
-- Use labels like `static social previews` and `freshness report contract`.
-- Avoid labels like `social crawler verified`, `external links live`, or `GitHub metadata current` unless the specific check ran and passed.
-
-## Source Notes
-
-### Local Sources Read
+Local sources:
 
 - `.planning/PROJECT.md`
-- `.planning/MILESTONES.md`
-- `.planning/milestones/v1.4-REQUIREMENTS.md`
 - `package.json`
-- `src/domain/seo.ts`
-- `src/domain/routes.ts`
-- `scripts/verify-static.ts`
-- `scripts/verify-release.ts`
-- `scripts/verify-static/*`
-- `scripts/release-readiness.ts`
-- `scripts/sync-github-metadata.ts`
-- `src/domain/github-metadata.ts`
 - `AGENTS.md`
 - `AGENTS.bright-builds.md`
-- `standards-overrides.md`
-- `standards/index.md`
-- `standards/core/architecture.md`
-- `standards/core/code-shape.md`
-- `standards/core/testing.md`
-- `standards/core/verification.md`
+- `standards/core/frontend-ui.md`
 - `standards/languages/typescript-javascript.md`
+- `standards/core/verification.md`
+- `app.config.ts`
+- `src/domain/routes.ts`
+- `src/domain/projects.ts`
+- `src/domain/writing.ts`
+- `src/domain/themes.ts`
+- `src/domain/seo.ts`
+- `src/domain/social-previews.ts`
+- `scripts/generate-static-metadata.ts`
+- `scripts/verify-static/*`
+- `scripts/verify-release.ts`
+- `tests/browser-release.playwright.ts`
 
-### Primary / Current External Sources
+Official/current sources:
 
-- Open Graph protocol: `https://ogp.me/`
-  - Confirms required `og:title`, `og:type`, `og:image`, `og:url`, plus structured image fields `og:image:type`, `og:image:width`, `og:image:height`, and `og:image:alt`.
-- Meta image guidance: `https://developers.facebook.com/docs/sharing/webmasters/images/`
-  - Recommends 1200 x 630 images for high-resolution sharing previews.
-- `resvg-js` README: `https://github.com/thx/resvg-js`
-  - Documents SVG to PNG support, custom fonts, `loadSystemFonts: false`, prebuilt native packages, and direct Bun compatibility.
-- Satori README: `https://github.com/vercel/satori`
-  - Documents JSX/object input, HTML/CSS subset, custom font requirements, and WOFF2 limitation.
-- Vercel OG Image Generation docs: `https://vercel.com/docs/og-image-generation`
-  - Documents dynamic/function-oriented `@vercel/og` usage, which is why it is not recommended for this static milestone.
-- Sharp docs: `https://sharp.pixelplumbing.com/`
-  - Confirms Sharp supports Bun and SVG/PNG processing, but its general image-processing scope is broader than this need.
-- Playwright screenshot docs/API: `https://playwright.dev/docs/screenshots`, `https://playwright.dev/docs/api/class-page`
-  - Confirms screenshot capture, fixed viewport behavior, clipping, PNG output, and disabled animations for screenshot repeatability.
-- Bun runtime docs: `https://bun.com/docs/runtime`
-  - Confirms Bun runs TypeScript files and package scripts directly.
-- GitHub REST API versioning: `https://docs.github.com/en/rest/about-the-rest-api/api-versions`
-  - Confirms `X-GitHub-Api-Version: 2026-03-10` is documented and supported.
-- GitHub REST API best practices: `https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api`
-  - Confirms ETag/Last-Modified conditional requests and 304 behavior.
-- GitHub REST API rate limits: `https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2026-03-10`
-  - Confirms authenticated and unauthenticated rate-limit behavior and rate-limit headers.
-- GitHub REST getting started: `https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api?apiVersion=2026-03-10`
-  - Confirms accepted headers and recommends a valid `User-Agent`.
-- Inter font official/GitHub sources: `https://rsms.me/inter/`, `https://github.com/rsms/inter`
-  - Inter is a reasonable checked-in font candidate because it is open source under the SIL Open Font License. The implementation still needs to commit the exact font file and license.
+- SolidStart route prerendering: `https://docs.solidjs.com/solid-start/building-your-application/route-prerendering`
+- SolidStart head and metadata: `https://docs.solidjs.com/solid-start/building-your-application/head-and-metadata`
+- Atom Syndication Format RFC 4287: `https://datatracker.ietf.org/doc/html/rfc4287`
+- RSS 2.0 specification: `https://www.rssboard.org/rss-specification`
+- MDN `URLSearchParams`: `https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams`
 
-### Version Checks
+## Open Questions / Verify During Implementation
 
-Checked package versions through npm metadata on 2026-06-21:
-
-| Package | Current Version Checked | Recommendation |
-| --- | --- | --- |
-| `@resvg/resvg-js` | `2.6.2` | Add as dev dependency. |
-| `satori` | `0.26.0` | Do not add initially. |
-| `@vercel/og` | `0.11.1` | Do not add. |
-| `sharp` | `0.35.2` | Do not add initially. |
-| `linkinator` | `7.6.1` | Do not add to release gate. |
-| `playwright` | `1.61.0` latest, repo has `@playwright/test@1.60.0` | Keep existing Playwright for verification; no upgrade required for v1.5 research. |
-
-## Roadmap Implications
-
-Suggested phase order:
-
-1. **Social image data contract** - Add route-derived definitions and metadata path helpers first so generation, SEO, and tests share one source.
-2. **Static raster generation** - Add `@resvg/resvg-js`, checked-in font asset, generator, manifest, and check mode.
-3. **Metadata wiring** - Point project, writing, theme, and collection route metadata/JSON-LD at generated images.
-4. **Freshness reports** - Add offline report automation and optional live mode without entering the aggregate release gate.
-5. **Release verification** - Extend static/release verifiers, budgets, evidence labels, and release-readiness docs.
-
-This order prevents the image generator from inventing its own route list and keeps release verification grounded in the same helper contracts that route rendering and sitemap generation already use.
+- Decide whether the public route should be `/discover`, `/topics`, or `/tags`. Stack recommendation is `/discover` because the source labels span projects, writing, and themes.
+- Decide whether v1.6 needs only a writing feed or a broader site-updates feed. Stack recommendation is writing-only until projects and themes have explicit public date fields.
+- Confirm generated generic social previews are worth the added PNG count for home/about/contact. If a route's preview would be generic copy with no distinct sharing value, keep the fallback.
+- Watch the existing client JS release budget after adding search/filter UI. If the budget moves meaningfully, keep the search projection smaller before considering a search library.

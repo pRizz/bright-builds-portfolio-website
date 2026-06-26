@@ -1,135 +1,221 @@
-# v1.5 Research Summary: Static Shareability & Freshness
+# Project Research Summary
 
 **Project:** Bright Builds Portfolio Website
-**Milestone:** v1.5 Static Shareability & Freshness
-**Researched:** 2026-06-21
-**Synthesized:** 2026-06-21
-**Confidence:** HIGH for repo architecture and local verification shape; MEDIUM-HIGH for renderer dependency behavior until clean-builder verification proves it.
+**Milestone:** v1.6 Content Discovery & Feeds
+**Domain:** Static-first portfolio content discovery, lightweight search/filtering, syndication, related-work navigation, and generic-route sharing polish
+**Researched:** 2026-06-26
+**Synthesized:** 2026-06-26
+**Confidence:** HIGH for local architecture, stack, and verification direction; MEDIUM-HIGH for external feed-reader and social crawler behavior until manual hosted smoke checks run.
 
-## Executive Recommendation
+## Executive Summary
 
-Build v1.5 as a deterministic static shareability pipeline plus maintainer-facing freshness evidence. Every public project, writing, and theme route should derive a social preview contract from existing route/domain helpers, generate a static 1200x630 PNG asset before release, and point Open Graph, Twitter, and JSON-LD image metadata at that local asset in prerendered HTML. Keep `/social/bright-builds-og.png` as the fallback for home/about/contact and future generic routes.
+v1.6 should make the now-substantial Bright Builds corpus navigable by idea, not only by content type. Experts would build this as a static content-discovery layer over the existing curated project, writing, and theme registries: normalize public labels into crawlable topic routes, progressively enhance static lists with local filtering/search, publish a deterministic writing-first feed, and add related-work paths that help visitors continue from one project, note, or theme into the rest of the corpus.
 
-The milestone should not add runtime services. No dynamic OG endpoint, API route, serverless function, live GitHub visitor fetch, CMS, public freshness dashboard, or live external-link release gate belongs in v1.5. Freshness belongs in deterministic reports over checked-in data and generated media, with optional live checks only as explicit manual/report commands outside `bun run verify`.
+The recommended approach is structural, not dependency-driven. Add no new packages. Extend the current SolidStart, SolidJS, TypeScript, Tailwind/Mystic-compatible UI, `@solidjs/meta`, `@resvg/resvg-js`, Vitest, Playwright, axe, and Bun script stack with repo-owned domain helpers: discovery, content search, feeds, related work, and expanded social-preview targets. Public route helpers should remain the source of truth for prerendering, sitemap, metadata, static verification, browser checks, and release evidence.
 
-The safest architecture is the existing Bright Builds pattern: functional core, imperative shell. Add one pure route-derived social preview target layer, reuse it from metadata, generation, freshness reporting, static verification, and release evidence, then keep Bun scripts as thin filesystem/rendering shells. OpenLinks should remain low-intrusion identity context through existing profile/footer/about/metadata surfaces; generic social cards should brand Bright Builds, Peter Ryszkiewicz/pRizz, and the specific route content, not OpenLinks.
+The largest risks are drift and overreach: a second content index leaking draft/archived records, topic routes or feed files that work in dev but are missing from static output, client-only search that hides content from crawlers or keyboard users, invalid or unstable feed XML, noisy related-work recommendations, and release evidence that overclaims hosted or live-network validation. Mitigate these by deriving from existing public selectors, using `/topics` as the static discovery route family, rendering useful default content before hydration, generating a writing-first static feed from dated writing records only, ranking explicit relationships before shared-label fallbacks, and extending local verification before updating release-readiness labels.
 
-## Stack Additions
+## Key Findings
 
-- Add `@resvg/resvg-js@2.6.2` as the single new dev dependency for SVG-to-PNG raster generation. It is narrower and more deterministic than browser screenshots, Sharp, Satori, or `@vercel/og`.
-- Commit one licensed local font file and license. Load only checked-in fonts with `loadSystemFonts: false`; do not fetch Google Fonts or rely on host fonts.
-- Keep generator, verifier, and freshness tooling in Bun/TypeScript scripts. Do not add Python scripts, Puppeteer stacks, server endpoints, link crawlers, or CMS/runtime services.
-- Prefer route-derived generated paths under `public/social/generated/` with a source digest in the filename, such as `/social/generated/projects/openlinks-{digest}.png`. The digest gives crawler cache busting when route copy changes while preserving deterministic static assets.
-- Generate a timestamp-free manifest containing route path, asset path, dimensions, byte size, source digest, and file SHA-256.
-- Keep GitHub metadata refresh on the existing native `fetch` script path. If touched, improve conditional requests and headers; do not add Octokit for this milestone.
-- Add scripts shaped around:
-  - `generate:social-previews`
-  - `verify:social-previews`
-  - `freshness:report`
-  - optional `freshness:report:live` or equivalent manual live mode, not wired into aggregate verification.
+### Recommended Stack
 
-## Feature Table Stakes
+v1.6 needs no new dependencies. The current Bun/SolidStart/TypeScript/Tailwind/Mystic-compatible stack is enough for static topic routes, local filtering/search, feed generation, related-work graphing, and generic-route social previews. The work should add pure domain modules plus thin Solid route shells and Bun script integration, not a search package, CMS, XML library, dynamic OG endpoint, API route, or runtime content service.
 
-- Helper-derived route inventory for `/projects`, every selected project detail route, `/writing`, every public writing route, `/themes`, and every public theme route. Hidden, draft, unsupported, archived, and unselected records must not produce public social assets.
-- Pure social image contracts that include route path, asset path, title, description, route kind/kicker, labels, alt text, dimensions, and stable source fingerprint. Avoid copied route lists and image-only content registries.
-- Deterministic PNG generation with no network access, secrets, clocks, randomness, remote fonts, remote images, screenshot services, or runtime crawler dependency.
-- Route-specific metadata for project, writing, theme, and route-family index pages. `og:image`, `twitter:image`, JSON-LD `image`, dimensions, alt text, and `og:image:type` should resolve to the same canonical local asset.
-- Static fallback preservation for non-v1.5 routes so home/about/contact still share cleanly.
-- Generated media verification that fails on missing files, wrong dimensions, stale source digests, orphaned managed assets, oversized PNGs, blank output, duplicate paths, or metadata pointing to a missing local file.
-- Offline freshness report that summarizes generated-media drift, GitHub snapshot age/unavailable records, primary link policy coverage, HTTPS issues, manual smoke targets, and evidence-label truthfulness.
-- Severity buckets: `release blocker`, `needs review`, and `manual smoke`. Only deterministic local blockers belong in automated release gates.
-- Release docs and evidence labels that say exactly what ran locally. Hosted crawler debuggers, Cloudflare preview/deploy checks, post-deploy smoke, live link reachability, and live GitHub currency remain manual unless a later milestone deliberately accepts that flake surface.
+**Core technologies:**
+- SolidStart and SolidJS: static prerendered route shell plus small interactive controls for filtering/search.
+- TypeScript domain modules: pure data-in/data-out projections for discovery topics, search documents, feed items, and related-work records.
+- Existing route/SEO/social-preview helpers: shared source for prerender routes, sitemap entries, metadata, JSON-LD, social images, static verifiers, and browser coverage.
+- Bun scripts: static metadata/feed/social-preview generation and verification entrypoints.
+- Tailwind/Mystic-compatible dark UI: dark-primary controls and route surfaces consistent with repo guidance.
+- Vitest, Playwright, axe, and release verifiers: prove pure behavior, static output, keyboard/mobile/dark accessibility, no runtime network creep, and truthful release evidence.
 
-## Architecture Direction
+**Critical version requirements:** Keep existing pinned versions from `package.json`; do not change `package.json` or `bun.lock` for v1.6 unless implementation proves a concrete gap. Mystic UI remains pinned to `github:pRizz/mystic-ui#d36017757708ed01ef2b3b47beb14f294726411c`.
 
-Create one route-derived domain layer, likely `src/domain/social-previews.ts`, as the source of truth for shareable route targets. It should compose existing project, writing, theme, and route helpers, derive public asset paths and source digests, and expose typed records that can be consumed by SEO helpers, generation scripts, freshness reports, static verifiers, release verifiers, and docs.
+### Expected Features
 
-Keep rendering and reporting as thin imperative shells:
+**Must have (table stakes):**
+- Canonical discovery term registry derived from public projects, writing, and themes.
+- Static `/topics` index and `/topics/{slug}` pages with metadata, JSON-LD, sitemap coverage, social preview coverage, and static output verification.
+- Topic-linked chips on existing public surfaces where labels are canonical and public.
+- Project and writing filtering/search over checked-in data, with no visitor-runtime fetches.
+- Accessible filter state, result feedback, keyboard support, clear/reset behavior, no mobile text overlap, and full default static content before hydration.
+- Writing-first static feed at `/feed.xml` or `/writing/feed.xml`, with feed autodiscovery and visible feed links.
+- Centralized related-work helper with reason labels and compact next-step panels.
+- Generic-route and topic-route social preview polish through the existing generated-preview pipeline.
+- Local verification/release evidence that proves only deterministic local facts.
 
-- `src/domain/social-previews.ts` owns pure target derivation, path conventions, text/alt rules, public filtering, and source digests.
-- `src/domain/seo.ts` becomes route-aware and maps project, writing, theme, and index metadata to expected social preview assets.
-- `scripts/generate-social-previews.ts` renders deterministic SVG templates to PNG files and writes the manifest under managed generated paths only.
-- `src/domain/freshness.ts` owns pure report findings over checked-in snapshots, curated links, social preview targets, and generated manifests, with `asOf` injected.
-- `scripts/generate-freshness-report.ts` writes maintainer reports. Default mode is offline and deterministic; live mode is explicit and report-only.
-- `scripts/verify-static/*` and `scripts/verify-release.ts` should consume the same helper/manifest rather than hard-coding social image routes.
+**Should have (differentiators):**
+- A "start with a theme/topic" discovery hub that groups Peter's work by idea.
+- Related-work reason labels such as shared topic, related writing, or theme path.
+- "Continue exploring" next-step rails on detail pages.
+- Topic-aware feed model that can support future JSON Feed or topic feeds without reworking the data shape.
+- Maintainer-facing preview gallery only if it reuses the existing social-preview review pattern cheaply.
 
-The main current architectural mismatch is the singleton fallback assumption around `social/bright-builds-og.png`. v1.5 should replace that assumption with route-aware expected image lookup while keeping the fallback as a real checked-in safety net for generic routes.
+**Defer (v2+):**
+- CMS/admin/editor workflows, raw GitHub mirroring, hosted/full-text/semantic search, embeddings or AI recommendations, runtime content fetches, runtime feed endpoints, dynamic OG endpoints, crawled faceted route combinations, per-topic feeds, newsletter/comments/analytics/webmentions, heavy graph visualizations, and live-network freshness gates in `bun run verify`.
 
-## Watch Outs
+### Architecture Approach
 
-- Dynamic OG/server creep: reject API routes, edge functions, runtime renderers, `/api/og`, visitor-runtime `fetch()`, and metadata images that do not exist in `.output/public`.
-- Duplicated route/image lists: the generator, metadata helpers, sitemap/static checks, and release verification must not maintain separate slug arrays.
-- Metadata drift: `og:image`, `twitter:image`, and JSON-LD `image` must agree and map to canonical local files in static output.
-- Non-deterministic assets: avoid host fonts, timestamps, random IDs, unsorted data, browser screenshot antialiasing, and rewriting PNGs when bytes are unchanged.
-- Readability and accessibility: social cards need dark-primary contrast, safe margins, title/summary clamping, route-specific alt text, and stress fixtures for long project, writing, and theme titles.
-- Flaky live gates: live GitHub sync, external-link crawls, social-platform validators, and hosted crawler checks must stay out of `bun run verify`.
-- Freshness reports becoming content authority: reports may write report artifacts, not mutate curated project, writing, or theme records based on live service state.
-- OpenLinks over-promotion: keep OpenLinks as identity context and allow route-specific OpenLinks copy only where OpenLinks is genuinely central.
-- Asset bloat: enforce per-image and total social PNG budgets in release verification.
-- Release overclaiming: evidence labels should say `static social previews` or `freshness report contract`, not `social platforms validated`, `external links live`, or `GitHub metadata current`.
+Keep the existing functional-core / imperative-shell architecture. Public selectors and route helpers should feed pure domain projections; route components and scripts should remain thin shells that render or write those projections. The architecture should make illegal public states hard to represent: discovery, search, feeds, related work, sitemap, social previews, and static verification all derive from the same public route/content contracts.
 
-## Recommended Phases
+**Major components:**
+1. `src/domain/discovery.ts` - normalize canonical topic labels, slugs, source kinds, counts, public references, and topic route helpers.
+2. `src/domain/content-search.ts` - build small static search documents and deterministic filter/search scoring for projects, writing, themes, and topics.
+3. `src/domain/feeds.ts` - derive dated public writing feed items and serialize escaped, deterministic feed XML.
+4. `src/domain/related-work.ts` - resolve explicit project/writing/theme relationships first, then capped shared-label fallbacks with reason labels.
+5. `src/domain/routes.ts` and `src/domain/seo.ts` - include topic routes, feed alternate links, metadata, JSON-LD, sitemap, and canonical URL integration.
+6. `src/domain/social-previews.ts` - extend the existing generated-preview target contract to home, about, contact, and topic routes while preserving fallback behavior.
+7. `scripts/generate-static-metadata.ts`, `scripts/verify-static/*`, `scripts/verify-release.ts`, and `tests/browser-release.playwright.ts` - generate and prove feed files, topic output, metadata, accessibility, budgets, and evidence labels.
 
-### Phase 24: Social Image Data Contract
+### Critical Pitfalls
 
-**Rationale:** Every later phase needs one answer to "which social image belongs to this public route?"
+1. **Discovery forks the public content contract** - derive from existing public selectors and route helpers; add validation/tests for hidden/draft/archived leakage, duplicate slugs, duplicate routes, and unsupported content kinds.
+2. **Static routes or feed files are linked but not emitted** - add topic routes to `prerenderRoutes` and `sitemapRoutes`; write feed XML through static metadata generation; verify artifacts under `.output/public`.
+3. **Runtime service creep enters filtering/search** - reject hosted search, CMS, GitHub runtime calls, visitor-facing content `fetch()`, and generated JSON indexes unless explicitly researched later.
+4. **Search/filter UI hides content or blocks keyboard users** - render the default public corpus in static HTML first; progressively enhance with native controls, labels, result counts, no-results copy, reset behavior, focus visibility, and mobile wrapping checks.
+5. **Feed XML is unstable or semantically invalid** - use stable route-based IDs/GUIDs, absolute canonical URLs, checked-in writing dates, escaped summaries, deterministic sorting, and tests for duplicate/private/undated entries.
+6. **Related work becomes noisy or leaky** - rank curated relationships before shared labels, cap results, reject self-links, deduplicate by route, and keep OpenLinks as identity context rather than a default discovery CTA.
+7. **Release evidence overclaims external reality** - automated labels should say local feed XML generated/parsed, static routes emitted, metadata verified, and browser/a11y checks passed; hosted feed-reader, social-card, Cloudflare, and live-link checks stay manual.
 
-**Delivers:** Route-derived `SocialPreviewTarget` records, deterministic path/digest rules, title/summary/label/alt constraints, fallback behavior, public-only filtering, OpenLinks allowlist rules, and unit tests that compare target routes to existing project/writing/theme helpers.
+## Implications for Roadmap
 
-**Avoids:** Duplicated route lists, hidden content leakage, copied metadata strings, image-only content registries, and generic OpenLinks promotion.
+Based on research, suggested phase structure:
 
-**Research flag:** Standard local pattern. Planning should focus on exact field names, path convention, and text budgets rather than external research.
+### Phase 1: Content Discovery Foundation
 
-### Phase 25: Deterministic Static Image Generation
+**Rationale:** Every downstream feature depends on one canonical public-content/topic model. This must land before routes, filters, related work, feeds, or topic social previews.
 
-**Rationale:** Once route targets are stable, generation can be a pure projection from source data into reviewed static assets.
+**Delivers:** `discovery.ts`, canonical label normalization, topic slug validation, public-only references, topic route helpers, curation checks, and unit tests.
 
-**Delivers:** `@resvg/resvg-js@2.6.2`, checked-in font asset/license, SVG template renderer, `generate:social-previews`, `verify:social-previews`, generated PNGs, manifest/check mode, managed cleanup for `public/social/generated/`, and a contact sheet or equivalent review artifact if cheap.
+**Addresses:** Canonical discovery term registry; hidden-content exclusion; reusable route/feed/search/topic foundations.
 
-**Avoids:** Dynamic OG endpoints, browser screenshot nondeterminism, host font drift, binary churn, text clipping, and unsafe cleanup of the fallback image or unrelated public assets.
+**Avoids:** Forked content indexes, raw tag slugs, taxonomy collisions, hidden/draft/archived leakage, duplicated route inventories.
 
-**Research flag:** Needs implementation validation on a clean builder because `resvg-js` uses native prebuilt packages. Also validate long-title layout with real route data.
+### Phase 2: Static Topic Routes
 
-### Phase 26: Metadata Wiring and Static References
+**Rationale:** Crawlable topic pages should be the durable discovery surface before client filtering/search is added. This creates the route family that sitemap, metadata, related work, social previews, and static verification can share.
 
-**Rationale:** Metadata should reference generated paths only after the path contract and generated assets exist.
+**Delivers:** `/topics`, `/topics/{slug}`, topic index/detail rendering, topic metadata, JSON-LD, sitemap/prerender inclusion, linked chips on public surfaces where safe, expected-route static text, and unknown-topic fallback behavior.
 
-**Delivers:** Route-aware `src/domain/seo.ts`, project/writing/theme/index social image selection, `og:image:type`, JSON-LD image parity, updated metadata tests, and static HTML checks that prove canonical image URLs map to local `.output/public` files.
+**Addresses:** Static topic/tag discovery, topic-linked labels, discovery metadata and structured data.
 
-**Avoids:** Fallback reuse on shareable content routes, relative image URLs, non-canonical origins, mismatched OG/Twitter/JSON-LD images, and route component metadata drift.
+**Avoids:** JavaScript-only discovery, crawlable faceted URL explosion, route-output drift.
 
-**Research flag:** Standard local SEO/static verification pattern. Skip additional research unless implementation exposes a SolidStart metadata edge case.
+### Phase 3: Project and Writing Filtering/Search
 
-### Phase 27: Freshness Reports and Reviewed Snapshot Policy
+**Rationale:** Once canonical topics exist, filtering can reuse the same labels and public-content model. Keeping this after static routes ensures content remains useful without JavaScript.
 
-**Rationale:** Freshness becomes useful only after generated media and metadata references exist for the report to inspect.
+**Delivers:** `content-search.ts`, deterministic query normalization/scoring, project index filters, writing index filters, visible counts, empty/reset states, keyboard support, URL/query behavior only if needed, and browser coverage over desktop/mobile dark UI.
 
-**Delivers:** Offline freshness findings over generated media, GitHub snapshot age/unavailable records, primary link policy coverage, HTTPS/query issues, manual smoke targets, reviewed status, and optional explicit live report mode outside aggregate verification.
+**Addresses:** Project filtering, writing filtering, metadata quick search, accessible filter feedback.
 
-**Avoids:** Live-network release failures, visitor-runtime GitHub fetches, reports mutating curated content, public maintenance dashboards, and claims that metadata is live-current when only checked-in snapshots were reviewed.
+**Avoids:** Runtime search services, hidden static content, inaccessible chip controls, stale local storage, full-text index scope creep.
 
-**Research flag:** Standard local reporting pattern. Deeper research is unnecessary unless the project later wants scheduled live checks or platform-specific crawler automation.
+### Phase 4: Writing-First Static Feed
 
-### Phase 28: Verification and Release Contract
+**Rationale:** Feed generation needs stable dated entries. Writing has the cleanest date model today; projects and themes should not enter a feed until they gain explicit public publish/update evidence or a `siteUpdates` registry.
 
-**Rationale:** The milestone is only complete when the local release gate proves the implemented static contract without overclaiming hosted/manual checks.
+**Delivers:** `feeds.ts`, deterministic writing feed items, escaped XML, `/feed.xml` and/or `/writing/feed.xml`, feed autodiscovery metadata, visible feed link, static output checks, and tests for required fields, stable IDs, dates, ordering, categories, and public-only inclusion.
 
-**Delivers:** `verify:social-previews` in the aggregate gate before build, expanded `verify:static`, expanded `verify:release`, per-image and total social PNG budgets, release-readiness docs/facts, truthful evidence labels, and a manual social-card smoke checklist for one project, one writing route, and one theme route.
+**Addresses:** Static syndication for writing, feed autodiscovery, local feed validation.
 
-**Avoids:** Verifier bloat, representative-route-only coverage, manual checks mislabeled as automated evidence, live external-link gates, hosted crawler claims, and stale generated media in clean-builder releases.
+**Avoids:** Invented project/theme feed dates, runtime feed endpoints, invalid XML, duplicate feed-reader entries, stale generated artifacts.
 
-**Research flag:** Mostly standard local verifier work. Use targeted codebase research only if static verifier modules become too large or need a split.
+**Format decision:** Use one primary v1.6 feed format. RSS 2.0 is the roadmap recommendation for broad reader expectation; keep the internal `FeedItem` model format-agnostic so Atom or JSON Feed can be derived later if explicitly needed.
 
-## Deferred/Out of Scope
+### Phase 5: Centralized Related-Work Graph
 
-- Dynamic Open Graph endpoints, `@vercel/og`, API routes, edge/serverless functions, runtime image generation, remote screenshot services, and visitor-runtime image/data fetches.
-- Live external-link release gates, social-platform debugger automation, hosted crawler validation, and live GitHub freshness inside `bun run verify`.
-- CMS/admin/editor workflows, authentication, databases, public freshness dashboards, analytics pipelines, comments, newsletters, reactions, webmentions, subscriptions, search/filter/tag archives, RSS, or pagination.
-- Raw GitHub mirroring, auto-surfacing every public repo, live GitHub facts in visitor paths, and automated mutation of curated project/writing/theme records from freshness reports.
-- Hand-edited route PNGs or manually maintained route-to-image maps.
-- More prominent OpenLinks branding or primary CTA changes. Keep OpenLinks discoverable as low-intrusion identity context and use OpenLinks-specific social-card copy only for routes where OpenLinks is actually the subject.
-- New broad image-processing, crawler, browser-rendering, or Python automation stacks. The only recommended dependency addition is the narrow SVG-to-PNG renderer.
+**Rationale:** Related-work ranking becomes more useful after topic labels and routes exist. Building it after filters/feed prevents the graph from becoming the hidden content authority.
+
+**Delivers:** `related-work.ts`, explicit-first relationship ranking, shared-label fallback, reason labels, result caps, dedupe/self-link prevention, detail-page next-step panels, and regression tests for public-only links and deterministic ordering.
+
+**Addresses:** Stronger project-writing-theme-topic journeys, "continue exploring" rails, explainable recommendations.
+
+**Avoids:** Noisy tag-only links, circular/self-links, hidden content leaks, OpenLinks over-promotion.
+
+### Phase 6: Generic and Topic Social Preview Polish
+
+**Rationale:** Generated image churn should happen after route inventory settles. Extending the existing preview contract then keeps metadata, JSON-LD, manifest, assets, and budgets aligned.
+
+**Delivers:** Route-specific preview targets/assets for home, about, contact, `/topics`, and topic detail routes where distinct cards help sharing; manifest/static verifier coverage; metadata parity; fallback preservation.
+
+**Addresses:** Generic-route/topic social previews, share-card polish, existing v1.5 preview contract extension.
+
+**Avoids:** Hard-coded image paths, fallback breakage, stale manifests, oversized/generated asset drift, overlong route copy.
+
+### Phase 7: Verification and Release Evidence Contract
+
+**Rationale:** v1.6 is not done until local release gates prove the implemented static contract and release docs tell the truth about what was automated.
+
+**Delivers:** Expanded `bun run verify` coverage for curation, unit tests, static output, metadata/JSON-LD, feed XML, social previews, no runtime network content fetches, browser dark/mobile/keyboard/a11y/layout checks, release budgets, release-readiness facts, and manual smoke checklist updates.
+
+**Addresses:** Verification/release evidence contract; local automated proof without live-network claims.
+
+**Avoids:** Evidence labels before evidence, flaky live gates, unverified generated files, hidden visitor-runtime dependencies.
+
+### Phase Ordering Rationale
+
+- Discovery foundation comes first because topics, filters, feeds, related work, sitemap, social previews, and verifiers must agree on public content eligibility and canonical labels.
+- Static topic routes precede interactive filtering so the site stays crawlable, accessible, and useful without JavaScript.
+- Filtering/search comes after routes because it is progressive enhancement over static content, not the discovery authority.
+- Feeds follow public-content/date modeling; writing-only scope avoids inventing chronology for projects and themes.
+- Related work follows topics so it can use curated relationships plus topic labels without becoming an opaque recommendation engine.
+- Social preview polish follows route inventory to avoid repeated generated PNG churn and metadata drift.
+- Verification/release evidence closes the milestone after concrete checks exist; docs and labels should never describe checks that did not run.
+
+### Research Flags
+
+Phases likely needing deeper research during planning:
+- **None for the recommended v1.6 path:** the research found repo-local patterns and existing stack surfaces for every recommended phase.
+- **Phase 4 only if scope changes:** deeper research is needed if the roadmap chooses a site-updates feed, multiple feed formats in v1.6, topic-specific feeds, or live feed-reader validation.
+- **Phase 3 only if scope changes:** deeper research is needed if the project adds full-text, hosted, semantic, or large generated search indexes.
+
+Phases with standard patterns (skip research-phase):
+- **Phase 1:** pure domain helper and validation pattern already matches existing project/writing/theme helpers.
+- **Phase 2:** helper-derived SolidStart static route, sitemap, SEO, and verifier pattern is already established.
+- **Phase 3:** small Solid controls over imported checked-in data are standard local frontend work.
+- **Phase 5:** explicit-first related content resolver is a pure domain pattern.
+- **Phase 6:** v1.5 already established the generated social-preview manifest/metadata/static-verifier contract.
+- **Phase 7:** existing aggregate verification and release-readiness patterns should be extended, not re-researched.
+
+## Confidence Assessment
+
+| Area | Confidence | Notes |
+|------|------------|-------|
+| Stack | HIGH | Research inspected current `package.json`, SolidStart static setup, route/static generation patterns, and official docs. Strong conclusion: no new dependencies. |
+| Features | HIGH | Features align with `.planning/PROJECT.md` active v1.6 requirements, existing shipped milestones, and user-highlighted scope. |
+| Architecture | HIGH | Recommended components directly extend existing functional-core/imperative-shell domain helpers, route registries, static metadata scripts, and verifiers. |
+| Pitfalls | HIGH | Pitfalls are grounded in repo-specific static-output, route-helper, accessibility, and release-evidence patterns, with MEDIUM uncertainty only around external feed/social crawler behavior. |
+
+**Overall confidence:** HIGH
+
+### Gaps to Address
+
+- **Topic route naming:** Use `/topics` for v1.6. STACK mentioned `/discover` as an option, but FEATURES, ARCHITECTURE, PITFALLS, PROJECT scope, and current orchestration highlight a static topics route family.
+- **Feed format:** Research split between Atom and RSS. Roadmap recommendation is writing-first RSS 2.0 for broad reader expectation, with a format-agnostic `FeedItem` model and no second format unless explicitly scoped.
+- **Feed path:** Decide whether `/feed.xml` aliases writing or whether `/writing/feed.xml` is canonical with `/feed.xml` as an alias. Recommendation: expose `/feed.xml` for discoverability and keep implementation writing-first.
+- **Search state shareability:** Start with in-page state unless requirements explicitly need query-param sharing; durable sharing should happen through `/topics/{slug}`.
+- **Generic preview coverage:** Include home/about/contact and topic routes only where differentiated cards add sharing value; preserve fallback images for unknown or low-value routes.
+- **Manual hosted validation:** Feed-reader compatibility, hosted social-card previews, Cloudflare deploy checks, and live external links remain manual release checklist items unless a later milestone accepts live-network gate risk.
+
+## Sources
+
+### Primary (HIGH confidence)
+
+- `.planning/PROJECT.md` - v1.6 goal, active requirements, constraints, current state, and key decisions.
+- `.planning/research/STACK.md` - no-new-dependency stack recommendation and existing toolchain integration points.
+- `.planning/research/FEATURES.md` - table stakes, differentiators, anti-features, dependencies, and MVP ordering.
+- `.planning/research/ARCHITECTURE.md` - functional-core architecture, component boundaries, data flow, build order, and verification integration.
+- `.planning/research/PITFALLS.md` - critical/moderate/minor pitfalls, phase warnings, prevention, and verification checks.
+- `AGENTS.md`, `AGENTS.bright-builds.md`, `standards-overrides.md`, `standards/index.md`, `standards/core/architecture.md`, `standards/core/frontend-ui.md`, `standards/core/verification.md`, `standards/core/testing.md`, `standards/languages/typescript-javascript.md` - local Bright Builds workflow, dark-primary UI, functional-core, testing, and verification expectations.
+
+### Secondary (MEDIUM-HIGH confidence)
+
+- SolidStart prerendering and metadata docs - static route and head/metadata behavior.
+- RSS 2.0 specification and RSS autodiscovery - feed channel/item/autodiscovery requirements.
+- Atom RFC 4287 - feed identity/date model if Atom is chosen later.
+- Sitemaps protocol, Open Graph protocol, Schema.org `ItemList`/`BreadcrumbList`, WCAG 2.2, WAI-ARIA APG, MDN `URLSearchParams`, and Google faceted-navigation guidance - metadata, accessibility, filter, and crawler constraints.
 
 ---
-
+*Research completed: 2026-06-26*
 *Ready for roadmap: yes*
