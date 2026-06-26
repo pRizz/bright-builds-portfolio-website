@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.5
-milestone_name: Static Shareability & Freshness
+milestone: v1.6
+milestone_name: Content Discovery & Feeds
 current_phase: null
 current_phase_name: Not started
 current_plan: Not started
-status: milestone_complete
-stopped_at: v1.5 archived; ready for next milestone planning
-last_updated: "2026-06-23T19:51:09.645Z"
-last_activity: 2026-06-23
+status: defining_requirements
+stopped_at: v1.6 started; defining requirements and roadmap
+last_updated: "2026-06-26T22:44:31.000Z"
+last_activity: 2026-06-26
 progress:
   total_phases: 0
   completed_phases: 0
@@ -21,24 +21,24 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-23)
+See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Planning next milestone
+**Current focus:** Defining v1.6 Content Discovery & Feeds
 
 ## Current Position
 
-Phase: None
-Plan: None
+Phase: Not started (defining requirements)
+Plan: -
 Current Phase: Not started
 Current Phase Name: Not started
 Current Plan: Not started
 Total Phases: 0
 Total Plans in Phase: 0
-Status: v1.5 milestone complete; ready for next milestone planning
-Last activity: 2026-06-23
+Status: Defining requirements for v1.6 Content Discovery & Feeds
+Last activity: 2026-06-26
 
-Progress: No active milestone
+Progress: Requirements and roadmap not yet created
 
 ## Recently Completed
 
@@ -46,12 +46,12 @@ v1.5 Static Shareability & Freshness shipped on 2026-06-23 with 6/6 phases, 12/1
 
 ## Current Milestone
 
-No active milestone is defined.
+v1.6 Content Discovery & Feeds
 
-**Goal:** Define the next milestone through `/gsd-new-milestone`.
+**Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
-**Roadmap progress:** No active phases.
-**Next action:** `/gsd-new-milestone`
+**Roadmap progress:** Requirements definition in progress.
+**Next action:** Create `.planning/REQUIREMENTS.md`, then generate the v1.6 roadmap.
 
 ## Performance Metrics
 
@@ -84,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 25]: Keep social preview check helpers pure and pass filesystem metadata in from the CLI. — Pure finding helpers are unit-testable and keep write/process-exit behavior isolated to the generator command.
 - [Phase 26]: Keep route social image selection helper-derived. Covered routes use generated social preview assets through `PageMetadata`, dynamic unknown-slug fallbacks use `metadataForFallbackPage()`, and static verification checks route-correct local PNG references.
 - [Phase 27]: Keep freshness reporting read-only and offline. `report:freshness` groups findings into `release blocker`, `needs review`, and `manual smoke`, while live GitHub state, hosted crawler validation, and external-link reachability stay explicit manual smoke work outside `bun run verify`.
+- [v1.6]: Prioritize static content discovery, feed output, related-work navigation, and generic-route share polish before CMS/admin/editor workflows or live external-link automation.
+- [v1.6]: Keep OpenLinks discoverable as a low-intrusion identity surface; discovery, feed, and source/maintainer disclosure work should keep Bright Builds and content journeys primary.
 
 ### Pending Todos
 
@@ -95,7 +97,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-23T02:42:43.561Z
-Stopped at: v1.5 archived; ready for next milestone planning
+Last session: 2026-06-26T22:44:31.000Z
+Stopped at: v1.6 started; defining requirements and roadmap
 Resume file: .planning/PROJECT.md
-Next action: /gsd-new-milestone
+Next action: create requirements and roadmap for v1.6

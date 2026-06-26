@@ -26,15 +26,18 @@ v1.5 shipped on 2026-06-23 as the Static Shareability & Freshness milestone. Cov
 
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
-## Next Milestone Goals
+## Current Milestone: v1.6 Content Discovery & Feeds
 
-No active milestone is currently defined. Start the next cycle with `/gsd-new-milestone` so fresh requirements are discussed, researched, and mapped before implementation resumes.
+**Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
-Possible future directions already parked in the v1.5 archives:
+**Target features:**
 
-- Route-specific social previews for home, about, contact, and future generic routes when those pages need differentiated cards.
-- Scheduled or explicit reviewed GitHub metadata refreshes and live external-link reports, if the release process accepts that network surface.
-- Content operations such as CMS/admin/editor workflows, RSS/newsletter surfaces, search, filters, pagination, or tag archives once checked-in curated data becomes painful.
+- Static topic/tag discovery over public projects, writing, and themes.
+- Dark-primary project and writing filtering or search that works from checked-in content without visitor-runtime fetches.
+- RSS or Atom feed output for writing and/or site updates.
+- Stronger related-work paths across projects, writing, themes, and collaboration surfaces.
+- Route-specific social previews for home, about, contact, and other generic pages where differentiated cards help sharing.
+- Verification for generated discovery routes, feed validity, metadata, static output, dark/mobile layout, accessibility, and no visitor-runtime network dependencies.
 
 ## Requirements
 
@@ -57,7 +60,12 @@ Possible future directions already parked in the v1.5 archives:
 
 ### Active
 
-No active milestone requirements are currently defined. The next milestone must create a fresh `.planning/REQUIREMENTS.md`.
+- [ ] v1.6 gives visitors static discovery paths across projects, writing, and themes.
+- [ ] v1.6 gives visitors lightweight filtering or search without adding runtime content fetches.
+- [ ] v1.6 gives subscribers and feed readers a valid static feed for writing and/or site updates.
+- [ ] v1.6 strengthens related-work navigation across existing content types.
+- [ ] v1.6 adds route-specific share polish for generic public pages where it improves preview clarity.
+- [ ] v1.6 preserves dark-primary accessibility, static deployment, truthful release evidence, and OpenLinks as a low-intrusion identity surface.
 
 ### Out of Scope
 
@@ -109,6 +117,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Route metadata image selection stays helper-derived | Route files should not hard-code generated social image paths or fallback social image paths; metadata, JSON-LD, and static verification must share the social preview helper contract. | Covered routes now use generated social preview assets through `PageMetadata`, dynamic unknown-slug fallbacks use `metadataForFallbackPage()`, and static verification checks route-correct local PNG references. |
 | Freshness reports before live release gates | Broken-link and metadata freshness automation is useful, but live external checks can be flaky and network-dependent. | v1.5 shipped reviewed offline freshness reports and local release evidence that does not claim hosted or live-network verification. |
 | Public project eligibility stays centralized | Archived-project filtering must not be reimplemented independently by detail routes, hidden/excluded project views, or social preview targets. | `isPublicProjectIndexProject()` owns the archived status/maturity guard, and downstream selectors derive from that shared predicate. |
+| Content discovery before CMS/admin | The site now has enough curated projects, writing, themes, and social metadata that navigation is the next visitor-value gap, while a CMS or admin surface would add operational complexity before checked-in content becomes painful. | v1.6 scopes static discovery, filtering/search, feeds, related-work paths, and generic-route preview polish while preserving the static deployment model. |
 
 ## Evolution
 
@@ -131,4 +140,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-23 after v1.5 milestone completion*
+*Last updated: 2026-06-26 after v1.6 milestone kickoff*
