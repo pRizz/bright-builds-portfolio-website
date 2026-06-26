@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Content Discovery & Feeds
-current_phase: null
-current_phase_name: Not started
+current_phase: 30
+current_phase_name: Content Discovery Foundation
 current_plan: Not started
-status: defining_requirements
-stopped_at: v1.6 started; defining requirements and roadmap
-last_updated: "2026-06-26T22:44:31.000Z"
+status: roadmap_created
+stopped_at: v1.6 roadmap created; Phase 30 ready for discussion and planning
+last_updated: "2026-06-26T23:03:45.000Z"
 last_activity: 2026-06-26
 progress:
-  total_phases: 0
+  total_phases: 7
   completed_phases: 0
-  total_plans: 0
+  total_plans: 16
   completed_plans: 0
   percent: 0
 ---
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Defining v1.6 Content Discovery & Feeds
+**Current focus:** v1.6 Content Discovery & Feeds roadmap created; Phase 30 ready for discussion and planning.
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 30 - Content Discovery Foundation
 Plan: -
-Current Phase: Not started
-Current Phase Name: Not started
+Current Phase: 30
+Current Phase Name: Content Discovery Foundation
 Current Plan: Not started
-Total Phases: 0
-Total Plans in Phase: 0
-Status: Defining requirements for v1.6 Content Discovery & Feeds
+Total Phases: 7
+Total Plans in Phase: 1
+Status: Roadmap created for v1.6 Content Discovery & Feeds; Phase 30 not started.
 Last activity: 2026-06-26
 
-Progress: Requirements and roadmap not yet created
+Progress: 0/7 phases complete, 0/16 plans complete
 
 ## Recently Completed
 
@@ -50,12 +50,13 @@ v1.6 Content Discovery & Feeds
 
 **Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
-**Roadmap progress:** Requirements definition in progress.
-**Next action:** Create `.planning/REQUIREMENTS.md`, then generate the v1.6 roadmap.
+**Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
+**Current phase:** Phase 30 - Content Discovery Foundation (not started).
+**Next action:** Discuss and plan Phase 30.
 
 ## Performance Metrics
 
-**Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12, v1.5 12.
+**Velocity:** v1.0 14 plans, v1.1 4, v1.2 4, v1.3 10, v1.4 12, v1.5 12, v1.6 planned 16.
 **Recent trend:** The portfolio now has project, writing, theme, static social preview, freshness, and release-evidence surfaces with shared static release gates and helper-derived route coverage.
 **Phase 24 Plan 01:** 11 min, 2 tasks, 2 files, completed 2026-06-21.
 **Phase 26:** 2/2 plans completed 2026-06-21. Route-aware metadata now points covered routes to generated social preview assets while generic and unknown-slug fallback pages keep the checked-in fallback image.
@@ -86,6 +87,7 @@ Recent decisions affecting current work:
 - [Phase 27]: Keep freshness reporting read-only and offline. `report:freshness` groups findings into `release blocker`, `needs review`, and `manual smoke`, while live GitHub state, hosted crawler validation, and external-link reachability stay explicit manual smoke work outside `bun run verify`.
 - [v1.6]: Prioritize static content discovery, feed output, related-work navigation, and generic-route share polish before CMS/admin/editor workflows or live external-link automation.
 - [v1.6]: Keep OpenLinks discoverable as a low-intrusion identity surface; discovery, feed, and source/maintainer disclosure work should keep Bright Builds and content journeys primary.
+- [v1.6 roadmap]: Use the research-recommended seven-phase shape starting at Phase 30, with all 27 v1.6 requirements mapped exactly once and static-first scope preserved.
 
 ### Pending Todos
 
@@ -97,7 +99,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-26T22:44:31.000Z
-Stopped at: v1.6 started; defining requirements and roadmap
-Resume file: .planning/PROJECT.md
-Next action: create requirements and roadmap for v1.6
+Last session: 2026-06-26T23:03:45.000Z
+Stopped at: v1.6 roadmap created; Phase 30 ready for discussion and planning
+Resume file: .planning/ROADMAP.md
+Next action: discuss and plan Phase 30 - Content Discovery Foundation

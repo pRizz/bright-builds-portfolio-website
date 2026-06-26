@@ -86,43 +86,44 @@ Explicit exclusions for v1.6.
 
 ## Traceability
 
-Traceability is populated during roadmap creation.
+Traceability maps each v1.6 requirement to exactly one roadmap phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DISC-01 | TBD | Pending |
-| DISC-02 | TBD | Pending |
-| DISC-03 | TBD | Pending |
-| DISC-04 | TBD | Pending |
-| DISC-05 | TBD | Pending |
-| FIND-01 | TBD | Pending |
-| FIND-02 | TBD | Pending |
-| FIND-03 | TBD | Pending |
-| FIND-04 | TBD | Pending |
-| FIND-05 | TBD | Pending |
-| FEED-01 | TBD | Pending |
-| FEED-02 | TBD | Pending |
-| FEED-03 | TBD | Pending |
-| FEED-04 | TBD | Pending |
-| FEED-05 | TBD | Pending |
-| REL-01 | TBD | Pending |
-| REL-02 | TBD | Pending |
-| REL-03 | TBD | Pending |
-| REL-04 | TBD | Pending |
-| PREV-01 | TBD | Pending |
-| PREV-02 | TBD | Pending |
-| PREV-03 | TBD | Pending |
-| VER-01 | TBD | Pending |
-| VER-02 | TBD | Pending |
-| VER-03 | TBD | Pending |
-| VER-04 | TBD | Pending |
-| VER-05 | TBD | Pending |
+| DISC-01 | Phase 31 | Pending |
+| DISC-02 | Phase 31 | Pending |
+| DISC-03 | Phase 31 | Pending |
+| DISC-04 | Phase 30 | Pending |
+| DISC-05 | Phase 31 | Pending |
+| FIND-01 | Phase 32 | Pending |
+| FIND-02 | Phase 32 | Pending |
+| FIND-03 | Phase 32 | Pending |
+| FIND-04 | Phase 32 | Pending |
+| FIND-05 | Phase 32 | Pending |
+| FEED-01 | Phase 33 | Pending |
+| FEED-02 | Phase 33 | Pending |
+| FEED-03 | Phase 33 | Pending |
+| FEED-04 | Phase 33 | Pending |
+| FEED-05 | Phase 33 | Pending |
+| REL-01 | Phase 34 | Pending |
+| REL-02 | Phase 34 | Pending |
+| REL-03 | Phase 34 | Pending |
+| REL-04 | Phase 34 | Pending |
+| PREV-01 | Phase 35 | Pending |
+| PREV-02 | Phase 35 | Pending |
+| PREV-03 | Phase 35 | Pending |
+| VER-01 | Phase 36 | Pending |
+| VER-02 | Phase 36 | Pending |
+| VER-03 | Phase 36 | Pending |
+| VER-04 | Phase 36 | Pending |
+| VER-05 | Phase 36 | Pending |
 
 **Coverage:**
 - v1 requirements: 27 total
-- Mapped to phases: 0
-- Unmapped: 27
+- Mapped to phases: 27
+- Unmapped: 0
+- Duplicate mappings: 0
 
 ---
 *Requirements defined: 2026-06-26*
-*Last updated: 2026-06-26 after v1.6 requirements definition*
+*Last updated: 2026-06-26 after v1.6 roadmap creation*
