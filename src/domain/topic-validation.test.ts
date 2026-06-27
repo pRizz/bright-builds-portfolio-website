@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import type { ProjectStory } from "./projects";
-import type { PublicContentReference, TopicRecord, TopicReferenceSources } from "./topics";
-import { curatedTopics } from "./topics";
 import {
   assertValidCuratedTopics,
   topicCurationErrors,
@@ -9,6 +7,8 @@ import {
   validateTopicRecord,
   validateTopicRegistry,
 } from "./topic-validation";
+import type { PublicContentReference, TopicRecord, TopicReferenceSources } from "./topics";
+import { curatedTopics } from "./topics";
 
 describe("topic record validation", () => {
   it("rejects duplicate and malformed topic records with stable issue codes", () => {
