@@ -8,8 +8,8 @@ import {
   maybeTopicRecordForLabel,
   publicContentReferences,
   publicTopics,
-  topicDetailPath,
   type TopicRecord,
+  topicDetailPath,
 } from "./topics";
 import type { WritingEntry } from "./writing";
 
