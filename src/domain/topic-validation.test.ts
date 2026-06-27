@@ -289,7 +289,7 @@ describe("aggregate curation gate integration", () => {
     const hasTopicResult = source.includes("const topicResult = validateTopicRegistry");
     const hasWarningAggregation = source.includes("topicResult.warnings.length");
     const hasErrorAggregation = source.includes("topicResult.errors.length");
-    const hasTopicSuccessCount = source.includes("${curatedTopics.length} topics");
+    const hasTopicSuccessCount = source.includes(`$${"{curatedTopics.length}"} topics`);
 
     // Assert
     expect({
