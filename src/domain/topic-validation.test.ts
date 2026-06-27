@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { ProjectStory } from "./projects";
 import {
@@ -274,6 +275,38 @@ describe("checked-in topic registry validation", () => {
 
     // Assert
     expect(act).toThrow(/invalid_topic_slug: Bad Slug:/);
+  });
+});
+
+describe("aggregate curation gate integration", () => {
+  it("wires topic validation into verify-curation warning and error aggregation", () => {
+    // Arrange
+    const source = readFileSync("scripts/verify-curation.ts", "utf8");
+
+    // Act
+    const hasTopicRegistryImport = source.includes("curatedTopics");
+    const hasTopicValidatorImport = source.includes("validateTopicRegistry");
+    const hasTopicResult = source.includes("const topicResult = validateTopicRegistry");
+    const hasWarningAggregation = source.includes("topicResult.warnings.length");
+    const hasErrorAggregation = source.includes("topicResult.errors.length");
+    const hasTopicSuccessCount = source.includes("${curatedTopics.length} topics");
+
+    // Assert
+    expect({
+      hasTopicRegistryImport,
+      hasTopicValidatorImport,
+      hasTopicResult,
+      hasWarningAggregation,
+      hasErrorAggregation,
+      hasTopicSuccessCount,
+    }).toEqual({
+      hasTopicRegistryImport: true,
+      hasTopicValidatorImport: true,
+      hasTopicResult: true,
+      hasWarningAggregation: true,
+      hasErrorAggregation: true,
+      hasTopicSuccessCount: true,
+    });
   });
 });
 

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { ProjectStory } from "./projects";
 import type { ThemeRecord } from "./themes";
@@ -300,6 +301,21 @@ describe("public topic lookup", () => {
       "beta-topic",
       "z-topic",
     ]);
+  });
+});
+
+describe("topic helper scope", () => {
+  it("stays free of runtime content, route, feed, browser, and social-preview wiring", () => {
+    // Arrange
+    const source = readFileSync("src/domain/topics.ts", "utf8");
+
+    // Act
+    const forbiddenRuntimeMatches = source.match(
+      /github|cms|search|feed|\.\/routes|social-preview|playwright|browser/i,
+    );
+
+    // Assert
+    expect(forbiddenRuntimeMatches).toBeNull();
   });
 });
 
