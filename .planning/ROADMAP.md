@@ -56,7 +56,7 @@ See `## Phases`, `## Phase Details`, and `## Progress` below for the active v1.6
   4. Downstream route, filter, feed, related-work, and preview helpers can consume the same public topic/reference contract without adding visitor-runtime content fetches.
 **Plans**: 1 plan
 Plans:
-- [ ] 30-01-PLAN.md - Add canonical topic eligibility, public references, route helpers, validation findings, and focused tests.
+- [x] 30-01-PLAN.md - Add canonical topic eligibility, public references, route helpers, validation findings, and focused tests.
 
 ### Phase 31: Static Topic Routes
 **Goal**: Visitors can browse canonical static topic pages that connect public projects, writing, and themes through safe labels and crawler-readable metadata.
@@ -161,7 +161,7 @@ Plans:
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 30. Content Discovery Foundation | v1.6 | 0/1 | Not started | - |
+| 30. Content Discovery Foundation | v1.6 | 1/1 | Complete   | 2026-06-27 |
 | 31. Static Topic Routes | v1.6 | 0/3 | Not started | - |
 | 32. Project and Writing Filtering/Search | v1.6 | 0/3 | Not started | - |
 | 33. Writing-First Static Feed | v1.6 | 0/2 | Not started | - |

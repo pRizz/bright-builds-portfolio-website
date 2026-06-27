@@ -5,16 +5,16 @@ milestone_name: Content Discovery & Feeds
 current_phase: 30
 current_phase_name: Content Discovery Foundation
 current_plan: 1
-status: executing
-stopped_at: Phase 30 context gathered
-last_updated: "2026-06-27T00:30:42.630Z"
-last_activity: 2026-06-27 -- Phase 30 execution started
+status: verifying
+stopped_at: Completed 30-01-PLAN.md
+last_updated: "2026-06-27T00:47:19.638Z"
+last_activity: 2026-06-27
 progress:
   total_phases: 7
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 1
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 100
 ---
 
 # Project State
@@ -28,17 +28,17 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 
 ## Current Position
 
-Phase: 30 (Content Discovery Foundation) — EXECUTING
+Phase: 30 (Content Discovery Foundation) — VERIFYING
 Plan: 1 of 1
 Current Phase: 30
 Current Phase Name: Content Discovery Foundation
 Current Plan: 1
 Total Phases: 7
 Total Plans in Phase: 1
-Status: Executing Phase 30
-Last activity: 2026-06-27 -- Phase 30 execution started
+Status: Phase complete — ready for verification
+Last activity: 2026-06-27
 
-Progress: 0/7 phases complete, 0/16 plans complete
+Progress: 1/7 phases complete, 1/16 plans complete
 
 ## Recently Completed
 
@@ -52,7 +52,7 @@ v1.6 Content Discovery & Feeds
 
 **Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
 **Current phase:** 30
-**Next action:** Discuss and plan Phase 30.
+**Next action:** Verify Phase 30 or discuss and plan Phase 31.
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ v1.6 Content Discovery & Feeds
 **Phase 27:** 2/2 plans completed 2026-06-22. Maintainers can run `bun run report:freshness` for offline reviewed static evidence without mutating source data or adding live checks to `bun run verify`.
 **Phase 28:** 3/3 plans completed 2026-06-22. The local release gate now proves generated social previews, metadata references, static output, release budgets, and truthful evidence labels without overclaiming hosted or manual checks.
 **Phase 29:** 1/1 plan completed 2026-06-23. Archived project status and maturity records are excluded from public project/detail/social-preview selectors through the shared project predicate, with targeted and aggregate verification passing.
+**Phase 30 Plan 01:** 12 min, 3 tasks, 5 files, completed 2026-06-27. Canonical topic/reference helpers and topic curation validation now gate public discovery inputs.
 
 ## Accumulated Context
 
@@ -88,6 +89,10 @@ Recent decisions affecting current work:
 - [v1.6]: Prioritize static content discovery, feed output, related-work navigation, and generic-route share polish before CMS/admin/editor workflows or live external-link automation.
 - [v1.6]: Keep OpenLinks discoverable as a low-intrusion identity surface; discovery, feed, and source/maintainer disclosure work should keep Bright Builds and content journeys primary.
 - [v1.6 roadmap]: Use the research-recommended seven-phase shape starting at Phase 30, with all 27 v1.6 requirements mapped exactly once and static-first scope preserved.
+- [Phase 30-content-discovery-foundation]: Canonical topics live in src/domain/topics.ts as the single public discovery import surface.
+- [Phase 30-content-discovery-foundation]: Public references compose existing project, writing, and theme public selectors before exposing safe envelopes.
+- [Phase 30-content-discovery-foundation]: Topic diagnostics stay in src/domain/topic-validation.ts while visitor-facing helpers return public data or null.
+- [Phase 30-content-discovery-foundation]: verify:curation now treats topic validation as part of the aggregate registry gate.
 
 ### Pending Todos
 
@@ -99,7 +104,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-27T00:03:04.667Z
-Stopped at: Phase 30 context gathered
-Resume file: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md
-Next action: discuss and plan Phase 30 - Content Discovery Foundation
+Last session: 2026-06-27T00:47:19.634Z
+Stopped at: Completed 30-01-PLAN.md
+Resume file: None
+Next action: verify Phase 30 or discuss and plan Phase 31 - Static Topic Routes
