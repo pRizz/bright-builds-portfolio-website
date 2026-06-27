@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Content Discovery & Feeds
-current_phase: 30
-current_phase_name: Content Discovery Foundation
-current_plan: 1
+current_phase: 31
+current_phase_name: static topic routes
+current_plan: Not started
 status: verifying
 stopped_at: Completed 30-01-PLAN.md
-last_updated: "2026-06-27T00:47:19.638Z"
+last_updated: "2026-06-27T01:00:29.658Z"
 last_activity: 2026-06-27
 progress:
   total_phases: 7
@@ -31,8 +31,8 @@ See: .planning/PROJECT.md (updated 2026-06-26)
 Phase: 30 (Content Discovery Foundation) — VERIFYING
 Plan: 1 of 1
 Current Phase: 30
-Current Phase Name: Content Discovery Foundation
-Current Plan: 1
+Current Phase Name: static topic routes
+Current Plan: Not started
 Total Phases: 7
 Total Plans in Phase: 1
 Status: Phase complete — ready for verification
@@ -51,7 +51,7 @@ v1.6 Content Discovery & Feeds
 **Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
 **Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
-**Current phase:** 30
+**Current phase:** 31
 **Next action:** Verify Phase 30 or discuss and plan Phase 31.
 
 ## Performance Metrics

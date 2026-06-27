@@ -161,7 +161,7 @@ Plans:
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 30. Content Discovery Foundation | v1.6 | 1/1 | Complete   | 2026-06-27 |
+| 30. Content Discovery Foundation | v1.6 | 1/1 | Complete    | 2026-06-27 |
 | 31. Static Topic Routes | v1.6 | 0/3 | Not started | - |
 | 32. Project and Writing Filtering/Search | v1.6 | 0/3 | Not started | - |
 | 33. Writing-First Static Feed | v1.6 | 0/2 | Not started | - |

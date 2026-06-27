@@ -126,4 +126,4 @@ Traceability maps each v1.6 requirement to exactly one roadmap phase.
 
 ---
 *Requirements defined: 2026-06-26*
-*Last updated: 2026-06-26 after v1.6 roadmap creation*
+*Last updated: 2026-06-27 after Phase 30 completion*

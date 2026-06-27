@@ -24,6 +24,8 @@ v1.4 shipped on 2026-06-20 as the Theme Paths & Collaboration Surface milestone.
 
 v1.5 shipped on 2026-06-23 as the Static Shareability & Freshness milestone. Covered project, writing, theme, and route-family pages now expose helper-derived generated social image metadata, JSON-LD image parity, MIME metadata, static verifier coverage, offline freshness reporting, generated social preview release budgets, and a truthful release contract that separates local automated evidence from hosted or manual smoke checks. Phase 29 closed the audit gap that allowed selected-looking archived project records to pass public project/detail/social-preview selection. Archives live under `.planning/milestones/`.
 
+Phase 30 of v1.6 shipped on 2026-06-27. The site now has a pure canonical topic and public content reference foundation over checked-in project, writing, and theme registries, with nullable non-leaking lookup helpers and curation validation wired into the aggregate gate. Static topic routes, filtering/search UI, feed output, related-work panels, and topic/generic social previews remain later v1.6 work.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
 ## Current Milestone: v1.6 Content Discovery & Feeds
@@ -57,6 +59,7 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 27] v1.5 maintainers can run freshness checks and reviewed reports for selected metadata, primary links, and generated media without introducing visitor-runtime fetches or flaky release gates.
 - [x] [Phase 28] v1.5 release verification proves social image assets, metadata references, generated static output, and evidence labels without overclaiming hosted or manual checks.
 - [x] [Phase 29] v1.5 archived project records are rejected from public project index, detail route, slug lookup, and social preview target selection through the shared public project predicate, with regression coverage for archived status and maturity fixtures.
+- [x] [Phase 30] v1.6 establishes canonical public topic eligibility, safe public content reference envelopes, non-leaking unknown/private/draft/archived/unsupported fallback behavior, and topic curation validation before route, filter, feed, related-work, or preview consumers use discovery data.
 
 ### Active
 
@@ -118,6 +121,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Freshness reports before live release gates | Broken-link and metadata freshness automation is useful, but live external checks can be flaky and network-dependent. | v1.5 shipped reviewed offline freshness reports and local release evidence that does not claim hosted or live-network verification. |
 | Public project eligibility stays centralized | Archived-project filtering must not be reimplemented independently by detail routes, hidden/excluded project views, or social preview targets. | `isPublicProjectIndexProject()` owns the archived status/maturity guard, and downstream selectors derive from that shared predicate. |
 | Content discovery before CMS/admin | The site now has enough curated projects, writing, themes, and social metadata that navigation is the next visitor-value gap, while a CMS or admin surface would add operational complexity before checked-in content becomes painful. | v1.6 scopes static discovery, filtering/search, feeds, related-work paths, and generic-route preview polish while preserving the static deployment model. |
+| Canonical topics before discovery surfaces | Topic routes, filters, feeds, related-work helpers, and previews need one public-only topic/reference contract before they build user-facing surfaces. | Phase 30 added `src/domain/topics.ts`, `src/domain/topic-validation.ts`, safe `PublicContentReference` envelopes, nullable public topic lookups, and aggregate curation validation for 13 canonical topics. |
 
 ## Evolution
 
@@ -140,4 +144,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-26 after v1.6 milestone kickoff*
+*Last updated: 2026-06-27 after Phase 30 content discovery foundation*
