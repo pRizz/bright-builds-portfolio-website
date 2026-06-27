@@ -498,12 +498,12 @@ Phase 30 should add `topicResult = validateTopicRegistry(...)`, print topic warn
 
 **If this table is empty:** All claims in this research were verified or cited; no user confirmation is needed before planning. [VERIFIED: sources listed below]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Exact semantic alias grouping**
-   - What we know: Every current public project theme/tag, writing topic/tag, and theme title must map intentionally or fail validation. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md] [VERIFIED: bun label-audit command]
-   - What's unclear: The user has not locked whether lower-level tags such as `addresses`, `proposal`, `concept`, or `supporting-infrastructure` should become separate canonical topics or aliases of broader topics. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md]
-   - Recommendation: Plan a conservative initial registry and let `validateTopicRegistry()` fail until every public source label is explicitly represented by a slug, label, or alias. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md]
+   - Resolution: Use a conservative initial canonical topic registry where high-signal visitor-facing concepts become canonical topics, and lower-level implementation or curation labels such as `addresses`, `proposal`, `concept`, and `supporting-infrastructure` must be explicitly mapped as aliases unless the implementer can justify them as useful public topic pages in the initial registry. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md]
+   - Planning rule: `validateTopicRegistry()` must fail until every current public project theme/tag, writing topic/tag, and theme title is intentionally represented by a canonical topic slug, display label, or alias. Unmapped labels are curation errors rather than implicit public topics. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md]
+   - Execution rule: The executor may choose the exact first-pass canonical/alias grouping, but it must be explicit in checked-in data and covered by tests so future maintainers can change topic semantics deliberately. [VERIFIED: .planning/phases/30-content-discovery-foundation/30-CONTEXT.md]
 
 ## Environment Availability
 
