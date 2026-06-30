@@ -6,8 +6,8 @@ current_phase: 31
 current_phase_name: static topic routes
 current_plan: Not started
 status: verifying
-stopped_at: Completed 30-01-PLAN.md
-last_updated: "2026-06-27T01:00:29.658Z"
+stopped_at: Phase 31 context gathered
+last_updated: "2026-06-30T22:35:43.998Z"
 last_activity: 2026-06-27
 progress:
   total_phases: 7
@@ -104,7 +104,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-06-27T00:47:19.634Z
-Stopped at: Completed 30-01-PLAN.md
-Resume file: None
+Last session: 2026-06-30T22:35:43.993Z
+Stopped at: Phase 31 context gathered
+Resume file: .planning/phases/31-static-topic-routes/31-CONTEXT.md
 Next action: verify Phase 30 or discuss and plan Phase 31 - Static Topic Routes
