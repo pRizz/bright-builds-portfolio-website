@@ -12,6 +12,7 @@ import {
 import { metadataForFallbackPage, metadataForRoute, personJsonLd } from "./seo";
 import { SOCIAL_PREVIEW_FALLBACK_IMAGE } from "./social-previews";
 import { themeDetailRoutes } from "./themes";
+import { topicDetailRoutes } from "./topics";
 import { writingDetailRoutes } from "./writing";
 
 describe("foundation route registry", () => {
@@ -22,12 +23,14 @@ describe("foundation route registry", () => {
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
       ...themeDetailRoutes(),
+      ...topicDetailRoutes(),
     ];
     const expectedSitemapRoutes = [
       ...siteRoutes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
       ...themeDetailRoutes(),
+      ...topicDetailRoutes(),
     ];
 
     // Act

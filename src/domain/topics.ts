@@ -185,6 +185,10 @@ export function topicDetailPath(topic: Pick<TopicRecord, "slug">): string {
   return `/topics/${topic.slug}`;
 }
 
+export function topicDetailRoutes(sources: TopicReferenceSources = {}): readonly string[] {
+  return publicTopics(sources).map(topicDetailPath);
+}
+
 export function publicContentReferences(
   sources: TopicReferenceSources = {},
 ): readonly PublicContentReference[] {

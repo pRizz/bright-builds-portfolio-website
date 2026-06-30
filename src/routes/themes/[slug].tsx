@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
+import { TopicChip } from "../../components/TopicChip";
 import { projectDetailPath } from "../../domain/projects";
 import {
   jsonLdScriptContent,
@@ -75,6 +76,9 @@ function ThemeArticle(props: { theme: PublicThemeEntry }) {
         <h1 class="page-title">{theme.title}</h1>
         <p class="lead">{theme.summary}</p>
         <ul class="detail-status-row" aria-label={`${theme.title} audience`}>
+          <li>
+            <TopicChip label={theme.title} />
+          </li>
           <li class="tier-pill">{theme.audience}</li>
         </ul>
       </div>

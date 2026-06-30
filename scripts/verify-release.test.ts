@@ -109,8 +109,8 @@ describe("release verifier static budgets", () => {
     // Arrange
     const files = [
       textFile("index.html", "h".repeat(76 * 1024)),
-      textFile("_build/app.js", "j".repeat(90 * 1024)),
-      textFile("_build/vendor.js", "v".repeat(61 * 1024)),
+      textFile("_build/app.js", "j".repeat(100 * 1024)),
+      textFile("_build/vendor.js", "v".repeat(71 * 1024)),
       textFile("_build/app.css", "c".repeat(101 * 1024)),
       binaryFile("social/bright-builds-og.png", 251 * 1024),
     ];
@@ -121,7 +121,7 @@ describe("release verifier static budgets", () => {
 
     // Assert
     expect(report.routeHtmlBytes).toEqual(new Map([["/", 76 * 1024]]));
-    expect(report.totalJsBytes).toBe(151 * 1024);
+    expect(report.totalJsBytes).toBe(171 * 1024);
     expect(report.totalCssBytes).toBe(101 * 1024);
     expect(report.assetBytes.get("social/bright-builds-og.png")).toBe(251 * 1024);
     expect(violations.map((violation) => violation.label)).toEqual([

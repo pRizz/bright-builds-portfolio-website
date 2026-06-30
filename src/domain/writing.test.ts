@@ -219,7 +219,7 @@ describe("writing route registry", () => {
     const labels = routes.map((route) => route.label);
 
     // Assert
-    expect(labels).toEqual(["Home", "About", "Projects", "Writing", "Themes", "Contact"]);
+    expect(labels).toEqual(["Home", "About", "Projects", "Writing", "Themes", "Topics", "Contact"]);
   });
 
   it("includes the writing index and public writing detail routes in prerender data", () => {

@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
+import { TopicChip } from "../../components/TopicChip";
 import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
@@ -99,6 +100,9 @@ export default function Themes() {
                 <p class="card-copy">{theme.summary}</p>
 
                 <ul class="label-row" aria-label={`${theme.title} audience`}>
+                  <li>
+                    <TopicChip label={theme.title} />
+                  </li>
                   <li class="tier-pill">{theme.audience}</li>
                 </ul>
 

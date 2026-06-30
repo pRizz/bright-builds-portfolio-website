@@ -23,6 +23,8 @@ import {
   relatedWritingEntriesForTheme,
   themeDetailPath,
 } from "../../src/domain/themes";
+import type { PublicContentReference, PublicTopic } from "../../src/domain/topics";
+import { maybePublicTopicBySlug, publicTopics, topicDetailPath } from "../../src/domain/topics";
 import type { PublicWritingEntry, WritingBodyBlock } from "../../src/domain/writing";
 import {
   maybePublicWritingEntryBySlug,
@@ -88,6 +90,12 @@ export function expectedTextsForRoute(route: string): readonly string[] {
     return themeDetailExpectedTexts(maybeTheme);
   }
 
+  const maybeTopic = maybeTopicForDetailRoute(route);
+
+  if (maybeTopic) {
+    return topicDetailExpectedTexts(maybeTopic);
+  }
+
   if (route === "/") {
     return [
       routeStaticCheckText(route),
@@ -120,6 +128,16 @@ export function expectedTextsForRoute(route: string): readonly string[] {
       "Themes",
       "Curated routes through Peter's work, connecting durable ideas to selected projects, public writing, and proof points.",
       ...publicThemeEntries().flatMap(themeIndexEntryExpectedTexts),
+    ];
+  }
+
+  if (route === "/topics") {
+    return [
+      routeStaticCheckText(route),
+      "Topic discovery",
+      "Topics",
+      "Browse the public labels that connect Peter's projects, writing, and theme paths.",
+      ...publicTopics().flatMap(topicIndexEntryExpectedTexts),
     ];
   }
 
@@ -209,6 +227,16 @@ export function maybeThemeForDetailRoute(route: string): PublicThemeEntry | null
   }
 
   return maybePublicThemeEntryBySlug(route.slice(detailRoutePrefix.length));
+}
+
+export function maybeTopicForDetailRoute(route: string): PublicTopic | null {
+  const detailRoutePrefix = "/topics/";
+
+  if (!route.startsWith(detailRoutePrefix)) {
+    return null;
+  }
+
+  return maybePublicTopicBySlug(route.slice(detailRoutePrefix.length));
 }
 
 export function topLevelRouteForPath(path: string): SiteRoute {
@@ -301,6 +329,36 @@ export function themeDetailExpectedTexts(theme: PublicThemeEntry): readonly stri
       writingActionLabel(entry),
       `href="${escapeHtmlAttribute(writingDetailPath(entry))}"`,
     ]),
+  ];
+}
+
+export function topicIndexEntryExpectedTexts(topic: PublicTopic): readonly string[] {
+  return [
+    topic.label,
+    topicSummary(topic),
+    referenceCountLabel(topic.references.length, "reference"),
+    ...topicKindCountLabels(topic),
+    "Explore topic",
+    `href="${escapeHtmlAttribute(topicDetailPath(topic))}"`,
+  ];
+}
+
+export function topicDetailExpectedTexts(topic: PublicTopic): readonly string[] {
+  const projects = referencesForKind(topic, "project");
+  const writing = referencesForKind(topic, "writing");
+  const themes = referencesForKind(topic, "theme");
+
+  return [
+    "Back to topics",
+    "Topic",
+    topic.label,
+    topicSummary(topic),
+    "Public discovery path",
+    "Canonical label",
+    "Scope",
+    ...topicReferenceSectionExpectedTexts("Projects", projects),
+    ...topicReferenceSectionExpectedTexts("Writing", writing),
+    ...topicReferenceSectionExpectedTexts("Theme paths", themes),
   ];
 }
 
@@ -431,6 +489,87 @@ function relatedThemeExpectedTexts(themes: readonly PublicThemeEntry[]): readonl
       `href="${escapeHtmlAttribute(themeDetailPath(theme))}"`,
     ]),
   ];
+}
+
+function topicSummary(topic: PublicTopic): string {
+  return `${topic.label} connects ${referenceCountLabel(
+    topic.references.length,
+    "public reference",
+  )} across Peter's projects, writing, and theme paths.`;
+}
+
+function topicKindCountLabels(topic: PublicTopic): readonly string[] {
+  const projectCount = topic.references.filter((reference) => reference.kind === "project").length;
+  const writingCount = topic.references.filter((reference) => reference.kind === "writing").length;
+  const themeCount = topic.references.filter((reference) => reference.kind === "theme").length;
+
+  return [
+    ...(projectCount > 0 ? [referenceCountLabel(projectCount, "project")] : []),
+    ...(writingCount > 0 ? [referenceCountLabel(writingCount, "writing item")] : []),
+    ...(themeCount > 0 ? [referenceCountLabel(themeCount, "theme path")] : []),
+  ];
+}
+
+function topicReferenceExpectedTexts(reference: PublicContentReference): readonly string[] {
+  return [
+    reference.title,
+    reference.summary,
+    referenceKindLabel(reference),
+    referenceActionLabel(reference),
+    `href="${escapeHtmlAttribute(reference.canonicalPath)}"`,
+    ...reference.canonicalTopics.map((topic) => topic.label),
+  ];
+}
+
+function topicReferenceSectionExpectedTexts(
+  heading: "Projects" | "Writing" | "Theme paths",
+  references: readonly PublicContentReference[],
+): readonly string[] {
+  if (references.length === 0) {
+    return [];
+  }
+
+  return [heading, ...references.flatMap(topicReferenceExpectedTexts)];
+}
+
+function referencesForKind<TKind extends PublicContentReference["kind"]>(
+  topic: PublicTopic,
+  kind: TKind,
+): readonly Extract<PublicContentReference, { kind: TKind }>[] {
+  return topic.references.filter(
+    (reference): reference is Extract<PublicContentReference, { kind: TKind }> =>
+      reference.kind === kind,
+  );
+}
+
+function referenceKindLabel(reference: PublicContentReference): string {
+  if (reference.kind === "project") {
+    return "Project";
+  }
+
+  if (reference.kind === "writing") {
+    return reference.writingKind === "note" ? "Note" : "Essay";
+  }
+
+  return "Theme path";
+}
+
+function referenceActionLabel(
+  reference: PublicContentReference,
+): "Open project" | "Read note" | "Read essay" | "Explore theme" {
+  if (reference.kind === "project") {
+    return "Open project";
+  }
+
+  if (reference.kind === "writing") {
+    return reference.writingKind === "note" ? "Read note" : "Read essay";
+  }
+
+  return "Explore theme";
+}
+
+function referenceCountLabel(count: number, singular: string): string {
+  return `${count} ${count === 1 ? singular : `${singular}s`}`;
 }
 
 function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {

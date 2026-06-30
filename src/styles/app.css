@@ -598,6 +598,10 @@
     overflow-wrap: anywhere;
   }
 
+  .topic-chip-link {
+    @apply inline-flex min-h-11 items-center font-semibold text-emerald-200 transition hover:border-emerald-300/60 hover:text-cyan-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+  }
+
   .tier-pill {
     @apply border border-emerald-300/20 bg-emerald-300/15 px-3 py-1 font-semibold text-emerald-200 text-sm;
     max-width: 100%;

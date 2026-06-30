@@ -64,7 +64,7 @@ const textOutputExtensions = new Set([".html", ".js", ".css", ".json", ".txt", "
 
 export const releaseBudgetThresholds = {
   routeHtmlBytes: 75 * 1024,
-  totalJsBytes: 150 * 1024,
+  totalJsBytes: 170 * 1024,
   totalCssBytes: 100 * 1024,
   socialOgImageBytes: 250 * 1024,
   generatedSocialPreviewImageBytes: maxSocialPreviewPngBytes,

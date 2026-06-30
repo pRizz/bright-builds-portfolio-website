@@ -8,28 +8,28 @@ import {
   siteRoutes,
 } from "./routes";
 import { themeDetailRoutes } from "./themes";
-import { topicDetailRoutes } from "./topics";
+import { publicTopics, topicDetailPath, topicDetailRoutes } from "./topics";
 import { writingDetailRoutes } from "./writing";
 
-describe("theme route registry", () => {
-  it("registers Themes as a normal top-level navigation route", () => {
+describe("topic route registry", () => {
+  it("registers Topics as a normal top-level navigation route", () => {
     // Arrange
     const expectedRoute = {
-      id: "themes",
-      path: "/themes",
-      label: "Themes",
-      title: "Themes | Peter Ryszkiewicz",
+      id: "topics",
+      path: "/topics",
+      label: "Topics",
+      title: "Topics | Peter Ryszkiewicz",
       description:
-        "Curated routes through Peter Ryszkiewicz's work, connecting durable ideas to selected projects, public writing, and proof points.",
-      heading: "Themes",
+        "Public topics connecting Peter Ryszkiewicz's projects, writing, and theme paths through safe static discovery routes.",
+      heading: "Topics",
       staticCheckText:
-        "Curated routes through Peter's work, connecting durable ideas to selected projects, public writing, and proof points.",
+        "Browse the public labels that connect Peter's projects, writing, and theme paths.",
       nav: true,
     };
     const expectedLabels = ["Home", "About", "Projects", "Writing", "Themes", "Topics", "Contact"];
 
     // Act
-    const route = routeByPath("/themes");
+    const route = routeByPath("/topics");
     const labels = navigationRoutes.map((navigationRoute) => navigationRoute.label);
 
     // Assert
@@ -37,7 +37,19 @@ describe("theme route registry", () => {
     expect(labels).toEqual(expectedLabels);
   });
 
-  it("derives prerender routes from site, project, writing, and theme helpers", () => {
+  it("derives topic detail routes from public topics", () => {
+    // Arrange
+    const topics = publicTopics();
+
+    // Act
+    const routes = topicDetailRoutes();
+
+    // Assert
+    expect(routes).toEqual(topics.map(topicDetailPath));
+    expect(routes).not.toContain("/topics/unknown-topic");
+  });
+
+  it("derives prerender routes from site, project, writing, theme, and topic helpers", () => {
     // Arrange
     const expectedRoutes = [
       ...siteRoutes.map((route) => route.path),
@@ -52,13 +64,14 @@ describe("theme route registry", () => {
 
     // Assert
     expect(routes).toEqual(expectedRoutes);
-    expect(routes).toContain("/themes");
-    for (const route of themeDetailRoutes()) {
+    expect(routes).toContain("/topics");
+    for (const route of topicDetailRoutes()) {
       expect(routes).toContain(route);
     }
+    expect(routes).not.toContain("/topics/unknown-topic");
   });
 
-  it("includes theme index and detail routes in sitemap routes", () => {
+  it("includes topic index and detail routes in sitemap routes", () => {
     // Arrange
     const expectedRoutes = [
       ...siteRoutes.map((route) => route.path),
@@ -67,16 +80,16 @@ describe("theme route registry", () => {
       ...themeDetailRoutes(),
       ...topicDetailRoutes(),
     ];
-    const themeRoutes = themeDetailRoutes();
 
     // Act
     const routes = sitemapRoutes;
 
     // Assert
     expect(routes).toEqual(expectedRoutes);
-    expect(routes).toContain("/themes");
-    for (const route of themeRoutes) {
+    expect(routes).toContain("/topics");
+    for (const route of topicDetailRoutes()) {
       expect(routes).toContain(route);
     }
+    expect(routes).not.toContain("/topics/unknown-topic");
   });
 });

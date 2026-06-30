@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
+import { TopicChipList } from "../../components/TopicChip";
 import { projectDetailPath } from "../../domain/projects";
 import {
   jsonLdScriptContent,
@@ -94,10 +95,11 @@ function WritingArticle(props: { entry: PublicWritingEntry }) {
         <ul class="detail-status-row" aria-label={`${entry.title} metadata`}>
           <li class="tier-pill">{writingKindLabel(entry)}</li>
           <Show when={maybeDateLabel}>{(dateLabel) => <li class="chip">{dateLabel()}</li>}</Show>
-          <For each={[...entry.topics, ...entry.tags]}>
-            {(label) => <li class="chip">{label}</li>}
-          </For>
         </ul>
+        <TopicChipList
+          labels={[...entry.topics, ...entry.tags]}
+          ariaLabel={`${entry.title} topics and tags`}
+        />
       </div>
 
       <div class="writing-body">

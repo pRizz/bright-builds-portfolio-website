@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
+import { TopicChipList } from "../../components/TopicChip";
 import {
   gitHubMetadataFactsForProject,
   maybeGitHubHomepageLinkForProject,
@@ -192,10 +193,11 @@ function ProjectCard(props: ProjectCardProps) {
       <ul class="label-row" aria-label={`${props.project.name} labels`}>
         <li class="chip">{props.project.tier}</li>
         <li class="chip">{props.project.placement}</li>
-        <For each={[...props.project.themes, ...props.project.tags]}>
-          {(label) => <li class="chip">{label}</li>}
-        </For>
       </ul>
+      <TopicChipList
+        labels={[...props.project.themes, ...props.project.tags]}
+        ariaLabel={`${props.project.name} topics and tags`}
+      />
 
       <div class="link-list">
         <a class="text-link surface-link" href={projectStoryHref(props.project)}>

@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
+import { TopicChipList } from "../../components/TopicChip";
 import {
   gitHubMetadataFactsForProject,
   maybeGitHubHomepageLinkForProject,
@@ -136,17 +137,13 @@ export default function ProjectDetail() {
                       Project facts
                     </h2>
                     <GitHubMetadataRow project={selectedProject()} />
-                    <ul class="label-row" aria-label={`${selectedProject().name} labels`}>
-                      <For
-                        each={[
-                          ...selectedProject().themes,
-                          ...selectedProject().tags,
-                          selectedProject().sourceType,
-                        ]}
-                      >
-                        {(label) => <li class="chip">{label}</li>}
-                      </For>
+                    <ul class="label-row" aria-label={`${selectedProject().name} source type`}>
+                      <li class="chip">{selectedProject().sourceType}</li>
                     </ul>
+                    <TopicChipList
+                      labels={[...selectedProject().themes, ...selectedProject().tags]}
+                      ariaLabel={`${selectedProject().name} topics and tags`}
+                    />
                   </section>
 
                   <section

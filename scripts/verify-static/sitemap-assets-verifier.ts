@@ -5,12 +5,14 @@ import { peterProfile } from "../../src/domain/profile";
 import { projectDetailRoutes } from "../../src/domain/projects";
 import { robotsTxt, sitemapXml } from "../../src/domain/seo";
 import { curatedThemes, themeDetailPath, themeDetailRoutes } from "../../src/domain/themes";
+import { topicDetailRoutes } from "../../src/domain/topics";
 import type { WritingEntry } from "../../src/domain/writing";
 import { curatedWriting, writingDetailPath, writingDetailRoutes } from "../../src/domain/writing";
 import {
   generatedOutputForbiddenPatterns,
   projectDetailRouteSourcePath,
   themeDetailRouteSourcePath,
+  topicDetailRouteSourcePath,
   writingDetailRouteSourcePath,
 } from "./config";
 import { assertForbiddenTextAbsent, assertHtmlContains } from "./html-assertions";
@@ -30,6 +32,7 @@ export function assertSitemapAssetsAndRobots(
 ): void {
   assertWritingDetailRouteCoverage(outputRoot);
   assertThemeDetailRouteCoverage(outputRoot);
+  assertTopicDetailRouteCoverage(outputRoot);
   assertNoRemoteRuntimeVisualAssets(outputRoot, [...outputHtmlFiles, ...outputCssFiles]);
   assertReducedMotionCss(outputRoot, outputCssFiles);
 
@@ -51,6 +54,7 @@ export function assertSitemapAssetsAndRobots(
   assertSitemapProjectDetailCoverage(outputRoot);
   assertSitemapWritingCoverage(outputRoot);
   assertSitemapThemeCoverage(outputRoot);
+  assertSitemapTopicCoverage(outputRoot);
 
   for (const entry of curatedWriting) {
     if (entry.status === "published") {
@@ -62,9 +66,11 @@ export function assertSitemapAssetsAndRobots(
 
   assertNoPrerenderedWritingRoute(outputRoot, "/writing/unknown-writing-slug");
   assertNoPrerenderedThemeRoute(outputRoot, "/themes/unknown-theme-slug");
+  assertNoPrerenderedTopicRoute(outputRoot, "/topics/unknown-topic");
   assertProjectFallbackMetadataSource();
   assertWritingFallbackMetadataSource();
   assertThemeFallbackSource();
+  assertTopicFallbackSource();
   assertOutputTextEquals(outputRoot, "robots.txt", robotsTxt());
   assertAllOutputForbiddenTextAbsent(outputRoot, outputHtmlFiles);
 }
@@ -156,6 +162,29 @@ export function assertSitemapThemeCoverage(root: string): void {
   }
 }
 
+export function assertSitemapTopicCoverage(root: string): void {
+  const sitemapPath = assertOutputFile(root, "sitemap.xml");
+  const sitemap = readFileSync(sitemapPath, "utf8");
+
+  assertHtmlContains(
+    sitemap,
+    `<loc>${peterProfile.canonicalOrigin}/topics</loc>`,
+    "sitemap topic index route",
+  );
+
+  for (const route of topicDetailRoutes()) {
+    assertHtmlContains(
+      sitemap,
+      `<loc>${peterProfile.canonicalOrigin}${route}</loc>`,
+      `sitemap topic detail route ${route}`,
+    );
+  }
+
+  if (sitemap.includes(`<loc>${peterProfile.canonicalOrigin}/topics/unknown-topic</loc>`)) {
+    throw new Error("sitemap.xml included unknown topic route /topics/unknown-topic.");
+  }
+}
+
 export function assertWritingDetailRouteCoverage(root: string): void {
   for (const route of writingDetailRoutes()) {
     routeHtmlPath(root, route);
@@ -164,6 +193,12 @@ export function assertWritingDetailRouteCoverage(root: string): void {
 
 export function assertThemeDetailRouteCoverage(root: string): void {
   for (const route of themeDetailRoutes()) {
+    routeHtmlPath(root, route);
+  }
+}
+
+export function assertTopicDetailRouteCoverage(root: string): void {
+  for (const route of topicDetailRoutes()) {
     routeHtmlPath(root, route);
   }
 }
@@ -193,6 +228,18 @@ export function assertNoPrerenderedThemeRoute(root: string, route: string): void
 
   throw new Error(
     `Unexpected static theme output for ${route}: ${relative(root, maybeOutputPath)}`,
+  );
+}
+
+export function assertNoPrerenderedTopicRoute(root: string, route: string): void {
+  const maybeOutputPath = routeHtmlCandidates(root, route).find((path) => existsSync(path));
+
+  if (!maybeOutputPath) {
+    return;
+  }
+
+  throw new Error(
+    `Unexpected static topic output for ${route}: ${relative(root, maybeOutputPath)}`,
   );
 }
 
@@ -268,6 +315,29 @@ export function assertThemeFallbackSource(): void {
   assertHtmlContains(source, "No public theme here", context);
   assertHtmlContains(source, "Browse theme paths", context);
   assertHtmlContains(source, 'href="/themes"', context);
+}
+
+export function assertTopicFallbackSource(): void {
+  const source = readFileSync(topicDetailRouteSourcePath, "utf8");
+  const context = "Topic detail unknown-slug fallback source";
+
+  assertHtmlContains(source, 'maybePublicTopicBySlug(params.slug ?? "")', context);
+  assertHtmlContains(source, "const topicFallbackMetadata = metadataForFallbackPage({", context);
+  assertHtmlContains(source, 'title: "No public topic here | Topics | Bright Builds"', context);
+  assertHtmlContains(
+    source,
+    'description:\n    "Browse public topics to find a safe route through Peter\'s projects, writing, and theme paths.",',
+    context,
+  );
+  assertHtmlContains(source, 'canonicalPath: "/topics"', context);
+  assertHtmlContains(
+    source,
+    '<Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />',
+    context,
+  );
+  assertHtmlContains(source, "No public topic here", context);
+  assertHtmlContains(source, "Browse topics", context);
+  assertHtmlContains(source, 'href="/topics"', context);
 }
 
 export function assertNoRemoteRuntimeVisualAssets(root: string, paths: readonly string[]): void {

@@ -16,6 +16,7 @@ import {
   themeDetailPath,
   themeDetailRoutes,
 } from "../src/domain/themes";
+import { publicTopics, topicDetailPath } from "../src/domain/topics";
 import {
   publicWritingEntries,
   relatedProjectDetailPageProjects,
@@ -114,6 +115,7 @@ test.describe("browser release checks", () => {
     const themeExternalCollaborationHref = representativeThemeExternalCollaborationHref();
     const projectRelatedThemeRoute = representativeProjectRelatedThemeRoute();
     const writingRelatedThemeRoute = representativeWritingRelatedThemeRoute();
+    const topicRoute = representativeTopicDetailRoute();
     await page.goto("/");
 
     // Act
@@ -130,6 +132,9 @@ test.describe("browser release checks", () => {
       true,
     );
     expect(hasFocusedInternalPath(focusedTargets, "/themes"), "focus reaches Themes nav").toBe(
+      true,
+    );
+    expect(hasFocusedInternalPath(focusedTargets, "/topics"), "focus reaches Topics nav").toBe(
       true,
     );
     expect(hasFocusedInternalPath(focusedTargets, "/contact"), "focus reaches Contact nav").toBe(
@@ -235,6 +240,30 @@ test.describe("browser release checks", () => {
       hasFocusedHref(themeDetailFocusedTargets, themeExternalCollaborationHref),
       "focus reaches external collaboration action from theme detail route",
     ).toBe(true);
+
+    await page.goto("/topics");
+    const topicFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(topicFocusedTargets),
+      "topic focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(topicFocusedTargets, topicRoute),
+      "focus reaches public topic detail route",
+    ).toBe(true);
+
+    await page.goto(topicRoute);
+    const topicDetailFocusedTargets = await keyboardFocusTargets(page);
+
+    expect(
+      visibleFocusFailures(topicDetailFocusedTargets),
+      "topic detail focused elements must be visible",
+    ).toEqual([]);
+    expect(
+      hasFocusedInternalPath(topicDetailFocusedTargets, "/topics"),
+      "focus reaches Topics index from topic detail route",
+    ).toBe(true);
   });
 
   test("reduced-motion disables decorative hover and pointer motion", async ({
@@ -252,6 +281,8 @@ test.describe("browser release checks", () => {
       representativeWritingDetailRoute(),
       "/themes",
       representativeThemeDetailRoute(),
+      "/topics",
+      representativeTopicDetailRoute(),
     ] as const;
 
     // Act
@@ -375,6 +406,16 @@ function representativeThemeDetailRoute(): string {
   }
 
   return maybeRoute;
+}
+
+function representativeTopicDetailRoute(): string {
+  const maybeTopic = publicTopics()[0];
+
+  if (!maybeTopic) {
+    throw new Error("Expected at least one public topic route for release coverage.");
+  }
+
+  return topicDetailPath(maybeTopic);
 }
 
 function representativeThemeRelatedProjectRoute(): string {

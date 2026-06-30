@@ -19,6 +19,8 @@ import {
   relatedWritingEntriesForTheme,
   themeDetailPath,
 } from "./themes";
+import type { PublicContentReference, PublicTopic } from "./topics";
+import { publicTopics, topicDetailPath } from "./topics";
 import type { PublicWritingEntry, WritingBodyBlock } from "./writing";
 import { publicWritingEntries, writingDetailPath } from "./writing";
 
@@ -148,12 +150,51 @@ export type ThemeItemListJsonLd = {
   }>;
 };
 
+export type TopicItemListJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "ItemList";
+  itemListElement: Array<{
+    "@type": "ListItem";
+    position: number;
+    item: {
+      "@type": "CollectionPage";
+      name: string;
+      description: string;
+      url: string;
+    };
+  }>;
+};
+
 type ThemeProjectPartJsonLd = {
   "@type": "SoftwareSourceCode";
   name: string;
   description: string;
   url: string;
   sameAs: string[];
+};
+
+type TopicProjectPartJsonLd = {
+  "@type": "SoftwareSourceCode";
+  name: string;
+  description: string;
+  url: string;
+};
+
+type TopicWritingPartJsonLd = {
+  "@type": "BlogPosting";
+  headline: string;
+  name: string;
+  description: string;
+  url: string;
+  mainEntityOfPage: string;
+  keywords: readonly string[];
+};
+
+type TopicThemePartJsonLd = {
+  "@type": "CollectionPage";
+  name: string;
+  description: string;
+  url: string;
 };
 
 type SocialImageAsset = {
@@ -175,6 +216,20 @@ export type ThemeCollectionPageJsonLd = {
   about: readonly string[];
   mentions: readonly string[];
   hasPart: Array<ThemeProjectPartJsonLd | WritingBlogPostingItemJsonLd>;
+};
+
+export type TopicCollectionPageJsonLd = {
+  "@context": "https://schema.org";
+  "@type": "CollectionPage";
+  name: string;
+  description: string;
+  url: string;
+  mainEntityOfPage: string;
+  image: string;
+  creator: PersonJsonLd;
+  keywords: readonly string[];
+  about: readonly string[];
+  hasPart: Array<TopicProjectPartJsonLd | TopicWritingPartJsonLd | TopicThemePartJsonLd>;
 };
 
 export const siteAssetLinks = [
@@ -347,6 +402,36 @@ export function metadataForTheme(
   };
 }
 
+export function metadataForTopic(
+  topic: PublicTopic,
+  profile: Profile = peterProfile,
+): PageMetadata {
+  const routePath = topicDetailPath(topic);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
+  const title = `${topic.label} | Topics | Bright Builds`;
+  const description = topicDescription(topic);
+  const socialImage = socialImageForRoutePath(routePath, profile);
+
+  return {
+    title,
+    description,
+    canonical,
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: "website",
+      image: socialImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      image: socialImage,
+    },
+  };
+}
+
 export function personJsonLd(profile: Profile = peterProfile): PersonJsonLd {
   return {
     "@context": "https://schema.org",
@@ -467,6 +552,26 @@ export function themeItemListJsonLd(
   };
 }
 
+export function topicItemListJsonLd(
+  topics: readonly PublicTopic[] = publicTopics(),
+  profile: Profile = peterProfile,
+): TopicItemListJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: topics.map((topic, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "CollectionPage",
+        name: topic.label,
+        description: topicDescription(topic),
+        url: `${profile.canonicalOrigin}${topicDetailPath(topic)}`,
+      },
+    })),
+  };
+}
+
 export function themeCollectionPageJsonLd(
   theme: PublicThemeEntry,
   profile: Profile = peterProfile,
@@ -499,6 +604,31 @@ export function themeCollectionPageJsonLd(
       })),
       ...relatedWriting.map((entry) => writingBlogPostingItemJsonLd(entry, profile)),
     ],
+  };
+}
+
+export function topicCollectionPageJsonLd(
+  topic: PublicTopic,
+  profile: Profile = peterProfile,
+): TopicCollectionPageJsonLd {
+  const routePath = topicDetailPath(topic);
+  const canonical = `${profile.canonicalOrigin}${routePath}`;
+  const labels = topic.references.flatMap((reference) =>
+    reference.canonicalTopics.map((canonicalTopic) => canonicalTopic.label),
+  );
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: topic.label,
+    description: topicDescription(topic),
+    url: canonical,
+    mainEntityOfPage: canonical,
+    image: socialImageForRoutePath(routePath, profile).url,
+    creator: personJsonLd(profile),
+    keywords: uniqueStrings([topic.label, ...labels]),
+    about: [topic.label, topicDescription(topic), ...uniqueStrings(labels)],
+    hasPart: topic.references.map((reference) => topicReferenceJsonLd(reference, profile)),
   };
 }
 
@@ -546,6 +676,53 @@ function socialImageMetadataForAsset(
     alt: image.alt,
     mimeType: "image/png",
   };
+}
+
+function topicDescription(topic: PublicTopic): string {
+  return `${topic.label} connects ${referenceCountText(topic.references.length)} from Peter Ryszkiewicz's public projects, writing, and theme paths.`;
+}
+
+function referenceCountText(count: number): string {
+  return count === 1 ? "1 public reference" : `${count} public references`;
+}
+
+function topicReferenceJsonLd(
+  reference: PublicContentReference,
+  profile: Profile,
+): TopicProjectPartJsonLd | TopicWritingPartJsonLd | TopicThemePartJsonLd {
+  const url = `${profile.canonicalOrigin}${reference.canonicalPath}`;
+
+  if (reference.kind === "project") {
+    return {
+      "@type": "SoftwareSourceCode",
+      name: reference.title,
+      description: reference.summary,
+      url,
+    };
+  }
+
+  if (reference.kind === "writing") {
+    return {
+      "@type": "BlogPosting",
+      headline: reference.title,
+      name: reference.title,
+      description: reference.summary,
+      url,
+      mainEntityOfPage: url,
+      keywords: reference.canonicalTopics.map((topic) => topic.label),
+    };
+  }
+
+  return {
+    "@type": "CollectionPage",
+    name: reference.title,
+    description: reference.summary,
+    url,
+  };
+}
+
+function uniqueStrings(values: readonly string[]): readonly string[] {
+  return [...new Set(values)];
 }
 
 function writingBlogPostingItemJsonLd(

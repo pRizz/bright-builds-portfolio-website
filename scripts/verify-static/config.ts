@@ -5,6 +5,7 @@ export const staticOutputRoot = ".output/public";
 export const projectDetailRouteSourcePath = "src/routes/projects/[slug].tsx";
 export const writingDetailRouteSourcePath = "src/routes/writing/[slug].tsx";
 export const themeDetailRouteSourcePath = "src/routes/themes/[slug].tsx";
+export const topicDetailRouteSourcePath = "src/routes/topics/[slug].tsx";
 
 const staleStandaloneRepoHrefs = [
   "https://github.com/pRizz/openlinks",

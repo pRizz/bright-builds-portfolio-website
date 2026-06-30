@@ -11,12 +11,15 @@ import {
   metadataForProject,
   metadataForRoute,
   metadataForTheme,
+  metadataForTopic,
   metadataForWritingEntry,
   personJsonLd,
   projectItemListJsonLd,
   projectJsonLd,
   themeCollectionPageJsonLd,
   themeItemListJsonLd,
+  topicCollectionPageJsonLd,
+  topicItemListJsonLd,
   writingBlogPostingJsonLd,
   writingItemListJsonLd,
 } from "../../src/domain/seo";
@@ -27,6 +30,7 @@ import {
 } from "../../src/domain/social-previews";
 import type { PublicThemeEntry } from "../../src/domain/themes";
 import { publicThemeEntries, themeDetailPath } from "../../src/domain/themes";
+import { publicTopics } from "../../src/domain/topics";
 import type { PublicWritingEntry } from "../../src/domain/writing";
 import { publicWritingEntries, writingDetailPath } from "../../src/domain/writing";
 import type {
@@ -36,6 +40,7 @@ import type {
 import {
   maybeProjectForDetailRoute,
   maybeThemeForDetailRoute,
+  maybeTopicForDetailRoute,
   maybeWritingForDetailRoute,
   projectIndexItemPath,
   topLevelRouteForPath,
@@ -81,6 +86,14 @@ export function assertRouteMetadataAndJsonLd(
     return;
   }
 
+  const maybeTopic = maybeTopicForDetailRoute(routePath);
+
+  if (maybeTopic) {
+    assertMetadata(outputRoot, maybeTopic.canonicalPath, metadataForTopic(maybeTopic), html);
+    assertTopicCollectionPageJsonLd(maybeTopic, html);
+    return;
+  }
+
   const route = topLevelRouteForPath(routePath);
 
   assertMetadataForRoute(outputRoot, route, html);
@@ -119,6 +132,14 @@ export function assertRouteMetadataAndJsonLd(
       ...publicThemeEntries().map(
         (theme) => `${peterProfile.canonicalOrigin}${themeDetailPath(theme)}`,
       ),
+    ]);
+  }
+
+  if (routePath === "/topics") {
+    assertJsonLdContains(html, [
+      "ItemList",
+      JSON.stringify(topicItemListJsonLd()),
+      ...publicTopics().map((topic) => `${peterProfile.canonicalOrigin}${topic.canonicalPath}`),
     ]);
   }
 }
@@ -182,6 +203,22 @@ export function assertMetadataForTheme(
   html: string,
 ): void {
   assertMetadata(outputRoot, themeDetailPath(theme), metadataForTheme(theme), html);
+}
+
+function assertTopicCollectionPageJsonLd(
+  topic: ReturnType<typeof publicTopics>[number],
+  html: string,
+): void {
+  const jsonLd = topicCollectionPageJsonLd(topic);
+
+  assertJsonLdContains(html, [
+    "CollectionPage",
+    JSON.stringify(jsonLd),
+    topic.label,
+    ...topic.references.map(
+      (reference) => `${peterProfile.canonicalOrigin}${reference.canonicalPath}`,
+    ),
+  ]);
 }
 
 function assertMetadata(

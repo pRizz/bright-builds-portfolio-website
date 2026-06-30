@@ -5,6 +5,7 @@
   <url><loc>https://www.brightbuilds.us/projects</loc></url>
   <url><loc>https://www.brightbuilds.us/writing</loc></url>
   <url><loc>https://www.brightbuilds.us/themes</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics</loc></url>
   <url><loc>https://www.brightbuilds.us/contact</loc></url>
   <url><loc>https://www.brightbuilds.us/projects/openlinks</loc></url>
   <url><loc>https://www.brightbuilds.us/projects/free-the-world</loc></url>
@@ -16,4 +17,17 @@
   <url><loc>https://www.brightbuilds.us/writing/portable-identity-and-owned-surfaces</loc></url>
   <url><loc>https://www.brightbuilds.us/themes/agentic-engineering</loc></url>
   <url><loc>https://www.brightbuilds.us/themes/open-identity</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/ai</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/agentic-engineering</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/bitcoin</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/cryptography</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/design-systems</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/developer-tooling</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/finance</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/identity</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/math</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/open-systems</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/open-web</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/solidjs</loc></url>
+  <url><loc>https://www.brightbuilds.us/topics/web-experiments</loc></url>
 </urlset>

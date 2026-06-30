@@ -1,6 +1,7 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
+import { TopicChipList } from "../../components/TopicChip";
 import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
@@ -114,11 +115,10 @@ export default function Writing() {
                     </Show>
                   </ul>
 
-                  <ul class="label-row" aria-label={`${entry.title} topics and tags`}>
-                    <For each={[...entry.topics, ...entry.tags]}>
-                      {(label) => <li class="chip">{label}</li>}
-                    </For>
-                  </ul>
+                  <TopicChipList
+                    labels={[...entry.topics, ...entry.tags]}
+                    ariaLabel={`${entry.title} topics and tags`}
+                  />
 
                   <Show when={relatedProjects.length > 0}>
                     <p class="card-meta">

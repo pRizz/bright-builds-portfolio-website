@@ -30,6 +30,7 @@ import {
   SOCIAL_PREVIEW_FALLBACK_IMAGE,
 } from "./social-previews";
 import { themeDetailRoutes } from "./themes";
+import { topicDetailRoutes } from "./topics";
 import { writingDetailRoutes } from "./writing";
 
 describe("portfolio project surfaces", () => {
@@ -351,6 +352,7 @@ describe("portfolio SEO surfaces", () => {
     const routes = siteRoutes;
     const allPrerenderRoutes = prerenderRoutes;
     const themeRoutes = themeDetailRoutes();
+    const topicRoutes = topicDetailRoutes();
 
     // Act
     const sitemap = sitemapXml(undefined, peterProfile);
@@ -362,12 +364,14 @@ describe("portfolio SEO surfaces", () => {
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
       ...themeRoutes,
+      ...topicRoutes,
     ]);
     expect(sitemapRoutes).toEqual([
       ...routes.map((route) => route.path),
       ...projectDetailRoutes(),
       ...writingDetailRoutes(),
       ...themeRoutes,
+      ...topicRoutes,
     ]);
     for (const path of sitemapRoutes) {
       const routePath = path === "/" ? "" : path;
@@ -375,6 +379,10 @@ describe("portfolio SEO surfaces", () => {
     }
     expect(sitemap).toContain("<loc>https://www.brightbuilds.us/themes</loc>");
     for (const path of themeRoutes) {
+      expect(allPrerenderRoutes).toContain(path);
+      expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
+    }
+    for (const path of topicRoutes) {
       expect(allPrerenderRoutes).toContain(path);
       expect(sitemap).toContain(`<loc>${peterProfile.canonicalOrigin}${path}</loc>`);
     }
