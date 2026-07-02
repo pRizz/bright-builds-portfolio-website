@@ -70,9 +70,9 @@ Plans:
   5. Unknown or unsupported topic routes use non-leaking fallback behavior and do not reveal hidden content.
 **Plans**: 3 plans
 Plans:
-- [ ] 31-01-PLAN.md - Add topic route registry, prerender wiring, and dark-primary `/topics` index/detail pages.
-- [ ] 31-02-PLAN.md - Add safe topic-linked chips across public surfaces and helper-derived topic metadata.
-- [ ] 31-03-PLAN.md - Add topic sitemap, static output, social-reference, and unknown-topic fallback verification.
+- [x] 31-01-PLAN.md - Add topic route registry, prerender wiring, and dark-primary `/topics` index/detail pages.
+- [x] 31-02-PLAN.md - Add safe topic-linked chips across public surfaces and helper-derived topic metadata.
+- [x] 31-03-PLAN.md - Add topic sitemap, static output, social-reference, and unknown-topic fallback verification.
 **UI hint**: yes
 
 ### Phase 32: Project and Writing Filtering/Search
@@ -162,7 +162,7 @@ Plans:
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 30. Content Discovery Foundation | v1.6 | 1/1 | Complete    | 2026-06-27 |
-| 31. Static Topic Routes | v1.6 | 0/3 | Not started | - |
+| 31. Static Topic Routes | v1.6 | 3/3 | Complete    | 2026-07-02 |
 | 32. Project and Writing Filtering/Search | v1.6 | 0/3 | Not started | - |
 | 33. Writing-First Static Feed | v1.6 | 0/2 | Not started | - |
 | 34. Centralized Related-Work Graph | v1.6 | 0/2 | Not started | - |

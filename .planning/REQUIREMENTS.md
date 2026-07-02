@@ -9,11 +9,11 @@ Requirements for v1.6. Each requirement maps to exactly one roadmap phase.
 
 ### Discovery
 
-- [ ] **DISC-01**: Visitor can browse a canonical public topic index at `/topics` derived from public projects, writing, and themes.
-- [ ] **DISC-02**: Visitor can open each canonical public topic page at `/topics/{slug}` and see related public projects, writing, and theme paths.
-- [ ] **DISC-03**: Public label chips on project, writing, theme, and topic surfaces link to canonical topic pages only when a validated public topic exists.
+- [x] **DISC-01**: Visitor can browse a canonical public topic index at `/topics` derived from public projects, writing, and themes.
+- [x] **DISC-02**: Visitor can open each canonical public topic page at `/topics/{slug}` and see related public projects, writing, and theme paths.
+- [x] **DISC-03**: Public label chips on project, writing, theme, and topic surfaces link to canonical topic pages only when a validated public topic exists.
 - [x] **DISC-04**: Unknown, private, draft, archived, or unsupported topic inputs do not expose hidden content and use non-leaking fallback behavior.
-- [ ] **DISC-05**: Topic routes include canonical metadata, structured data, sitemap entries, social image references, and static HTML output that crawlers can read.
+- [x] **DISC-05**: Topic routes include canonical metadata, structured data, sitemap entries, social image references, and static HTML output that crawlers can read.
 
 ### Filtering and Search
 
@@ -90,11 +90,11 @@ Traceability maps each v1.6 requirement to exactly one roadmap phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DISC-01 | Phase 31 | Pending |
-| DISC-02 | Phase 31 | Pending |
-| DISC-03 | Phase 31 | Pending |
+| DISC-01 | Phase 31 | Complete |
+| DISC-02 | Phase 31 | Complete |
+| DISC-03 | Phase 31 | Complete |
 | DISC-04 | Phase 30 | Complete |
-| DISC-05 | Phase 31 | Pending |
+| DISC-05 | Phase 31 | Complete |
 | FIND-01 | Phase 32 | Pending |
 | FIND-02 | Phase 32 | Pending |
 | FIND-03 | Phase 32 | Pending |

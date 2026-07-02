@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Content Discovery & Feeds
-current_phase: 31
-current_phase_name: static topic routes
+current_phase: 32
+current_phase_name: project and writing filtering/search
 current_plan: Not started
-status: executing
-stopped_at: Phase 31 UI-SPEC approved
-last_updated: "2026-06-30T22:58:57.775Z"
-last_activity: 2026-06-30 -- Phase 31 planning complete
+status: planning
+stopped_at: Phase 31 complete; ready to discuss Phase 32
+last_updated: "2026-07-02T21:18:27.775Z"
+last_activity: 2026-07-02
 progress:
   total_phases: 7
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 1
-  percent: 25
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-26)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 30 — Content Discovery Foundation
+**Current focus:** Phase 32 — Project and Writing Filtering/Search
 
 ## Current Position
 
-Phase: 30 (Content Discovery Foundation) — VERIFYING
-Plan: 1 of 1
-Current Phase: 30
-Current Phase Name: static topic routes
+Phase: 32 (Project and Writing Filtering/Search) — READY TO PLAN
+Plan: Not started
+Current Phase: 32
+Current Phase Name: project and writing filtering/search
 Current Plan: Not started
 Total Phases: 7
 Total Plans in Phase: 3
-Status: Ready to execute
-Last activity: 2026-06-30 -- Phase 31 planning complete
+Status: Ready to plan
+Last activity: 2026-07-02
 
-Progress: 1/7 phases complete, 1/16 plans complete
+Progress: 2/7 phases complete, 4/16 plans complete
 
 ## Recently Completed
 
@@ -51,8 +51,8 @@ v1.6 Content Discovery & Feeds
 **Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
 **Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
-**Current phase:** 31
-**Next action:** Verify Phase 30 or discuss and plan Phase 31.
+**Current phase:** 32
+**Next action:** Discuss and plan Phase 32 — Project and Writing Filtering/Search.
 
 ## Performance Metrics
 
@@ -105,6 +105,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-06-30T22:54:39.142Z
-Stopped at: Phase 31 UI-SPEC approved
-Resume file: .planning/phases/31-static-topic-routes/31-UI-SPEC.md
-Next action: verify Phase 30 or discuss and plan Phase 31 - Static Topic Routes
+Stopped at: Phase 31 complete; ready to discuss Phase 32
+Resume file: None
+Next action: discuss and plan Phase 32 - Project and Writing Filtering/Search
