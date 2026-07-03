@@ -25,11 +25,11 @@ Requirements for v1.6. Each requirement maps to exactly one roadmap phase.
 
 ### Feeds
 
-- [ ] **FEED-01**: Visitor or feed reader can subscribe to a valid static writing-first feed at `/feed.xml`.
-- [ ] **FEED-02**: Feed entries use stable canonical IDs, absolute links, checked-in dates, public categories, summaries, and deterministic ordering.
-- [ ] **FEED-03**: Feed generation excludes draft, hidden, archived, undated, unsupported, or invented project/theme update records.
-- [ ] **FEED-04**: Home and writing surfaces expose feed autodiscovery metadata and a visible low-intrusion feed link.
-- [ ] **FEED-05**: Feed generation is deterministic, local, and does not mutate source data unexpectedly during ordinary build or verification.
+- [x] **FEED-01**: Visitor or feed reader can subscribe to a valid static writing-first feed at `/feed.xml`.
+- [x] **FEED-02**: Feed entries use stable canonical IDs, absolute links, checked-in dates, public categories, summaries, and deterministic ordering.
+- [x] **FEED-03**: Feed generation excludes draft, hidden, archived, undated, unsupported, or invented project/theme update records.
+- [x] **FEED-04**: Home and writing surfaces expose feed autodiscovery metadata and a visible low-intrusion feed link.
+- [x] **FEED-05**: Feed generation is deterministic, local, and does not mutate source data unexpectedly during ordinary build or verification.
 
 ### Related Work
 
@@ -100,11 +100,11 @@ Traceability maps each v1.6 requirement to exactly one roadmap phase.
 | FIND-03 | Phase 32 | Pending |
 | FIND-04 | Phase 32 | Pending |
 | FIND-05 | Phase 32 | Pending |
-| FEED-01 | Phase 33 | Pending |
-| FEED-02 | Phase 33 | Pending |
-| FEED-03 | Phase 33 | Pending |
-| FEED-04 | Phase 33 | Pending |
-| FEED-05 | Phase 33 | Pending |
+| FEED-01 | Phase 33 | Complete |
+| FEED-02 | Phase 33 | Complete |
+| FEED-03 | Phase 33 | Complete |
+| FEED-04 | Phase 33 | Complete |
+| FEED-05 | Phase 33 | Complete |
 | REL-01 | Phase 34 | Pending |
 | REL-02 | Phase 34 | Pending |
 | REL-03 | Phase 34 | Pending |
@@ -126,4 +126,4 @@ Traceability maps each v1.6 requirement to exactly one roadmap phase.
 
 ---
 *Requirements defined: 2026-06-26*
-*Last updated: 2026-06-27 after Phase 30 completion*
+*Last updated: 2026-07-03 after Phase 33 completion*

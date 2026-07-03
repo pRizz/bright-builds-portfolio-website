@@ -164,7 +164,7 @@ Plans:
 | 30. Content Discovery Foundation | v1.6 | 1/1 | Complete    | 2026-06-27 |
 | 31. Static Topic Routes | v1.6 | 3/3 | Complete    | 2026-07-02 |
 | 32. Project and Writing Filtering/Search | v1.6 | 3/3 | Complete    | 2026-07-03 |
-| 33. Writing-First Static Feed | v1.6 | 2/2 | Complete   | 2026-07-03 |
+| 33. Writing-First Static Feed | v1.6 | 2/2 | Complete    | 2026-07-03 |
 | 34. Centralized Related-Work Graph | v1.6 | 0/2 | Not started | - |
 | 35. Generic and Topic Social Preview Polish | v1.6 | 0/2 | Not started | - |
 | 36. Verification and Release Evidence Contract | v1.6 | 0/3 | Not started | - |

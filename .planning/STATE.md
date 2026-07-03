@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Content Discovery & Feeds
-current_phase: 33
-current_phase_name: Writing-First Static Feed
-current_plan: 1
-status: executing
-stopped_at: Phase 33 UI-SPEC approved
-last_updated: "2026-07-03T14:52:45.419Z"
-last_activity: 2026-07-03 -- Phase 33 execution started
+current_phase: 34
+current_phase_name: Centralized Related-Work Graph
+current_plan: Not started
+status: ready_to_plan
+stopped_at: Phase 33 complete; next phase ready for discussion
+last_updated: "2026-07-03T15:51:10.103Z"
+last_activity: 2026-07-03 -- Phase 33 complete
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 9
-  completed_plans: 7
-  percent: 78
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -24,21 +24,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-03)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 33 — Writing-First Static Feed
+**Current focus:** Phase 34 — Centralized Related-Work Graph
 
 ## Current Position
 
-Phase: 33 (Writing-First Static Feed) — EXECUTING
-Plan: 1 of 2
-Current Phase: 33
-Current Phase Name: Writing-First Static Feed
-Current Plan: 1
+Phase: 34 (Centralized Related-Work Graph) — READY TO PLAN
+Plan: Not started
+Current Phase: 34
+Current Phase Name: Centralized Related-Work Graph
+Current Plan: Not started
 Total Phases: 7
 Total Plans in Phase: 2
-Status: Executing Phase 33
-Last activity: 2026-07-03 -- Phase 33 execution started
+Status: Ready to plan
+Last activity: 2026-07-03 -- Phase 33 complete
 
-Progress: 3/7 phases complete, 7/16 plans complete
+Progress: 4/7 phases complete, 9/16 plans complete
 
 ## Recently Completed
 
@@ -51,8 +51,8 @@ v1.6 Content Discovery & Feeds
 **Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
 **Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
-**Current phase:** 33
-**Next action:** Discuss and plan Phase 33 — Writing-First Static Feed.
+**Current phase:** 34
+**Next action:** Discuss and plan Phase 34 — Centralized Related-Work Graph.
 
 ## Performance Metrics
 
@@ -65,6 +65,7 @@ v1.6 Content Discovery & Feeds
 **Phase 29:** 1/1 plan completed 2026-06-23. Archived project status and maturity records are excluded from public project/detail/social-preview selectors through the shared project predicate, with targeted and aggregate verification passing.
 **Phase 30 Plan 01:** 12 min, 3 tasks, 5 files, completed 2026-06-27. Canonical topic/reference helpers and topic curation validation now gate public discovery inputs.
 **Phase 32:** 3/3 plans completed 2026-07-03. Project and writing indexes now have dark-primary in-memory search and facets over checked-in public content references, with static defaults, URL-safe state, browser/static/release coverage, and a clean code review.
+**Phase 33:** 2/2 plans completed 2026-07-03. The site now publishes deterministic checked-in `/feed.xml`, verifies feed drift before build, exposes RSS autodiscovery plus low-intrusion home/writing feed links, and covers the feed through unit, static, browser, release, and aggregate verification.
 
 ## Accumulated Context
 
@@ -96,6 +97,8 @@ Recent decisions affecting current work:
 - [Phase 30-content-discovery-foundation]: verify:curation now treats topic validation as part of the aggregate registry gate.
 - [Phase 32-project-and-writing-filtering-search]: Filtering/search state stays in memory only; canonical URLs, sitemap entries, route metadata, and visitor-runtime dependency guarantees remain unchanged.
 - [Phase 32-project-and-writing-filtering-search]: Short query tokens match normalized field token prefixes, not arbitrary substrings, to avoid false positives such as `ai` matching `maintained`.
+- [Phase 33-writing-first-static-feed]: Keep `/feed.xml` as a checked-in static asset generated from `rssFeedXml()`, with `verify:feed` catching drift before build.
+- [Phase 33-writing-first-static-feed]: Emit RSS autodiscovery from the server document via `writingFeedMetadata()` and keep visible `RSS feed` links low-intrusion on home and writing.
 
 ### Pending Todos
 
@@ -107,7 +110,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-07-03T14:33:53.294Z
-Stopped at: Phase 33 UI-SPEC approved
-Resume file: .planning/phases/33-writing-first-static-feed/33-UI-SPEC.md
-Next action: discuss and plan Phase 33 - Writing-First Static Feed
+Last session: 2026-07-03T15:51:10.103Z
+Stopped at: Phase 33 complete; next phase ready for discussion
+Resume file: .planning/phases/33-writing-first-static-feed/33-VERIFICATION.md
+Next action: discuss and plan Phase 34 - Centralized Related-Work Graph
