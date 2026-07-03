@@ -295,6 +295,31 @@ describe("content search filtering", () => {
     ]);
   });
 
+  it("does not match short topic queries inside unrelated field words", () => {
+    // Arrange
+    const references = [
+      projectReference({
+        slug: "ai-project",
+        title: "AI project",
+        canonicalTopics: [topicAi],
+      }),
+      projectReference({
+        slug: "maintained-project",
+        title: "Maintenance project",
+        summary: "Upkeep-focused project.",
+        canonicalTopics: [topicOpenWeb],
+        sourceLabels: [sourceLabel("project-theme", "Open web", "project", "maintained-project")],
+        projectStatus: "maintained",
+      }),
+    ];
+
+    // Act
+    const summary = searchContentReferences({ references, kind: "project", query: "ai" });
+
+    // Assert
+    expect(summary.results.map(({ reference }) => reference.slug)).toEqual(["ai-project"]);
+  });
+
   it("returns all references in public display order when inactive", () => {
     // Arrange
     const references = [

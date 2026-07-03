@@ -448,15 +448,15 @@ function scoreToken(
 }
 
 function scoreField(values: readonly string[], queryToken: string, weight: number): number {
-  if (values.some((value) => fieldSearchText(value).includes(queryToken))) {
+  const matches = values.some((value) =>
+    normalizeContentSearchQuery(value).some((fieldToken) => fieldToken.startsWith(queryToken)),
+  );
+
+  if (matches) {
     return weight;
   }
 
   return 0;
-}
-
-function fieldSearchText(value: string): string {
-  return normalizeContentSearchQuery(value).join(" ");
 }
 
 function compareResults(left: ContentSearchResult, right: ContentSearchResult): number {
