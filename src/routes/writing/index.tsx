@@ -1,7 +1,7 @@
-import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import { DiscoveryFilterControls } from "../../components/DiscoveryFilterControls";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
+import { RouteHead } from "../../components/RouteHead";
 import { TopicChipList } from "../../components/TopicChip";
 import {
   type ContentFacetGroup,
@@ -13,7 +13,6 @@ import {
   jsonLdScriptContent,
   metadataForRoute,
   personJsonLd,
-  siteAssetLinks,
   writingItemListJsonLd,
 } from "../../domain/seo";
 import { publicContentReferences } from "../../domain/topics";
@@ -80,38 +79,7 @@ export default function Writing() {
 
   return (
     <>
-      <Title>{metadata.title}</Title>
-      <Meta name="description" content={metadata.description} />
-      <HeadLink rel="canonical" href={metadata.canonical} />
-      <For each={siteAssetLinks}>
-        {(asset) => {
-          if (asset.rel === "apple-touch-icon") {
-            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
-          }
-
-          if ("sizes" in asset) {
-            return (
-              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
-            );
-          }
-
-          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
-        }}
-      </For>
-      <Meta property="og:title" content={metadata.openGraph.title} />
-      <Meta property="og:description" content={metadata.openGraph.description} />
-      <Meta property="og:url" content={metadata.openGraph.url} />
-      <Meta property="og:type" content={metadata.openGraph.type} />
-      <Meta property="og:image" content={metadata.openGraph.image.url} />
-      <Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />
-      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
-      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
-      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
-      <Meta name="twitter:card" content={metadata.twitter.card} />
-      <Meta name="twitter:title" content={metadata.twitter.title} />
-      <Meta name="twitter:description" content={metadata.twitter.description} />
-      <Meta name="twitter:image" content={metadata.twitter.image.url} />
-      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <RouteHead metadata={metadata} />
       <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
       <script type="application/ld+json">{jsonLdScriptContent(writingItemListJsonLdValue)}</script>
 
@@ -164,33 +132,37 @@ export default function Writing() {
 }
 
 function WritingCard(props: { entry: PublicWritingEntry }) {
-  const maybeDateLabel = writingDateLabel(props.entry);
-  const relatedProjects = relatedProjectDetailPageProjects(props.entry);
+  const entry = props.entry;
+  const actionLabel = entry.kind === "note" ? "Read note" : "Read essay";
+  const detailPath = writingDetailPath(entry);
+  const kindLabel = entry.kind === "note" ? "Note" : "Essay";
+  const maybeDateLabel = writingDateLabel(entry);
+  const relatedProjects = relatedProjectDetailPageProjects(entry);
 
   return (
     <article class="writing-card project-anchor-card interactive-surface reactive-card">
       <div class="card-header">
         <div>
           <h2 class="card-title">
-            <a class="project-anchor-link" href={writingDetailPath(props.entry)}>
-              {props.entry.title}
+            <a class="project-anchor-link" href={detailPath}>
+              {entry.title}
             </a>
           </h2>
-          <p class="card-meta">{writingKindLabel(props.entry)}</p>
+          <p class="card-meta">{kindLabel}</p>
         </div>
-        <span class="tier-pill">{writingKindLabel(props.entry)}</span>
+        <span class="tier-pill">{kindLabel}</span>
       </div>
 
-      <p class="card-copy">{props.entry.summary}</p>
+      <p class="card-copy">{entry.summary}</p>
 
-      <ul class="label-row" aria-label={`${props.entry.title} metadata`}>
-        <li class="chip">{writingKindLabel(props.entry)}</li>
+      <ul class="label-row" aria-label={`${entry.title} metadata`}>
+        <li class="chip">{kindLabel}</li>
         <Show when={maybeDateLabel}>{(dateLabel) => <li class="chip">{dateLabel()}</li>}</Show>
       </ul>
 
       <TopicChipList
-        labels={[...props.entry.topics, ...props.entry.tags]}
-        ariaLabel={`${props.entry.title} topics and tags`}
+        labels={[...entry.topics, ...entry.tags]}
+        ariaLabel={`${entry.title} topics and tags`}
       />
 
       <Show when={relatedProjects.length > 0}>
@@ -202,8 +174,8 @@ function WritingCard(props: { entry: PublicWritingEntry }) {
       </Show>
 
       <div class="link-list">
-        <a class="text-link surface-link" href={writingDetailPath(props.entry)}>
-          {writingActionLabel(props.entry)}
+        <a class="text-link surface-link" href={detailPath}>
+          {actionLabel}
         </a>
       </div>
     </article>
@@ -220,14 +192,6 @@ function WritingEmptyState(props: { onReset: () => void }) {
       </button>
     </div>
   );
-}
-
-function writingKindLabel(entry: Pick<PublicWritingEntry, "kind">): "Note" | "Essay" {
-  return entry.kind === "note" ? "Note" : "Essay";
-}
-
-function writingActionLabel(entry: Pick<PublicWritingEntry, "kind">): "Read note" | "Read essay" {
-  return entry.kind === "note" ? "Read note" : "Read essay";
 }
 
 function writingDateLabel(entry: PublicWritingEntry): string | null {

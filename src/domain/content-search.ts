@@ -61,7 +61,6 @@ type ContentFacetDefinition = {
   id: string;
   groupId: ContentFacetGroupId;
   label: string;
-  sortOrder: number;
 };
 
 type ContentFacetGroupDefinition = {
@@ -132,10 +131,7 @@ export function contentFacetGroupsForKind(
   return groupDefinitions.map((group) => ({
     id: group.id,
     label: group.label,
-    facets: [...facetCounts.values()]
-      .filter((facet) => facet.groupId === group.id)
-      .sort(compareFacets)
-      .map(({ sortOrder: _sortOrder, ...facet }) => facet),
+    facets: [...facetCounts.values()].filter((facet) => facet.groupId === group.id),
   }));
 }
 
@@ -186,11 +182,8 @@ function facetGroupDefinitionsForKind(
   return WRITING_FACET_GROUPS;
 }
 
-function countFacets(
-  references: readonly PublicContentReference[],
-): Map<string, ContentFacet & { sortOrder: number }> {
-  const facetsById = new Map<string, ContentFacet & { sortOrder: number }>();
-  let nextSortOrder = 0;
+function countFacets(references: readonly PublicContentReference[]): Map<string, ContentFacet> {
+  const facetsById = new Map<string, ContentFacet>();
 
   for (const reference of references) {
     const seenReferenceFacetIds = new Set<string>();
@@ -216,9 +209,7 @@ function countFacets(
         groupId: facet.groupId,
         label: facet.label,
         count: 1,
-        sortOrder: nextSortOrder,
       });
-      nextSortOrder += 1;
     }
   }
 
@@ -252,7 +243,6 @@ function topicFacets(topics: readonly TopicRecord[]): readonly ContentFacetDefin
     id: `topic:${topic.slug}`,
     groupId: "topics",
     label: topic.label,
-    sortOrder: 0,
   }));
 }
 
@@ -270,7 +260,6 @@ function maybeProjectTierFacet(
       id: `project-tier:${tier}`,
       groupId: "project-tier",
       label: maybeLabel,
-      sortOrder: 0,
     },
   ];
 }
@@ -289,7 +278,6 @@ function maybeProjectStatusFacet(
       id: `project-status:${status}`,
       groupId: "project-status",
       label: maybeLabel,
-      sortOrder: 0,
     },
   ];
 }
@@ -301,7 +289,6 @@ function projectSourceFacet(
     id: `project-source:${sourceType}`,
     groupId: "project-source",
     label: PROJECT_SOURCE_LABELS[sourceType],
-    sortOrder: 0,
   };
 }
 
@@ -312,7 +299,6 @@ function writingKindFacet(
     id: `writing-kind:${writingKind}`,
     groupId: "writing-kind",
     label: WRITING_KIND_LABELS[writingKind],
-    sortOrder: 0,
   };
 }
 
@@ -333,7 +319,6 @@ function writingTagFacets(labels: readonly TopicSourceLabel[]): readonly Content
         id: `writing-tag:${facetKey}`,
         groupId: "writing-tag",
         label: label.label,
-        sortOrder: 0,
       },
     ];
   });
@@ -366,7 +351,6 @@ function maybeWritingYearFacet(
       id: `writing-year:${kind}:${maybeYear}`,
       groupId: "writing-year",
       label,
-      sortOrder: 0,
     },
   ];
 }
@@ -443,23 +427,23 @@ function scoreToken(
   queryToken: string,
 ): number {
   return Math.max(
-    scoreField([reference.title], queryToken, CONTENT_SEARCH_WEIGHTS.title),
+    scoreField([reference.title], queryToken, 100),
     scoreField(
       reference.canonicalTopics.flatMap((topic) => [topic.label, topic.slug]),
       queryToken,
-      CONTENT_SEARCH_WEIGHTS.canonicalTopic,
+      70,
     ),
     scoreField(
       referenceFacets.flatMap((facet) => [facet.label, facet.id]),
       queryToken,
-      CONTENT_SEARCH_WEIGHTS.publicFacet,
+      55,
     ),
     scoreField(
       reference.sourceLabels.map((label) => label.label),
       queryToken,
-      CONTENT_SEARCH_WEIGHTS.sourceLabel,
+      40,
     ),
-    scoreField([reference.summary], queryToken, CONTENT_SEARCH_WEIGHTS.summary),
+    scoreField([reference.summary], queryToken, 20),
   );
 }
 
@@ -473,13 +457,6 @@ function scoreField(values: readonly string[], queryToken: string, weight: numbe
 
 function fieldSearchText(value: string): string {
   return normalizeContentSearchQuery(value).join(" ");
-}
-
-function compareFacets(
-  left: ContentFacet & { sortOrder: number },
-  right: ContentFacet & { sortOrder: number },
-): number {
-  return left.sortOrder - right.sortOrder || left.label.localeCompare(right.label);
 }
 
 function compareResults(left: ContentSearchResult, right: ContentSearchResult): number {

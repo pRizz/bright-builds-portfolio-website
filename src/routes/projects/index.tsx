@@ -1,7 +1,7 @@
-import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import { DiscoveryFilterControls } from "../../components/DiscoveryFilterControls";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
+import { RouteHead } from "../../components/RouteHead";
 import { TopicChipList } from "../../components/TopicChip";
 import {
   type ContentFacetGroup,
@@ -29,7 +29,6 @@ import {
   metadataForRoute,
   personJsonLd,
   projectItemListJsonLd,
-  siteAssetLinks,
 } from "../../domain/seo";
 import { publicContentReferences } from "../../domain/topics";
 
@@ -98,38 +97,7 @@ export default function Projects() {
 
   return (
     <>
-      <Title>{metadata.title}</Title>
-      <Meta name="description" content={metadata.description} />
-      <HeadLink rel="canonical" href={metadata.canonical} />
-      <For each={siteAssetLinks}>
-        {(asset) => {
-          if (asset.rel === "apple-touch-icon") {
-            return <HeadLink rel={asset.rel} href={asset.href} sizes={asset.sizes} />;
-          }
-
-          if ("sizes" in asset) {
-            return (
-              <HeadLink rel={asset.rel} href={asset.href} type={asset.type} sizes={asset.sizes} />
-            );
-          }
-
-          return <HeadLink rel={asset.rel} href={asset.href} type={asset.type} />;
-        }}
-      </For>
-      <Meta property="og:title" content={metadata.openGraph.title} />
-      <Meta property="og:description" content={metadata.openGraph.description} />
-      <Meta property="og:url" content={metadata.openGraph.url} />
-      <Meta property="og:type" content={metadata.openGraph.type} />
-      <Meta property="og:image" content={metadata.openGraph.image.url} />
-      <Meta property="og:image:type" content={metadata.openGraph.image.mimeType} />
-      <Meta property="og:image:width" content={metadata.openGraph.image.width.toString()} />
-      <Meta property="og:image:height" content={metadata.openGraph.image.height.toString()} />
-      <Meta property="og:image:alt" content={metadata.openGraph.image.alt} />
-      <Meta name="twitter:card" content={metadata.twitter.card} />
-      <Meta name="twitter:title" content={metadata.twitter.title} />
-      <Meta name="twitter:description" content={metadata.twitter.description} />
-      <Meta name="twitter:image" content={metadata.twitter.image.url} />
-      <Meta name="twitter:image:alt" content={metadata.twitter.image.alt} />
+      <RouteHead metadata={metadata} />
       <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
       <script type="application/ld+json">{jsonLdScriptContent(itemListJsonLdValue)}</script>
 
