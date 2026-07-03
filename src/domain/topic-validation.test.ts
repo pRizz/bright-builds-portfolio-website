@@ -347,6 +347,7 @@ function makeProjectReference(
       },
     ],
     displayOrder: 10,
+    projectTier: "flagship",
     projectStatus: "building",
     projectSourceType: "original",
     ...overrides,
