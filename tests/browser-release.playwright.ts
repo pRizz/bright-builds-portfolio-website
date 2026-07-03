@@ -1,9 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Locator, type Page, test } from "@playwright/test";
+import { contentFacetGroupsForKind } from "../src/domain/content-search";
 import {
   projectDetailPageProjects,
   projectDetailPath,
   projectDetailRoutes,
+  publicProjectIndexProjects,
 } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
 import {
@@ -16,7 +18,7 @@ import {
   themeDetailPath,
   themeDetailRoutes,
 } from "../src/domain/themes";
-import { publicTopics, topicDetailPath } from "../src/domain/topics";
+import { publicContentReferences, publicTopics, topicDetailPath } from "../src/domain/topics";
 import {
   publicWritingEntries,
   relatedProjectDetailPageProjects,
@@ -266,6 +268,51 @@ test.describe("browser release checks", () => {
     ).toBe(true);
   });
 
+  test("project filters update counts, reset, empty state, and URL state", async ({ page }) => {
+    // Arrange
+    const projectCount = publicProjectIndexProjects().length;
+    const facet = narrowingProjectFacet();
+    const expectedDefaultStatus = `${projectCount} of ${projectCount} public projects shown`;
+    await page.goto("/projects");
+
+    // Act
+    expectUrlWithoutSearchOrHash(page);
+    const initialProjectHrefs = await visibleProjectCardHrefs(page);
+    const facetCheckbox = page.getByRole("checkbox", { name: escapedRegExp(facet.label) });
+    await facetCheckbox.click();
+    const filteredProjectHrefs = await visibleProjectCardHrefs(page);
+
+    // Assert
+    await expect(facetCheckbox).toBeChecked();
+    await expect(page.getByRole("status")).toHaveText(
+      `${facet.count} of ${projectCount} public projects shown`,
+    );
+    expect(filteredProjectHrefs).not.toEqual(initialProjectHrefs);
+    expectUrlWithoutSearchOrHash(page);
+
+    await page.getByRole("button", { name: "Reset filters" }).click();
+
+    await expect(facetCheckbox).not.toBeChecked();
+    await expect(page.locator(".filter-checkbox:checked")).toHaveCount(0);
+    await expect(page.getByRole("status")).toHaveText(expectedDefaultStatus);
+    expectUrlWithoutSearchOrHash(page);
+
+    await page.getByLabel("Search public projects").fill("OpenLinks");
+
+    await expect(page.getByRole("status")).toHaveText(/\d+ of \d+ public projects shown/);
+    const openLinksStatus = await projectStatusCount(page);
+    expect(openLinksStatus.visible).toBeLessThan(projectCount);
+
+    await page.getByLabel("Search public projects").fill("zzzz-no-public-project");
+
+    await expect(page.getByText("No public projects match these filters")).toBeVisible();
+
+    await page.getByRole("button", { name: "Reset filters" }).first().click();
+
+    await expect(page.getByRole("status")).toHaveText(expectedDefaultStatus);
+    expectUrlWithoutSearchOrHash(page);
+  });
+
   test("reduced-motion disables decorative hover and pointer motion", async ({
     page,
   }, testInfo) => {
@@ -291,6 +338,22 @@ test.describe("browser release checks", () => {
     }
   });
 });
+
+function narrowingProjectFacet() {
+  const projectCount = publicProjectIndexProjects().length;
+
+  for (const facetGroup of contentFacetGroupsForKind("project", publicContentReferences())) {
+    const maybeFacet = facetGroup.facets.find(
+      (facet) => facet.count > 0 && facet.count < projectCount,
+    );
+
+    if (maybeFacet) {
+      return maybeFacet;
+    }
+  }
+
+  throw new Error("Expected at least one narrowing project facet for browser coverage.");
+}
 
 function representativeProjectDetailRoute(): string {
   const maybeRoute = projectDetailRoutes()[0];
@@ -594,6 +657,43 @@ async function layoutFindingsForPage(page: Page): Promise<readonly LayoutFinding
 
     return findings;
   });
+}
+
+function expectUrlWithoutSearchOrHash(page: Page): void {
+  const url = new URL(page.url());
+
+  expect(url.search).toBe("");
+  expect(url.hash).toBe("");
+}
+
+function escapedRegExp(value: string): RegExp {
+  return new RegExp(value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+}
+
+async function visibleProjectCardHrefs(page: Page): Promise<readonly string[]> {
+  return page.locator(".project-anchor-card .project-anchor-link").evaluateAll((links) =>
+    links.map((link) => {
+      if (!(link instanceof HTMLAnchorElement)) {
+        throw new Error("Expected project card link to be an anchor.");
+      }
+
+      return link.href;
+    }),
+  );
+}
+
+async function projectStatusCount(page: Page): Promise<{ visible: number; total: number }> {
+  const statusText = (await page.getByRole("status").innerText()).trim();
+  const maybeMatch = /^(\d+) of (\d+) public projects shown$/.exec(statusText);
+
+  if (!maybeMatch) {
+    throw new Error(`Expected project filter status count, received: ${statusText}`);
+  }
+
+  return {
+    visible: Number(maybeMatch[1]),
+    total: Number(maybeMatch[2]),
+  };
 }
 
 async function firstVisibleLocator(page: Page, selector: string): Promise<Locator> {

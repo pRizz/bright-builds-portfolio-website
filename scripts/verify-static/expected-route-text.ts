@@ -144,6 +144,14 @@ export function expectedTextsForRoute(route: string): readonly string[] {
   if (route === "/projects") {
     return [
       routeStaticCheckText(route),
+      "Narrow projects",
+      "Search public projects",
+      `${publicProjectIndexProjects().length} of ${publicProjectIndexProjects().length} public projects shown`,
+      "Topics",
+      "Tier",
+      "Status",
+      "Source",
+      "Reset filters",
       "Flagship",
       "Supporting",
       "Lab / Prototype",
