@@ -6,8 +6,8 @@ import {
   searchContentReferences,
 } from "./content-search";
 import {
-  publicContentReferences,
   type PublicContentReference,
+  publicContentReferences,
   type TopicRecord,
   type TopicSourceLabel,
 } from "./topics";
@@ -111,14 +111,13 @@ describe("content search facets", () => {
     ];
 
     // Act
-    const sourceLabels = labelsForGroup(contentFacetGroupsForKind("project", references), "project-source");
+    const sourceLabels = labelsForGroup(
+      contentFacetGroupsForKind("project", references),
+      "project-source",
+    );
 
     // Assert
-    expect(sourceLabels).toEqual([
-      "Original",
-      "Fork / promoted work",
-      "Prototype / playground",
-    ]);
+    expect(sourceLabels).toEqual(["Original", "Fork / promoted work", "Prototype / playground"]);
     expect(sourceLabels).not.toEqual(expect.arrayContaining(["original", "fork", "playground"]));
   });
 
