@@ -1,7 +1,13 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
-import { For, Show } from "solid-js";
+import { createMemo, createSignal, For, Show } from "solid-js";
+import { DiscoveryFilterControls } from "../../components/DiscoveryFilterControls";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
 import { TopicChipList } from "../../components/TopicChip";
+import {
+  type ContentFacetGroup,
+  contentFacetGroupsForKind,
+  searchContentReferences,
+} from "../../domain/content-search";
 import {
   gitHubMetadataFactsForProject,
   maybeGitHubHomepageLinkForProject,
@@ -25,6 +31,7 @@ import {
   projectItemListJsonLd,
   siteAssetLinks,
 } from "../../domain/seo";
+import { publicContentReferences } from "../../domain/topics";
 
 const route = routeByPath("/projects");
 const metadata = metadataForRoute(route);
@@ -36,17 +43,59 @@ const writingProjectList = writingProjects(publicProjectList);
 const archiveProjects = projectsByPlacement("archive", publicProjectList);
 const allCuratedProjects: readonly ProjectStory[] = curatedProjects;
 const hiddenExcludedProjectList = hiddenExcludedProjects(allCuratedProjects);
-const projectGroups = [
+const publicReferences = publicContentReferences();
+const projectFacetGroups: readonly ContentFacetGroup[] = contentFacetGroupsForKind(
+  "project",
+  publicReferences,
+);
+const projectBySlug = new Map(publicProjectList.map((project) => [project.slug, project]));
+const projectGroups: readonly ProjectGroup[] = [
   { label: "Flagship", projects: flagshipProjects, variant: "flagship" },
   { label: "Supporting", projects: supportingProjects, variant: "compact" },
   { label: "Lab / Prototype", projects: labProjects, variant: "compact" },
   { label: "Writing", projects: writingProjectList, variant: "compact" },
   { label: "Archive", projects: archiveProjects, variant: "compact" },
-] as const;
+];
 const personJsonLdValue = personJsonLd();
 const itemListJsonLdValue = projectItemListJsonLd(publicProjectList);
 
 export default function Projects() {
+  const [query, setQuery] = createSignal("");
+  const [selectedFacetIds, setSelectedFacetIds] = createSignal<readonly string[]>([]);
+  const projectSearch = createMemo(() =>
+    searchContentReferences({
+      references: publicReferences,
+      kind: "project",
+      query: query(),
+      selectedFacetIds: selectedFacetIds(),
+    }),
+  );
+  const filteredProjectList = createMemo(() =>
+    projectSearch().results.flatMap((result) => {
+      const maybeProject = projectBySlug.get(result.reference.slug);
+      return maybeProject ? [maybeProject] : [];
+    }),
+  );
+  const filteredProjectGroups = createMemo(() => projectGroupsForProjects(filteredProjectList()));
+  const visibleFilteredProjectGroups = createMemo(() =>
+    filteredProjectGroups().filter((group) => group.projects.length > 0),
+  );
+
+  function toggleFacet(facetId: string) {
+    setSelectedFacetIds((currentFacetIds) => {
+      if (currentFacetIds.includes(facetId)) {
+        return currentFacetIds.filter((selectedFacetId) => selectedFacetId !== facetId);
+      }
+
+      return [...currentFacetIds, facetId];
+    });
+  }
+
+  function resetFilters() {
+    setQuery("");
+    setSelectedFacetIds([]);
+  }
+
   return (
     <>
       <Title>{metadata.title}</Title>
@@ -99,15 +148,77 @@ export default function Projects() {
         </div>
       </section>
 
+      <DiscoveryFilterControls
+        surfaceId="project-filters"
+        heading="Narrow projects"
+        searchLabel="Search public projects"
+        searchValue={query()}
+        facetGroups={projectFacetGroups}
+        selectedFacetIds={selectedFacetIds()}
+        countStatus={`${projectSearch().visibleCount} of ${projectSearch().totalCount} public projects shown`}
+        resetDisabled={!projectSearch().active}
+        onSearchInput={setQuery}
+        onFacetToggle={toggleFacet}
+        onReset={resetFilters}
+      />
+
       <div class="project-list">
-        <For each={projectGroups}>
-          {(group) => (
-            <ProjectSection label={group.label} projects={group.projects} variant={group.variant} />
-          )}
-        </For>
+        <Show
+          when={projectSearch().active}
+          fallback={
+            <For each={projectGroups}>
+              {(group) => (
+                <ProjectSection
+                  label={group.label}
+                  projects={group.projects}
+                  variant={group.variant}
+                />
+              )}
+            </For>
+          }
+        >
+          <Show
+            when={visibleFilteredProjectGroups().length > 0}
+            fallback={<ProjectEmptyState onReset={resetFilters} />}
+          >
+            <For each={visibleFilteredProjectGroups()}>
+              {(group) => (
+                <ProjectSection
+                  label={group.label}
+                  projects={group.projects}
+                  variant={group.variant}
+                />
+              )}
+            </For>
+          </Show>
+        </Show>
       </div>
     </>
   );
+}
+
+type ProjectGroup = {
+  label: "Flagship" | "Supporting" | "Lab / Prototype" | "Writing" | "Archive";
+  projects: readonly ProjectStory[];
+  variant: "flagship" | "compact";
+};
+
+function projectGroupsForProjects(projects: readonly ProjectStory[]): readonly ProjectGroup[] {
+  return [
+    { label: "Flagship", projects: projectsByPlacement("home", projects), variant: "flagship" },
+    {
+      label: "Supporting",
+      projects: projectsByPlacement("supporting", projects),
+      variant: "compact",
+    },
+    {
+      label: "Lab / Prototype",
+      projects: projectsByPlacement("lab", projects),
+      variant: "compact",
+    },
+    { label: "Writing", projects: writingProjects(projects), variant: "compact" },
+    { label: "Archive", projects: projectsByPlacement("archive", projects), variant: "compact" },
+  ];
 }
 
 type ProjectSectionProps = {
@@ -144,6 +255,18 @@ function ProjectSection(props: ProjectSectionProps) {
         </div>
       )}
     </section>
+  );
+}
+
+function ProjectEmptyState(props: { onReset: () => void }) {
+  return (
+    <div class="empty-state visual-surface">
+      <h3 class="card-title">No public projects match these filters</h3>
+      <p class="body-copy">Clear filters to return to the full curated project index.</p>
+      <button type="button" class="filter-reset" onClick={props.onReset}>
+        Reset filters
+      </button>
+    </div>
   );
 }
 
