@@ -1,4 +1,7 @@
 import { createHandler, type DocumentComponentProps, StartServer } from "@solidjs/start/server";
+import { writingFeedMetadata } from "./domain/feed";
+
+const writingFeed = writingFeedMetadata();
 
 function Document(props: DocumentComponentProps) {
   return (
@@ -10,8 +13,8 @@ function Document(props: DocumentComponentProps) {
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="Bright Builds writing feed"
-          href="https://www.brightbuilds.us/feed.xml"
+          title={writingFeed.title}
+          href={writingFeed.feedUrl}
         />
         {props.assets}
       </head>
