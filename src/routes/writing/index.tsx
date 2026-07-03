@@ -8,6 +8,7 @@ import {
   contentFacetGroupsForKind,
   searchContentReferences,
 } from "../../domain/content-search";
+import { writingFeedMetadata } from "../../domain/feed";
 import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
@@ -25,6 +26,7 @@ import {
 
 const route = routeByPath("/writing");
 const metadata = metadataForRoute(route);
+const writingFeed = writingFeedMetadata();
 const writingEntries = publicWritingEntries();
 const publicReferences = publicContentReferences();
 const writingFacetGroups: readonly ContentFacetGroup[] = contentFacetGroupsForKind(
@@ -79,7 +81,17 @@ export default function Writing() {
 
   return (
     <>
-      <RouteHead metadata={metadata} />
+      <RouteHead
+        metadata={metadata}
+        alternateLinks={[
+          {
+            rel: "alternate",
+            type: "application/rss+xml",
+            title: "Bright Builds writing feed",
+            href: writingFeed.feedUrl,
+          },
+        ]}
+      />
       <script type="application/ld+json">{jsonLdScriptContent(personJsonLdValue)}</script>
       <script type="application/ld+json">{jsonLdScriptContent(writingItemListJsonLdValue)}</script>
 
@@ -89,6 +101,10 @@ export default function Writing() {
         <p class="lead">
           Curated notes on agentic engineering, open systems, identity, and practical web software.
         </p>
+        <nav class="link-list" aria-label="Writing subscription">
+          {/* biome-ignore format: preserve plan-mandated RSS anchor text */}
+          <a class="text-link surface-link" href="/feed.xml">RSS feed</a>
+        </nav>
       </section>
 
       <DiscoveryFilterControls
