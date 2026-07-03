@@ -294,4 +294,4 @@ Plans:
 
 ## Next
 
-Execute Phase 32: `Project and Writing Filtering/Search`.
+Execute Phase 33: `Writing-First Static Feed`.
