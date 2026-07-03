@@ -294,4 +294,4 @@ Plans:
 
 ## Next
 
-Discuss and plan Phase 30: `Content Discovery Foundation`.
+Execute Phase 32: `Project and Writing Filtering/Search`.
