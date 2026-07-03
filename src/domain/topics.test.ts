@@ -172,7 +172,11 @@ describe("public content references", () => {
   it("exposes only safe public reference fields and facets", () => {
     // Arrange
     const project = makeProjectStory({ slug: "safe-project", themes: ["AI"] });
-    const writing = makeWritingEntry({ slug: "safe-writing", topics: ["Open web"] });
+    const writing = makeWritingEntry({
+      slug: "safe-writing",
+      maybeUpdatedOn: "2026-06-04",
+      topics: ["Open web"],
+    });
     const theme = makeThemeRecord({ slug: "safe-theme", title: "Open identity" });
 
     // Act
@@ -187,6 +191,7 @@ describe("public content references", () => {
       expect.objectContaining({
         kind: "project",
         slug: "safe-project",
+        projectTier: "flagship",
         projectStatus: "building",
         projectSourceType: "original",
       }),
@@ -200,6 +205,7 @@ describe("public content references", () => {
         slug: "safe-writing",
         writingKind: "note",
         maybePublishedOn: "2026-06-03",
+        maybeUpdatedOn: "2026-06-04",
       }),
     ]);
     expect(references.flatMap((reference) => Object.keys(reference))).not.toEqual(
