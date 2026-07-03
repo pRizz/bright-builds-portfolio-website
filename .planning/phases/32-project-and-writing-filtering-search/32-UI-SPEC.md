@@ -1,10 +1,11 @@
 ---
 phase: 32
 slug: project-and-writing-filtering-search
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-07-03
+reviewed_at: 2026-07-03T01:39:50Z
 ---
 
 # Phase 32 - UI Design Contract
@@ -29,6 +30,7 @@ created: 2026-07-03
 |---------|----------|
 | `/projects` | Place a compact filter/search surface after the intro and hidden/excluded notice, before the existing grouped project sections. Preserve Flagship, Supporting, Lab / Prototype, Writing, and Archive section behavior for default static content. |
 | `/writing` | Place a compact filter/search surface after the intro and before the existing writing cards. Preserve note/essay cards, related-project count copy, topic chips, and `Read note` / `Read essay` actions. |
+| Focal point | The compact filter/search surface is the primary focal point on both index pages; count status is secondary emphasis; result cards remain the content continuation. |
 | Static default | Both pages must render useful public default cards in static HTML before hydration. Filtering progressively narrows those records after hydration. |
 | Shareability | Keep filter state in memory only. Do not add query params, hash state, localStorage, sessionStorage, sitemap routes, canonical changes, or crawlable faceted URLs. |
 
