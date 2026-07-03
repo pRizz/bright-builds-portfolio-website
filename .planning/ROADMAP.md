@@ -104,7 +104,7 @@ Plans:
   5. Feed generation is deterministic, local, and does not mutate source data unexpectedly during ordinary build or verification.
 **Plans**: 2 plans
 Plans:
-- [ ] 33-01-PLAN.md - Add writing feed item model, RSS serialization, escaping, ordering, and tests.
+- [x] 33-01-PLAN.md - Add writing feed item model, RSS serialization, escaping, ordering, and tests.
 - [ ] 33-02-PLAN.md - Add static `/feed.xml` output, autodiscovery links, visible feed links, and static verification.
 **UI hint**: yes
 
@@ -164,7 +164,7 @@ Plans:
 | 30. Content Discovery Foundation | v1.6 | 1/1 | Complete    | 2026-06-27 |
 | 31. Static Topic Routes | v1.6 | 3/3 | Complete    | 2026-07-02 |
 | 32. Project and Writing Filtering/Search | v1.6 | 3/3 | Complete    | 2026-07-03 |
-| 33. Writing-First Static Feed | v1.6 | 0/2 | Not started | - |
+| 33. Writing-First Static Feed | v1.6 | 1/2 | In Progress|  |
 | 34. Centralized Related-Work Graph | v1.6 | 0/2 | Not started | - |
 | 35. Generic and Topic Social Preview Polish | v1.6 | 0/2 | Not started | - |
 | 36. Verification and Release Evidence Contract | v1.6 | 0/3 | Not started | - |
