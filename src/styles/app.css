@@ -645,6 +645,92 @@
     @apply mt-10 border-amber-300/80 border-l-4 p-6 shadow-xl shadow-black/20 ring-1 ring-white/10;
   }
 
+  .filter-surface {
+    @apply mt-8 grid border border-white/10 shadow-xl shadow-black/20 ring-1 ring-emerald-300/5;
+    min-width: 0;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 8px;
+  }
+
+  .filter-heading {
+    @apply font-semibold text-zinc-50;
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .filter-search {
+    @apply grid gap-2;
+    min-width: 0;
+  }
+
+  .filter-label,
+  .filter-legend {
+    @apply font-semibold text-emerald-200;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .filter-input {
+    @apply w-full border border-white/10 text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300;
+    min-height: 44px;
+    min-width: 0;
+    border-radius: 6px;
+    background: #050608;
+    padding: 0 16px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .filter-group {
+    @apply m-0 grid gap-2 border-0 p-0;
+    min-width: 0;
+  }
+
+  .filter-group-list {
+    @apply flex flex-wrap gap-2;
+    min-width: 0;
+  }
+
+  .filter-option {
+    @apply inline-flex min-h-11 min-w-0 cursor-pointer items-center gap-2 border border-white/10 bg-zinc-950/70 px-3 py-2 text-zinc-300 transition hover:border-emerald-300/50 hover:text-emerald-100 focus-within:ring-2 focus-within:ring-cyan-300;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .filter-option:has(input:checked) {
+    border-color: rgba(110, 231, 183, 0.72);
+    background: rgba(110, 231, 183, 0.12);
+    color: #d1fae5;
+  }
+
+  .filter-checkbox {
+    accent-color: #6ee7b7;
+    flex: 0 0 auto;
+  }
+
+  .filter-option-count {
+    @apply font-semibold text-emerald-200;
+  }
+
+  .filter-actions {
+    @apply flex flex-wrap items-center justify-between gap-3;
+    min-width: 0;
+  }
+
+  .filter-status {
+    @apply m-0 font-semibold text-emerald-200;
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .filter-reset {
+    @apply inline-flex min-h-11 items-center rounded-md border border-emerald-200/70 bg-emerald-300 px-4 py-2 font-semibold text-sm text-emerald-950 transition hover:bg-cyan-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-zinc-800 disabled:text-zinc-400 disabled:opacity-100;
+  }
+
   .contact-grid {
     @apply mt-10 grid gap-4 sm:grid-cols-3;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
