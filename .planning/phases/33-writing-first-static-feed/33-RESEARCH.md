@@ -462,17 +462,17 @@ export function assertFeedOutput(root: string): void {
 
 All claims in this research were verified or cited; no user-confirmation assumptions are being passed to planning. [VERIFIED: source review in this file]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `pubDate` prefer updated date over published date when both exist?**
    - What we know: Feed entries may include `maybePublishedOn` or `maybeUpdatedOn`, and ordering should use checked-in published/updated date descending. [VERIFIED: `.planning/phases/33-writing-first-static-feed/33-CONTEXT.md`]
    - What's unclear: RSS 2.0 has `pubDate` but no native updated field without an extension namespace. [CITED: https://www.rssboard.org/rss-specification]
-   - Recommendation: Use `maybeUpdatedOn ?? maybePublishedOn` as the v1 `feedDate` and `<pubDate>`, document the behavior in tests, and avoid extension namespaces until Atom/JSON Feed or richer update semantics are scoped. [VERIFIED: `.planning/phases/33-writing-first-static-feed/33-CONTEXT.md`]
+   - RESOLVED: Use `maybeUpdatedOn ?? maybePublishedOn` as the v1 `feedDate` and `<pubDate>`, document the behavior in tests, and avoid extension namespaces until Atom/JSON Feed or richer update semantics are scoped. [VERIFIED: `.planning/phases/33-writing-first-static-feed/33-CONTEXT.md`]
 
 2. **Should `public/feed.xml` be checked in or generated after build?**
    - What we know: Context allows either `public/feed.xml` before build or copying generated XML into `.output/public/feed.xml`, provided output is deterministic and check-mode verification exists. [VERIFIED: `.planning/phases/33-writing-first-static-feed/33-CONTEXT.md`]
    - What's unclear: There is no existing feed generator convention in the repo. [VERIFIED: `rg feed src scripts package.json`]
-   - Recommendation: Check in `public/feed.xml` and verify drift with `verify:feed`; SolidStart public assets provide stable exact-path serving for `/feed.xml`. [CITED: https://docs.solidjs.com/solid-start/building-your-application/static-assets] [VERIFIED: `public/sitemap.xml`]
+   - RESOLVED: Check in `public/feed.xml` and verify drift with `verify:feed`; SolidStart public assets provide stable exact-path serving for `/feed.xml`. [CITED: https://docs.solidjs.com/solid-start/building-your-application/static-assets] [VERIFIED: `public/sitemap.xml`]
 
 ## Environment Availability
 
