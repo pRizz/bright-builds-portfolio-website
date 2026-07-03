@@ -699,7 +699,7 @@ describe("aggregate release script contract", () => {
   it("runs release verification last without hidden mutation or browser install steps", () => {
     // Arrange
     const expectedVerifyScript =
-      "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run verify:social-previews && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
+      "bun run format:check && bun run check && bun run typecheck && bun run test && bun run verify:curation && bun run verify:no-github-runtime && bun run verify:project-helper-surface && bun run verify:visual-system && bun run verify:social-previews && bun run verify:feed && bun run build && bun run verify:browser && bun run verify:static && bun run verify:release";
     const forbiddenVerifySteps = [
       "bun run generate:static-metadata",
       "bun run generate:social-previews",
@@ -724,6 +724,7 @@ describe("aggregate release script contract", () => {
     // Act
     const verifyScript = packageJson.scripts.verify;
     const socialPreviewCheckIndex = verifyScript.indexOf("bun run verify:social-previews");
+    const feedCheckIndex = verifyScript.indexOf("bun run verify:feed");
     const buildIndex = verifyScript.indexOf("bun run build");
     const browserIndex = verifyScript.indexOf("bun run verify:browser");
     const staticIndex = verifyScript.indexOf("bun run verify:static");
@@ -732,7 +733,8 @@ describe("aggregate release script contract", () => {
 
     // Assert
     expect(verifyScript).toBe(expectedVerifyScript);
-    expect(socialPreviewCheckIndex).toBeLessThan(buildIndex);
+    expect(socialPreviewCheckIndex).toBeLessThan(feedCheckIndex);
+    expect(feedCheckIndex).toBeLessThan(buildIndex);
     expect(buildIndex).toBeLessThan(browserIndex);
     expect(staticIndex).toBeLessThan(releaseIndex);
     expect(verifySegments.at(-1)).toBe("bun run verify:release");

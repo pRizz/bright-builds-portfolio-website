@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Bright Builds writing feed</title>
+    <link>https://www.brightbuilds.us</link>
+    <description>Writing from Peter Ryszkiewicz on agentic engineering, open systems, identity, and practical web software.</description>
+    <language>en-US</language>
+    <item>
+      <title>Agentic engineering workflows</title>
+      <link>https://www.brightbuilds.us/writing/agentic-engineering-workflows</link>
+      <guid isPermaLink="true">https://www.brightbuilds.us/writing/agentic-engineering-workflows</guid>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Notes on keeping AI-assisted development inspectable, tested, and tied to repo-owned evidence.</description>
+      <category>AI</category>
+      <category>Agentic engineering</category>
+      <category>Developer tooling</category>
+    </item>
+    <item>
+      <title>Portable identity and owned surfaces</title>
+      <link>https://www.brightbuilds.us/writing/portable-identity-and-owned-surfaces</link>
+      <guid isPermaLink="true">https://www.brightbuilds.us/writing/portable-identity-and-owned-surfaces</guid>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A note on why owned web identity should stay visible, low-friction, and independent of any single social platform.</description>
+      <category>Identity</category>
+      <category>Open web</category>
+    </item>
+  </channel>
+</rss>
