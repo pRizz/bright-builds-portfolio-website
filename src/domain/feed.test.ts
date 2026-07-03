@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { writingFeedItems, writingFeedMetadata, type WritingFeedItem } from "./feed";
+import { type WritingFeedItem, writingFeedItems, writingFeedMetadata } from "./feed";
 import { peterProfile } from "./profile";
 import { canonicalTopicsForLabels } from "./topics";
 import { curatedWriting, publicWritingEntries, type WritingEntry } from "./writing";
