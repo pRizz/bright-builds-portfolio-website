@@ -1,7 +1,13 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
-import { For, Show } from "solid-js";
+import { createMemo, createSignal, For, Show } from "solid-js";
+import { DiscoveryFilterControls } from "../../components/DiscoveryFilterControls";
 import { ReactiveSurface } from "../../components/ReactiveSurface";
 import { TopicChipList } from "../../components/TopicChip";
+import {
+  type ContentFacetGroup,
+  contentFacetGroupsForKind,
+  searchContentReferences,
+} from "../../domain/content-search";
 import { routeByPath } from "../../domain/routes";
 import {
   jsonLdScriptContent,
@@ -10,6 +16,7 @@ import {
   siteAssetLinks,
   writingItemListJsonLd,
 } from "../../domain/seo";
+import { publicContentReferences } from "../../domain/topics";
 import {
   type PublicWritingEntry,
   publicWritingEntries,
@@ -20,6 +27,12 @@ import {
 const route = routeByPath("/writing");
 const metadata = metadataForRoute(route);
 const writingEntries = publicWritingEntries();
+const publicReferences = publicContentReferences();
+const writingFacetGroups: readonly ContentFacetGroup[] = contentFacetGroupsForKind(
+  "writing",
+  publicReferences,
+);
+const writingBySlug = new Map(writingEntries.map((entry) => [entry.slug, entry]));
 const personJsonLdValue = personJsonLd();
 const writingItemListJsonLdValue = writingItemListJsonLd(writingEntries);
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -30,6 +43,41 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 });
 
 export default function Writing() {
+  const [query, setQuery] = createSignal("");
+  const [selectedFacetIds, setSelectedFacetIds] = createSignal<readonly string[]>([]);
+  const writingSearch = createMemo(() =>
+    searchContentReferences({
+      references: publicReferences,
+      kind: "writing",
+      query: query(),
+      selectedFacetIds: selectedFacetIds(),
+    }),
+  );
+  const filteredWritingEntries = createMemo(() =>
+    writingSearch().results.flatMap((result) => {
+      const maybeEntry = writingBySlug.get(result.reference.slug);
+      return maybeEntry ? [maybeEntry] : [];
+    }),
+  );
+  const visibleWritingEntries = createMemo(() =>
+    writingSearch().active ? filteredWritingEntries() : writingEntries,
+  );
+
+  function toggleFacet(facetId: string) {
+    setSelectedFacetIds((currentFacetIds) => {
+      if (currentFacetIds.includes(facetId)) {
+        return currentFacetIds.filter((selectedFacetId) => selectedFacetId !== facetId);
+      }
+
+      return [...currentFacetIds, facetId];
+    });
+  }
+
+  function resetFilters() {
+    setQuery("");
+    setSelectedFacetIds([]);
+  }
+
   return (
     <>
       <Title>{metadata.title}</Title>
@@ -75,6 +123,20 @@ export default function Writing() {
         </p>
       </section>
 
+      <DiscoveryFilterControls
+        surfaceId="writing-filters"
+        heading="Narrow writing"
+        searchLabel="Search public writing"
+        searchValue={query()}
+        facetGroups={writingFacetGroups}
+        selectedFacetIds={selectedFacetIds()}
+        countStatus={`${writingSearch().visibleCount} of ${writingSearch().totalCount} public writing entries shown`}
+        resetDisabled={!writingSearch().active}
+        onSearchInput={setQuery}
+        onFacetToggle={toggleFacet}
+        onReset={resetFilters}
+      />
+
       <Show
         when={writingEntries.length > 0}
         fallback={
@@ -86,60 +148,77 @@ export default function Writing() {
           </div>
         }
       >
-        <ReactiveSurface class="writing-list">
-          <For each={writingEntries}>
-            {(entry) => {
-              const maybeDateLabel = writingDateLabel(entry);
-              const relatedProjects = relatedProjectDetailPageProjects(entry);
-
-              return (
-                <article class="writing-card project-anchor-card interactive-surface reactive-card">
-                  <div class="card-header">
-                    <div>
-                      <h2 class="card-title">
-                        <a class="project-anchor-link" href={writingDetailPath(entry)}>
-                          {entry.title}
-                        </a>
-                      </h2>
-                      <p class="card-meta">{writingKindLabel(entry)}</p>
-                    </div>
-                    <span class="tier-pill">{writingKindLabel(entry)}</span>
-                  </div>
-
-                  <p class="card-copy">{entry.summary}</p>
-
-                  <ul class="label-row" aria-label={`${entry.title} metadata`}>
-                    <li class="chip">{writingKindLabel(entry)}</li>
-                    <Show when={maybeDateLabel}>
-                      {(dateLabel) => <li class="chip">{dateLabel()}</li>}
-                    </Show>
-                  </ul>
-
-                  <TopicChipList
-                    labels={[...entry.topics, ...entry.tags]}
-                    ariaLabel={`${entry.title} topics and tags`}
-                  />
-
-                  <Show when={relatedProjects.length > 0}>
-                    <p class="card-meta">
-                      {relatedProjects.length === 1
-                        ? "1 related project"
-                        : `${relatedProjects.length} related projects`}
-                    </p>
-                  </Show>
-
-                  <div class="link-list">
-                    <a class="text-link surface-link" href={writingDetailPath(entry)}>
-                      {writingActionLabel(entry)}
-                    </a>
-                  </div>
-                </article>
-              );
-            }}
-          </For>
-        </ReactiveSurface>
+        <Show
+          when={writingSearch().active && visibleWritingEntries().length === 0}
+          fallback={
+            <ReactiveSurface class="writing-list">
+              <For each={visibleWritingEntries()}>{(entry) => <WritingCard entry={entry} />}</For>
+            </ReactiveSurface>
+          }
+        >
+          <WritingEmptyState onReset={resetFilters} />
+        </Show>
       </Show>
     </>
+  );
+}
+
+function WritingCard(props: { entry: PublicWritingEntry }) {
+  const maybeDateLabel = writingDateLabel(props.entry);
+  const relatedProjects = relatedProjectDetailPageProjects(props.entry);
+
+  return (
+    <article class="writing-card project-anchor-card interactive-surface reactive-card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">
+            <a class="project-anchor-link" href={writingDetailPath(props.entry)}>
+              {props.entry.title}
+            </a>
+          </h2>
+          <p class="card-meta">{writingKindLabel(props.entry)}</p>
+        </div>
+        <span class="tier-pill">{writingKindLabel(props.entry)}</span>
+      </div>
+
+      <p class="card-copy">{props.entry.summary}</p>
+
+      <ul class="label-row" aria-label={`${props.entry.title} metadata`}>
+        <li class="chip">{writingKindLabel(props.entry)}</li>
+        <Show when={maybeDateLabel}>{(dateLabel) => <li class="chip">{dateLabel()}</li>}</Show>
+      </ul>
+
+      <TopicChipList
+        labels={[...props.entry.topics, ...props.entry.tags]}
+        ariaLabel={`${props.entry.title} topics and tags`}
+      />
+
+      <Show when={relatedProjects.length > 0}>
+        <p class="card-meta">
+          {relatedProjects.length === 1
+            ? "1 related project"
+            : `${relatedProjects.length} related projects`}
+        </p>
+      </Show>
+
+      <div class="link-list">
+        <a class="text-link surface-link" href={writingDetailPath(props.entry)}>
+          {writingActionLabel(props.entry)}
+        </a>
+      </div>
+    </article>
+  );
+}
+
+function WritingEmptyState(props: { onReset: () => void }) {
+  return (
+    <div class="empty-state visual-surface">
+      <h2 class="card-title">No public writing matches these filters</h2>
+      <p class="body-copy">Clear filters to return to all public notes and essays.</p>
+      <button type="button" class="filter-reset" onClick={props.onReset}>
+        Reset filters
+      </button>
+    </div>
   );
 }
 
