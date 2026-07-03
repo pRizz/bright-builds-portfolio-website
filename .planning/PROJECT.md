@@ -28,6 +28,8 @@ Phase 30 of v1.6 shipped on 2026-06-27. The site now has a pure canonical topic 
 
 Phase 32 of v1.6 shipped on 2026-07-03. The public project and writing indexes now have dark-primary in-memory search and facet filters over checked-in public content references, with static default content preserved before hydration, URL/canonical behavior unchanged, and aggregate static, browser, release, and code-review gates passing.
 
+Phase 33 of v1.6 shipped on 2026-07-03. The site now publishes a deterministic checked-in writing-first RSS feed at `/feed.xml`, derives feed items from public writing entries with stable canonical IDs and public categories, exposes RSS autodiscovery plus low-intrusion home/writing feed links, and verifies feed drift before build. Unit, static, browser, release, code-review, and aggregate gates passed.
+
 The current release is verified by `bun run install:browser && bun run verify` on clean builders. The aggregate gate covers formatting, Biome checks, TypeScript, Vitest, curated-content validation, no visitor-runtime GitHub usage, project helper surface imports, visual-system guards, production build, browser checks, writing/project/theme route coverage, static output verification over `.output/public`, and final release verification through `bun run verify:release`. Automated release evidence labels cover only local checks that actually run; Cloudflare/static deployment, preview, post-deploy, and external-link smoke checks remain manual release checklist obligations.
 
 ## Current Milestone: v1.6 Content Discovery & Feeds
@@ -63,11 +65,11 @@ The current release is verified by `bun run install:browser && bun run verify` o
 - [x] [Phase 29] v1.5 archived project records are rejected from public project index, detail route, slug lookup, and social preview target selection through the shared public project predicate, with regression coverage for archived status and maturity fixtures.
 - [x] [Phase 30] v1.6 establishes canonical public topic eligibility, safe public content reference envelopes, non-leaking unknown/private/draft/archived/unsupported fallback behavior, and topic curation validation before route, filter, feed, related-work, or preview consumers use discovery data.
 - [x] [Phase 32] v1.6 gives visitors lightweight project and writing filtering/search without runtime content fetches, faceted URLs, hash state, browser storage, hosted search, or semantic search.
+- [x] [Phase 33] v1.6 gives subscribers and feed readers a valid deterministic static writing-first RSS feed, feed autodiscovery metadata, visible low-intrusion home/writing feed links, and local drift/static/browser/release verification.
 
 ### Active
 
 - [ ] v1.6 gives visitors static discovery paths across projects, writing, and themes.
-- [ ] v1.6 gives subscribers and feed readers a valid static feed for writing and/or site updates.
 - [ ] v1.6 strengthens related-work navigation across existing content types.
 - [ ] v1.6 adds route-specific share polish for generic public pages where it improves preview clarity.
 - [ ] v1.6 preserves dark-primary accessibility, static deployment, truthful release evidence, and OpenLinks as a low-intrusion identity surface.
@@ -125,6 +127,7 @@ Bright Builds repo instructions require the Bright Builds Rules workflow, includ
 | Content discovery before CMS/admin | The site now has enough curated projects, writing, themes, and social metadata that navigation is the next visitor-value gap, while a CMS or admin surface would add operational complexity before checked-in content becomes painful. | v1.6 scopes static discovery, filtering/search, feeds, related-work paths, and generic-route preview polish while preserving the static deployment model. |
 | Canonical topics before discovery surfaces | Topic routes, filters, feeds, related-work helpers, and previews need one public-only topic/reference contract before they build user-facing surfaces. | Phase 30 added `src/domain/topics.ts`, `src/domain/topic-validation.ts`, safe `PublicContentReference` envelopes, nullable public topic lookups, and aggregate curation validation for 13 canonical topics. |
 | Filtering stays in memory | Project and writing discovery should narrow static public content without creating crawlable faceted URL state or adding visitor-runtime dependencies. | Phase 32 added shared deterministic content search, native dark-primary filter controls, and local Solid signal state for `/projects` and `/writing`; canonical URLs, sitemap entries, and metadata remain unchanged. |
+| Writing feed stays static and checked in | Feed output should support feed readers without adding runtime endpoints, live content fetches, newsletter scope, or build-time mutation surprises. | Phase 33 added `public/feed.xml` generated from `rssFeedXml()`, `verify:feed` drift checks before build, server-document RSS autodiscovery from `writingFeedMetadata()`, and visible low-intrusion `RSS feed` links on home and writing. |
 
 ## Evolution
 
@@ -147,4 +150,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-07-03 after Phase 32 project and writing filtering/search*
+*Last updated: 2026-07-03 after Phase 33 writing-first static feed*
