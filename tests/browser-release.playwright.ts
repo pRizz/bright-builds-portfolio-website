@@ -313,6 +313,50 @@ test.describe("browser release checks", () => {
     expectUrlWithoutSearchOrHash(page);
   });
 
+  test("writing filters update counts, reset, empty state, and URL state", async ({ page }) => {
+    // Arrange
+    const writingCount = publicWritingEntries().length;
+    const facet = narrowingWritingFacet();
+    const expectedDefaultStatus = `${writingCount} of ${writingCount} public writing entries shown`;
+    await page.goto("/writing");
+
+    // Act
+    expectUrlWithoutSearchOrHash(page);
+    const initialWritingHrefs = await visibleWritingCardHrefs(page);
+    const facetCheckbox = page.getByRole("checkbox", { name: escapedRegExp(facet.label) });
+    await facetCheckbox.click();
+    const filteredWritingHrefs = await visibleWritingCardHrefs(page);
+
+    // Assert
+    await expect(facetCheckbox).toBeChecked();
+    await expect(page.getByRole("status")).toHaveText(
+      `${facet.count} of ${writingCount} public writing entries shown`,
+    );
+    expect(filteredWritingHrefs).not.toEqual(initialWritingHrefs);
+    expectUrlWithoutSearchOrHash(page);
+
+    await page.getByRole("button", { name: "Reset filters" }).click();
+
+    await expect(facetCheckbox).not.toBeChecked();
+    await expect(page.locator(".filter-checkbox:checked")).toHaveCount(0);
+    await expect(page.getByRole("status")).toHaveText(expectedDefaultStatus);
+    expectUrlWithoutSearchOrHash(page);
+
+    await page.getByLabel("Search public writing").fill("identity");
+
+    await expect(page.getByRole("status")).toHaveText(/\d+ of \d+ public writing entries shown/);
+
+    await page.getByLabel("Search public writing").fill("zzzz-no-public-writing");
+
+    await expect(page.getByText("No public writing matches these filters")).toBeVisible();
+
+    await page.getByRole("button", { name: "Reset filters" }).first().click();
+
+    await expect(page.getByRole("status")).toHaveText(expectedDefaultStatus);
+    expectUrlWithoutSearchOrHash(page);
+    await expect(page.getByRole("link", { name: /Read note|Read essay/ }).first()).toBeVisible();
+  });
+
   test("reduced-motion disables decorative hover and pointer motion", async ({
     page,
   }, testInfo) => {
@@ -324,6 +368,8 @@ test.describe("browser release checks", () => {
     // Arrange
     const routes = [
       "/",
+      "/projects",
+      "/writing",
       representativeProjectDetailRoute(),
       representativeWritingDetailRoute(),
       "/themes",
@@ -353,6 +399,22 @@ function narrowingProjectFacet() {
   }
 
   throw new Error("Expected at least one narrowing project facet for browser coverage.");
+}
+
+function narrowingWritingFacet() {
+  const writingCount = publicWritingEntries().length;
+
+  for (const facetGroup of contentFacetGroupsForKind("writing", publicContentReferences())) {
+    const maybeFacet = facetGroup.facets.find(
+      (facet) => facet.count > 0 && facet.count < writingCount,
+    );
+
+    if (maybeFacet) {
+      return maybeFacet;
+    }
+  }
+
+  throw new Error("Expected at least one narrowing writing facet for browser coverage.");
 }
 
 function representativeProjectDetailRoute(): string {
@@ -675,6 +737,18 @@ async function visibleProjectCardHrefs(page: Page): Promise<readonly string[]> {
     links.map((link) => {
       if (!(link instanceof HTMLAnchorElement)) {
         throw new Error("Expected project card link to be an anchor.");
+      }
+
+      return link.href;
+    }),
+  );
+}
+
+async function visibleWritingCardHrefs(page: Page): Promise<readonly string[]> {
+  return page.locator(".writing-card .project-anchor-link").evaluateAll((links) =>
+    links.map((link) => {
+      if (!(link instanceof HTMLAnchorElement)) {
+        throw new Error("Expected writing card link to be an anchor.");
       }
 
       return link.href;

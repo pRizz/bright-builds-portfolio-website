@@ -117,6 +117,14 @@ export function expectedTextsForRoute(route: string): readonly string[] {
       "Notes and essays",
       "Writing",
       "Curated notes on agentic engineering, open systems, identity, and practical web software.",
+      "Narrow writing",
+      "Search public writing",
+      `${publicWritingEntries().length} of ${publicWritingEntries().length} public writing entries shown`,
+      "Kind",
+      "Topics",
+      "Tags",
+      "Year",
+      "Reset filters",
       ...publicWritingEntries().flatMap(writingIndexEntryExpectedTexts),
     ];
   }
