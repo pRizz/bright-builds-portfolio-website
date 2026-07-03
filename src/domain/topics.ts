@@ -2,6 +2,7 @@ import {
   type ProjectSourceType,
   type ProjectStatus,
   type ProjectStory,
+  type ProjectTier,
   projectStoryHref,
   publicProjectIndexProjects,
 } from "./projects";
@@ -55,6 +56,7 @@ type PublicContentReferenceBase = {
 export type PublicContentReference =
   | (PublicContentReferenceBase & {
       kind: "project";
+      projectTier: ProjectTier;
       projectStatus: ProjectStatus;
       projectSourceType: ProjectSourceType;
     })
@@ -62,6 +64,7 @@ export type PublicContentReference =
       kind: "writing";
       writingKind: WritingKind;
       maybePublishedOn?: string;
+      maybeUpdatedOn?: string;
     })
   | (PublicContentReferenceBase & {
       kind: "theme";
@@ -311,6 +314,7 @@ function referenceForProject(
     ),
     sourceLabels,
     displayOrder: project.displayOrder,
+    projectTier: project.tier,
     projectStatus: project.status,
     projectSourceType: project.sourceType,
   };
@@ -336,6 +340,7 @@ function referenceForWriting(
     displayOrder: entry.displayOrder,
     writingKind: entry.kind,
     maybePublishedOn: entry.maybePublishedOn,
+    maybeUpdatedOn: entry.maybeUpdatedOn,
   };
 }
 
