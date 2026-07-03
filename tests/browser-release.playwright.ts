@@ -268,6 +268,33 @@ test.describe("browser release checks", () => {
     ).toBe(true);
   });
 
+  test("RSS feed links are visible and keyboard reachable on home and writing", async ({
+    page,
+  }) => {
+    // Arrange
+    const routes = ["/", "/writing"] as const;
+
+    for (const route of routes) {
+      await page.goto(route);
+      const feedLink = page.getByRole("link", { name: "RSS feed" });
+
+      // Act
+      const focusedTargets = await keyboardFocusTargets(page);
+
+      // Assert
+      await expect(feedLink).toBeVisible();
+      await expect(feedLink).toHaveAttribute("href", /\/feed\.xml$/);
+      expect(
+        visibleFocusFailures(focusedTargets),
+        `${route} focused elements must be visible`,
+      ).toEqual([]);
+      expect(
+        hasFocusedInternalPath(focusedTargets, "/feed.xml"),
+        `${route} focus reaches RSS feed link`,
+      ).toBe(true);
+    }
+  });
+
   test("project filters update counts, reset, empty state, and URL state", async ({ page }) => {
     // Arrange
     const projectCount = publicProjectIndexProjects().length;

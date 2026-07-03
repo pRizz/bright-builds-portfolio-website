@@ -1,6 +1,7 @@
 import { relative } from "node:path";
 
 import { expectedRoutes } from "./expected-route-text";
+import { assertFeedStaticOutput } from "./feed-verifier";
 import { assertRouteMetadataAndJsonLd } from "./metadata-jsonld-verifier";
 import { cssFiles, findStaticOutputRoot, htmlFiles, readRouteHtml } from "./output";
 import { assertRouteHtml } from "./route-html-verifier";
@@ -10,7 +11,7 @@ export function staticVerificationSummary(options: {
   routeCount: number;
   outputRoot: string;
 }): string {
-  return `Verified ${options.routeCount} prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, social preview manifest, assets, sitemap, and robots in ${options.outputRoot}.`;
+  return `Verified ${options.routeCount} prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, feed XML, social preview manifest, assets, sitemap, and robots in ${options.outputRoot}.`;
 }
 
 export function runStaticVerification(): void {
@@ -26,6 +27,7 @@ export function runStaticVerification(): void {
   }
 
   assertSitemapAssetsAndRobots(outputRoot, outputHtmlFiles, outputCssFiles);
+  assertFeedStaticOutput(outputRoot);
 
   console.log(
     staticVerificationSummary({

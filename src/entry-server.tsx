@@ -7,6 +7,12 @@ function Document(props: DocumentComponentProps) {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#050608" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Bright Builds writing feed"
+          href="https://www.brightbuilds.us/feed.xml"
+        />
         {props.assets}
       </head>
       <body>

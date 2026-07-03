@@ -1,7 +1,6 @@
 import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For, Show } from "solid-js";
 import { ReactiveSurface } from "../components/ReactiveSurface";
-import { writingFeedMetadata } from "../domain/feed";
 import {
   gitHubMetadataFactsForProject,
   maybeGitHubHomepageLinkForProject,
@@ -20,7 +19,6 @@ import { jsonLdScriptContent, metadataForRoute, personJsonLd, siteAssetLinks } f
 
 const route = routeByPath("/");
 const metadata = metadataForRoute(route);
-const writingFeed = writingFeedMetadata();
 const jsonLd = personJsonLd();
 const identityCopy =
   "Peter Ryszkiewicz / pRizz builds practical software through Bright Builds across AI, Bitcoin, open systems, developer tooling, and practical web experiments.";
@@ -34,12 +32,6 @@ export default function Home() {
       <Title>{metadata.title}</Title>
       <Meta name="description" content={metadata.description} />
       <HeadLink rel="canonical" href={metadata.canonical} />
-      <HeadLink
-        rel="alternate"
-        type="application/rss+xml"
-        title="Bright Builds writing feed"
-        href={writingFeed.feedUrl}
-      />
       <For each={siteAssetLinks}>
         {(asset) => {
           if (asset.rel === "apple-touch-icon") {
@@ -82,10 +74,8 @@ export default function Home() {
           <a class="primary-action interactive-surface" href="/projects">
             Browse projects
           </a>
-          <nav class="link-list" aria-label="Writing subscription">
-            {/* biome-ignore format: preserve plan-mandated RSS anchor text */}
-            <a class="text-link surface-link" href="/feed.xml">RSS feed</a>
-          </nav>
+          {/* biome-ignore format: preserve plan-mandated RSS anchor text */}
+          <a class="text-link surface-link" href="/feed.xml">RSS feed</a>
         </div>
 
         <ReactiveSurface class="visual-stage-content">

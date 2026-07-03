@@ -2,16 +2,8 @@ import { Link as HeadLink, Meta, Title } from "@solidjs/meta";
 import { For } from "solid-js";
 import { type PageMetadata, siteAssetLinks } from "../domain/seo";
 
-export type AlternateLinkMetadata = {
-  rel: "alternate";
-  type: "application/rss+xml";
-  title: string;
-  href: string;
-};
-
 type RouteHeadProps = {
   metadata: PageMetadata;
-  alternateLinks?: readonly AlternateLinkMetadata[];
 };
 
 export function RouteHead(props: RouteHeadProps) {
@@ -20,9 +12,6 @@ export function RouteHead(props: RouteHeadProps) {
       <Title>{props.metadata.title}</Title>
       <Meta name="description" content={props.metadata.description} />
       <HeadLink rel="canonical" href={props.metadata.canonical} />
-      <For each={props.alternateLinks ?? []}>
-        {(link) => <HeadLink rel={link.rel} type={link.type} title={link.title} href={link.href} />}
-      </For>
       <For each={siteAssetLinks}>
         {(asset) => {
           if (asset.rel === "apple-touch-icon") {

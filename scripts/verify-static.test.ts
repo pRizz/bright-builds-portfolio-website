@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 
 import { describe, expect, it } from "vitest";
-
+import { rssFeedXml } from "../src/domain/feed";
 import { peterProfile } from "../src/domain/profile";
 import { projectDetailRoutes } from "../src/domain/projects";
 import { prerenderRoutes } from "../src/domain/routes";
@@ -23,6 +23,7 @@ import {
   maybeThemeForDetailRoute,
   maybeWritingForDetailRoute,
 } from "./verify-static/expected-route-text";
+import { assertFeedStaticOutput } from "./verify-static/feed-verifier";
 import {
   assertForbiddenTextAbsent,
   escapeHtmlAttribute,
@@ -58,8 +59,25 @@ describe("static verifier import-safe helpers", () => {
 
     // Assert
     expect(summary).toBe(
-      "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, social preview manifest, assets, sitemap, and robots in .output/public.",
+      "Verified 16 prerendered routes, metadata, JSON-LD, writing route coverage, theme route coverage, feed XML, social preview manifest, assets, sitemap, and robots in .output/public.",
     );
+  });
+
+  it("accepts built feed output matching the pure RSS helper", () => {
+    // Arrange
+    const tempRoot = mkdtempSync(join(tmpdir(), "verify-static-feed-"));
+    const feedPath = join(tempRoot, "feed.xml");
+    writeFileSync(feedPath, rssFeedXml());
+
+    // Act
+    const assertFeed = () => assertFeedStaticOutput(tempRoot);
+
+    // Assert
+    try {
+      expect(assertFeed).not.toThrow();
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
   });
 
   it("rejects unexpected prerendered HTML routes", () => {

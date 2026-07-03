@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { writingFeedMetadata } from "../../src/domain/feed";
 import { peterProfile } from "../../src/domain/profile";
 import type { ProjectDetailPageProject } from "../../src/domain/projects";
 import { projectDetailPath, publicProjectIndexProjects } from "../../src/domain/projects";
@@ -97,6 +98,7 @@ export function assertRouteMetadataAndJsonLd(
   const route = topLevelRouteForPath(routePath);
 
   assertMetadataForRoute(outputRoot, route, html);
+  assertFeedAutodiscovery(routePath, html);
   assertJsonLdContains(html, [
     "Person",
     peterProfile.name,
@@ -141,6 +143,36 @@ export function assertRouteMetadataAndJsonLd(
       JSON.stringify(topicItemListJsonLd()),
       ...publicTopics().map((topic) => `${peterProfile.canonicalOrigin}${topic.canonicalPath}`),
     ]);
+  }
+}
+
+function assertFeedAutodiscovery(routePath: string, html: string): void {
+  const expectsFeedAutodiscovery = routePath === "/" || routePath === "/writing";
+
+  if (!expectsFeedAutodiscovery) {
+    return;
+  }
+
+  const feedLinkPattern = new RegExp(
+    `<link\\b(?=[^>]*\\brel="${escapeRegExp(
+      escapeHtmlAttribute("alternate"),
+    )}")(?=[^>]*\\btype="${escapeRegExp(
+      escapeHtmlAttribute("application/rss+xml"),
+    )}")(?=[^>]*\\btitle="${escapeRegExp(
+      escapeHtmlAttribute("Bright Builds writing feed"),
+    )}")(?=[^>]*\\bhref="${escapeRegExp(
+      escapeHtmlAttribute(writingFeedMetadata().feedUrl),
+    )}")[^>]*>`,
+    "g",
+  );
+  const feedLinks = [...html.matchAll(feedLinkPattern)];
+
+  assertHtmlMatches(html, feedLinkPattern, `${routePath} Bright Builds writing feed autodiscovery`);
+
+  if (feedLinks.length !== 1) {
+    throw new Error(
+      `${routePath} expected exactly one Bright Builds writing feed autodiscovery link; found ${feedLinks.length}.`,
+    );
   }
 }
 

@@ -105,6 +105,39 @@ describe("release verifier internal link checker", () => {
 });
 
 describe("release verifier static budgets", () => {
+  it("keeps feed link client JS headroom narrow and enforced", () => {
+    // Arrange
+    const baseClientJsBudgetBytes = 170 * 1024;
+    const feedLinkHeadroomBytes = 512;
+    const withinFeedHeadroomFiles = [
+      textFile("_build/app.js", "j".repeat(baseClientJsBudgetBytes + feedLinkHeadroomBytes)),
+    ];
+    const overFeedHeadroomFiles = [
+      textFile("_build/app.js", "j".repeat(baseClientJsBudgetBytes + feedLinkHeadroomBytes + 1)),
+    ];
+
+    // Act
+    const withinFeedHeadroomViolations = budgetViolationsForReport(
+      budgetReportForFiles(withinFeedHeadroomFiles),
+      releaseBudgetThresholds,
+    );
+    const overFeedHeadroomViolations = budgetViolationsForReport(
+      budgetReportForFiles(overFeedHeadroomFiles),
+      releaseBudgetThresholds,
+    );
+
+    // Assert
+    expect(releaseBudgetThresholds.totalJsBytes).toBe(
+      baseClientJsBudgetBytes + feedLinkHeadroomBytes,
+    );
+    expect(withinFeedHeadroomViolations.map((violation) => violation.label)).not.toContain(
+      "client JS budget",
+    );
+    expect(overFeedHeadroomViolations.map((violation) => violation.label)).toContain(
+      "client JS budget",
+    );
+  });
+
   it("reports route HTML, JS, CSS, and named asset sizes with threshold failures", () => {
     // Arrange
     const files = [

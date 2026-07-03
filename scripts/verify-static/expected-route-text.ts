@@ -100,6 +100,8 @@ export function expectedTextsForRoute(route: string): readonly string[] {
     return [
       routeStaticCheckText(route),
       "Browse projects",
+      "RSS feed",
+      'href="/feed.xml"',
       "Now building",
       ...currentFocusProjects().map((project) => project.name),
       ...homeProjects().flatMap((project) => [
@@ -117,6 +119,8 @@ export function expectedTextsForRoute(route: string): readonly string[] {
       "Notes and essays",
       "Writing",
       "Curated notes on agentic engineering, open systems, identity, and practical web software.",
+      "RSS feed",
+      'href="/feed.xml"',
       "Narrow writing",
       "Search public writing",
       `${publicWritingEntries().length} of ${publicWritingEntries().length} public writing entries shown`,
