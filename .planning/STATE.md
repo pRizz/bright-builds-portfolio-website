@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Content Discovery & Feeds
-current_phase: 32
-current_phase_name: project and writing filtering/search
+current_phase: 33
+current_phase_name: writing first static feed
 current_plan: Not started
-status: planning
-stopped_at: Phase 32 UI-SPEC approved
-last_updated: "2026-07-03T01:40:39.455Z"
-last_activity: 2026-07-02
+status: ready_to_plan
+stopped_at: Phase 32 complete; next phase ready for discussion
+last_updated: "2026-07-03T03:13:39.979Z"
+last_activity: 2026-07-03
 progress:
   total_phases: 7
-  completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  completed_phases: 3
+  total_plans: 7
+  completed_plans: 7
   percent: 100
 ---
 
@@ -21,24 +21,24 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-26)
+See: .planning/PROJECT.md (updated 2026-07-03)
 
 **Core value:** Help visitors quickly understand what Peter builds, why it matters, and which projects are worth exploring or collaborating on.
-**Current focus:** Phase 32 — Project and Writing Filtering/Search
+**Current focus:** Phase 33 — Writing-First Static Feed
 
 ## Current Position
 
-Phase: 32 (Project and Writing Filtering/Search) — READY TO PLAN
+Phase: 33 (Writing-First Static Feed) — READY TO PLAN
 Plan: Not started
-Current Phase: 32
-Current Phase Name: project and writing filtering/search
+Current Phase: 33
+Current Phase Name: writing first static feed
 Current Plan: Not started
 Total Phases: 7
-Total Plans in Phase: 3
+Total Plans in Phase: 2
 Status: Ready to plan
-Last activity: 2026-07-02
+Last activity: 2026-07-03
 
-Progress: 2/7 phases complete, 4/16 plans complete
+Progress: 3/7 phases complete, 7/16 plans complete
 
 ## Recently Completed
 
@@ -51,8 +51,8 @@ v1.6 Content Discovery & Feeds
 **Goal:** Help visitors navigate the now-substantial project, writing, and theme corpus through static discovery paths, lightweight search/filtering, syndication, and stronger related-work journeys without weakening the static deployment model.
 
 **Roadmap progress:** Created with 7 phases, 16 plans, and 27/27 v1 requirements mapped exactly once.
-**Current phase:** 32
-**Next action:** Discuss and plan Phase 32 — Project and Writing Filtering/Search.
+**Current phase:** 33
+**Next action:** Discuss and plan Phase 33 — Writing-First Static Feed.
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ v1.6 Content Discovery & Feeds
 **Phase 28:** 3/3 plans completed 2026-06-22. The local release gate now proves generated social previews, metadata references, static output, release budgets, and truthful evidence labels without overclaiming hosted or manual checks.
 **Phase 29:** 1/1 plan completed 2026-06-23. Archived project status and maturity records are excluded from public project/detail/social-preview selectors through the shared project predicate, with targeted and aggregate verification passing.
 **Phase 30 Plan 01:** 12 min, 3 tasks, 5 files, completed 2026-06-27. Canonical topic/reference helpers and topic curation validation now gate public discovery inputs.
+**Phase 32:** 3/3 plans completed 2026-07-03. Project and writing indexes now have dark-primary in-memory search and facets over checked-in public content references, with static defaults, URL-safe state, browser/static/release coverage, and a clean code review.
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 30-content-discovery-foundation]: Public references compose existing project, writing, and theme public selectors before exposing safe envelopes.
 - [Phase 30-content-discovery-foundation]: Topic diagnostics stay in src/domain/topic-validation.ts while visitor-facing helpers return public data or null.
 - [Phase 30-content-discovery-foundation]: verify:curation now treats topic validation as part of the aggregate registry gate.
+- [Phase 32-project-and-writing-filtering-search]: Filtering/search state stays in memory only; canonical URLs, sitemap entries, route metadata, and visitor-runtime dependency guarantees remain unchanged.
+- [Phase 32-project-and-writing-filtering-search]: Short query tokens match normalized field token prefixes, not arbitrary substrings, to avoid false positives such as `ai` matching `maintained`.
 
 ### Pending Todos
 
@@ -104,7 +107,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-07-03T01:40:39.451Z
-Stopped at: Phase 32 UI-SPEC approved
-Resume file: .planning/phases/32-project-and-writing-filtering-search/32-UI-SPEC.md
-Next action: discuss and plan Phase 32 - Project and Writing Filtering/Search
+Last session: 2026-07-03T03:13:39.979Z
+Stopped at: Phase 32 complete; next phase ready for discussion
+Resume file: .planning/phases/32-project-and-writing-filtering-search/32-VERIFICATION.md
+Next action: discuss and plan Phase 33 - Writing-First Static Feed
