@@ -424,20 +424,20 @@ MDN describes `aria-live="polite"` as notifying assistive technology users at th
 
 All claims in this research were verified from repo files, command output, npm registry data, or cited official documentation; no assumed-claim tags are intentionally relied on. [VERIFIED: research command log]
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Exact score weights**
    - What we know: Phase 32 requires explicit weights for title, summary, canonical topics, source labels, and public facets. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-CONTEXT.md`]
-   - What's unclear: The exact numeric weights are delegated to implementation. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-CONTEXT.md`]
-   - Recommendation: Start with title > canonical topic > public facet/source label > summary, and test ordering plus display-order tie breaks. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-CONTEXT.md`]
+   - RESOLVED: Plan 32-01 locks the explicit `CONTENT_SEARCH_WEIGHTS` values as `title: 100`, `canonicalTopic: 70`, `publicFacet: 55`, `sourceLabel: 40`, and `summary: 20`. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-01-PLAN.md`]
+   - Resolution basis: The plan tests ordering plus display-order, kind, and slug tie breaks. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-01-PLAN.md`]
 2. **Control component boundary**
    - What we know: Both `/projects` and `/writing` need similar search/facet/count/reset behavior. [VERIFIED: `.planning/REQUIREMENTS.md`]
-   - What's unclear: The exact shared component name and prop shape are delegated to implementation. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-CONTEXT.md`]
-   - Recommendation: Start route-local if duplication stays small; extract `DiscoveryFilterControls` only if project and writing controls duplicate non-trivial logic. [VERIFIED: `standards/core/code-shape.md`]
+   - RESOLVED: Plan 32-02 creates a shared `src/components/DiscoveryFilterControls.tsx` component and exports `DiscoveryFilterControls` plus `DiscoveryFilterControlsProps`; Plan 32-03 consumes that same component for writing. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-02-PLAN.md`] [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-03-PLAN.md`]
+   - Resolution basis: The shared component removes non-trivial duplicated search, facet, count, status, and reset UI while keeping result adaptation in each route. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-02-PLAN.md`]
 3. **Facet presentation**
    - What we know: Checkbox groups, selects, or compact button toggles are allowed if they meet accessibility, focus, wrapping, and dark readability requirements. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-CONTEXT.md`]
-   - What's unclear: The best presentation depends on actual facet count and mobile layout after implementation. [VERIFIED: current facet count audit]
-   - Recommendation: Use checkboxes/fieldsets for topics and compact checkbox groups or selects for short enumerations, then prove no mobile overlap in Playwright. [CITED: `https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/fieldset`] [VERIFIED: `tests/browser-release.playwright.ts`]
+   - RESOLVED: Plan 32-02 uses native `fieldset`/`legend` groups and checkbox inputs for facets in `DiscoveryFilterControls`; Plan 32-03 reuses that presentation for writing. [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-02-PLAN.md`] [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-03-PLAN.md`]
+   - Resolution basis: Native fieldsets and checkboxes satisfy the UI-SPEC accessibility contract, avoid custom ARIA widgets, and are covered by Playwright mobile/dark/overlap checks. [CITED: `https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/fieldset`] [VERIFIED: `.planning/phases/32-project-and-writing-filtering-search/32-UI-SPEC.md`] [VERIFIED: `tests/browser-release.playwright.ts`]
 
 ## Environment Availability
 
